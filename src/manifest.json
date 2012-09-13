@@ -17,5 +17,6 @@
 
 		"icons" :	{"16" : "L48.png",
 					"48" : "L48.png",
-					"128" : "L128.png"}
+					"128" : "L128.png"},
+		"web_accessible_resources":["learn.inject.js"]
 }
