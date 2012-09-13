@@ -1,0 +1,21 @@
+{
+	"name" : "Learn helper",
+		"version":"1.0",
+		"manifest_version" : 2,
+		"description":"修复网络学堂在Chrome下的排版问题",
+		"content_scripts":[
+		{
+			"matches": [
+				"*://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/*",
+			"*://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/*"
+				],
+			"js":["learn.js"],
+			"all_frames" : true
+		}
+	],
+		"permissions" : ["http://learn.tsinghua.edu.cn/*"],
+
+		"icons" :	{"16" : "L48.png",
+					"48" : "L48.png",
+					"128" : "L128.png"}
+}
