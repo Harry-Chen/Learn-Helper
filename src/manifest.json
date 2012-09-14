@@ -1,22 +1,30 @@
 {
 	"name" : "Learn helper",
-		"version":"1.1",
-		"manifest_version" : 2,
-		"description":"修复网络学堂在Chrome下的排版问题",
-		"content_scripts":[
+	"version":"1.2",
+	"manifest_version" : 2,
+	"description":"修复网络学堂在Chrome下的排版问题",
+	"content_scripts":[
 		{
 			"matches": [
 				"*://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/*",
-			"*://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/*"
-				],
+				"*://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/*"
+			],
 			"js":["learn.js"],
 			"all_frames" : true
+		},
+		{
+			"matches":[
+				"*://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/mainstudent.jsp"
+			],
+			"js" : ["main.js"]
 		}
 	],
-		"permissions" : ["http://learn.tsinghua.edu.cn/*"],
+	"permissions" : ["http://learn.tsinghua.edu.cn/*"],
 
-		"icons" :	{"16" : "L48.png",
-					"48" : "L48.png",
-					"128" : "L128.png"},
-		"web_accessible_resources":["learn.inject.js"]
+	"icons": {
+		"16" : "L48.png",
+		"48" : "L48.png",
+		"128" : "L128.png"
+	},
+	"web_accessible_resources":["learn.inject.js"]
 }
