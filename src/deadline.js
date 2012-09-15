@@ -1,4 +1,5 @@
 $(function() {
+    "use strict";
 
     function getURLParamters(url) {
         var params = {};
@@ -21,7 +22,8 @@ $(function() {
             for (var i = 0, attr; i < homeworkList.length; i++) {
                 attr = homeworkList[i].querySelectorAll('td');
                 homeworks.push({
-                    course: courseName,
+                    courseId: courseId,
+                    courseName: courseName,
                     name: $.trim(attr[0].innerText),
                     start: new Date($.trim(attr[1].innerText)),
                     end: new Date($.trim(attr[2].innerText)),
@@ -43,20 +45,35 @@ $(function() {
             }
             return (a.state === '尚未提交') ? -1 : 1;
         });
+        var today = new Date();
+
         var html = '';
-        html += '<table>';
-        for (var i = 0; i < homeworks.length; i++) {
-            html += '<tr>';
-            html += '<td>' + homeworks[i].name + '</td>';
+        html += '<table width="100%" border="2">';
+        html += '<tr>';
+        html += '<th>剩余天数</th>';
+        html += '<th>截止日期</th>';
+        html += '<th>作业名称</th>';
+        html += '<th>课程名称</th>';
+        html += '</tr>';
+        for (var i = 0, dueDays; i < homeworks.length; i++) {
+            dueDays = Math.floor((homeworks[i].end - today) / (60 * 60 * 1000 * 24));
+            if (homeworks[i].state === '尚未提交' && dueDays >= 0) {
+                html += '<tr style="color: red">';
+            } else {
+                html += '<tr>';
+                dueDays = homeworks[i].state;
+            }
+            html += '<td>' + dueDays + '</td>';
             html += '<td>' + homeworks[i].end.toDateString() + '</td>';
-            html += '<td>' + homeworks[i].state + '</td>';
+            html += '<td>' + homeworks[i].name + '</td>';
+            html += '<td><a target="_blank" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/course_locate.jsp?course_id=' + homeworks[i].courseId + '">' + homeworks[i].courseName.replace(/\(\d+\)\(.*$/, '') + '</a></td>';
             html += '</tr>';
         };
         html += '</table>';
         $('#results').html(html);
     }
 
-    $.get('http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/MyCourse.jsp', { typepage: 2 }, function(data) {
+    $.get('http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/MyCourse.jsp', function(data) {
         var courseDocument = parser.parseFromString(data, 'text/html');
         var coursesList = courseDocument.querySelectorAll('#info_1 a');
         uncheckedHomework += coursesList.length;
