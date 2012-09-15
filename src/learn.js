@@ -9,14 +9,24 @@
 
     var href= window.location.href;
     if (href.match(/student\/download\.jsp/)) {
-        var e = document.getElementById('table_box');
-        e.style.position = "absolute";
-        e.style.top = "-30px";
+        var e = document.querySelector('#table_box:nth-child(2)');
+        e.style.position = "relative";
+        e.style.top = "-25px";
+        e.style.borderTop = "none";
         injectScript();
     } else if (href.match(/bbs\/talk_list_student\.jsp/)) {
-        var e = document.querySelector('#info_1 tr:nth-child(4) table:nth-child(2)');
+        var e = document.querySelector('#info_1 tr:nth-child(3) td');
+        e.style.borderTop = "none";
+
+        e = document.querySelector('#info_1 tr:nth-child(4) table:nth-child(2)');
         e.style.position = "relative";
-        e.style.top = "-26px";
+        e.style.top = "-25px";
+
+        e = e.querySelectorAll(".textTD");
+        for (var i = 0; i < e.length; i++) {
+            e[i].style.padding = "5px";
+        };
+
         injectScript();
     }
 
