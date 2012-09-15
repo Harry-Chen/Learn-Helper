@@ -58,7 +58,7 @@ $(function() {
         for (var i = 0, dueDays; i < homeworks.length; i++) {
             dueDays = Math.floor((homeworks[i].end - today) / (60 * 60 * 1000 * 24));
             if (homeworks[i].state === '尚未提交' && dueDays >= 0) {
-                html += '<tr style="color: red">';
+                html += '<tr style="color: red; font-weight: bold">';
             } else {
                 html += '<tr>';
                 dueDays = homeworks[i].state;
