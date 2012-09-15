@@ -1,69 +1,71 @@
-/* 
- * DOMParser HTML extension 
- * 2012-02-02 
- * 
- * By Eli Grey, http://eligrey.com 
- * Public domain. 
- * NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK. 
- */  
+$(function() {
 
-/*! @source https://gist.github.com/1129031 */  
-/*global document, DOMParser*/  
+    function getURLParamters(url) {
+        var params = {};
+        url = url.split('?').pop().split('&');
+        for (var i = 0, tmp; i < url.length; i++) {
+            tmp = url[i].split('=');
+            params[decodeURIComponent(tmp[0])] = decodeURIComponent(tmp[1]);
+        };
+        return params;
+    }
 
-(function(DOMParser) {  
-    "use strict";  
-    var DOMParser_proto = DOMParser.prototype  
-      , real_parseFromString = DOMParser_proto.parseFromString;
+    var homeworks = [];
+    var uncheckedHomework = 0;
+    var parser = new DOMParser();
 
-    // Firefox/Opera/IE throw errors on unsupported types  
-    try {  
-        // WebKit returns null on unsupported types  
-        if ((new DOMParser).parseFromString("", "text/html")) {  
-            // text/html parsing is natively supported  
-            return;  
-        }  
-    } catch (ex) {}  
+    function fillHomework(courseId, courseName) {
+        $.get('http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_brw.jsp', { course_id: courseId }, function (data) {
+            var homeworkDocument = parser.parseFromString(data, 'text/html');
+            var homeworkList = homeworkDocument.querySelectorAll('#table_box .tr1, #table_box .tr2');
+            for (var i = 0, attr; i < homeworkList.length; i++) {
+                attr = homeworkList[i].querySelectorAll('td');
+                homeworks.push({
+                    course: courseName,
+                    name: $.trim(attr[0].innerText),
+                    start: new Date($.trim(attr[1].innerText)),
+                    end: new Date($.trim(attr[2].innerText)),
+                    state: $.trim(attr[3].innerText),
+                });
+            };
 
-    DOMParser_proto.parseFromString = function(markup, type) {  
-        if (/^\s*text\/html\s*(?:;|$)/i.test(type)) {  
-            var doc = document.implementation.createHTMLDocument("")
-              , doc_elt = doc.documentElement
-              , first_elt;
+            uncheckedHomework--;
+            if (uncheckedHomework === 0) {
+                displayHomework();
+            }
+        }, 'html');
+    }
 
-            doc_elt.innerHTML = markup;
-            first_elt = doc_elt.firstElementChild;
+    function displayHomework() {
+        homeworks = homeworks.sort(function(a, b) {
+            if (a.state === b.state) {
+                return b.end - a.end;
+            }
+            return (a.state === '尚未提交') ? -1 : 1;
+        });
+        var html = '';
+        html += '<table>';
+        for (var i = 0; i < homeworks.length; i++) {
+            html += '<tr>';
+            html += '<td>' + homeworks[i].name + '</td>';
+            html += '<td>' + homeworks[i].end.toDateString() + '</td>';
+            html += '<td>' + homeworks[i].state + '</td>';
+            html += '</tr>';
+        };
+        html += '</table>';
+        $('#results').html(html);
+    }
 
-            if (doc_elt.childElementCount === 1
-                && first_elt.localName.toLowerCase() === "html") {  
-                doc.replaceChild(first_elt, doc_elt);  
-            }  
+    $.get('http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/MyCourse.jsp', { typepage: 2 }, function(data) {
+        var courseDocument = parser.parseFromString(data, 'text/html');
+        var coursesList = courseDocument.querySelectorAll('#info_1 a');
+        uncheckedHomework += coursesList.length;
+        for (var i = 0, courseId; i < coursesList.length; i++) {
+            fillHomework(
+                getURLParamters(coursesList[i].getAttribute('href')).course_id,
+                $.trim(coursesList[i].innerText) // course name
+            );
+        }
+    }, 'html');
 
-            return doc;  
-        } else {  
-            return real_parseFromString.apply(this, arguments);  
-        }  
-    };  
-}(DOMParser));
-
-
-
-var resp = '';
-var xhr = new XMLHttpRequest();
-xhr.open("GET", "http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/MyCourse.jsp", false);
-xhr.onreadystatechange = function() {
-	if (xhr.readyState == 4) {
-		resp = xhr.responseText;
-	}
-}
-xhr.send();
-//resp = resp.replace(/(\r\n|\n|\r)/gm," ");
-resp = "<!DOCTYPE html><html><body><head></head>" + resp + "</body></html>"
-document.getElementById('test').innerText = resp;
-
-//var reg = new RegExp('<tr class="info_tr[\S\s]*</tr>');
-
-//var result = reg.exec(resp);
-//console.log(result);
-
-var k = jQuery.parseXML(resp);
-console.log(k);
+});
