@@ -19,7 +19,7 @@
 			"js" : ["main.js"]
 		}
 	],
-	"permissions" : ["http://learn.tsinghua.edu.cn/*"],
+	"permissions" : ["*://learn.tsinghua.edu.cn/*"],
 
 	"icons": {
 		"16" : "L48.png",
