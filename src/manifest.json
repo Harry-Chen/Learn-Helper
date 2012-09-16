@@ -17,6 +17,12 @@
 				"*://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/mainstudent.jsp"
 			],
 			"js" : ["main.js"]
+		},
+		{
+			"matches":[
+				"*://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/course_locate.jsp*"
+			],
+			"js" : ["addException.js"]
 		}
 	],
 	"permissions" : ["*://learn.tsinghua.edu.cn/*"],
