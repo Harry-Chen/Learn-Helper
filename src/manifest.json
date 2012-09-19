@@ -25,7 +25,7 @@
 			"js" : ["addException.js"]
 		}
 	],
-	"permissions" : ["*://learn.tsinghua.edu.cn/*"],
+	"permissions" : ["*://learn.tsinghua.edu.cn/*", "tabs"],
 
 	"icons": {
 		"16" : "L48.png",
