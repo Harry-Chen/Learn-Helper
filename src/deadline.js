@@ -55,7 +55,7 @@ $(function() {
             html += '<td>' + dueDays + '</td>';
             html += '<td>' + homeworks[i].end.toDateString() + '</td>';
             html += '<td>' + homeworks[i].name + '</td>';
-            html += '<td><a target="_blank" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/course_locate.jsp?course_id=' + homeworks[i].courseId + '">' + homeworks[i].courseName.replace(/\(\d+\)\(.*$/, '') + '</a></td>';
+            html += '<td><a target="_blank" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_brw.jsp?course_id=' + homeworks[i].courseId + '">' + homeworks[i].courseName.replace(/\(\d+\)\(.*$/, '') + '</a></td>';
             html += '</tr>';
         };
         html += '</table>';
