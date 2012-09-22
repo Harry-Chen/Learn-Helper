@@ -30,7 +30,7 @@ $(function() {
     function displayHomework() {
         homeworks = homeworks.sort(function(a, b) {
             if (a.state === b.state) {
-                return b.end - a.end;
+                return a.end - b.end;
             }
             return (a.state === '尚未提交') ? -1 : 1;
         });
