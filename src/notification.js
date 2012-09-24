@@ -28,7 +28,7 @@ $(function() {
 
     function displayHomework() {
         homeworks = homeworks.sort(function(a, b) {
-			return a.day - b.day;
+			return b.day - a.day;
         });
 
         var html = '';
