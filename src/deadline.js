@@ -29,6 +29,12 @@ $(function() {
 
     function displayHomework() {
         homeworks = homeworks.sort(function(a, b) {
+            if (a.state === '尚未提交' && a.end < new Date()) {
+                return 1;
+            }
+            if (b.state === '尚未提交' && b.end < new Date()) {
+                return -1;
+            }
             if (a.state === b.state) {
                 return a.end - b.end;
             }
