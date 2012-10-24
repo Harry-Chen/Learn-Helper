@@ -1,4 +1,4 @@
-body{
+body, button{
 	font-family: "微软雅黑";
 }
 #title{
@@ -20,7 +20,6 @@ body{
 	height:10px;
 }
 #course_table{
-	border-collapse: collapse;
 	width:100%;
 }
 tr,th,td
@@ -35,5 +34,22 @@ tr,th,td
 }
 
 .exbtn{
-	width:100%
+	width:100%;
+	border:none;
+	color:white;
+}
+.checked0{
+	color:green !important;
+}
+.checked1{
+	color:red !important;
+}
+#copyright{
+	margin: 10px;
+	text-align:center;
+	font-size:10px;
+	color:gray;
+}
+#copyright a{
+	color:gray;
 }

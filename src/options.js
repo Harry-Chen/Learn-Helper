@@ -23,8 +23,10 @@ function createTable(coursesList){
 		var name = $(coursesList[i]).text();
 		var row = $("<tr></tr>");
 		var check = checkCourse(id);
-		var hw_b = '<button class="exbtn" data-args="' + id + ',0,' + (+check[0]) +'">' + (check[0] ? "是" : "否") + '</button>';
-		var no_b = '<button class="exbtn" data-args="' + id + ',1,' + (+check[1]) +'">' + (check[1] ? "是" : "否") + '</button>';
+		var hw_b = '<button class="exbtn checked' + (+check[0]) + '" data-args="' + 
+					id + ',0,' + (+check[0]) +'">' + (check[0] ? "屏蔽" : "显示") + '</button>';
+		var no_b = '<button class="exbtn checked' + (+check[1]) + '" data-args="' +
+					id + ',1,' + (+check[1]) +'">' + (check[1] ? "屏蔽" : "显示") + '</button>';
 		var line = "<td>" + id + "</td><td>" + name + "</td>" + "<td>" +
 			hw_b + "</td><td>" + no_b + "</td>";
 		row.html(line);
@@ -35,7 +37,7 @@ function createTable(coursesList){
 		addException.apply(null, args);
 		createTable(coursesList);
 	});
-	$(".exbtn").button();	
+	$('.exbtn').button();
 }
 function checkCourse(id){
 	hw_list = JSON.parse(localStorage.getItem("ignore_list_hw")) || [];
