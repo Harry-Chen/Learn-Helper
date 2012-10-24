@@ -55,8 +55,8 @@ $(function() {
         var coursesList = courseDocument.querySelectorAll('#info_1 a');
 		coursesList = Array.prototype.slice.call(coursesList);
 		var fliter = [];
-		if (localStorage.getItem('ignore_list')){
-			fliter = JSON.parse(localStorage.getItem('ignore_list'));
+		if (localStorage.getItem('ignore_list_notifi')){
+			fliter = JSON.parse(localStorage.getItem('ignore_list_notifi'));
 		}
 		coursesList = coursesList.filter(function(x) { return fliter.indexOf(getURLParamters(x.getAttribute('href')).course_id) < 0; });
         uncheckedHomework += coursesList.length;

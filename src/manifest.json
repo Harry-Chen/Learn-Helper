@@ -26,7 +26,7 @@
 		}
 	],
 	"permissions" : ["*://learn.tsinghua.edu.cn/*", "tabs"],
-
+	"options_page": "options.html",
 	"icons": {
 		"16" : "L48.png",
 		"48" : "L48.png",
