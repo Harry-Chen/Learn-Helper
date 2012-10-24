@@ -1,0 +1,26 @@
+#title{
+	font-size : 40px;
+	margin : 20px;
+	margin-left :100px;
+}
+
+
+.exbtn{
+	height:40px;
+}
+#other{
+	margin-top:30px;
+}
+.ui-progressbar .ui-progressbar-value {
+   	background-image: url(pbar-ani.gif); 
+	background-repeat:repeat;
+	height:10px;
+}
+tr,th,td
+{
+	margin:none;
+	padding:none;
+	border: 1px solid #66CCFF;
+	text-align:center;
+}
+

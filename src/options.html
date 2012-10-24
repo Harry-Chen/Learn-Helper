@@ -2,14 +2,19 @@
 <html>
 	<head>
 		<meta charset="utf-8" />
-        <style>
-            body { padding: 0; margin: 0; }
-        </style>
+		<script src="libs/html-domparser.js"></script>
+		<script src="libs/jquery-1.8.1.min.js"></script>
+		<script src="ulti.js"></script>
+		<script src="options.js"></script>
+		<link href="libs\options.css" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" href="libs\css\metro.css" />
+		<script src="libs\js\jquery-ui-1.9.0.custom.min.js"></script>
 	</head>
 	<body>
 		<!-- <img src="http://learn.tsinghua.edu.cn/img/banner_logo.jpg" /> -->
-		<div id="title">网络学堂优化器</div>
+		<div id="title">网络学堂优化器 alpha</div>
 		<div id="balls">与网络学堂同步数据中</div>
+		<div id="progressbar" style="width:50%;"></div>
 		<div id="panel" style="display:none;">
 			<div id="main-table">
 				<table id="course_table">
@@ -21,10 +26,6 @@
 				<button id="readall">将全部通知设为已读</button>
 			</div>
 		</div>
-        <script src="libs/html-domparser.js"></script>
-        <script src="libs/jquery-1.8.1.min.js"></script>
-		<script src="ulti.js"></script>
-		<script src="options.js"></script>
 	</body>
 </html>
 

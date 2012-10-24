@@ -1,15 +1,16 @@
 function init(){
-    var parser = new DOMParser();
+	var parser = new DOMParser();
 	var result = "";
 	var coursesList;
 	$.get('http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/MyCourse.jsp', function(data) {
-        var courseDocument = parser.parseFromString(data, 'text/html');
-        coursesList = courseDocument.querySelectorAll('#info_1 a');
-		createTable(coursesList);
-		$('#panel').show();
-		$('#balls').hide();
-		
-    }, 'html');
+			var courseDocument = parser.parseFromString(data, 'text/html');
+			coursesList = courseDocument.querySelectorAll('#info_1 a');
+			createTable(coursesList);
+			$('#panel').show();
+			$('#balls').hide();
+			$('#progressbar').hide();
+
+			}, 'html');
 	$("#clearall").click(function(){clearAll()});
 }
 function createTable(coursesList){
@@ -25,7 +26,7 @@ function createTable(coursesList){
 		var hw_b = '<button class="exbtn" data-args="' + id + ',0,' + (+check[0]) +'">' + (check[0] ? "是" : "否") + '</button>';
 		var no_b = '<button class="exbtn" data-args="' + id + ',1,' + (+check[1]) +'">' + (check[1] ? "是" : "否") + '</button>';
 		var line = "<td>" + id + "</td><td>" + name + "</td>" + "<td>" +
-				hw_b + "</td><td>" + no_b + "</td>";
+			hw_b + "</td><td>" + no_b + "</td>";
 		row.html(line);
 		table.append(row);
 	}
@@ -34,6 +35,7 @@ function createTable(coursesList){
 		addException.apply(null, args);
 		createTable(coursesList);
 	});
+	$(".exbtn").button();	
 }
 function checkCourse(id){
 	hw_list = JSON.parse(localStorage.getItem("ignore_list_hw")) || [];
@@ -79,4 +81,10 @@ function clearAll(){
 	window.location.reload();
 }
 
-$(init());
+$(function(){
+	$( "#progressbar" ).progressbar({
+		value: 100
+	});
+	$("button") .button();
+	init();
+});
