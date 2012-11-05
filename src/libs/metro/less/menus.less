@@ -1,0 +1,345 @@
+/*
+ * Metro UI CSS
+ * Copyright 2012 Sergey Pimenov
+ * Licensed under the MIT Lilcense
+ *
+ * Menus.less
+ *
+ */
+
+.navigation-bar {
+    width: 100%;
+    min-height: 40px;
+    background: #464646;
+    z-index: 10000;
+
+    .navigation-bar-inner {
+        padding: 5px 20px 2px 20px;
+        color: #fff;
+        font-size: 11pt;
+        margin: auto;
+        position: relative;
+
+        & > .brand {
+            float: left;
+            margin-right: 20px;
+            margin-top: 3px;
+
+            &:hover {
+                background-color: transparent;
+            }
+
+            .icon {
+                width: 24px;
+                height: 24px;
+                float: left;
+                margin-right: 10px;
+                margin-top: 3px;
+            }
+
+            .name {
+                #font > .subheader;
+                font-size: 16pt;
+                color: #fff;
+            }
+        }
+
+        & > ul {
+            .unstyled;
+            padding-top: 5px;
+            margin-top: 2px;
+
+            & > li {
+                display: inline-block;
+                line-height: 32px;
+                position: relative;
+
+                &.sub-menu {
+                    padding-right: 20px;
+                    &:after {
+                        position: absolute;
+                        content: "\3009";
+                        display: inline-block;
+                        font-size: 10pt;
+                        font-family: Helvetica, sans-serif, sans;
+                        letter-spacing: 0px;
+                        top: 3px;
+                        right: 10px;
+                        .rotate(90deg);
+                        cursor: pointer;
+                    }
+
+                    &:hover {
+                        &:after {
+                            color: #1e1e1e;
+                        }
+                    }
+                }
+
+                & > a {
+                    color: #fff;
+                    #font > .navigation;
+                    padding: 5px 10px;
+                    cursor: pointer;
+                }
+
+                &.active, &:hover {
+                    background-color: #fff;
+
+                    a {
+                        color: #1e1e1e;
+                    }
+                }
+
+                & > .dropdown-menu {
+                    border: 0;
+                }
+            }
+        }
+    }
+
+    &.fixed-top {
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+    }
+
+    &.fixed-bottom {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+}
+
+.menu-pull {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    display: none;
+    cursor: pointer;
+    z-index: 10001;
+    background: url(../images/row24.png) no-repeat;
+    background-size: cover;
+    height: 24px;
+    width: 24px;
+    margin: 0;
+    padding: 0;
+}
+
+.dropdown-menu {
+    position: absolute;
+    background-color: #fff;
+    .unstyled;
+    top: 100%;
+    z-index: 1101;
+    float: left;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    min-width: 160px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    display: none;
+
+    &.place-right {
+        right: 0;
+        left: auto;
+    }
+
+    a {
+        #font > .navigation;
+        #state > .navigation;
+        display: block;
+        width: 100%;
+        padding: 3px 20px;
+        white-space: nowrap;
+        font-size: 14px;
+        cursor: pointer;
+
+        &:hover {
+            .bg-color-blue;
+            .fg-color-white;
+        }
+    }
+
+    li {
+        display: list-item;
+        line-height: 20px;
+    }
+
+    .divider {
+        height: 1px;
+        margin: 9px 1px;
+        overflow: hidden;
+        background-color: #e5e5e5;
+    }
+
+    &.open {
+        display: block !important;
+    }
+}
+
+
+.popup-menu {
+    .unstyled();
+    position: absolute;
+    top: 100%;
+    left: -1px;
+    z-index: 1;
+    background-color: #fff;
+    display: none;
+    border: 1px #bababa solid;
+
+    li {
+        float: none;
+        display: block;
+        border:1px transparent solid !important;
+        min-width: 150px;
+
+        a {
+            display: block;
+            white-space: nowrap;
+            float: none;
+            height: auto;
+            #font > .tertiary;
+            color: #1e1e1e;
+            padding: 5px  10px;
+
+            &:hover {
+                color: #fff;
+            }
+        }
+
+        &:hover {
+            background-color: #008287;
+        }
+
+        &.divider {
+            height: 1px !important;
+            line-height: 1px !important;
+            background-color: transparent !important;
+            border-top: 1px #bababa solid !important;
+
+            &:hover {
+                background-color: transparent !important;
+            }
+        }
+
+        &.sub-menu {
+            &:after {
+                position: absolute;
+                content: "\3009";
+                display: inline-block;
+                font-size: 10pt;
+                top: 5px;
+                right: 10px;
+                .rotate(0deg);
+            }
+        }
+    }
+}
+
+.horizontal-menu {
+    background-color: #f1f1f1;
+    padding: 0px;
+
+    & > ul {
+        .unstyled();
+
+        li {
+            float: left;
+            position: relative;
+            border: 1px transparent solid;
+            display: block;
+
+            &:hover {
+                border: 1px #bababa solid;
+                background-color: #fff;
+            }
+
+            &.sub-menu {
+                padding-right: 20px;
+                &:after {
+                    position: absolute;
+                    content: "\3009";
+                    display: inline-block;
+                    font-size: 10pt;
+                    font-family: sans;
+                    top: 7px;
+                    right: 10px;
+                    .rotate(90deg);
+                }
+            }
+
+            a {
+                float: left;
+                padding: 5px  10px;
+                display: block;
+                z-index: 999;
+                #font > .navigation;
+                #state > .navigation;
+            }
+
+            ul {
+                .popup-menu;
+            }
+
+            &:hover > ul {
+                display: block;
+            }
+
+            ul li ul {
+                position: absolute;
+                left: 100%;
+                top: -2px;
+            }
+        }
+
+        li.pull {
+            display: none;
+            float: right;
+            margin-right: 5px;
+            margin-top: 5px;
+            a {
+                width: 24px;
+                height: 20px;
+                background: url(../images/pull24-dark.png) no-repeat;
+                display: block;
+                text-decoration: none;
+                border: 0;
+                cursor: pointer;
+            }
+
+            &:hover {
+                border: 1px transparent solid;
+            }
+        }
+    }
+
+    .clearfix();
+}
+
+.page {
+    .page-header {
+        .page-header-content {
+            h1[data-role=dropdown] {
+                cursor: pointer;
+                .dropdown-menu {
+                    margin-top: -10px;
+                }
+                &:after {
+                    position: absolute;
+                    content: "\3009";
+                    display: inline-block;
+                    font-size: 10pt;
+                    left: 100%;
+                    top: 20px;
+                    margin-left: 5px;
+                    .rotate(90deg);
+                }
+            }
+        }
+    }
+}

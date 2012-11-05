@@ -1,0 +1,100 @@
+/*
+ * Metro UI CSS
+ * Copyright 2012 Sergey Pimenov
+ * Licensed under the MIT Lilcense
+ *
+ * PageControl.less
+ *
+ */
+
+.page-control {
+    position: relative;
+    .clearfix;
+
+    & > ul {
+        .unstyled;
+        .clearfix;
+        position: absolute;
+        z-index: 5;
+        width: 100%;
+        background-color: rgba(217, 217, 217, 0.16);
+        height: 30px;
+
+        li:first-child {
+        margin-left: 20px;
+        }
+
+        li {
+            float: left;
+            display: block;
+            text-align: center;
+
+            img {
+                float: left;
+                width: 16px;
+                height: 16px;
+                margin-right: 5px;
+                margin-top: 3px;
+            }
+
+            &.active {
+                border: 1px #ccc solid;
+                border-bottom: 0;
+                background-color: #fff;
+
+                span, a {
+                    color: @blue;
+                }
+            }
+
+            span, a {
+                text-decoration: none;
+                //text-transform: uppercase;
+                display: block;
+                float: left;
+                padding: 5px 10px;
+                color: #1e1e1e;
+                #font > .navigation;
+                cursor: pointer;
+                outline: 0;
+            }
+        }
+    }
+
+    &.tabs-right {
+        & > ul {
+            li {
+                .place-right;
+            }
+        }
+    }
+
+    .frames {
+        margin-top: 28px;
+        width: 100%;
+        min-height: 50px;
+        border: 1px #ccc solid;
+
+        .frame {
+            width: 100%;
+            min-height: 100%;
+            height: auto;
+            display: none;
+            padding: 20px;
+
+            &.active {
+                display: block;
+            }
+        }
+    }
+}
+
+.page-control ul {
+    display: block;
+    overflow: visible;
+}
+.page-control {
+    .menu-pull, .menu-pull-bar {
+        display: none;
+    }
+}
