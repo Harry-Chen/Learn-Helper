@@ -3681,7 +3681,8 @@ table tbody tr.selected-row td {
   border-bottom: 1px #1c98cc solid;
 }
 table.striped tbody tr:nth-child(odd) {
-  background-color: #f9f9f9;
+  background-color: #E0EDFF;
+  /*background-color: #F9F9F9;*/
 }
 table.hovered {
   border-collapse: separate !important;
