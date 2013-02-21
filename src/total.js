@@ -1,5 +1,13 @@
 var getURLParamters = window.getURLParamters;
-
+function net_login(username, password){
+	$.post("https://learn.tsinghua.edu.cn/MultiLanguage/lesson/teacher/loginteacher.jsp", 
+		{
+			'userid' : username,
+			'userpass' : password,
+		} , function(data){
+		}
+	);
+}
 function net_getCourseList(callback){
 	var parser = new DOMParser();
 	$.get('http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/MyCourse.jsp', function(data) {
@@ -8,7 +16,7 @@ function net_getCourseList(callback){
 			var courseList = courseDocument.querySelectorAll('#info_1 a');
 			courseList = Array.prototype.slice.call(courseList);
 			db_updateCourseList( courseList, callback)
-			});
+			}).fail(netErrorHandler);
 }
 
 function db_updateCourseList(courseList, args){
@@ -28,15 +36,86 @@ function db_updateCourseList(courseList, args){
 	}
 }
 function db_updateList(type, List, args){
-	if (type == 'deadline'){
-		localStorage.deadline_list = JSON.stringify(List);
+	var choose = {
+		'deadline' : 'deadline_list',
+		'notification' : 'notification_list'
+	};
+	var _name = choose[type];
+	if (!_name) return;
+	if (type == 'notification' && (localStorage.getItem(_name))){
+		var oldList = JSON.parse(localStorage.getItem(_name));
+		List = mergeNotification(List, oldList);
 	}
-	else if (type = 'notification'){
-		localStorage.notification_list = JSON.stringify(List);
-	}
+	localStorage.setItem(_name, JSON.stringify(List));
 	if (args){
 		args(List);
 	}
+}
+function setNotificationState(id, state){	//allowed state = 'readed', 'unread', 'stared'
+	var _name = 'notification_list';
+	if (!(id && state)){
+		return
+	}
+	var List = localStorage.getItem(_name);
+	if (!List) return;
+	var List = JSON.parse(List);
+	List[id].state = state;
+	localStorage[_name] = JSON.stringify(List);
+}
+
+function mergeNotification(newList, oldList){
+	if (!oldList) return newList;
+	temp = {};
+	for (k in oldList){
+		if (newList[k]){
+			temp[k] = oldList[k];	//转移旧通知
+		}
+	}
+	for (k in newList){
+		if (!oldList[k]){
+			temp[k] = newList[k];	//转移新通知
+		}
+	}
+	return temp;
+}
+
+//operation = 'add', 'remove'
+//type = 'deadline', 'notification'
+function db_changeException(operation, courseId, type){
+	var _name;
+	var choose = {
+		'deadline' : 'ignore_list_deadline',
+		'notification' : 'ignore_list_notification'
+	};
+	var list = [];
+	if (!type) return false;
+	_name = choose[type];
+	if (!_name) return false;
+	if (localStorage.getItem(_name)){
+		list = JSON.parse(localStorage.getItem(_name));	
+	}
+	for (var i = 0; i < list.length; i++){
+		if (list[i] == courseId){
+			if (op == 'remove'){
+				list[i] = list[list.length - 1];
+				list.pop();
+				localStorage.setItem(_name, JSON.stringify(list));
+				return true;
+			}
+			return false;
+		}
+	}
+	list.push(id);
+	localStorage.setItem(_name, JSON.stringify(list));
+	return true;
+}
+
+function db_clearDatabase(type){
+	var choose = {
+		'deadline' : 'ignore_list_deadline',
+		'notification' : 'ignore_list_notification'
+	};
+	localStorage.removeItem(choose[type]);
 }
 
 function gui_main_updateCourseList(courseList){
@@ -52,7 +131,11 @@ function gui_main_updateCourseList(courseList){
 		GUIlist.append(k);
 	}
 }
-function sortDeadline(deadlineList){
+function gui_main_updatePopupNumber(type, number){
+	$('#' + type + '-counter').text(number);
+}
+
+function gui_main_updateDeadlineList(deadlineList){
 	deadlineList= deadlineList.sort(function(a, b) {
 		if (a.state === '尚未提交' && a.end < new Date()) {
 			return 1;
@@ -65,41 +148,78 @@ function sortDeadline(deadlineList){
 		}
 		return (a.state === '尚未提交') ? -1 : 1;
 	});
-}
 
-function gui_main_updateDeadlineList(deadlineList){
-	//deadlineList = sortDeadline(deadlineList);
 	var GUIlist = $('#nearby-deadline tr');
 	GUIlist.slice(1).remove();
 	var GUIlist = $('#nearby-deadline');
 	var today = new Date();
-	for (var i = 0; i < deadlineList.length && i < 10; i++){
+	var counter = 0;
+	for (var i = 0; i < deadlineList.length; i++){
+		if (deadlineList[i].state === '尚未提交'){
+			counter += 1;
+		}
 		dueDays = Math.floor((new Date(deadlineList[i].end) - today) / (60 * 60 * 1000 * 24));
 		var line = '<tr>';
+		line += '<td>' + deadlineList[i].state + '</td>';
 		line += '<td>' + dueDays + '</td>';
-		line += '<td>' + new Date(deadlineList[i].end).toDateString() + '</td>';
-		line += '<td>' + deadlineList[i].name + '</td>';
+		line += '<td>' + new Date(deadlineList[i].end).Format("yyyy.MM.dd") + '</td>';
+		line += '<td><a target="_blank" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_detail.jsp?id=' + deadlineList[i].deadlineId + '">' + deadlineList[i].name + '</a></td>';
 		line += '<td><a target="_blank" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_brw.jsp?course_id=' + deadlineList[i].courseId + '">' + deadlineList[i].courseName.replace(/\(\d+\)\(.*$/, '') + '</a></td>';
+		line += '<td>none</td>';
+		line += '<td> <a href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_submit.jsp?id=' + deadlineList[i].deadlineId + '&course_id=' + deadlineList[i].courseId + '">提交</a></td>';
 		line += '</tr>';
 		GUIlist.append($(line));
 	}
+	gui_main_updatePopupNumber('deadline', counter);
 }
 
 function gui_main_updateNotificationList(notificationList){
-	//notificationList = sortDeadline(notificationList);
+	temp = [];
+	for (id in notificationList){
+		temp.push(notificationList[id]);
+	}
+	var priority = {
+		'readed' : 0,
+		'unread' : 1,
+		'stared' : 2,
+	};
+	notificationList= temp.sort(function(a, b) {
+		if (a.state === b.state){
+			return new Date(b.day) - new Date(a.day);
+		}
+		return priority[b.state] - priority[a.state];
+	});
 	var GUIlist = $('#unread-notification tr');
 	GUIlist.slice(1).remove();
 	var GUIlist = $('#unread-notification');
+	var counter = 0;
 	var today = new Date();
-	for (var i = 0; i < notificationList.length && i < 10; i++){
+	for (var i = 0; i < notificationList.length; i++){
+		var data = notificationList[i];
+		var id = data.id;
 		var line = '<tr>';
-		line += '<td>' + '未读' + '</td>';
-		line += '<td><a target="_blank" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_brw.jsp?course_id=' + notificationList[i].courseId + '">' + notificationList[i].courseName + '</a></td>';
-		line += '<td><a target="_blank" href="http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/'+notificationList[i].href+'">' + notificationList[i].name + '</a></td>';
-		line += '<td>' + new Date(notificationList[i].day).toDateString() + '</td>';
+		if (data.state == 'unread'){
+			line += '<td>' + '<a class="state-flag" data-args="'+ id + ',stared">未读</a>' + '</td>';
+			counter += 1;
+		} else if (data.state == 'readed'){
+			line += '<td>' + '<a class="state-flag" data-args="'+ id + ',stared">已读</a>' + '</td>';
+		} else if (data.state == 'stared'){
+			line += '<td>' + '<a class="state-flag" data-args="'+ id + ',readed">加星</a>' + '</td>';
+		}
+		line += '<td><a target="_blank" class="noti-jump" data-args="' + id + ',readed" href="http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/'+data.href+'">' + data.name + '</a></td>';
+		line += '<td><a target="_blank" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_brw.jsp?course_id=' + data.courseId + '">' + data.courseName + '</a></td>';
+		line += '<td>' + new Date(data.day).Format("yyyy.MM.dd") + '</td>';
 		line += '</tr>';
 		GUIlist.append($(line));
 	}
+	$('.state-flag, .noti-jump').click(function() {
+		console.log(this.getAttribute('data-args'));
+		var args = this.getAttribute('data-args').split(',');
+		console.log(args);
+		setNotificationState.apply(null, args);
+		processNotificationList(false, gui_main_updateNotificationList);
+	});
+	gui_main_updatePopupNumber('notification', counter);
 }
 
 function processCourseList(update, callback){	// update list when var update = true or no cache, callback function called with a list.
@@ -158,6 +278,9 @@ function traverseCourse(type, successCallback, progressCallback){
 		'notification' : 'http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/getnoteid_student.jsp'
 	};
 	var lists = [];
+	if (type == 'notification'){
+		lists = {};		//实在是太恶心了。。。
+	}
 	var unChecked;
 	var totalWorker;
 	var linkPrefix = prefix[type];
@@ -182,7 +305,7 @@ function traverseCourse(type, successCallback, progressCallback){
 						var attr = homeworkList[j].querySelectorAll('td');
 						if (type == 'deadline'){
 							var title = $(attr[0].querySelector('a')).attr('href');
-							lists.push({
+							lists.push( {
 								courseId: courseId,
 								courseName: courseName,
 								name: $.trim(attr[0].innerText),
@@ -195,13 +318,17 @@ function traverseCourse(type, successCallback, progressCallback){
 							});
 						}
 						else if(type == 'notification'){
-							lists.push({
+							var title = $(attr[1].querySelector('a')).attr('href');
+							var id = getURLParamters(title).id;
+							lists[id] = {
+								id : id,
 								courseId: courseId,
 								courseName: courseName,
 								name: $.trim(attr[1].innerText),
 								day: new Date($.trim(attr[3].innerText)),
-								href: $.trim($(attr[1]).find("a").attr('href'))
-							});
+								href: $.trim($(attr[1]).find("a").attr('href')),
+								state: 'unread',
+							};
 						}
 					}
 					unChecked--;
@@ -211,7 +338,7 @@ function traverseCourse(type, successCallback, progressCallback){
 					if (unChecked === 0 && successCallback) {
 						db_updateList(type, lists, successCallback);
 					}
-				}, 'html');
+				}, 'html').fail(netErrorHandler);
 			};
 			worker(i);
 		}
@@ -219,11 +346,17 @@ function traverseCourse(type, successCallback, progressCallback){
 }
 
 function print(list){
-	console.log(list);
+	//console.log(list);
 }
+
+function netErrorHandler(){
+	alert('net fail!');
+}
+
 //Start
 $(function(){
-	processCourseList(true, gui_main_updateCourseList);
-	processDeadlineList(true, gui_main_updateDeadlineList);
-	processNotificationList(true, gui_main_updateNotificationList);
+	//net_login('xxr10', '');
+	processCourseList(false, gui_main_updateCourseList);
+	processDeadlineList(false, gui_main_updateDeadlineList);
+	processNotificationList(false, gui_main_updateNotificationList);
 });

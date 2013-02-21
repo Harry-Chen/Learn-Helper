@@ -25,12 +25,20 @@
 			"js" : ["addException.js"]
 		}
 	],
+	"background" : {
+		"scripts" : ["background.js"]
+	},
 	"permissions" : ["*://learn.tsinghua.edu.cn/*", "tabs"],
 	"options_page": "options.html",
 	"icons": {
 		"16" : "L48.png",
 		"48" : "L48.png",
 		"128" : "L128.png"
+	},
+	"browser_action": {
+		"default_icon": "L48.png",           // 可选
+		"default_title": "learn",      // 可选，在工具提示中显示
+		"default_popup" : "popup.html"
 	},
 	"web_accessible_resources":["learn.inject.js"]
 }
