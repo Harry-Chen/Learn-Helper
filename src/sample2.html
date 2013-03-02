@@ -25,10 +25,11 @@
 				<div class="side-block">
 					<div class="title side-title">常用设置</div>
 					<div class="side-block-list">
-						<li><a href="options.html">添加忽略项</a></li>
+						<li><a href="exception.html">添加忽略项</a></li>
 						<li>更换用户名密码</li>
-						<li>将全部通知设为已读</li>
-						<li>清空缓存</li>
+						<li><a id="set-all-readed-button" href="#">将全部设为已读</a></li>
+						<li><a id="force-reload-all" href="#">强制刷新</a></li>
+						<li><a id="clear-cache-button" href="#">清空数据库</a></li>
 					</div>
 				</div>
 			</div>
@@ -62,7 +63,7 @@
 							</div>
 							<table id="nearby-deadline" class="striped table">
 
-								<tr><th>提交状态</th><th>剩余天数</th><th>截止日期</th><th>作业名称</th><th>课程名称</th><th>作业相关文件</th><th>提交</th></tr>
+								<tr><th>状态</th><th>提交状态</th><th>剩余天数</th><th>截止日期</th><th>作业名称</th><th>课程名称</th><th>作业相关文件</th><th>提交</th><th>批阅</td></tr>
 							</table>
 						</div>
 

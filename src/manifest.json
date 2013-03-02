@@ -17,19 +17,13 @@
 				"*://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/mainstudent.jsp"
 			],
 			"js" : ["main.js"]
-		},
-		{
-			"matches":[
-				"*://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/course_locate.jsp*"
-			],
-			"js" : ["addException.js"]
 		}
 	],
 	"background" : {
 		"scripts" : ["background.js"]
 	},
 	"permissions" : ["*://learn.tsinghua.edu.cn/*", "tabs"],
-	"options_page": "options.html",
+	"options_page": "exception.html",
 	"icons": {
 		"16" : "L48.png",
 		"48" : "L48.png",

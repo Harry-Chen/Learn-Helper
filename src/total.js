@@ -1,12 +1,18 @@
 var getURLParamters = window.getURLParamters;
-function net_login(username, password){
+function net_login(){
+	var username = localStorage.getItem('learn_username');
+	var password = localStorage.getItem('learn_passwd');
+	if (!(username && password)){
+		errorHandeler('no account set');
+		return;
+	}
 	$.post("https://learn.tsinghua.edu.cn/MultiLanguage/lesson/teacher/loginteacher.jsp", 
 		{
 			'userid' : username,
 			'userpass' : password,
 		} , function(data){
 		}
-	);
+	).fail(netErrorHandler);
 }
 function net_getCourseList(callback){
 	var parser = new DOMParser();
@@ -42,17 +48,21 @@ function db_updateList(type, List, args){
 	};
 	var _name = choose[type];
 	if (!_name) return;
-	if (type == 'notification' && (localStorage.getItem(_name))){
+	if (localStorage.getItem(_name)){
 		var oldList = JSON.parse(localStorage.getItem(_name));
-		List = mergeNotification(List, oldList);
+		List = mergeList(List, oldList);
 	}
 	localStorage.setItem(_name, JSON.stringify(List));
 	if (args){
 		args(List);
 	}
 }
-function setNotificationState(id, state){	//allowed state = 'readed', 'unread', 'stared'
-	var _name = 'notification_list';
+function setState(type, id, state){	//allowed state = 'readed', 'unread', 'stared'
+	var choose = {
+		'd' : 'deadline_list',
+		'n' : 'notification_list',
+	}
+	var _name = choose[type];
 	if (!(id && state)){
 		return
 	}
@@ -63,12 +73,14 @@ function setNotificationState(id, state){	//allowed state = 'readed', 'unread', 
 	localStorage[_name] = JSON.stringify(List);
 }
 
-function mergeNotification(newList, oldList){
+function mergeList(newList, oldList){
+	//TODO ddl的时候需要更新作业状态！！！！！！！！！！！！！！！！！！！！！！！
 	if (!oldList) return newList;
 	temp = {};
 	for (k in oldList){
 		if (newList[k]){
-			temp[k] = oldList[k];	//转移旧通知
+			temp[k] = newList[k];	//转移旧通知
+			temp[k].state = oldList[k].state;
 		}
 	}
 	for (k in newList){
@@ -110,13 +122,38 @@ function db_changeException(operation, courseId, type){
 	return true;
 }
 
-function db_clearDatabase(type){
+function db_clearCache(type){
 	var choose = {
-		'deadline' : 'ignore_list_deadline',
-		'notification' : 'ignore_list_notification'
+		'courseList' : 'course_list',
+		'deadline' : 'deadline_list',
+		'notification' : 'notification_list'
 	};
 	localStorage.removeItem(choose[type]);
 }
+
+function clearCache(){
+	db_clearCache('courseList');
+	db_clearCache('deadline');
+	db_clearCache('notification');
+}
+
+function db_setAllReaded(type){
+	var choose = {
+		'deadline' : 'deadline_list',
+		'notification' : 'notification_list'
+	};
+	var _name = choose[type];
+	var List = [];
+	if (localStorage.getItem(_name))
+		List = JSON.parse(localStorage.getItem(_name));
+	for (var k in List){
+		if (List[k].state != 'stared'){
+			List[k].state = 'readed';
+		}
+	}
+	localStorage.setItem(_name, JSON.stringify(List));
+}
+	
 
 function gui_main_updateCourseList(courseList){
 	var GUIlist= $('#course-list');
@@ -136,17 +173,29 @@ function gui_main_updatePopupNumber(type, number){
 }
 
 function gui_main_updateDeadlineList(deadlineList){
-	deadlineList= deadlineList.sort(function(a, b) {
-		if (a.state === '尚未提交' && a.end < new Date()) {
-			return 1;
+	temp = [];
+	for (id in deadlineList){
+		temp.push(deadlineList[id]);
+	}
+	var read_status_priority = {
+		'readed' : 0,
+		'unread' : 1,
+		'stared' : 2,
+	}
+	deadlineList = temp.sort(function(a, b) {
+		if (a.state === b.state){
+			if (a.submit_state=== '尚未提交' && a.end < new Date()) {
+				return 1;
+			}
+			if (b.submit_state=== '尚未提交' && b.end < new Date()) {
+				return -1;
+			}
+			if (a.submit_state=== b.submit_state) {
+				return a.end - b.end;
+			}
+			return (a.submit_state=== '尚未提交') ? -1 : 1;
 		}
-		if (b.state === '尚未提交' && b.end < new Date()) {
-			return -1;
-		}
-		if (a.state === b.state) {
-			return a.end - b.end;
-		}
-		return (a.state === '尚未提交') ? -1 : 1;
+		return read_status_priority[b.state] - read_status_priority[a.state];
 	});
 
 	var GUIlist = $('#nearby-deadline tr');
@@ -155,21 +204,47 @@ function gui_main_updateDeadlineList(deadlineList){
 	var today = new Date();
 	var counter = 0;
 	for (var i = 0; i < deadlineList.length; i++){
-		if (deadlineList[i].state === '尚未提交'){
+		var data = deadlineList[i];
+		var id = data.deadlineId;
+		if (data.submit_state === '尚未提交'){
 			counter += 1;
 		}
 		dueDays = Math.floor((new Date(deadlineList[i].end) - today) / (60 * 60 * 1000 * 24));
 		var line = '<tr>';
-		line += '<td>' + deadlineList[i].state + '</td>';
+		if (data.state == 'unread'){
+			line += '<td>' + '<a class="ddl-state-flag" data-args="d,'+ id + ',stared">未读</a>' + '</td>';
+		} else if (data.state == 'readed'){
+			line += '<td>' + '<a class="ddl-state-flag" data-args="d,'+ id + ',stared">已读</a>' + '</td>';
+		} else if (data.state == 'stared'){
+			line += '<td>' + '<a class="ddl-state-flag" data-args="d,'+ id + ',readed">加星</a>' + '</td>';
+		}
+		line += '<td>' + data.submit_state + '</td>';
 		line += '<td>' + dueDays + '</td>';
-		line += '<td>' + new Date(deadlineList[i].end).Format("yyyy.MM.dd") + '</td>';
-		line += '<td><a target="_blank" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_detail.jsp?id=' + deadlineList[i].deadlineId + '">' + deadlineList[i].name + '</a></td>';
-		line += '<td><a target="_blank" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_brw.jsp?course_id=' + deadlineList[i].courseId + '">' + deadlineList[i].courseName.replace(/\(\d+\)\(.*$/, '') + '</a></td>';
+		line += '<td>' + new Date(data.end).Format("yyyy.MM.dd") + '</td>';
+		if (data.state == 'stared'){
+			line += '<td><a target="_blank" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_detail.jsp?id=' + data.deadlineId + '&course_id=' + data.courseId + '">' + data.name + '</a></td>';
+		}
+		else{
+			line += '<td><a target="_blank" class="ddl-jump" data-args="d,'+ id + ',readed" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_detail.jsp?id=' + data.deadlineId + '&course_id=' + data.courseId + '">' + data.name + '</a></td>';
+		}
+		line += '<td><a target="_blank" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_brw.jsp?course_id=' + data.courseId + '">' + data.courseName.replace(/\(\d+\)\(.*$/, '') + '</a></td>';
 		line += '<td>none</td>';
-		line += '<td> <a href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_submit.jsp?id=' + deadlineList[i].deadlineId + '&course_id=' + deadlineList[i].courseId + '">提交</a></td>';
+		line += '<td> <a href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_submit.jsp?id=' + data.deadlineId + '&course_id=' + data.courseId + '">提交</a></td>';
+		if (data.resultState){
+			line += '<td><a href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_view.jsp?id=' + data.deadlineId + '&course_id=' + data.courseId + '">查看批阅</a></td>';
+		}
+		else{
+			line += '<td>未批阅</td>';
+		}
 		line += '</tr>';
 		GUIlist.append($(line));
 	}
+	$('.ddl-state-flag, .ddl-jump').click(function() {
+		var args = this.getAttribute('data-args').split(',');
+		setState.apply(null, args);
+		processDeadlineList(false, gui_main_updateDeadlineList);
+	});
+	
 	gui_main_updatePopupNumber('deadline', counter);
 }
 
@@ -199,24 +274,27 @@ function gui_main_updateNotificationList(notificationList){
 		var id = data.id;
 		var line = '<tr>';
 		if (data.state == 'unread'){
-			line += '<td>' + '<a class="state-flag" data-args="'+ id + ',stared">未读</a>' + '</td>';
+			line += '<td>' + '<a class="noti-state-flag" data-args="n,'+ id + ',stared">未读</a>' + '</td>';
 			counter += 1;
 		} else if (data.state == 'readed'){
-			line += '<td>' + '<a class="state-flag" data-args="'+ id + ',stared">已读</a>' + '</td>';
+			line += '<td>' + '<a class="noti-state-flag" data-args="n,'+ id + ',stared">已读</a>' + '</td>';
 		} else if (data.state == 'stared'){
-			line += '<td>' + '<a class="state-flag" data-args="'+ id + ',readed">加星</a>' + '</td>';
+			line += '<td>' + '<a class="noti-state-flag" data-args="n,'+ id + ',readed">加星</a>' + '</td>';
 		}
-		line += '<td><a target="_blank" class="noti-jump" data-args="' + id + ',readed" href="http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/'+data.href+'">' + data.name + '</a></td>';
+		if (data.state =='stared'){
+			line += '<td><a target="_blank" href="http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/'+data.href+'">' + data.name + '</a></td>';
+		}
+		else{
+			line += '<td><a target="_blank" class="noti-jump" data-args="n,' + id + ',readed" href="http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/'+data.href+'">' + data.name + '</a></td>';
+		}
 		line += '<td><a target="_blank" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_brw.jsp?course_id=' + data.courseId + '">' + data.courseName + '</a></td>';
 		line += '<td>' + new Date(data.day).Format("yyyy.MM.dd") + '</td>';
 		line += '</tr>';
 		GUIlist.append($(line));
 	}
-	$('.state-flag, .noti-jump').click(function() {
-		console.log(this.getAttribute('data-args'));
+	$('.noti-state-flag, .noti-jump').click(function() {
 		var args = this.getAttribute('data-args').split(',');
-		console.log(args);
-		setNotificationState.apply(null, args);
+		setState.apply(null, args);
 		processNotificationList(false, gui_main_updateNotificationList);
 	});
 	gui_main_updatePopupNumber('notification', counter);
@@ -277,10 +355,7 @@ function traverseCourse(type, successCallback, progressCallback){
 		'deadline' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_brw.jsp',
 		'notification' : 'http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/getnoteid_student.jsp'
 	};
-	var lists = [];
-	if (type == 'notification'){
-		lists = {};		//实在是太恶心了。。。
-	}
+	var lists = {};
 	var unChecked;
 	var totalWorker;
 	var linkPrefix = prefix[type];
@@ -305,17 +380,18 @@ function traverseCourse(type, successCallback, progressCallback){
 						var attr = homeworkList[j].querySelectorAll('td');
 						if (type == 'deadline'){
 							var title = $(attr[0].querySelector('a')).attr('href');
-							lists.push( {
+							var id = getURLParamters(title).id;	//goto http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_detail.jsp?id=
+							lists[id] = {
 								courseId: courseId,
 								courseName: courseName,
 								name: $.trim(attr[0].innerText),
 								start: new Date($.trim(attr[1].innerText)),
 								end: new Date($.trim(attr[2].innerText) + ' 23:59:59'),
-								state: $.trim(attr[3].innerText),
-								deadlineId : getURLParamters(title).id,	//goto http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_detail.jsp?id=
-								//TODO resultState : ,
-								//resultLink;
-							});
+								submit_state: $.trim(attr[3].innerText),
+								state : 'unread',
+								deadlineId : id,
+								resultState : !attr[5].querySelector('#lookinfo').disabled,
+							};
 						}
 						else if(type == 'notification'){
 							var title = $(attr[1].querySelector('a')).attr('href');
@@ -335,7 +411,7 @@ function traverseCourse(type, successCallback, progressCallback){
 					if (progressCallback){
 						progressCallback(1 - unChecked / totalWorker);
 					}
-					if (unChecked === 0 && successCallback) {
+					if (unChecked === 0) {
 						db_updateList(type, lists, successCallback);
 					}
 				}, 'html').fail(netErrorHandler);
@@ -346,17 +422,40 @@ function traverseCourse(type, successCallback, progressCallback){
 }
 
 function print(list){
-	//console.log(list);
+	console.log(list);
 }
 
-function netErrorHandler(){
-	alert('net fail!');
+function netErrorHandler(msg){
+	console.log('net failed' + '  msg= ' + msg);
+}
+function errorHandeler(msg){
+	alert(msg);
 }
 
+function updateData(update, list_update){
+	if (update || list_update){
+		net_login();
+	}
+	processCourseList(list_update ? true : false, gui_main_updateCourseList);
+	processDeadlineList(update, gui_main_updateDeadlineList);
+	processNotificationList(update, gui_main_updateNotificationList);
+}
+
+function Init_main(update){
+	updateData(update);
+	$('#clear-cache-button').click(clearCache);
+	$('#set-all-readed-button').click(setAllReaded);
+	$('#force-reload-all').click(function(){
+		updateData(true, true);
+	});
+}
+function setAllReaded(){
+	db_setAllReaded('notification');
+	db_setAllReaded('deadline');
+	updateData(false);
+	
+}
 //Start
 $(function(){
-	//net_login('xxr10', '');
-	processCourseList(false, gui_main_updateCourseList);
-	processDeadlineList(false, gui_main_updateDeadlineList);
-	processNotificationList(false, gui_main_updateNotificationList);
+	Init_main(false);
 });
