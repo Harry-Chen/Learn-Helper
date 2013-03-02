@@ -198,9 +198,10 @@ function gui_main_updateDeadlineList(deadlineList){
 		return read_status_priority[b.state] - read_status_priority[a.state];
 	});
 
-	var GUIlist = $('#nearby-deadline tr');
-	GUIlist.slice(1).remove();
-	var GUIlist = $('#nearby-deadline');
+	var GUIList = $('#nearby-deadline li');
+	GUIList.remove();
+	var GUIList = $('#nearby-deadline');
+
 	var today = new Date();
 	var counter = 0;
 	for (var i = 0; i < deadlineList.length; i++){
@@ -210,36 +211,37 @@ function gui_main_updateDeadlineList(deadlineList){
 			counter += 1;
 		}
 		dueDays = Math.floor((new Date(deadlineList[i].end) - today) / (60 * 60 * 1000 * 24));
-		var line = '<tr>';
+		var line = '<li class="homework-item">';
 		if (data.state == 'unread'){
-			line += '<td>' + '<a class="ddl-state-flag" data-args="d,'+ id + ',stared">未读</a>' + '</td>';
+			line += '<a class="state-flag unread" data-args="d,'+ id + ',stared">未读</a>';
 		} else if (data.state == 'readed'){
-			line += '<td>' + '<a class="ddl-state-flag" data-args="d,'+ id + ',stared">已读</a>' + '</td>';
+			line += '<a class="state-flag readed" data-args="d,'+ id + ',stared">已读</a>';
 		} else if (data.state == 'stared'){
-			line += '<td>' + '<a class="ddl-state-flag" data-args="d,'+ id + ',readed">加星</a>' + '</td>';
+			line += '<a class="state-flag stared" data-args="d,'+ id + ',readed">加星</a>';
 		}
-		line += '<td>' + data.submit_state + '</td>';
-		line += '<td>' + dueDays + '</td>';
-		line += '<td>' + new Date(data.end).Format("yyyy.MM.dd") + '</td>';
+
+		line += '<span class="submit-state">' + data.submit_state + '</span>';
+		line += '<span class="last-day">' + dueDays + '</span>';
+		line += '<span class="due-date">' + new Date(data.end).Format("yyyy.MM.dd") + '</span>';
 		if (data.state == 'stared'){
-			line += '<td><a target="_blank" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_detail.jsp?id=' + data.deadlineId + '&course_id=' + data.courseId + '">' + data.name + '</a></td>';
+			line += '<a class="hw-name" target="_blank" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_detail.jsp?id=' + data.deadlineId + '&course_id=' + data.courseId + '">' + data.name + '</a>';
 		}
 		else{
-			line += '<td><a target="_blank" class="ddl-jump" data-args="d,'+ id + ',readed" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_detail.jsp?id=' + data.deadlineId + '&course_id=' + data.courseId + '">' + data.name + '</a></td>';
+			line += '<a class="hw-name hw-jump" target="_blank" data-args="d,'+ id + ',readed" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_detail.jsp?id=' + data.deadlineId + '&course_id=' + data.courseId + '">' + data.name + '</a>';
 		}
-		line += '<td><a target="_blank" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_brw.jsp?course_id=' + data.courseId + '">' + data.courseName.replace(/\(\d+\)\(.*$/, '') + '</a></td>';
-		line += '<td>none</td>';
-		line += '<td> <a href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_submit.jsp?id=' + data.deadlineId + '&course_id=' + data.courseId + '">提交</a></td>';
+		line += '<a target="_blank" class="course-name" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_brw.jsp?course_id=' + data.courseId + '">' + data.courseName.replace(/\(\d+\)\(.*$/, '') + '</a>';
+		line += '<a href="#" class="hw-file" >none</a>';
+		line += '<a class="hw-handin" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_submit.jsp?id=' + data.deadlineId + '&course_id=' + data.courseId + '">提交</a>';
 		if (data.resultState){
-			line += '<td><a href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_view.jsp?id=' + data.deadlineId + '&course_id=' + data.courseId + '">查看批阅</a></td>';
+			line += '<a class="hw-review-link" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_view.jsp?id=' + data.deadlineId + '&course_id=' + data.courseId + '">查看批阅</a>';
 		}
 		else{
-			line += '<td>未批阅</td>';
+			line += '<span class="hw-review-none" >未批阅</span>';
 		}
-		line += '</tr>';
-		GUIlist.append($(line));
+		line += '</li>';
+		GUIList.append($(line));
 	}
-	$('.ddl-state-flag, .ddl-jump').click(function() {
+	$('.state-flag, .hw-jump').click(function() {
 		var args = this.getAttribute('data-args').split(',');
 		setState.apply(null, args);
 		processDeadlineList(false, gui_main_updateDeadlineList);
@@ -264,35 +266,35 @@ function gui_main_updateNotificationList(notificationList){
 		}
 		return priority[b.state] - priority[a.state];
 	});
-	var GUIlist = $('#unread-notification tr');
-	GUIlist.slice(1).remove();
+	var GUIlist = $('#unread-notification li');
+	GUIlist.remove();
 	var GUIlist = $('#unread-notification');
 	var counter = 0;
 	var today = new Date();
 	for (var i = 0; i < notificationList.length; i++){
 		var data = notificationList[i];
 		var id = data.id;
-		var line = '<tr>';
+		var line = '<li class="noti-item">';
 		if (data.state == 'unread'){
-			line += '<td>' + '<a class="noti-state-flag" data-args="n,'+ id + ',stared">未读</a>' + '</td>';
+			line += '<a class="state-flag unread" data-args="n,'+ id + ',stared">未读</a>';
 			counter += 1;
 		} else if (data.state == 'readed'){
-			line += '<td>' + '<a class="noti-state-flag" data-args="n,'+ id + ',stared">已读</a>' + '</td>';
+			line += '<a class="state-flag readed" data-args="n,'+ id + ',stared">已读</a>';
 		} else if (data.state == 'stared'){
-			line += '<td>' + '<a class="noti-state-flag" data-args="n,'+ id + ',readed">加星</a>' + '</td>';
+			line += '<a class="state-flag stared" data-args="n,'+ id + ',readed">加星</a>';
 		}
 		if (data.state =='stared'){
-			line += '<td><a target="_blank" href="http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/'+data.href+'">' + data.name + '</a></td>';
+			line += '<a class="noti-name"target="_blank" href="http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/'+data.href+'">' + data.name + '</a></td>';
 		}
 		else{
-			line += '<td><a target="_blank" class="noti-jump" data-args="n,' + id + ',readed" href="http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/'+data.href+'">' + data.name + '</a></td>';
+			line += '<a class="noti-name noti-jump"target="_blank" data-args="n,' + id + ',readed" href="http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/'+data.href+'">' + data.name + '</a>';
 		}
-		line += '<td><a target="_blank" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_brw.jsp?course_id=' + data.courseId + '">' + data.courseName + '</a></td>';
-		line += '<td>' + new Date(data.day).Format("yyyy.MM.dd") + '</td>';
-		line += '</tr>';
+		line += '<a target="_blank" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_brw.jsp?course_id=' + data.courseId + '">' + data.courseName + '</a>';
+		line += '<span class="publish-date">' + new Date(data.day).Format("yyyy.MM.dd") + '</span>';
+		line += '</li>';
 		GUIlist.append($(line));
 	}
-	$('.noti-state-flag, .noti-jump').click(function() {
+	$('.state-flag, .noti-jump').click(function() {
 		var args = this.getAttribute('data-args').split(',');
 		setState.apply(null, args);
 		processNotificationList(false, gui_main_updateNotificationList);
