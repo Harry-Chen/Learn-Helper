@@ -1,0 +1,44 @@
+$folders-background = hsl(260deg, 10%, 15%)
+
+.pane-folders
+  absolute top left
+  bottom 0
+  width 250px
+  overflow-x hidden
+  overflow-y auto
+  background $folders-background
+  transition width 0.2s linear
+  border-right 1px solid darken($folders-background, 5%)
+
+.folders
+  list-style none
+  margin 0
+  font-size 0.8rem
+  padding 0 0 10px 0
+
+  &:last-child
+    padding-bottom 0
+
+  .folders-heading
+    if $theme-flat
+      background lighten($folders-background, 10%)
+    else
+      background linear-gradient(lighten($folders-background, 12%), lighten($folders-background, 10%))
+      box-shadow 0 -1px 0 lighten($folders-background, 20%), \
+                 0  1px 0 darken($folders-background, 10%)
+
+    color lighten($folders-background, 40%)
+    overflow ellipsis
+    padding 5px 10px
+
+  a
+    color lighten($folders-background, 50%)
+    text-decoration none
+    display block
+    overflow ellipsis
+    padding 5px 16px
+
+    &:hover,
+    &:focus
+      @extend #theme.highlight
+

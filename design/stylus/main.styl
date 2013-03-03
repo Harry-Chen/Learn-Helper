@@ -1,0 +1,40 @@
+@import "_normalize.styl"
+@import "_font-awesome.styl"
+
+support-for-ie = false
+vendors = webkit official
+vendor-prefixes = webkit official
+
+@import "nib"
+
+$brand-blue = #4184EF
+
+$theme-flat = false
+
+#theme.highlight
+  if $theme-flat
+    background $brand-blue
+    color #FFF
+  else
+    background linear-gradient($brand-blue, darken($brand-blue, 10%))
+    box-shadow 0 -1px 0 lighten($brand-blue, 10%), \
+               0  1px 0 darken($brand-blue, 20%)
+    color #FFF
+
+body
+  font 16px / 1.5 "微软雅黑"
+
+::-webkit-scrollbar
+  width 4px
+  background-color rgba(#000, 0.5)
+ 
+::-webkit-scrollbar-thumb
+  border-radius 2px
+  background-color #999
+ 
+::-webkit-scrollbar-button
+  display none
+
+
+@import "_folders.styl"
+
