@@ -79,7 +79,6 @@
         box-shadow inset 0 1px 1px lighten($yellow, 40%)
         border 1px solid darken($yellow, 15%)
 
-  .homework
     .title
       display block
       color $brand-blue
@@ -91,13 +90,6 @@
       &:hover,
       &:focus
         color darken($brand-blue, 30%)
-
-    .days-left
-      absolute top 5px right 10px
-      font-size 1.6rem
-      font-weight bold
-      color #DDD
-      z-index -5
 
     .toolbar
       font-size 0.7rem
@@ -124,5 +116,21 @@
         &.course-name
           &::before
             content none
+
+  .homework
+    .days-left
+      color #DDD
+      color #FFF
+      font-size 0.8rem
+      padding 0 5px
+      border-radius 3px
+
+      if $theme-flat
+        background $brand-blue
+      else
+        background linear-gradient($brand-blue, darken($brand-blue, 10%))
+        box-shadow inset 0 1px 0px lighten($brand-blue, 20%)
+        text-shadow 0 -1px 0px darken($brand-blue, 20%)
+        border 1px solid darken($brand-blue, 20%)
 
 
