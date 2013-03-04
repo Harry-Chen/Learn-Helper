@@ -60,6 +60,9 @@
         vertical-align ((0.8rem - @width) / 2)
         border-radius 50%
 
+    &.is-important
+      background #FFC
+
     &.is-unread .title::before
       content ""
       if $theme-flat
@@ -118,8 +121,8 @@
             content none
 
   .homework
+
     .days-left
-      color #DDD
       color #FFF
       font-size 0.8rem
       padding 0 5px
@@ -133,4 +136,13 @@
         text-shadow 0 -1px 0px darken($brand-blue, 20%)
         border 1px solid darken($brand-blue, 20%)
 
+    &.is-important .days-left
+      $red = #F66
+      if $theme-flat
+        background $red
+      else
+        background linear-gradient($red, darken($red, 10%))
+        box-shadow inset 0 1px 0px lighten($red, 20%)
+        text-shadow 0 -1px 0px darken($red, 20%)
+        border 1px solid darken($red, 20%)
 
