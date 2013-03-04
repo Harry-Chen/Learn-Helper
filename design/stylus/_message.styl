@@ -24,3 +24,105 @@
       border-color #CCC
       text-shadow 0 1px 0 #F3F3F3
 
+  .message-list
+    list-style none
+    margin 0
+    padding 0
+
+  .message
+    border-bottom 1px solid #EEE
+    box-sizing border-box
+    min-height 80px
+    padding 10px 10px 30px 10px
+    position relative
+    overflow hidden
+    color #666
+    font-size 0.8rem
+
+    a
+      color $brand-blue
+      text-decoration none
+
+      &:hover,
+      &:focus
+        color darken($brand-blue, 30%)
+
+
+    &:last-child
+      border-bottom none
+
+    .title::before
+        width 0.6rem
+        height @width
+        margin-right 5px
+        display inline-block
+        box-sizing border-box 
+        vertical-align ((0.8rem - @width) / 2)
+        border-radius 50%
+
+    &.is-unread .title::before
+      content ""
+      if $theme-flat
+        background $brand-blue
+      else
+        background linear-gradient($brand-blue, darken($brand-blue, 10%))
+        box-shadow inset 0 1px 1px lighten($brand-blue, 40%)
+        border 1px solid darken($brand-blue, 15%)
+
+    &.is-stared .title::before
+      content ""
+      $yellow = #F00
+      if $theme-flat
+        background $yellow
+      else
+        background linear-gradient($yellow, darken($yellow, 10%))
+        box-shadow inset 0 1px 1px lighten($yellow, 40%)
+        border 1px solid darken($yellow, 15%)
+
+  .homework
+    .title
+      display block
+      color $brand-blue
+      text-decoration none
+      font-size 1rem
+      margin-bottom 5px
+      overflow ellipsis
+
+      &:hover,
+      &:focus
+        color darken($brand-blue, 30%)
+
+    .days-left
+      absolute top 5px right 10px
+      font-size 1.6rem
+      font-weight bold
+      color #DDD
+      z-index -5
+
+    .toolbar
+      font-size 0.7rem
+      overflow ellipsis
+      color #999
+      text-decoration none
+      absolute bottom 5px left 10px
+      right 10px
+
+      .course-name
+        max-width 100px
+        float right
+        color #999
+
+      a
+        display inline-block
+        max-width 60px
+        overflow ellipsis
+
+        &::before
+          content " - "
+
+        &:first-child,
+        &.course-name
+          &::before
+            content none
+
+
