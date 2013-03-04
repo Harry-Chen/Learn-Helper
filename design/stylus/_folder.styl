@@ -34,9 +34,35 @@ $folder-background = hsl(260deg, 10%, 15%)
       text-decoration none
       display block
       overflow ellipsis
-      padding 5px 16px
+      padding 5px 30px 5px 16px
+      position relative
 
       &:hover,
       &:focus
         @extend #theme.highlight
+
+
+    .unread-count
+      absolute right 10px
+      padding 0 5px
+      border-radius 3px
+      color lighten($folder-background, 30%)
+      max-width 20px
+      overflow ellipsis
+      background darken($folder-background, 30%)
+      if not $theme-flat
+        box-shadow inset 0 1px 2px darken($folder-background, 60%)
+        text-shadow 0 -1px 0 darken($folder-background, 60%)
+
+    a:hover,
+    a:focus
+      .unread-count
+        color lighten($brand-blue, 60%)
+        if $theme-flat
+          background darken($brand-blue, 30%)
+        else
+          text-shadow none
+          background darken($brand-blue, 30%)
+          box-shadow inset 0 1px 2px darken($brand-blue, 60%)
+          text-shadow 0 -1px 0 darken($brand-blue, 60%)
 
