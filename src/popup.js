@@ -1,2 +1,2 @@
-	chrome.extension.sendMessage({url: 'sample2.html'});
+	chrome.extension.sendMessage({url: 'index.html'});
 
