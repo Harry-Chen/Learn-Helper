@@ -23,8 +23,8 @@ function update(){
 	});
 }
 function savePassword(username, passwd){
-	localStorage.setItem('learn-username', username);
-	localStorage.setItem('learn-passwd', passwd);
+	localStorage.setItem('learn_username', username);
+	localStorage.setItem('learn_passwd', passwd);
 }
 
 $(function(){
