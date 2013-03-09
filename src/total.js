@@ -187,7 +187,7 @@ function gui_main_updateCourseList(courseList){
 		var name = courseList[i].name;
 		var k = $(
       '<li class="folder">' +
-        '<a target="_blank" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/course_locate.jsp?course_id=' + id + '"><i class="icon-book"></i> ' + name + '</a>' + 
+        '<a href="#"><i class="icon-book"></i> ' + name + '</a>' + 
         '<ul class="subfolder">' +
           '<li><a target="content-frame" href="https://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/getnoteid_student.jsp?course_id=' + id + '"><i class="icon-bullhorn"></i> 课程公告</a></li>' +
           '<li><a target="content-frame" href="https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/course_info.jsp?course_id=' + id + '"><i class="icon-info-sign"></i> 课程信息</a></li>' +
@@ -196,6 +196,7 @@ function gui_main_updateCourseList(courseList){
           '<li><a target="content-frame" href="https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_brw.jsp?course_id=' + id + '"><i class="icon-pencil"></i> 课程作业</a></li>' +
           '<li><a target="content-frame" href="https://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/getbbsid_student.jsp?course_id=' + id + '"><i class="icon-question-sign"></i> 课程答疑</a></li>' +
           '<li><a target="content-frame" href="https://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/gettalkid_student.jsp?course_id=' + id + '"><i class="icon-comments"></i> 课程讨论</a></li>' +
+          '<li><a target="_blank" href="https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/course_locate.jsp?course_id=' + id + '"><i class="icon-external-link"></i> 在新窗口中打开</a></li>' +
         '</ul>' +
       '</li>'
     );
