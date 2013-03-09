@@ -5,6 +5,8 @@
     var modal = this;
     var closable = options.closable !== false;
 
+    $el.addClass('modal');
+
     $el.wrap('<div class="modal-backdrop"/>');
     var $backdrop = $el.parent();
     if (closable) {
