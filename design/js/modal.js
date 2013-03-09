@@ -5,7 +5,12 @@
     var modal = this;
     var closable = options.closable !== false;
 
-    $el.addClass('modal');
+    $el
+      .addClass('modal')
+      .attr({
+        role: 'dialog',
+        ariaHidden: true
+      });
 
     $el.wrap('<div class="modal-backdrop"/>');
     var $backdrop = $el.parent();
@@ -40,6 +45,8 @@
 
   Modal.prototype.show = function() {
     this.$el.trigger('show');
+    this.$el.attr('aria-hidden', false);
+
     var that = this;
     this.$backdrop.fadeIn(200, function() {
       that.$el.css('display', 'block')
@@ -49,6 +56,8 @@
 
   Modal.prototype.hide = function() {
     this.$el.trigger('hide');
+    this.$el.attr('aria-hidden', true)
+
     var that = this;
     this.$el.animate({top: '-5px', opacity: 0}, 200, function() {
       that.$el.css('display', 'none');
