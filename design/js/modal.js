@@ -23,7 +23,7 @@
     var $heading = $(
       '<div class="modal-heading">' +
         (closable ? '<span class="modal-close">&times;</span>' : '') +
-        (options.title ? '<h3>' + options.title + '</h3>' : '') +
+        '<h3>' + (options.title || '&nbsp;') + '</h3>' +
       '</div>'
     );
     $heading.find('.modal-close').on('click', function(e) {
