@@ -1,4 +1,4 @@
-(function() {
+(function($) {
   'use strict';
 
   function Modal($el, options) {
@@ -57,19 +57,23 @@
   };
 
   $.fn.modal = function(cmd, options) {
-    options || (options = {});
-    if (typeof cmd === 'object') {
-      options = cmd;
-      cmd = 'init';
-    }
+    var $el;
+    for (var i = 0; i < this.length; i += 1) {
+      $el = $(this[i]);
+      options || (options = {});
+      if (typeof cmd === 'object') {
+        options = cmd;
+        cmd = 'init';
+      }
 
-    var modalObj = this.data('modal');
-    if (cmd === 'init') {
-      modalObj = new Modal(this, options);
-      this.data('modal', modalObj);
-    } else if (modalObj) {
-      modalObj[cmd](options);
+      var modalObj = $el.data('modal');
+      if (cmd === 'init') {
+        modalObj = new Modal($el, options);
+        $el.data('modal', modalObj);
+      } else if (modalObj) {
+        modalObj[cmd](options);
+      }
     }
     return this;
   }
-})();
+})(jQuery);
