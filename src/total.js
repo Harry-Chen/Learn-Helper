@@ -245,7 +245,7 @@ function gui_main_updateDeadlineList(deadlineList){
 		line += '<a class="handin-link" target="content-frame" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_submit.jsp?id=' + data.deadlineId + '&course_id=' + data.courseId + '">提交链接</a>"' ;
 		line += '<a class="add-star" href="#" data-args="star">置顶</a>';
 		//TODO homework file's link
-		line += '<a class="attachment-file" href="#"><i class="icon-paper-clip"></i>尚未完成</a>';
+		//line += '<a class="attachment-file" href="#"><i class="icon-paper-clip"></i>尚未完成</a>';
 		line += '<a target="content-frame" class="course-name" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_brw.jsp?course_id=' + data.courseId + '">' + data.courseName.replace(/\(\d+\)\(.*$/, '') + '</a>';
 		line += '</div>';
 
