@@ -487,6 +487,11 @@ function Init_main(update){
 	$('#option-force-reload-all').click(function(){
 		updateData(true, true);
 	});
+    $('#my-modal').modal({
+      title: '<i class="icon-signin"></i> 登录',
+      closable: false
+    });
+	
 }
 function setAllReaded(){
 	db_setAllReaded('notification');
