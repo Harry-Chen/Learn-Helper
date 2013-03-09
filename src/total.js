@@ -187,7 +187,7 @@ function gui_main_updateCourseList(courseList){
 		var name = courseList[i].name;
 		var k = $('<li class="folder"> <a target="_blank" ' + 
 			'href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/course_locate.jsp' + 
-			'?course_id=' + id + '"><i class="icon-book"></i>' + name + '</a></li>');
+			'?course_id=' + id + '"><i class="icon-book"></i> ' + name + '</a></li>');
 		GUIlist.append(k);
 	}
 }
@@ -237,7 +237,7 @@ function gui_main_updateDeadlineList(deadlineList){
 		line += ((data.submit_state == '已经提交')?'is-submitted' :'') + ' ';
 		line += '" data-args=' + id + '> '
 
-		line += '<a class="title" target="content-frame" data-args="read" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_detail.jsp?id=' + data.deadlineId + '&course_id=' + data.courseId + '"> <span class="days-left">' + dueDays + '</span>' + data.name + '</a>';
+		line += '<a class="title" target="content-frame" data-args="read" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_detail.jsp?id=' + data.deadlineId + '&course_id=' + data.courseId + '"> <span class="days-left">' + dueDays + '</span> ' + data.name + '</a>';
 
 		line += '<span class="description">' + new Date(data.end).Format("yyyy-MM-dd") + ' - ' + data.submit_state + '</span>';
 		
