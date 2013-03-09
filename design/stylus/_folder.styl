@@ -1,12 +1,16 @@
 $folder-background = hsl(260deg, 10%, 15%)
 
+$loading-height = 50px
+
 .pane-folder
-  absolute top left
+  absolute top (-1 * $loading-height) left
   bottom 0
   width 250px
   overflow-x hidden
   overflow-y auto
   background $folder-background
+  transition top 0.2s linear
+  padding-top $loading-height
 
   .folder-list
     list-style none
@@ -73,4 +77,21 @@ $folder-background = hsl(260deg, 10%, 15%)
 
     a
       padding 5px 30px 5px 26px
+
+  &::after
+    content "Loading..."
+    position absolute
+    top 0
+    left 0
+    right 0
+    height $loading-height
+    line-height @height
+    text-align center
+    color lighten($folder-background, 40%)
+    text-shadow 0 -1px 0 $folder-background
+
+    background darken($folder-background, 40%)
+
+  .is-loading &
+    top 0
 

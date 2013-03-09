@@ -870,7 +870,7 @@ html,body{font:16px/1.5 "微软雅黑"}
 .btn{background:-webkit-gradient(linear, left top, left bottom, color-stop(0, #4184ef), color-stop(1, #1362e0));background:-webkit-linear-gradient(top, #4184ef 0%, #1362e0 100%);background:linear-gradient(top, #4184ef 0%, #1362e0 100%);-webkit-box-shadow:inset 0 1px 0 #679df2;box-shadow:inset 0 1px 0 #679df2;text-shadow:0 -1px 0 #1156c4;border:1px solid #1362e0;color:#fff;}
 .btn:hover,.btn:focus{background:-webkit-gradient(linear, left top, left bottom, color-stop(0, #2572ed), color-stop(1, #1156c4));background:-webkit-linear-gradient(top, #2572ed 0%, #1156c4 100%);background:linear-gradient(top, #2572ed 0%, #1156c4 100%)}
 .btn:active{background:-webkit-gradient(linear, left top, left bottom, color-stop(0, #1362e0), color-stop(1, #2572ed));background:-webkit-linear-gradient(top, #1362e0 0%, #2572ed 100%);background:linear-gradient(top, #1362e0 0%, #2572ed 100%)}
-.pane-folder{position:absolute;top:0;left:0;bottom:0;width:250px;overflow-x:hidden;overflow-y:auto;background:#25222a;}
+.pane-folder{position:absolute;top:-50px;left:0;bottom:0;width:250px;overflow-x:hidden;overflow-y:auto;background:#25222a;-webkit-transition:top .2s linear;transition:top .2s linear;padding-top:50px;}
 .pane-folder .folder-list{list-style:none;margin:0;padding:0;font-size:.8rem;}
 .pane-folder .folder-list .folder-heading{background:-webkit-gradient(linear, left top, left bottom, color-stop(0, #3e3a47), color-stop(1, #3a3642));background:-webkit-linear-gradient(top, #3e3a47 0%, #3a3642 100%);background:linear-gradient(top, #3e3a47 0%, #3a3642 100%);-webkit-box-shadow:inset 0 1px 0 #4f495a,inset 0 -1px 0 #211f26;box-shadow:inset 0 1px 0 #4f495a,inset 0 -1px 0 #211f26;text-shadow:0 -1px 0 #25222a;color:#797089;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:5px 10px}
 .pane-folder .folder-list a{color:#8f889d;text-decoration:none;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:5px 30px 5px 16px;position:relative;}
@@ -878,6 +878,8 @@ html,body{font:16px/1.5 "微软雅黑"}
 .pane-folder .folder-list a:hover .unread-count,.pane-folder .folder-list a:focus .unread-count{color:#b3cef9;text-shadow:none;background:#1156c4;-webkit-box-shadow:inset 0 1px 2px #093170;box-shadow:inset 0 1px 2px #093170;text-shadow:0 -1px 0 #093170}
 .pane-folder .subfolder{list-style:none;margin:0;padding:0;font-size:.7rem;display:none;}
 .pane-folder .subfolder a{padding:5px 30px 5px 26px}
+.pane-folder::after{content:"Loading...";position:absolute;top:0;left:0;right:0;height:50px;line-height:50px;text-align:center;color:#797089;text-shadow:0 -1px 0 #25222a;background:#161519}
+.is-loading .pane-folder{top:0}
 .pane-message{position:absolute;top:0;left:250px;bottom:0;width:350px;overflow-x:hidden;overflow-y:auto;border-right:1px solid #ccc;background:#f6f6f6;}
 .pane-message .category-heading{color:#666;font-size:.8rem;padding:8px 0;text-align:center;border:none;border-top:1px solid;border-bottom:1px solid;background:-webkit-gradient(linear, left top, left bottom, color-stop(0, #e6e6e6), color-stop(1, #ddd));background:-webkit-linear-gradient(top, #e6e6e6 0%, #ddd 100%);background:linear-gradient(top, #e6e6e6 0%, #ddd 100%);-webkit-box-shadow:inset 0 1px 0 #eee;box-shadow:inset 0 1px 0 #eee;border-color:#ccc;text-shadow:0 1px 0 #f3f3f3}
 .pane-message .message-list{list-style:none;margin:0;padding:0}
