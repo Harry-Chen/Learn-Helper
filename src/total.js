@@ -185,9 +185,21 @@ function gui_main_updateCourseList(courseList){
 	for (var i = 0; i < courseList.length; i++){
 		var id = courseList[i].id;
 		var name = courseList[i].name;
-		var k = $('<li class="folder"> <a target="_blank" ' + 
-			'href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/course_locate.jsp' + 
-			'?course_id=' + id + '"><i class="icon-book"></i> ' + name + '</a></li>');
+    // TODO bbs id
+		var k = $(
+      '<li class="folder">' +
+        '<a target="_blank" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/course_locate.jsp?course_id=' + id + '"><i class="icon-book"></i> ' + name + '</a>' + 
+        '<ul class="subfolder">' +
+          '<li><a target="content-frame" href="http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/note_list_student.jsp?bbs_id=8111832&course_id=' + id + '"><i class="icon-bullhorn"></i> 课程公告</a></li>' +
+          '<li><a target="content-frame" href="https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/course_info.jsp?course_id=' + id + '"><i class="icon-info-sign"></i> 课程信息</a></li>' +
+          '<li><a target="content-frame" href="https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/download.jsp?course_id=' + id + '"><i class="icon-download-alt"></i> 课程文件</a></li>' +
+          '<li><a target="content-frame" href="https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/ware_list.jsp?course_id=' + id + '"><i class="icon-cloud"></i> 教学资源</a></li>' +
+          '<li><a target="content-frame" href="https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_brw.jsp?course_id=' + id + '"><i class="icon-pencil"></i> 课程作业</a></li>' +
+          '<li><a target="content-frame" href="https://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/bbs_list_student.jsp?bbs_id=8111834&course_id=' + id + '"><i class="icon-question-sign"></i> 课程答疑</a></li>' +
+          '<li><a target="content-frame" href="http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/talk_list_student.jsp?bbs_id=8111830&course_id=' + id + '"><i class="icon-comments"></i> 课程讨论</a></li>' +
+        '</ul>' +
+      '</li>'
+    );
 		GUIlist.append(k);
 	}
 }
