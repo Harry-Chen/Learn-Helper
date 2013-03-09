@@ -1,21 +1,22 @@
 $folder-background = hsl(260deg, 10%, 15%)
 
+$loading-height = 50px
+
 .pane-folder
-  absolute top left
+  absolute top (-1 * $loading-height) left
   bottom 0
   width 250px
   overflow-x hidden
   overflow-y auto
   background $folder-background
+  transition top 0.2s linear
+  padding-top $loading-height
 
   .folder-list
     list-style none
     margin 0
+    padding 0
     font-size 0.8rem
-    padding 0 0 10px 0
-
-    &:last-child
-      padding-bottom 0
 
     .folder-heading
       if $theme-flat
@@ -66,4 +67,31 @@ $folder-background = hsl(260deg, 10%, 15%)
           background darken($brand-blue, 30%)
           box-shadow inset 0 1px 2px darken($brand-blue, 60%)
           text-shadow 0 -1px 0 darken($brand-blue, 60%)
+
+  .subfolder
+    list-style none
+    margin 0
+    padding 0
+    font-size 0.7rem
+    display none
+
+    a
+      padding 5px 30px 5px 26px
+
+  &::after
+    content "Loading..."
+    position absolute
+    top 0
+    left 0
+    right 0
+    height $loading-height
+    line-height @height
+    text-align center
+    color lighten($folder-background, 40%)
+    text-shadow 0 -1px 0 $folder-background
+
+    background darken($folder-background, 40%)
+
+  .is-loading &
+    top 0
 
