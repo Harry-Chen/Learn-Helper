@@ -1,0 +1,48 @@
+$folder-background = hsl(260deg, 10%, 15%)
+.form-styled
+  text-align center
+
+  .field
+    max-width 300px
+    padding 5px 0
+
+    .modal &
+      margin 0 auto
+
+  input[type="text"],
+  input[type="password"],
+  input[type="submit"]
+    border-radius 3px
+
+    &:focus
+      outline none
+
+    .modal &
+      box-sizing border-box
+      width 100%
+      padding 10px
+
+  input[type="text"],
+  input[type="password"]
+    border 1px solid #AAA
+    transition border-color 0.2s linear
+
+    &:focus
+      border-color #999
+      box-shadow inset 0 0 3px #999
+
+.btn
+  background linear-gradient($brand-blue, darken($brand-blue, 20%))
+  box-shadow inset 0 1px 0px lighten($brand-blue, 20%)
+  text-shadow 0 -1px 0px darken($brand-blue, 30%)
+  border 1px solid darken($brand-blue, 20%)
+  color #FFF
+
+  &:hover,
+  &:focus
+    background linear-gradient(darken($brand-blue, 10%), darken($brand-blue, 30%))
+
+  &:active
+    background linear-gradient(darken($brand-blue, 20%), darken($brand-blue, 10%))
+    
+
