@@ -302,7 +302,7 @@ function gui_main_updateNotificationList(notificationList){
 		line += 'is-' + data.state + ' ';
 		line += '" data-args=' + id + '> '
 
-		line += '<a class="title" target="content-frame" data-args="read" href="http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/'+data.href+'">' + data.name + '</a></td>';
+		line += '<a class="title" target="content-frame" data-args="read" href="http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/'+data.href+'"> ' + data.name + '</a></td>';
 
 		line += '<span class="description">' + new Date(data.day).Format("yyyy-MM-dd") + '</span>';
 		line += '<div class="toolbar">';
