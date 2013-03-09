@@ -57,19 +57,43 @@ function db_updateList(type, List, args){
 		args(List);
 	}
 }
-function setState(type, id, state){	//allowed state = 'readed', 'unread', 'stared'
+function setState(op, node){	//allowed state = 'readed', 'unread', 'stared'
+	var id = node.getAttribute('data-args');
+	var cur_state = node.className.match(/is-(\w*)/)[1];
+	var type = node.className.match(/homework|notification/)[0];
+	console.log(type, id, cur_state, op);
 	var choose = {
-		'd' : 'deadline_list',
-		'n' : 'notification_list',
-	}
-	var _name = choose[type];
-	if (!(id && state)){
+		'homework' : 'deadline_list',
+		'notification' : 'notification_list',
+	};
+	var result = {
+		'unread' : {
+			'read' : 'readed',
+			'star' : 'stared'
+		},
+		'readed' : {
+			'read' : 'readed',
+			'star' : 'stared'
+		},
+		'stared' : {
+			'read' : 'stared',
+			'star' : 'readed'
+		}
+	};
+
+	if (!(id )){
 		return
 	}
+	var target_state = result[cur_state][op];
+	if (target_state == cur_state){
+		return;
+	}
+	node.className = node.className.replace('is-' + cur_state, 'is-' + target_state);
+	var _name = choose[type];
 	var List = localStorage.getItem(_name);
 	if (!List) return;
 	var List = JSON.parse(List);
-	List[id].state = state;
+	List[id].state = target_state;
 	localStorage[_name] = JSON.stringify(List);
 }
 
@@ -183,22 +207,20 @@ function gui_main_updateDeadlineList(deadlineList){
 	}
 	deadlineList = temp.sort(function(a, b) {
 		if (a.state === b.state){
-			if (a.submit_state=== '尚未提交' && a.end < new Date()) {
+			if (a.submit_state=== '尚未提交' && new Date(a.end) < new Date()) {
 				return 1;
 			}
-			if (b.submit_state=== '尚未提交' && b.end < new Date()) {
+			if (b.submit_state=== '尚未提交' && new Date(b.end) < new Date()) {
 				return -1;
 			}
 			if (a.submit_state=== b.submit_state) {
-				return a.end - b.end;
+				return new Date(a.end) - new Date(b.end);
 			}
 			return (a.submit_state=== '尚未提交') ? -1 : 1;
 		}
 		return read_status_priority[b.state] - read_status_priority[a.state];
 	});
 
-	var GUIList = $('#nearby-deadline li');
-	GUIList.remove();
 	var GUIList = $('#nearby-deadline');
 
 	var today = new Date();
@@ -213,15 +235,17 @@ function gui_main_updateDeadlineList(deadlineList){
 		var line = '<li class="message homework ';
 		line += 'is-' + data.state + ' ';
 		line += ((data.submit_state == '已经提交')?'is-submitted' :'') + ' ';
-		line += '"> '
-		line += '<a class="title" target="content-frame" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_detail.jsp?id=' + data.deadlineId + '&course_id=' + data.courseId + '"> <span class="days-left">' + dueDays + '</span>' + data.name + '</a>';
+		line += '" data-args=' + id + '> '
+
+		line += '<a class="title" target="content-frame" data-args="read" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_detail.jsp?id=' + data.deadlineId + '&course_id=' + data.courseId + '"> <span class="days-left">' + dueDays + '</span>' + data.name + '</a>';
 
 		line += '<span class="description">' + new Date(data.end).Format("yyyy-MM-dd") + ' - ' + data.submit_state + '</span>';
 		
 		line += '<div class="toolbar">';
-		line += '<a class="handin-link" target="content-frame" href=http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_submit.jsp?id=' + data.deadlineId + '&course_id=' + data.courseId + '">提交链接</a>"' ;
-		line += '<a class="add-star" href="#">置顶</a>';
-		line += '<a class="attachment-file" href="#"><i class="icon-paper-clip"></i>azip</a>';
+		line += '<a class="handin-link" target="content-frame" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_submit.jsp?id=' + data.deadlineId + '&course_id=' + data.courseId + '">提交链接</a>"' ;
+		line += '<a class="add-star" href="#" data-args="star">置顶</a>';
+		//TODO homework file's link
+		line += '<a class="attachment-file" href="#"><i class="icon-paper-clip"></i>尚未完成</a>';
 		line += '<a target="content-frame" class="course-name" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_brw.jsp?course_id=' + data.courseId + '">' + data.courseName.replace(/\(\d+\)\(.*$/, '') + '</a>';
 		line += '</div>';
 
@@ -236,13 +260,17 @@ function gui_main_updateDeadlineList(deadlineList){
 		line += '</li>';
 		GUIList.append($(line));
 	}
-	/* 
-		$('.state-flag, .hw-jump').click(function() {
+	$('.homework .title').click(function() {
 		var args = this.getAttribute('data-args').split(',');
+		args.push(this.parentNode);
 		setState.apply(null, args);
-		processDeadlineList(false, gui_main_updateDeadlineList);
 	});
-	*/
+	$('.homework .add-star').click(function() {
+		var args = this.getAttribute('data-args').split(',');
+		args.push(this.parentNode.parentNode);
+		setState.apply(null, args);
+	});
+	
 	
 	gui_main_updatePopupNumber('deadline', counter);
 }
@@ -263,7 +291,6 @@ function gui_main_updateNotificationList(notificationList){
 		}
 		return priority[b.state] - priority[a.state];
 	});
-	$('#category-heading li').remove();
 	var GUIlist = $('#category-heading');
 	var counter = 0;
 	var today = new Date();
@@ -273,26 +300,29 @@ function gui_main_updateNotificationList(notificationList){
 		
 		var line = '<li class="message notification ';
 		line += 'is-' + data.state + ' ';
-		line += '"> '
+		line += '" data-args=' + id + '> '
 
-		line += '<a class="title" target="content-frame" href="http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/'+data.href+'">' + data.name + '</a></td>';
+		line += '<a class="title" target="content-frame" data-args="read" href="http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/'+data.href+'">' + data.name + '</a></td>';
 
 		line += '<span class="description">' + new Date(data.day).Format("yyyy-MM-dd") + '</span>';
 		line += '<div class="toolbar">';
-		line += '<a class="add-star" href="#">置顶</a>';
+		line += '<a class="add-star" href="#" data-args="star">置顶</a>';
 		line += '<a class="course-name" target="content-frame" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_brw.jsp?course_id=' + data.courseId + '">' + data.courseName + '</a>';
 		line += '</div>';
 
 		line += '</li>';
 		GUIlist.append($(line));
 	}
-	/*
-	$('.state-flag, .noti-jump').click(function() {
+	$('.notification .title').click(function() {
 		var args = this.getAttribute('data-args').split(',');
+		args.push(this.parentNode);
 		setState.apply(null, args);
-		processNotificationList(false, gui_main_updateNotificationList);
 	});
-	*/
+	$('.notification .add-star').click(function() {
+		var args = this.getAttribute('data-args').split(',');
+		args.push(this.parentNode.parentNode);
+		setState.apply(null, args);
+	});
 	gui_main_updatePopupNumber('notification', counter);
 }
 
@@ -307,6 +337,7 @@ function processCourseList(update, callback){	// update list when var update = t
 }
 
 function processDeadlineList(update, callback){
+	$('#nearby-deadline li').remove();
 	var deadlineList = localStorage.deadline_list;
 	if (!deadlineList || update){
 		traverseCourse('deadline', callback, print);
@@ -316,6 +347,7 @@ function processDeadlineList(update, callback){
 	callback(deadlineList);
 }
 function processNotificationList(update, callback){
+	$('#category-heading li').remove();
 	var notificationList = localStorage.notification_list;
 	if (!notificationList || update){
 		traverseCourse('notification', callback, print);
@@ -439,9 +471,9 @@ function updateData(update, list_update){
 
 function Init_main(update){
 	updateData(update);
-	$('#clear-cache-button').click(clearCache);
-	$('#set-all-readed-button').click(setAllReaded);
-	$('#force-reload-all').click(function(){
+	$('#option-clear-cache').click(clearCache);
+	$('#option-set-all-read').click(setAllReaded);
+	$('#option-force-reload-all').click(function(){
 		updateData(true, true);
 	});
 }
@@ -449,7 +481,6 @@ function setAllReaded(){
 	db_setAllReaded('notification');
 	db_setAllReaded('deadline');
 	updateData(false);
-	
 }
 //Start
 $(function(){
