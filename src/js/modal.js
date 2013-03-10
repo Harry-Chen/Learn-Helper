@@ -1,9 +1,8 @@
 (function($) {
   'use strict';
 
-  function Modal($el, options) {
+  function Modal($el) {
     var modal = this;
-    var closable = options.closable !== false;
 
     $el
       .addClass('modal')
@@ -14,38 +13,53 @@
 
     $el.wrap('<div class="modal-backdrop"/>');
     var $backdrop = $el.parent();
-    if (closable) {
-      $backdrop.on('click', function(e) {
-        if (e.target.className === 'modal-backdrop') {
-          modal.hide();
-          return false;
-        }
-      });
-    }
+    $backdrop.on('click', function(e) {
+      if (e.target.className === 'modal-backdrop' && modal.options.closable) {
+        modal.hide();
+        return false;
+      }
+    });
 
     $el.wrapInner('<div class="modal-content"/>');
 
     var $heading = $(
       '<div class="modal-heading">' +
-        (closable ? '<span class="modal-close">&times;</span>' : '') +
-        '<h3>' + (options.title || '&nbsp;') + '</h3>' +
+        '<span class="modal-close">&times;</span>' +
+        '<h3></h3>' +
       '</div>'
     );
     $heading.find('.modal-close').on('click', function(e) {
-      modal.hide();
+      if (modal.options.closable) {
+        modal.hide();
+      }
       return false;
     });
     $el.prepend($heading);
 
     this.$el = $el;
     this.$backdrop = $backdrop;
+    this.options = {
+      closable: true,
+      title: '&nbsp;'
+    };
 
     return this;
+  };
+
+  Modal.prototype.config = function(options) {
+    if ('closable' in options) {
+      this.options.closable = options.closable;
+    }
+    if ('title' in options) {
+      this.options.title = options.title;
+    }
   };
 
   Modal.prototype.show = function() {
     this.$el.trigger('show');
     this.$el.attr('aria-hidden', false);
+    this.$el.find('.modal-close')[this.options.closable ? 'show' : 'hide']();
+    this.$el.find('.modal-heading > h3').html(this.options.title);
 
     var that = this;
     this.$backdrop.fadeIn(200, function() {
@@ -72,16 +86,15 @@
       options || (options = {});
       if (typeof cmd === 'object') {
         options = cmd;
-        cmd = 'init';
+        cmd = 'config';
       }
 
       var modalObj = $el.data('modal');
-      if (cmd === 'init') {
-        modalObj = new Modal($el, options);
+      if (!modalObj) {
+        modalObj = new Modal($el);
         $el.data('modal', modalObj);
-      } else if (modalObj) {
-        modalObj[cmd](options);
       }
+      modalObj[cmd](options);
     }
     return this;
   }
