@@ -6,7 +6,8 @@ module.exports = function(grunt) {
     stylus: {
       all: {
         options: {
-          urlfunc: 'embedurl'
+          urlfunc: 'embedurl',
+          compress: false
         },
         files: [
           {

@@ -1,7 +1,8 @@
+$pane-message-width = 350px
 .pane-message
   absolute top left 210px
   bottom 0
-  width 350px
+  width $pane-message-width
   overflow-x hidden
   overflow-y auto
   border-right 1px solid #CCC
@@ -164,4 +165,63 @@
 
       &.theme-black
         tag(#666)
+
+  $loading-wrap-height = 50px
+
+  transition padding-bottom 0.2s linear
+  &.is-loading
+    padding-bottom $loading-wrap-height
+
+  .loading
+    fixed bottom left 210px
+    width $pane-message-width
+    height $loading-wrap-height
+    line-height @height
+    transition opacity 0.2s linear
+    background rgba(#000, 0.8)
+    overflow hidden
+
+    background #333
+    box-shadow inset 0 1px 5px #000
+    height 0
+    transition height 0.2s linear
+    transition-delay 0, 0.2s
+
+    $loading-height = 18px
+
+    &::before
+      content ""
+      absolute top 50% left 50%
+      height $loading-height
+      width ($pane-message-width * 0.8)
+      margin-top (-0.5 * @height)
+      margin-left (-0.5 * @width)
+      border-radius (0.5 * @height)
+      box-sizing border-box
+      border 1px solid #000
+      background linear-gradient(#111, #222)
+      box-shadow inset 0 0px 2px #000
+
+    &::after
+      content ""
+      absolute top 50% left 50%
+      $padding = 0px
+      height ($loading-height - $padding * 2)
+      width ($pane-message-width * 0.8 - $padding * 2)
+      margin-top (-0.5 * @height)
+      margin-left (-0.5 * @width)
+      border-radius (0.5 * @height)
+      min-width (2 * @border-radius)
+
+      width unit(@width * 0.01, "em")
+
+      box-sizing border-box
+
+      $loading-color = $brand-blue
+      background linear-gradient($loading-color, darken($loading-color, 10%))
+      box-shadow inset 0 1px 0px lighten($loading-color, 20%)
+      border 1px solid darken($loading-color, 80%)
+
+    &.is-visible
+      height $loading-wrap-height
 

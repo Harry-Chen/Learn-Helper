@@ -10,6 +10,7 @@
 
   input[type="text"],
   input[type="password"],
+  input[type="button"],
   input[type="submit"]
     border-radius 3px
 
@@ -31,17 +32,22 @@
       box-shadow inset 0 0 3px #999
 
 .btn
-  background linear-gradient($brand-blue, darken($brand-blue, 20%))
+  border-radius 3px
+  background linear-gradient($brand-blue, darken($brand-blue, 20%)) repeat-x darken($brand-blue, 20%)
   box-shadow inset 0 1px 0px lighten($brand-blue, 20%)
   text-shadow 0 -1px 0px darken($brand-blue, 30%)
   border 1px solid darken($brand-blue, 20%)
   color #FFF
+  padding 5px 20px
+  transition background-position 0.2s linear
 
   &:hover,
   &:focus
-    background linear-gradient(darken($brand-blue, 10%), darken($brand-blue, 30%))
+    background-position 0 -1em
 
   &:active
+    transition none
     background linear-gradient(darken($brand-blue, 20%), darken($brand-blue, 10%))
-    
+    background-position 0 0
+
 

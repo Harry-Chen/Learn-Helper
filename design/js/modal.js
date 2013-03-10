@@ -51,7 +51,7 @@
       this.options.closable = options.closable;
     }
     if ('title' in options) {
-      this.options.title = options.title;
+      this.$el.find('.modal-heading > h3').html(options.title);
     }
   };
 
@@ -59,7 +59,6 @@
     this.$el.trigger('show');
     this.$el.attr('aria-hidden', false);
     this.$el.find('.modal-close')[this.options.closable ? 'show' : 'hide']();
-    this.$el.find('.modal-heading > h3').html(this.options.title);
 
     var that = this;
     this.$backdrop.fadeIn(200, function() {
