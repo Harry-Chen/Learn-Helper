@@ -606,6 +606,5 @@ $(function(){
 		title: '<i class="icon-info"></i> 网络错误',
 		closable : false
 	});
-
 	initMain(true);
 });
