@@ -1,10 +1,10 @@
 var getURLParamters = window.getURLParamters;
 
-function net_login(){
+function net_login(successCall){
 	var username = localStorage.getItem('learn_username');
 	var password = localStorage.getItem('learn_passwd');
 	if (!(username && password)){
-   $('#my-modal').modal({ closable: false }).modal('show');
+		$('#token-modal').modal({ closable: false }).modal('show');
 		return;
 	}
 	$.post("https://learn.tsinghua.edu.cn/MultiLanguage/lesson/teacher/loginteacher.jsp", 
@@ -12,15 +12,16 @@ function net_login(){
 			'userid' : username,
 			'userpass' : password,
 		} , function(data){
+			window.setTimeout(successCall, 1000);
 		}
 	).fail(netErrorHandler);
 }
 
 function net_vaildToken(username, password, successCall, failCall){
-	if (!(username && password)){
-		failCall("请输入用户名和密码");
-		return;
-	}
+	//if (!(username && password)){
+	//	failCall("请输入用户名和密码");
+	//	return;
+	//}
 	$.post("https://learn.tsinghua.edu.cn/MultiLanguage/lesson/teacher/loginteacher.jsp", 
 		{
 			'userid' : username,
@@ -234,6 +235,24 @@ function gui_main_updateCourseList(courseList){
 function gui_main_updatePopupNumber(type, number){
 	$('#' + type + '-counter').text(number);
 }
+function getTheme(dueDays, submit_state){
+	var prefix = 'theme-';
+	if (dueDays < 0){
+		return prefix + 'black';
+	}
+	if (submit_state === '已经提交'){
+		return prefix + 'green';
+	}
+	else{
+		if (dueDays < 3){
+			return prefix + 'red';
+		}
+		if (dueDays < 5){
+			return prefix + 'orange';
+		}
+	}
+	return '';
+}
 
 function gui_main_updateDeadlineList(deadlineList){
 	temp = [];
@@ -278,10 +297,12 @@ function gui_main_updateDeadlineList(deadlineList){
 		line += '" data-args=' + id + '> '
 
 		line += '<a class="title" target="content-frame" data-args="read" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_detail.jsp?id=' + data.deadlineId + '&course_id=' + data.courseId + '">';
+
+		line += '<span class="tag ' + getTheme(dueDays, data.submit_state) + '">'
 		if (data.submit_state == '已经提交'){
-			line += '<span class="tag"><i class="icon-check"></i>';
+			line += '<i class="icon-check"></i>';
 		}else{
-			line += '<span class="tag"><i class="icon-pencil"></i>';
+			line += '<i class="icon-pencil"></i>';
 		}
 		if (dueDays > 0){
 			line += ' ' + dueDays;
@@ -378,6 +399,7 @@ function gui_main_updateNotificationList(notificationList){
 function processCourseList(update, callback){	// update list when var update = true or no cache, callback function called with a list.
 	var courseList = localStorage.course_list;
 	if (!courseList || update){
+		console.log('fuck');
 		net_getCourseList(callback);
 		return;
 	}
@@ -439,7 +461,7 @@ function traverseCourse(type, successCallback, progressCallback){
 	if (!linkPrefix)
 		successCallback([]);
 	var parser = new DOMParser();
-	processCourseList(true, function(courseList){
+	processCourseList(false, function(courseList){
 		courseList = filterCourse(courseList, type);
 		unChecked = courseList.length;
 		totalWorker = unChecked;
@@ -503,7 +525,7 @@ function print(list){
 }
 
 function netErrorHandler(msg){
-	console.log('net failed' + '  msg= ' + msg);
+	$('#net-error-modal').modal('show');
 }
 function errorHandeler(msg){
 	alert(msg);
@@ -511,7 +533,12 @@ function errorHandeler(msg){
 
 function updateData(update, list_update){
 	if (update || list_update){
-		net_login();
+		net_login(function(){
+			processCourseList(list_update ? true : false, gui_main_updateCourseList);
+			processDeadlineList(update, gui_main_updateDeadlineList);
+			processNotificationList(update, gui_main_updateNotificationList);
+		});
+		return;
 	}
 	processCourseList(list_update ? true : false, gui_main_updateCourseList);
 	processDeadlineList(update, gui_main_updateDeadlineList);
@@ -523,9 +550,17 @@ function changeToken(){
 	var password = $('#token-password').val();
 	net_vaildToken(username, password, 
 			function(){
+				if (username === localStorage.getItem('learn_username', '')){
+					$('#token-modal').modal('hide');
+				}
 				db_saveToken(username, password);
 				// update gui
-				$('#my-modal').modal('hide');
+				$('#token-modal').modal('hide');
+				$('#msg-text').text('旧信息已全部删除，新用户名密码已储存。将在 3 秒内刷新该页面。');
+				$('#msg-modal').modal('show');
+				window.setTimeout(function(){
+					location.reload();
+				}, 3000);
 			},
 			function(msg){
 				console.log(msg);
@@ -534,18 +569,36 @@ function changeToken(){
 		);
 }
 
-function Init_main(update){
+function initMain(update){
 	updateData(update);
 	$('#option-clear-cache').click(clearCache);
 	$('#option-set-all-read').click(setAllReaded);
 	$('#option-force-reload-all').click(function(){
 		updateData(true, true);
 	});
-	$('#token-submit').click(changeToken);
 	$('#option-change-token').click(function(){
-	   $('#my-modal').modal({ closable: true }).modal('show');
+	   $('#token-modal').modal({ closable: true }).modal('show');
 	});
-	
+
+	$('#token-modal').modal({
+		title: '<i class="icon-signin"></i> 登录'
+	});
+	$('#token-submit').click(changeToken);
+
+	$('#msg-modal').modal({
+		title: '<i class="icon-info"></i> 通知'
+	});
+	$('#net-error-modal').modal({
+		title: '<i class="icon-info"></i> 网络错误',
+		closable : false
+	});
+	$('#net-error-reload-btn').click(function(){
+		location.reload();
+	});
+	$('#net-error-offline-btn').click(function(){
+		$('#net-error-modal').modal('hide');
+	});
+
 }
 function setAllReaded(){
 	db_setAllReaded('notification');
@@ -554,8 +607,5 @@ function setAllReaded(){
 }
 //Start
 $(function(){
-  $('#my-modal').modal({
-    title: '<i class="icon-signin"></i> 登录'
-  });
-	Init_main(true);
+	initMain(true);
 });
