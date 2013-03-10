@@ -1,4 +1,5 @@
 var getURLParamters = window.getURLParamters;
+
 function net_login(){
 	var username = localStorage.getItem('learn_username');
 	var password = localStorage.getItem('learn_passwd');
@@ -14,6 +15,28 @@ function net_login(){
 		}
 	).fail(netErrorHandler);
 }
+
+function net_vaildToken(username, password, successCall, failCall){
+	if (!(username && password)){
+		failCall("请输入用户名和密码");
+		return;
+	}
+	$.post("https://learn.tsinghua.edu.cn/MultiLanguage/lesson/teacher/loginteacher.jsp", 
+		{
+			'userid' : username,
+			'userpass' : password,
+		} , function(data){
+			if (data.search('alert') != -1){
+				failCall('验证失败，请检查用户名密码的正确性');
+				return;
+			}
+			successCall();
+		}
+	).fail(function(){
+		failCall('验证失败，请检查网络连接');
+	});
+}
+
 function net_getCourseList(callback){
 	var parser = new DOMParser();
 	$.get('http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/MyCourse.jsp', function(data) {
@@ -41,6 +64,12 @@ function db_updateCourseList(courseList, args){
 		args(db_courseList);
 	}
 }
+
+function db_saveToken(username, password){
+	localStorage.setItem('learn_username', username);
+	localStorage.setItem('learn_passwd', password);
+}
+
 function db_updateList(type, List, args){
 	var choose = {
 		'deadline' : 'deadline_list',
@@ -98,7 +127,6 @@ function setState(op, node){	//allowed state = 'readed', 'unread', 'stared'
 }
 
 function mergeList(newList, oldList){
-	//TODO ddl的时候需要更新作业状态！！！！！！！！！！！！！！！！！！！！！！！
 	if (!oldList) return newList;
 	temp = {};
 	for (k in oldList){
@@ -267,17 +295,17 @@ function gui_main_updateDeadlineList(deadlineList){
 		line += '<a class="add-star" href="#" data-args="star">置顶</a>';
 		//TODO homework file's link
 		//line += '<a class="attachment-file" href="#"><i class="icon-paper-clip"></i>尚未完成</a>';
+
+		// CSS TODO review-link none
+		if (data.resultState){
+			line += '<a class="review-link" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_view.jsp?id=' + data.deadlineId + '&course_id=' + data.courseId + '">查看批阅</a>';
+		}
+		else if (data.submit_state != '尚未提交'){
+			line += '<a class="review-link none">尚未批阅</a>';
+		}
+
 		line += '<a target="content-frame" class="course-name" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_brw.jsp?course_id=' + data.courseId + '">' + data.courseName.replace(/\(\d+\)\(.*$/, '') + '</a>';
 		line += '</div>';
-
-		/*
-		if (data.resultState){
-			line += '<a class="hw-review-link" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_view.jsp?id=' + data.deadlineId + '&course_id=' + data.courseId + '">查看批阅</a>';
-		}
-		else{
-			line += '<span class="hw-review-none" >未批阅</span>';
-		}
-		*/
 		line += '</li>';
 		GUIList.append($(line));
 	}
@@ -490,12 +518,32 @@ function updateData(update, list_update){
 	processNotificationList(update, gui_main_updateNotificationList);
 }
 
+function changeToken(){
+	var username = $('#token-username').val();
+	var password = $('#token-password').val();
+	net_vaildToken(username, password, 
+			function(){
+				db_saveToken(username, password);
+				// update gui
+				$('#my-modal').modal('hide');
+			},
+			function(msg){
+				console.log(msg);
+				alert(msg);
+			}
+		);
+}
+
 function Init_main(update){
 	updateData(update);
 	$('#option-clear-cache').click(clearCache);
 	$('#option-set-all-read').click(setAllReaded);
 	$('#option-force-reload-all').click(function(){
 		updateData(true, true);
+	});
+	$('#token-submit').click(changeToken);
+	$('#option-change-token').click(function(){
+	   $('#my-modal').modal('show');
 	});
     $('#my-modal').modal({
       title: '<i class="icon-signin"></i> 登录',

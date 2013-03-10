@@ -29,7 +29,7 @@
 				<li class="folder"><a href="#" id="option-set-all-read"><i class="icon-envelope"></i> 将全部设为已读</a></li>
 				<li class="folder"><a href="#" id="option-force-reload-all"><i class="icon-refresh"></i> 强制刷新</a></li>
 				<li class="folder"><a href="#" id="option-clear-cache"><i class="icon-trash"></i> 清空缓存</a></li>
-        <li class="folder"><a href="updateToken.html" target="content-frame"><i class="icon-user"></i> 更换用户名密码</a></li>
+				<li class="folder"><a href="#" id="option-change-token"><i class="icon-user"></i> 更换用户名密码</a></li>
 			</ul>
 		</div>
 
@@ -51,13 +51,13 @@
 			<div id="my-modal">
 				<form class="form-styled">
 					<div class="field">
-						<input type="text" placeholder="用户名" />
+						<input id="token-username" type="text" placeholder="用户名" />
 					</div>
 					<div class="field">
-						<input type="password" placeholder="密码" />
+						<input id="token-password" type="password" placeholder="密码" />
 					</div>
 					<div class="field">
-						<input type="submit" class="btn" value="登录" />
+						<input id="token-submit" type="submit" class="btn" value="登录" />
 					</div>
 				</form>
 			</div>
