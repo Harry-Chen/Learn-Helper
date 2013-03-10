@@ -396,35 +396,41 @@ function gui_main_updateNotificationList(notificationList){
 	gui_main_updatePopupNumber('notification', counter);
 }
 
-function processCourseList(update, callback){	// update list when var update = true or no cache, callback function called with a list.
+function processCourseList(update, callback, progressCallback){	// update list when var update = true or no cache, callback function called with a list.
+  progressCallback && progressCallback(1);
 	var courseList = localStorage.course_list;
 	if (!courseList || update){
-		net_getCourseList(callback);
+		net_getCourseList(progressCallback ? function() { callback.apply(this, arguments); progressCallback(1); } : callback);
 		return;
 	}
 	courseList = JSON.parse(courseList);
 	callback(courseList);
+  progressCallback && progressCallback(1);
 }
 
-function processDeadlineList(update, callback){
+function processDeadlineList(update, callback, progressCallback){
 	$('#nearby-deadline li').remove();
+  progressCallback && progressCallback(0);
 	var deadlineList = localStorage.deadline_list;
 	if (!deadlineList || update){
-		traverseCourse('deadline', callback, print);
+		traverseCourse('deadline', callback, progressCallback);
 		return;
 	}
 	deadlineList = JSON.parse(deadlineList);
 	callback(deadlineList);
+  progressCallback && progressCallback(1);
 }
-function processNotificationList(update, callback){
+function processNotificationList(update, callback, progressCallback){
+  progressCallback && progressCallback(0);
 	$('#category-heading li').remove();
 	var notificationList = localStorage.notification_list;
 	if (!notificationList || update){
-		traverseCourse('notification', callback, print);
+		traverseCourse('notification', callback, progressCallback);
 		return;
 	}
 	notificationList = JSON.parse(notificationList);
 	callback(notificationList);
+  progressCallback && progressCallback(1);
 }
 
 function filterCourse(list, type){	//type = 'deadline' / 'notification'
@@ -531,17 +537,34 @@ function errorHandeler(msg){
 }
 
 function updateData(update, list_update){
+  setLoading(0, '.pane-message');
+  setLoading(0, '.pane-folder');
+  var progress = [0, 0];
+
 	if (update || list_update){
 		net_login(function(){
-			processCourseList(list_update ? true : false, gui_main_updateCourseList);
-			processDeadlineList(update, gui_main_updateDeadlineList);
-			processNotificationList(update, gui_main_updateNotificationList);
+      setLoading(1.0 / 3, '.pane-message');
+			processCourseList(list_update ? true : false, gui_main_updateCourseList, function(p) { setLoading(p, '.pane-folder'); });
+			processDeadlineList(update, gui_main_updateDeadlineList, function(p) {
+        progress[0] = p;
+        setLoading((progress[0] + progress[1] + 1) / 3, '.pane-message');
+      });
+			processNotificationList(update, gui_main_updateNotificationList, function(p) {
+        progress[1] = p;
+        setLoading((progress[0] + progress[1] + 1) / 3, '.pane-message');
+      });
 		});
 		return;
 	}
-	processCourseList(list_update ? true : false, gui_main_updateCourseList);
-	processDeadlineList(update, gui_main_updateDeadlineList);
-	processNotificationList(update, gui_main_updateNotificationList);
+	processCourseList(list_update ? true : false, gui_main_updateCourseList, function(p) { setLoading(p, '.pane-folder'); });
+	processDeadlineList(update, gui_main_updateDeadlineList, function(p) {
+    progress[0] = p;
+    setLoading((progress[0] + progress[1]) / 2, '.pane-message');
+  });
+	processNotificationList(update, gui_main_updateNotificationList, function(p) {
+    progress[1] = p;
+    setLoading((progress[0] + progress[1]) / 2, '.pane-message');
+  });
 }
 
 function changeToken(){

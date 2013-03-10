@@ -17,7 +17,6 @@
       $loading.removeClass('is-visible');
       $loading.css('font-size', '100px');
     }
-    console.log(progress);
   }
 
 })();

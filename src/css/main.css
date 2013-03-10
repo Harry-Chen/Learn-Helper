@@ -1347,8 +1347,6 @@ body {
   height: 0;
   -webkit-transition: height 0.2s linear;
   transition: height 0.2s linear;
-  -webkit-transition-delay: 0, 0.2s;
-  transition-delay: 0, 0.2s;
 }
 .pane-message .loading::before {
   content: "";
@@ -1376,7 +1374,6 @@ body {
   top: 50%;
   left: 50%;
   height: 18px;
-  width: 280px;
   margin-top: -9px;
   margin-left: -140px;
   -webkit-border-radius: 9px;
