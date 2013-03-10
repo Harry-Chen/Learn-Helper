@@ -126,13 +126,15 @@
       border-radius 3px
       vertical-align middle
 
+      $tag-color = $brand-blue
+
       if $theme-flat
-        background $brand-blue
+        background $tag-color
       else
-        background linear-gradient($brand-blue, darken($brand-blue, 10%))
-        box-shadow inset 0 1px 0px lighten($brand-blue, 20%)
-        text-shadow 0 -1px 0px darken($brand-blue, 20%)
-        border 1px solid darken($brand-blue, 20%)
+        background linear-gradient($tag-color, darken($tag-color, 10%))
+        box-shadow inset 0 1px 0px lighten($tag-color, 20%)
+        text-shadow 0 -1px 0px darken($tag-color, 20%)
+        border 1px solid darken($tag-color, 20%)
 
     &.is-important .tag
       $red = #F66

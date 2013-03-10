@@ -249,6 +249,7 @@ function gui_main_updateDeadlineList(deadlineList){
 		line += ((data.submit_state == '已经提交')?'is-submitted' :'') + ' ';
 		line += '" data-args=' + id + '> '
 
+<<<<<<< HEAD
 		line += '<a class="title" target="content-frame" data-args="read" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_detail.jsp?id=' + data.deadlineId + '&course_id=' + data.courseId + '">';
 		if (data.submit_state == '已经提交'){
 			line += '<span class="tag"><i class="icon-check"></i>';
@@ -259,6 +260,9 @@ function gui_main_updateDeadlineList(deadlineList){
 			line += dueDays;
 		}
 		line += '</span>' + data.name + '</a>';
+=======
+		line += '<a class="title" target="content-frame" data-args="read" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_detail.jsp?id=' + data.deadlineId + '&course_id=' + data.courseId + '"><span class="tag"><i class="icon-pencil"></i>' + (dueDays  >= 0 ? (' ' + dueDays): '')+ '</span> ' + data.name + '</a>';
+>>>>>>> b8502c119de5faab77bfdc36056652364f739d03
 
 		line += '<span class="description">' + new Date(data.end).Format("yyyy-MM-dd") + ' - ' + data.submit_state + '</span>';
 		
