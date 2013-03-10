@@ -579,18 +579,8 @@ function initMain(update){
 	   $('#token-modal').modal({ closable: true }).modal('show');
 	});
 
-	$('#token-modal').modal({
-		title: '<i class="icon-signin"></i> 登录'
-	});
 	$('#token-form').on('submit', function() { changeToken(); return false; });
 
-	$('#msg-modal').modal({
-		title: '<i class="icon-info"></i> 通知'
-	});
-	$('#net-error-modal').modal({
-		title: '<i class="icon-info"></i> 网络错误',
-		closable : false
-	});
 	$('#net-error-reload-btn').click(function(){
 		location.reload();
 	});
@@ -606,5 +596,16 @@ function setAllReaded(){
 }
 //Start
 $(function(){
+	$('#token-modal').modal({
+		title: '<i class="icon-signin"></i> 登录'
+	});
+	$('#msg-modal').modal({
+		title: '<i class="icon-info"></i> 通知'
+	});
+	$('#net-error-modal').modal({
+		title: '<i class="icon-info"></i> 网络错误',
+		closable : false
+	});
+
 	initMain(true);
 });
