@@ -537,33 +537,40 @@ function errorHandeler(msg){
 }
 
 function updateData(update, list_update){
-  setLoading(0, '.pane-message');
-  setLoading(0, '.pane-folder');
-  var progress = [0, 0];
+  $folder = $('.pane-folder');
+  setLoading(0, $folder);
+  var progress = [0, 0, 0];
 
 	if (update || list_update){
 		net_login(function(){
-      setLoading(1.0 / 3, '.pane-message');
-			processCourseList(list_update ? true : false, gui_main_updateCourseList, function(p) { setLoading(p, '.pane-folder'); });
-			processDeadlineList(update, gui_main_updateDeadlineList, function(p) {
+      setLoading(1.0 / 4, $folder);
+
+			processCourseList(list_update ? true : false, gui_main_updateCourseList, function(p) {
         progress[0] = p;
-        setLoading((progress[0] + progress[1] + 1) / 3, '.pane-message');
+        setLoading((progress[0] + progress[1] + progress[2] + 1) / 4, $folder);
+      });
+			processDeadlineList(update, gui_main_updateDeadlineList, function(p) {
+        progress[1] = p;
+        setLoading((progress[0] + progress[1] + progress[2] + 1) / 4, $folder);
       });
 			processNotificationList(update, gui_main_updateNotificationList, function(p) {
-        progress[1] = p;
-        setLoading((progress[0] + progress[1] + 1) / 3, '.pane-message');
+        progress[2] = p;
+        setLoading((progress[0] + progress[1] + progress[2] + 1) / 4, $folder);
       });
 		});
 		return;
 	}
-	processCourseList(list_update ? true : false, gui_main_updateCourseList, function(p) { setLoading(p, '.pane-folder'); });
-	processDeadlineList(update, gui_main_updateDeadlineList, function(p) {
+	processCourseList(list_update ? true : false, gui_main_updateCourseList, function(p) {
     progress[0] = p;
-    setLoading((progress[0] + progress[1]) / 2, '.pane-message');
+    setLoading((progress[0] + progress[1] + progress[2]) / 3, $folder);
+  });
+	processDeadlineList(update, gui_main_updateDeadlineList, function(p) {
+    progress[1] = p;
+    setLoading((progress[0] + progress[1] + progress[2]) / 3, $folder);
   });
 	processNotificationList(update, gui_main_updateNotificationList, function(p) {
-    progress[1] = p;
-    setLoading((progress[0] + progress[1]) / 2, '.pane-message');
+    progress[2] = p;
+    setLoading((progress[0] + progress[1] + progress[2]) / 3, $folder);
   });
 }
 
