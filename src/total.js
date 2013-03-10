@@ -284,9 +284,9 @@ function gui_main_updateDeadlineList(deadlineList){
 			line += '<span class="tag"><i class="icon-pencil"></i>';
 		}
 		if (dueDays > 0){
-			line += dueDays;
+			line += ' ' + dueDays;
 		}
-		line += '</span>' + data.name + '</a>';
+		line += '</span> ' + data.name + '</a>';
 
 		line += '<span class="description">' + new Date(data.end).Format("yyyy-MM-dd") + ' - ' + data.submit_state + '</span>';
 		
