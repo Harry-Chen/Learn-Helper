@@ -4,7 +4,7 @@ function net_login(){
 	var username = localStorage.getItem('learn_username');
 	var password = localStorage.getItem('learn_passwd');
 	if (!(username && password)){
-		errorHandeler('no account set');
+   $('#my-modal').modal('show');
 		return;
 	}
 	$.post("https://learn.tsinghua.edu.cn/MultiLanguage/lesson/teacher/loginteacher.jsp", 
@@ -545,10 +545,6 @@ function Init_main(update){
 	$('#option-change-token').click(function(){
 	   $('#my-modal').modal('show');
 	});
-    $('#my-modal').modal({
-      title: '<i class="icon-signin"></i> 登录',
-      closable: false
-    });
 	
 }
 function setAllReaded(){
@@ -558,5 +554,9 @@ function setAllReaded(){
 }
 //Start
 $(function(){
+  $('#my-modal').modal({
+    title: '<i class="icon-signin"></i> 登录',
+    closable: false
+  });
 	Init_main(true);
 });
