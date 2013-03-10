@@ -119,30 +119,49 @@
           &::before
             content none
 
-    .tag
-      color #FFF
-      font-size 0.7rem
-      padding 0 5px
-      border-radius 3px
-      vertical-align middle
-
-      $tag-color = $brand-blue
+    tag($tag-color, $dark-text=false)
+      if $dark-text
+        color mix(#000, $tag-color, 80%)
+      else
+        color mix(#FFF, $tag-color, 80%)
 
       if $theme-flat
         background $tag-color
       else
         background linear-gradient($tag-color, darken($tag-color, 10%))
         box-shadow inset 0 1px 0px lighten($tag-color, 20%)
-        text-shadow 0 -1px 0px darken($tag-color, 20%)
+        if $dark-text
+          text-shadow 0 1px 0px lighten($tag-color, 20%)
+        else
+          text-shadow 0 -1px 0px darken($tag-color, 20%)
         border 1px solid darken($tag-color, 20%)
 
-    &.is-important .tag
-      $red = #F66
-      if $theme-flat
-        background $red
-      else
-        background linear-gradient($red, darken($red, 10%))
-        box-shadow inset 0 1px 0px lighten($red, 20%)
-        text-shadow 0 -1px 0px darken($red, 20%)
-        border 1px solid darken($red, 20%)
+    .tag
+      font-size 0.7rem
+      padding 0 5px
+      border-radius 3px
+      vertical-align middle
+
+      tag($brand-blue)
+
+      &.theme-red
+        tag(#E00)
+
+      &.theme-yellow
+        tag(#EE0, true)
+
+      &.theme-orange
+        tag(#E60)
+
+      &.theme-green
+        tag(#4A4)
+
+      &.theme-purple
+        tag(#92D)
+
+      &.theme-white
+        tag(#EEE, true)
+
+      &.theme-black
+        tag(#666)
 
