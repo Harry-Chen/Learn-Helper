@@ -582,7 +582,7 @@ function initMain(update){
 	$('#token-modal').modal({
 		title: '<i class="icon-signin"></i> 登录'
 	});
-	$('#token-submit').click(changeToken);
+	$('#token-form').on('submit', function() { changeToken(); return false; });
 
 	$('#msg-modal').modal({
 		title: '<i class="icon-info"></i> 通知'
