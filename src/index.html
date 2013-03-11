@@ -16,6 +16,34 @@
 	</head>
 	<body>
 		<div class="pane-folder">
+
+
+
+			<ul class="folder-list">
+        <li class="folder-heading">
+          <i class="icon-pushpin"></i> 通知汇总
+        </li>
+        <li class="folder">
+          <a href="#">
+            <i class="icon-home"></i> 主页
+            <span class="unread-count">6</span>
+          </a>
+        </li>
+        <li class="folder">
+          <a href="#">
+            <i class="icon-bell-alt"></i> 所有通知
+            <span class="unread-count">6</span>
+          </a>
+        </li>
+        <li class="folder">
+          <a href="#">
+            <i class="icon-folder-open"></i> 所有作业
+            <span class="unread-count">6</span>
+          </a>
+        </li>
+      </ul>
+
+
 			<ul id="course-list" class="folder-list">
 				<li class="folder-heading">
 				<i class="icon-inbox"></i>
@@ -25,13 +53,19 @@
 
 			<ul class="folder-list">
 				<li class="folder-heading">
-				<i class="icon-wrench"></i> 设置
+          <i class="icon-wrench"></i> 设置
 				</li>
 				<li class="folder"><a href="exception.html" target="content-frame"><i class="icon-cog"></i> 添加忽略项</a></li>
-				<li class="folder"><a href="#" id="option-set-all-read"><i class="icon-envelope"></i> 将全部设为已读</a></li>
+				<li class="folder"><a href="#" id="option-set-all-read"><i class="icon-envelope-alt"></i> 将全部设为已读</a></li>
 				<li class="folder"><a href="#" id="option-force-reload-all"><i class="icon-refresh"></i> 强制刷新</a></li>
-				<li class="folder"><a href="#" id="option-clear-cache"><i class="icon-trash"></i> 清空缓存</a></li>
 				<li class="folder"><a href="#" id="option-change-token"><i class="icon-user"></i> 更换用户名密码</a></li>
+        <li class="folder">
+          <a href="#"><i class="icon-cogs"></i> 其他设置</a>
+
+          <ul class="subfolder">
+            <li><a href="#" id="option-clear-cache"><i class="icon-trash"></i> 清空缓存</a></li>
+          </ul>
+        </li>
 			</ul>
 		</div>
 
