@@ -35,13 +35,17 @@
 		</div>
 
 		<div class="pane-message">
+			<div class="category-heading">What's New</div>
+			<ol id="js-new" class="message-list">
+				<li class="message-loading">Loading...</li>
+			</ol>
 			<div class="category-heading">Nearby Deadline</div>
 			<ol id="nearby-deadline" class="message-list">
-        <li class="message-loading">Loading...</li>
+				<li class="message-loading">Loading...</li>
 			</ol>
-			<div class="category-heading">What's New</div>
+			<div class="category-heading">Notification</div>
 			<ol id="category-heading" class="message-list">
-        <li class="message-loading">Loading...</li>
+				<li class="message-loading">Loading...</li>
 			</ol>
 
 			</div>
@@ -70,10 +74,11 @@
 					<input id="msg-ok" type="submit" class="btn" value="知道了" />
 				</div>
 			</div>
-			<div id="net-error-modal">
+			<div id="net-error-modal" style="text-align:center;">
 				网络似乎出了一点小问题~你有两个选择：
-					<button id="net-error-reload-btn" class="btn">刷新页面 </button>
-					<button id="net-error-offline-btn" class="btn">离线使用 </button>
+				<br /><br />
+				<button id="net-error-reload-btn" class="btn">刷新页面 </button>
+				<button id="net-error-offline-btn" class="btn">离线使用 </button>
 		</body>
 	</html>
 

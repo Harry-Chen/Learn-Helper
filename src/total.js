@@ -18,10 +18,10 @@ function net_login(successCall){
 }
 
 function net_vaildToken(username, password, successCall, failCall){
-	//if (!(username && password)){
-	//	failCall("请输入用户名和密码");
-	//	return;
-	//}
+	if (!(username && password)){
+		failCall("请输入用户名和密码");
+		return;
+	}
 	$.post("https://learn.tsinghua.edu.cn/MultiLanguage/lesson/teacher/loginteacher.jsp", 
 		{
 			'userid' : username,
@@ -71,7 +71,7 @@ function db_saveToken(username, password){
 	localStorage.setItem('learn_passwd', password);
 }
 
-function db_updateList(type, List, args){
+function db_updateList(type, List, args, collectCallback){
 	var choose = {
 		'deadline' : 'deadline_list',
 		'notification' : 'notification_list'
@@ -84,7 +84,7 @@ function db_updateList(type, List, args){
 	}
 	localStorage.setItem(_name, JSON.stringify(List));
 	if (args){
-		args(List);
+		args(List, collectCallback);
 	}
 }
 function setState(op, node){	//allowed state = 'readed', 'unread', 'stared'
@@ -254,44 +254,48 @@ function getTheme(dueDays, submit_state){
 	return '';
 }
 
-function gui_main_updateDeadlineList(deadlineList){
-	temp = [];
-	for (id in deadlineList){
-		temp.push(deadlineList[id]);
-	}
+function evaluation(type, entry){
+	var EXPIRED_FLAG = 2 << 13;
+	var UNREAD_FLAG = - (2 << 15);
+	var STARED_FLAG = - (2 << 16);
+	var SUBMIT_FLAG =  (2 << 8);
+	var HOMEWORK_FLAG = - (2 << 3);
+	var today = new Date();
+	var e = 0;
 	var read_status_priority = {
 		'readed' : 0,
-		'unread' : 1,
-		'stared' : 2,
+		'unread' : UNREAD_FLAG,
+		'stared' : STARED_FLAG,
 	}
-	deadlineList = temp.sort(function(a, b) {
-		if (a.state === b.state){
-			if (a.submit_state=== '尚未提交' && new Date(a.end) < new Date()) {
-				return 1;
-			}
-			if (b.submit_state=== '尚未提交' && new Date(b.end) < new Date()) {
-				return -1;
-			}
-			if (a.submit_state=== b.submit_state) {
-				return new Date(a.end) - new Date(b.end);
-			}
-			return (a.submit_state=== '尚未提交') ? -1 : 1;
+	e += read_status_priority[entry.state];
+	if (type == 'deadline'){
+		e += HOMEWORK_FLAG;
+		var dueDays = Math.floor((new Date(entry.end) - today) / (60 * 60 * 1000 * 24));
+		entry['dueDays'] = dueDays;
+		if (dueDays < 0){
+			e += EXPIRED_FLAG;
 		}
-		return read_status_priority[b.state] - read_status_priority[a.state];
-	});
-
-	var GUIList = $('#nearby-deadline');
-
-	var today = new Date();
-	var counter = 0;
-	for (var i = 0; i < deadlineList.length; i++){
-		var data = deadlineList[i];
-		var id = data.deadlineId;
-		if (data.submit_state === '尚未提交'){
-			counter += 1;
+		else{
+			e += dueDays;
 		}
-		dueDays = Math.floor((new Date(deadlineList[i].end) - today) / (60 * 60 * 1000 * 24));
-		var line = '<li class="message homework ';
+		if (entry.submit_state === '已经提交'){
+			e += SUBMIT_FLAG;
+		}
+	}
+	else if (type == 'notification'){
+		var dueDays = Math.floor((new Date(entry.day) - today) / (60 * 60 * 1000 * 24));
+		e -= dueDays;
+	}
+	entry['eval'] = e;
+	return entry;
+}
+
+function gui_main_createNewLine(data){
+	var line = '<li class="message ';
+	var id = data.deadlineId;
+	if (data.deadlineId){ // DDL
+		var dueDays = data.dueDays;
+		line += 'homework ';
 		line += 'is-' + data.state + ' ';
 		line += ((data.submit_state == '已经提交')?'is-submitted' :'') + ' ';
 		line += '" data-args=' + id + '> '
@@ -313,10 +317,9 @@ function gui_main_updateDeadlineList(deadlineList){
 		
 		line += '<div class="toolbar">';
 		line += '<a class="handin-link" target="content-frame" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_submit.jsp?id=' + data.deadlineId + '&course_id=' + data.courseId + '">提交链接</a> ' ;
-		line += '<a class="add-star" href="#" data-args="star">置顶</a>';
+		line += '<a class="add-star" href="#" data-args="star">置顶</a> ';
 		//TODO homework file's link
 		//line += '<a class="attachment-file" href="#"><i class="icon-paper-clip"></i>尚未完成</a>';
-
 		// CSS TODO review-link none
 		if (data.resultState){
 			line += '<a class="review-link" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_view.jsp?id=' + data.deadlineId + '&course_id=' + data.courseId + '">查看批阅</a>';
@@ -327,7 +330,43 @@ function gui_main_updateDeadlineList(deadlineList){
 
 		line += '<a target="content-frame" class="course-name" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_brw.jsp?course_id=' + data.courseId + '">' + data.courseName.replace(/\(\d+\)\(.*$/, '') + '</a>';
 		line += '</div>';
-		line += '</li>';
+	}
+	else { //NOTI
+		line += 'notification ';
+		line += 'is-' + data.state + ' ';
+		line += '" data-args=' + id + '> '
+
+		line += '<a class="title" target="content-frame" data-args="read" href="http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/'+data.href+'"><span class="tag"><i class="icon-bullhorn"></i></span> ' + data.name + '</a></td>';
+
+		line += '<span class="description">' + new Date(data.day).Format("yyyy-MM-dd") + '</span>';
+		line += '<div class="toolbar">';
+		line += '<a class="add-star" href="#" data-args="star">置顶</a>';
+		line += '<a class="course-name" target="content-frame" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_brw.jsp?course_id=' + data.courseId + '">' + data.courseName + '</a>';
+		line += '</div>';
+	}
+	line += '</li>';
+	return line;
+}
+
+function gui_main_updateDeadlineList(deadlineList, collectCallback){
+	temp = [];
+	for (id in deadlineList){
+		temp.push(evaluation('deadline', deadlineList[id]));
+	}
+	collectCallback(temp);
+	deadlineList = temp.sort(function(a, b) {
+			return a.eval - b.eval;
+		});
+
+	var GUIList = $('#nearby-deadline');
+	var today = new Date();
+	var counter = 0;
+	for (var i = 0; i < deadlineList.length; i++){
+		var data = deadlineList[i];
+		if (data.submit_state === '尚未提交'){
+			counter += 1;
+		}
+		var line = gui_main_createNewLine(data);
 		GUIList.append($(line));
 	}
 	$('.homework .title').click(function() {
@@ -345,42 +384,22 @@ function gui_main_updateDeadlineList(deadlineList){
 	gui_main_updatePopupNumber('deadline', counter);
 }
 
-function gui_main_updateNotificationList(notificationList){
+function gui_main_updateNotificationList(notificationList, collectCallback){
 	temp = [];
 	for (id in notificationList){
-		temp.push(notificationList[id]);
+		temp.push(evaluation('notification', notificationList[id]));
 	}
-	var priority = {
-		'readed' : 0,
-		'unread' : 1,
-		'stared' : 2,
-	};
+	collectCallback(temp);
 	notificationList= temp.sort(function(a, b) {
-		if (a.state === b.state){
-			return new Date(b.day) - new Date(a.day);
-		}
-		return priority[b.state] - priority[a.state];
+		return a.eval - b.eval;
 	});
+
 	var GUIlist = $('#category-heading');
-	var counter = 0;
 	var today = new Date();
+	var counter = 0;
 	for (var i = 0; i < notificationList.length; i++){
 		var data = notificationList[i];
-		var id = data.id;
-		
-		var line = '<li class="message notification ';
-		line += 'is-' + data.state + ' ';
-		line += '" data-args=' + id + '> '
-
-		line += '<a class="title" target="content-frame" data-args="read" href="http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/'+data.href+'"><span class="tag"><i class="icon-bullhorn"></i></span> ' + data.name + '</a></td>';
-
-		line += '<span class="description">' + new Date(data.day).Format("yyyy-MM-dd") + '</span>';
-		line += '<div class="toolbar">';
-		line += '<a class="add-star" href="#" data-args="star">置顶</a>';
-		line += '<a class="course-name" target="content-frame" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_brw.jsp?course_id=' + data.courseId + '">' + data.courseName + '</a>';
-		line += '</div>';
-
-		line += '</li>';
+		var line = gui_main_createNewLine(data);
 		GUIlist.append($(line));
 	}
 	$('.notification .title').click(function() {
@@ -396,6 +415,49 @@ function gui_main_updateNotificationList(notificationList){
 	gui_main_updatePopupNumber('notification', counter);
 }
 
+var gui_main_updateCollect = function() {
+	var notificationList;
+	var deadlineList;
+	return function _gui_main_updateCollect(instruction){
+		if (instruction === 'deadline_getter'){
+			return function(d){
+				deadlineList = d;
+				gui_main_updateCollect('update');
+			};
+		}
+		if (instruction === 'notification_getter'){
+			return function(n){
+				notificationList = n;
+				gui_main_updateCollect('update');
+			};
+		}
+		if (instruction === 'update' && notificationList && deadlineList){
+			CList = notificationList.concat(deadlineList);
+			var GUIList = $('#js-new');
+			GUIList.children().remove();
+			CList = CList.sort(function(a, b) {
+				return a.eval - b.eval;
+			});
+			console.log(CList);
+			for (var i = 0; i < CList.length && CList[i].eval < 7 && i < 20; i++){
+				var line = gui_main_createNewLine(CList[i]);
+				GUIList.append($(line));
+			}
+			$('#js-new .homework .title').click(function() {
+				var args = this.getAttribute('data-args').split(',');
+				args.push(this.parentNode);
+				setState.apply(null, args);
+			});
+			$('#js-new .homework .add-star').click(function() {
+				var args = this.getAttribute('data-args').split(',');
+				args.push(this.parentNode.parentNode);
+				setState.apply(null, args);
+			});
+		}
+}
+}();
+
+
 function processCourseList(update, callback, progressCallback){	// update list when var update = true or no cache, callback function called with a list.
   progressCallback && progressCallback(0);
 	var courseList = localStorage.course_list;
@@ -408,28 +470,28 @@ function processCourseList(update, callback, progressCallback){	// update list w
   progressCallback && progressCallback(1);
 }
 
-function processDeadlineList(update, callback, progressCallback){
+function processDeadlineList(update, callback, progressCallback, collectCallback){
 	$('#nearby-deadline li').remove();
   progressCallback && progressCallback(0);
 	var deadlineList = localStorage.deadline_list;
 	if (!deadlineList || update){
-		traverseCourse('deadline', callback, progressCallback);
+		traverseCourse('deadline', callback, progressCallback, collectCallback);
 		return;
 	}
 	deadlineList = JSON.parse(deadlineList);
-	callback(deadlineList);
-  progressCallback && progressCallback(1);
+	callback(deadlineList, collectCallback);
+	progressCallback && progressCallback(1);
 }
-function processNotificationList(update, callback, progressCallback){
+function processNotificationList(update, callback, progressCallback, collectCallback){
   progressCallback && progressCallback(0);
 	$('#category-heading li').remove();
 	var notificationList = localStorage.notification_list;
 	if (!notificationList || update){
-		traverseCourse('notification', callback, progressCallback);
+		traverseCourse('notification', callback, progressCallback ,collectCallback);
 		return;
 	}
 	notificationList = JSON.parse(notificationList);
-	callback(notificationList);
+	callback(notificationList, collectCallback);
   progressCallback && progressCallback(1);
 }
 
@@ -454,7 +516,7 @@ function filterCourse(list, type){	//type = 'deadline' / 'notification'
 // 完全完成时，调用successCallback(list)，list为总查询结构
 // progressCallback为进度汇报，返回完成百分比，0~1的实数
 // type = 'deadline' / 'notification'
-function traverseCourse(type, successCallback, progressCallback){
+function traverseCourse(type, successCallback, progressCallback, collectCallback){
 	var prefix = {
 		'deadline' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_brw.jsp',
 		'notification' : 'http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/getnoteid_student.jsp'
@@ -516,7 +578,7 @@ function traverseCourse(type, successCallback, progressCallback){
 						progressCallback(1 - unChecked / totalWorker);
 					}
 					if (unChecked === 0) {
-						db_updateList(type, lists, successCallback);
+						db_updateList(type, lists, successCallback, collectCallback);
 					}
 				}, 'html').fail(netErrorHandler);
 			};
@@ -536,42 +598,51 @@ function errorHandeler(msg){
 	alert(msg);
 }
 
+
 function updateData(update, list_update){
   $folder = $('.pane-folder');
   setLoading(0, $folder);
   var progress = [0, 0, 0];
 
-	if (update || list_update){
-		net_login(function(){
-      setLoading(1.0 / 4, $folder);
+  if (update || list_update){
+	  net_login(function(){
+		  setLoading(1.0 / 4, $folder);
 
-			processCourseList(list_update ? true : false, gui_main_updateCourseList, function(p) {
-        progress[0] = p;
-        setLoading((progress[0] + progress[1] + progress[2] + 1) / 4, $folder);
-      });
-			processDeadlineList(update, gui_main_updateDeadlineList, function(p) {
-        progress[1] = p;
-        setLoading((progress[0] + progress[1] + progress[2] + 1) / 4, $folder);
-      });
-			processNotificationList(update, gui_main_updateNotificationList, function(p) {
-        progress[2] = p;
-        setLoading((progress[0] + progress[1] + progress[2] + 1) / 4, $folder);
-      });
-		});
-		return;
-	}
-	processCourseList(list_update ? true : false, gui_main_updateCourseList, function(p) {
-    progress[0] = p;
-    setLoading((progress[0] + progress[1] + progress[2]) / 3, $folder);
+		  processCourseList(list_update ? true : false, gui_main_updateCourseList, function(p) {
+			  progress[0] = p;
+			  setLoading((progress[0] + progress[1] + progress[2] + 1) / 4, $folder);
+		  });
+		  processDeadlineList(update, gui_main_updateDeadlineList, function(p) {
+			  progress[1] = p;
+			  setLoading((progress[0] + progress[1] + progress[2] + 1) / 4, $folder);
+		  }, 
+		  gui_main_updateCollect('deadline_getter')
+		  );
+		  processNotificationList(update, gui_main_updateNotificationList, function(p) {
+			  progress[2] = p;
+			  setLoading((progress[0] + progress[1] + progress[2] + 1) / 4, $folder);
+		  },
+		  gui_main_updateCollect('notification_getter')
+		  );
+	  });
+	  return;
+  }
+  processCourseList(list_update ? true : false, gui_main_updateCourseList, function(p) {
+	  progress[0] = p;
+	  setLoading((progress[0] + progress[1] + progress[2]) / 3, $folder);
   });
-	processDeadlineList(update, gui_main_updateDeadlineList, function(p) {
-    progress[1] = p;
-    setLoading((progress[0] + progress[1] + progress[2]) / 3, $folder);
-  });
-	processNotificationList(update, gui_main_updateNotificationList, function(p) {
-    progress[2] = p;
-    setLoading((progress[0] + progress[1] + progress[2]) / 3, $folder);
-  });
+  processDeadlineList(update, gui_main_updateDeadlineList, function(p) {
+	  progress[1] = p;
+	  setLoading((progress[0] + progress[1] + progress[2]) / 3, $folder);
+  }, 
+  gui_main_updateCollect('deadline_getter')
+  );
+  processNotificationList(update, gui_main_updateNotificationList, function(p) {
+	  progress[2] = p;
+	  setLoading((progress[0] + progress[1] + progress[2]) / 3, $folder);
+  },
+  gui_main_updateCollect('notification_getter')
+  );
 }
 
 function changeToken(){
@@ -599,7 +670,16 @@ function changeToken(){
 }
 
 function initMain(update){
-	updateData(update);
+	$('#token-modal').modal({
+		title: '<i class="icon-signin"></i> 登录'
+	});
+	$('#msg-modal').modal({
+		title: '<i class="icon-info-sign"></i> 通知'
+	});
+	$('#net-error-modal').modal({
+		title: '<i class="icon-warning-sign"></i> 网络错误',
+		closable : false
+	});
 	$('#option-clear-cache').click(clearCache);
 	$('#option-set-all-read').click(setAllReaded);
 	$('#option-force-reload-all').click(function(){
@@ -616,7 +696,10 @@ function initMain(update){
 	});
 	$('#net-error-offline-btn').click(function(){
 		$('#net-error-modal').modal('hide');
+		initMain(false);
 	});
+	
+	updateData(update);
 
 }
 function setAllReaded(){
@@ -626,15 +709,5 @@ function setAllReaded(){
 }
 //Start
 $(function(){
-	$('#token-modal').modal({
-		title: '<i class="icon-signin"></i> 登录'
-	});
-	$('#msg-modal').modal({
-		title: '<i class="icon-info"></i> 通知'
-	});
-	$('#net-error-modal').modal({
-		title: '<i class="icon-info"></i> 网络错误',
-		closable : false
-	});
-	initMain(true);
+	initMain(false);
 });
