@@ -28,26 +28,42 @@
     transition border-color 0.2s linear
 
     &:focus
-      border-color #999
-      box-shadow inset 0 0 3px #999
+      if $theme-flat
+        border-color #666
+      else
+        border-color #999
+        box-shadow inset 0 0 3px #999
 
 .btn
   border-radius 3px
-  background linear-gradient($brand-blue, darken($brand-blue, 20%)) repeat-x darken($brand-blue, 20%)
-  box-shadow inset 0 1px 0px lighten($brand-blue, 20%)
-  text-shadow 0 -1px 0px darken($brand-blue, 30%)
-  border 1px solid darken($brand-blue, 20%)
+
+  if $theme-flat
+    background $brand-blue
+    border 1px solid darken($brand-blue, 20%)
+    transition background-color 0.2s linear
+  else
+    background linear-gradient($brand-blue, darken($brand-blue, 20%)) repeat-x darken($brand-blue, 20%)
+    box-shadow inset 0 1px 0px lighten($brand-blue, 20%)
+    text-shadow 0 -1px 0px darken($brand-blue, 30%)
+    border 1px solid darken($brand-blue, 20%)
+    transition background-position 0.2s linear
+
   color #FFF
   padding 5px 20px
-  transition background-position 0.2s linear
 
   &:hover,
   &:focus
-    background-position 0 -1em
+    if $theme-flat
+      background darken($brand-blue, 20%)
+    else
+      background-position 0 -1em
 
   &:active
-    transition none
-    background linear-gradient(darken($brand-blue, 20%), darken($brand-blue, 10%))
-    background-position 0 0
+    if $theme-flat
+      background darken($brand-blue, 10%)
+    else
+      transition none
+      background linear-gradient(darken($brand-blue, 20%), darken($brand-blue, 10%))
+      background-position 0 0
 
 

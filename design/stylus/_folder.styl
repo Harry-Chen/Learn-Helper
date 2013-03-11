@@ -16,6 +16,8 @@ $loading-height = 50px
     margin 0
     padding 0
     font-size 0.8rem
+    if $theme-flat
+      padding-bottom 5px
 
     .folder-heading
       if $theme-flat
@@ -74,7 +76,8 @@ $loading-height = 50px
     font-size 0.7rem
     display none
     background darken($folder-background, 40%)
-    box-shadow inset 0 0 4px rgba(#000, 0.5)
+    if not $theme-flat
+      box-shadow inset 0 0 4px rgba(#000, 0.5)
 
     a
       padding 5px 30px 5px 26px
@@ -114,9 +117,12 @@ $loading-height = 50px
     height 0
     transition height 0.2s linear
 
-    background linear-gradient(lighten($folder-background, 12%), lighten($folder-background, 10%))
-    box-shadow inset 0  1px 0 lighten($folder-background, 20%), \
-               inset 0 -1px 0 darken($folder-background, 10%)
+    if $theme-flat
+      background lighten($folder-background, 10%)
+    else
+      background linear-gradient(lighten($folder-background, 12%), lighten($folder-background, 10%))
+      box-shadow inset 0  1px 0 lighten($folder-background, 20%), \
+                 inset 0 -1px 0 darken($folder-background, 10%)
 
     $loading-height = 18px
 
@@ -129,9 +135,13 @@ $loading-height = 50px
       margin-left (-0.5 * @width)
       border-radius (0.5 * @height)
       box-sizing border-box
-      border 1px solid darken($folder-background, 40%)
-      background linear-gradient(darken($folder-background, 30%), darken($folder-background, 10%))
-      box-shadow inset 0 0 2px darken($folder-background, 40%)
+
+      if $theme-flat
+        background darken($folder-background, 30%)
+      else
+        border 1px solid darken($folder-background, 40%)
+        background linear-gradient(darken($folder-background, 30%), darken($folder-background, 10%))
+        box-shadow inset 0 0 2px darken($folder-background, 40%)
 
     &::after
       content ""
@@ -148,9 +158,12 @@ $loading-height = 50px
       box-sizing border-box
 
       $loading-color = $brand-blue
-      background linear-gradient($loading-color, darken($loading-color, 10%))
-      box-shadow inset 0 1px 0px lighten($loading-color, 20%)
-      border 1px solid darken($loading-color, 80%)
+      if $theme-flat
+        background $loading-color
+      else
+        background linear-gradient($loading-color, darken($loading-color, 10%))
+        box-shadow inset 0 1px 0px lighten($loading-color, 20%)
+        border 1px solid darken($loading-color, 80%)
 
     &.is-visible
       height $loading-wrap-height

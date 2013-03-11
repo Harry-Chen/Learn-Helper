@@ -848,12 +848,12 @@ ul.icons li [class^="icon-"],ul.icons li [class*=" icon-"] {
 #theme.highlight,
 .pane-folder .folder-list a:hover,
 .pane-folder .folder-list a:focus {
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #4184ef), color-stop(1, #2572ed));
-  background: -webkit-linear-gradient(top, #4184ef 0%, #2572ed 100%);
-  background: linear-gradient(top, #4184ef 0%, #2572ed 100%);
-  -webkit-box-shadow: inset 0 1px 0 #5490f1, inset 0 -1px 0 #1362e0;
-  box-shadow: inset 0 1px 0 #5490f1, inset 0 -1px 0 #1362e0;
-  text-shadow: 0 1px 1px #0c3d8c;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #28f), color-stop(1, #0578ff));
+  background: -webkit-linear-gradient(top, #28f 0%, #0578ff 100%);
+  background: linear-gradient(top, #28f 0%, #0578ff 100%);
+  -webkit-box-shadow: inset 0 1px 0 #3894ff, inset 0 -1px 0 #006be7;
+  box-shadow: inset 0 1px 0 #3894ff, inset 0 -1px 0 #006be7;
+  text-shadow: 0 1px 1px #004391;
   color: #fff;
 }
 html,
@@ -991,28 +991,28 @@ body {
 .btn {
   -webkit-border-radius: 3px;
   border-radius: 3px;
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #4184ef), color-stop(1, #1362e0)) repeat-x #1362e0;
-  background: -webkit-linear-gradient(top, #4184ef 0%, #1362e0 100%) repeat-x #1362e0;
-  background: linear-gradient(top, #4184ef 0%, #1362e0 100%) repeat-x #1362e0;
-  -webkit-box-shadow: inset 0 1px 0px #679df2;
-  box-shadow: inset 0 1px 0px #679df2;
-  text-shadow: 0 -1px 0px #1156c4;
-  border: 1px solid #1362e0;
-  color: #fff;
-  padding: 5px 20px;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #28f), color-stop(1, #006be7)) repeat-x #006be7;
+  background: -webkit-linear-gradient(top, #28f 0%, #006be7 100%) repeat-x #006be7;
+  background: linear-gradient(top, #28f 0%, #006be7 100%) repeat-x #006be7;
+  -webkit-box-shadow: inset 0 1px 0px #4ea0ff;
+  box-shadow: inset 0 1px 0px #4ea0ff;
+  text-shadow: 0 -1px 0px #005dca;
+  border: 1px solid #006be7;
   -webkit-transition: background-position 0.2s linear;
   transition: background-position 0.2s linear;
+  color: #fff;
+  padding: 5px 20px;
 }
 .btn:hover,
 .btn:focus {
   background-position: 0 -1em;
 }
 .btn:active {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #006be7), color-stop(1, #0578ff));
+  background: -webkit-linear-gradient(top, #006be7 0%, #0578ff 100%);
   -webkit-transition: none;
   transition: none;
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #1362e0), color-stop(1, #2572ed));
-  background: -webkit-linear-gradient(top, #1362e0 0%, #2572ed 100%);
-  background: linear-gradient(top, #1362e0 0%, #2572ed 100%);
+  background: linear-gradient(top, #006be7 0%, #0578ff 100%);
   background-position: 0 0;
 }
 .pane-folder {
@@ -1091,12 +1091,12 @@ body {
 }
 .pane-folder .folder-list a:hover .unread-count,
 .pane-folder .folder-list a:focus .unread-count {
-  color: #b3cef9;
+  color: #a7cfff;
   text-shadow: none;
-  background: #1156c4;
-  -webkit-box-shadow: inset 0 1px 2px #093170;
-  box-shadow: inset 0 1px 2px #093170;
-  text-shadow: 0 -1px 0 #093170;
+  background: #005dca;
+  -webkit-box-shadow: inset 0 1px 2px #003574;
+  box-shadow: inset 0 1px 2px #003574;
+  text-shadow: 0 -1px 0 #003574;
 }
 .pane-folder .subfolder {
   list-style: none;
@@ -1147,9 +1147,9 @@ body {
   border-radius: 9px;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  border: 1px solid #161519;
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #1a181d), color-stop(1, #211f26));
   background: -webkit-linear-gradient(top, #1a181d 0%, #211f26 100%);
+  border: 1px solid #161519;
   background: linear-gradient(top, #1a181d 0%, #211f26 100%);
   -webkit-box-shadow: inset 0 0 2px #161519;
   box-shadow: inset 0 0 2px #161519;
@@ -1168,12 +1168,12 @@ body {
   width: 1.68em;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #4184ef), color-stop(1, #2572ed));
-  background: -webkit-linear-gradient(top, #4184ef 0%, #2572ed 100%);
-  background: linear-gradient(top, #4184ef 0%, #2572ed 100%);
-  -webkit-box-shadow: inset 0 1px 0px #679df2;
-  box-shadow: inset 0 1px 0px #679df2;
-  border: 1px solid #051838;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #28f), color-stop(1, #0578ff));
+  background: -webkit-linear-gradient(top, #28f 0%, #0578ff 100%);
+  background: linear-gradient(top, #28f 0%, #0578ff 100%);
+  -webkit-box-shadow: inset 0 1px 0px #4ea0ff;
+  box-shadow: inset 0 1px 0px #4ea0ff;
+  border: 1px solid #001b3a;
 }
 .pane-folder .loading.is-visible {
   height: 50px;
@@ -1222,12 +1222,12 @@ body {
   font-size: 0.8rem;
 }
 .pane-message .message a {
-  color: #4184ef;
+  color: #28f;
   text-decoration: none;
 }
 .pane-message .message a:hover,
 .pane-message .message a:focus {
-  color: #1156c4;
+  color: #005dca;
 }
 .pane-message .message .title::before {
   width: 0.6rem;
@@ -1246,12 +1246,12 @@ body {
 }
 .pane-message .message.is-unread .title::before {
   content: "";
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #4184ef), color-stop(1, #2572ed));
-  background: -webkit-linear-gradient(top, #4184ef 0%, #2572ed 100%);
-  background: linear-gradient(top, #4184ef 0%, #2572ed 100%);
-  -webkit-box-shadow: inset 0 1px 1px #8db5f5;
-  box-shadow: inset 0 1px 1px #8db5f5;
-  border: 1px solid #1769eb;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #28f), color-stop(1, #0578ff));
+  background: -webkit-linear-gradient(top, #28f 0%, #0578ff 100%);
+  background: linear-gradient(top, #28f 0%, #0578ff 100%);
+  -webkit-box-shadow: inset 0 1px 1px #7ab8ff;
+  box-shadow: inset 0 1px 1px #7ab8ff;
+  border: 1px solid #0071f6;
 }
 .pane-message .message.is-stared .title::before {
   content: "";
@@ -1264,7 +1264,7 @@ body {
 }
 .pane-message .message .title {
   display: block;
-  color: #4184ef;
+  color: #28f;
   text-decoration: none;
   font-size: 1rem;
   margin-bottom: 5px;
@@ -1274,7 +1274,7 @@ body {
 }
 .pane-message .message .title:hover,
 .pane-message .message .title:focus {
-  color: #1156c4;
+  color: #005dca;
 }
 .pane-message .message .toolbar {
   font-size: 0.7rem;
@@ -1313,14 +1313,14 @@ body {
   -webkit-border-radius: 3px;
   border-radius: 3px;
   vertical-align: middle;
-  color: #d9e6fb;
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #4184ef), color-stop(1, #2572ed));
-  background: -webkit-linear-gradient(top, #4184ef 0%, #2572ed 100%);
-  background: linear-gradient(top, #4184ef 0%, #2572ed 100%);
-  -webkit-box-shadow: inset 0 1px 0px #679df2;
-  box-shadow: inset 0 1px 0px #679df2;
-  text-shadow: 0 -1px 0px #1362e0;
-  border: 1px solid #1362e0;
+  color: #d2e7ff;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #28f), color-stop(1, #0578ff));
+  background: -webkit-linear-gradient(top, #28f 0%, #0578ff 100%);
+  background: linear-gradient(top, #28f 0%, #0578ff 100%);
+  -webkit-box-shadow: inset 0 1px 0px #4ea0ff;
+  box-shadow: inset 0 1px 0px #4ea0ff;
+  text-shadow: 0 -1px 0px #006be7;
+  border: 1px solid #006be7;
 }
 .pane-message .message .tag.theme-red {
   color: #fbcccc;
@@ -1391,6 +1391,11 @@ body {
   box-shadow: inset 0 1px 0px #858585;
   text-shadow: 0 -1px 0px #525252;
   border: 1px solid #525252;
+}
+.pane-message .message-loading {
+  text-align: center;
+  padding: 10px;
+  color: #999;
 }
 .pane-content {
   position: absolute;
