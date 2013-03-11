@@ -397,7 +397,7 @@ function gui_main_updateNotificationList(notificationList){
 }
 
 function processCourseList(update, callback, progressCallback){	// update list when var update = true or no cache, callback function called with a list.
-  progressCallback && progressCallback(1);
+  progressCallback && progressCallback(0);
 	var courseList = localStorage.course_list;
 	if (!courseList || update){
 		net_getCourseList(progressCallback ? function() { callback.apply(this, arguments); progressCallback(1); } : callback);
