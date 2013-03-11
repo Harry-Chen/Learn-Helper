@@ -233,7 +233,7 @@ function gui_main_updateCourseList(courseList){
 	}
 }
 function gui_main_updatePopupNumber(type, number){
-	$('#' + type + '-counter').text(number);
+	$('#unread-' + type).text(number);
 }
 function getTheme(dueDays, submit_state){
 	var prefix = 'theme-';
@@ -671,6 +671,15 @@ function changeToken(){
 			}
 		);
 }
+function gui_main_switchPage(page){
+	console.log(page);
+	panelList = ['notification-page', 'deadline-page', 'main-page'];
+	for (var i in panelList){
+		var entry = panelList[i];
+		$('#' + entry).hide();
+	}
+	$('#' + page).show();
+}
 
 function initMain(update){
 	$('#token-modal').modal({
@@ -689,7 +698,7 @@ function initMain(update){
 		updateData(true, true);
 	});
 	$('#option-change-token').click(function(){
-	   $('#token-modal').modal({ closable: true }).modal('show');
+		$('#token-modal').modal({ closable: true }).modal('show');
 	});
 
 	$('#token-form').on('submit', function() { changeToken(); return false; });
@@ -701,7 +710,12 @@ function initMain(update){
 		$('#net-error-modal').modal('hide');
 		initMain(false);
 	});
-	
+
+	$('#switch-main-page').click(function(){gui_main_switchPage('main-page')});
+	$('#switch-notification-page').click(function(){gui_main_switchPage('notification-page')});
+	$('#switch-deadline-page').click(function(){gui_main_switchPage('deadline-page')});
+	gui_main_switchPage('main-page');
+
 	updateData(update);
 
 }

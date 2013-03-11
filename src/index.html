@@ -24,21 +24,20 @@
           <i class="icon-pushpin"></i> 通知汇总
         </li>
         <li class="folder">
-          <a href="#">
+          <a href="#" id="switch-main-page">
             <i class="icon-home"></i> 主页
-            <span class="unread-count">6</span>
           </a>
         </li>
-        <li class="folder">
-          <a href="#">
-            <i class="icon-bullhorn"></i> 所有通知
-            <span class="unread-count">6</span>
-          </a>
-        </li>
-        <li class="folder">
+        <li class="folder" id="switch-deadline-page">
           <a href="#">
             <i class="icon-pencil"></i> 所有作业
-            <span class="unread-count">6</span>
+            <span class="unread-count" id="unread-deadline">-</span>
+          </a>
+        </li>
+        <li class="folder" id="switch-notification-page">
+          <a href="#">
+            <i class="icon-bullhorn"></i> 所有通知
+            <span class="unread-count" id="unread-notification">-</span>
           </a>
         </li>
       </ul>
@@ -61,27 +60,35 @@
 				<li class="folder"><a href="#" id="option-change-token"><i class="icon-user"></i> 更换用户名密码</a></li>
         <li class="folder">
           <a href="#"><i class="icon-cogs"></i> 其他设置</a>
-
           <ul class="subfolder">
             <li><a href="#" id="option-clear-cache"><i class="icon-trash"></i> 清空缓存</a></li>
           </ul>
+
         </li>
 			</ul>
 		</div>
 
 		<div class="pane-message">
-			<div class="category-heading">What's New</div>
-			<ol id="js-new" class="message-list">
-				<li class="message-loading">Loading...</li>
-			</ol>
-			<div class="category-heading">Nearby Deadline</div>
-			<ol id="nearby-deadline" class="message-list">
-				<li class="message-loading">Loading...</li>
-			</ol>
-			<div class="category-heading">Notification</div>
-			<ol id="category-heading" class="message-list">
-				<li class="message-loading">Loading...</li>
-			</ol>
+			<div id="main-page">
+				<div class="category-heading">What's New</div>
+				<ol id="js-new" class="message-list">
+					<li class="message-loading">Loading...</li>
+				</ol>
+			</div>
+
+			<div id="deadline-page">
+				<div class="category-heading">Nearby Deadline</div>
+				<ol id="nearby-deadline" class="message-list">
+					<li class="message-loading">Loading...</li>
+				</ol>
+			</div>
+
+			<div id="notification-page">
+				<div class="category-heading">Notification</div>
+				<ol id="category-heading" class="message-list">
+					<li class="message-loading">Loading...</li>
+				</ol>
+			</div>
 
 			</div>
 			<div class="pane-content">
