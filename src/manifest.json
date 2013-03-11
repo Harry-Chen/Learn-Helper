@@ -1,8 +1,8 @@
 {
 	"name" : "Learn helper",
-	"version":"1.3",
+	"version":"2.0",
 	"manifest_version" : 2,
-	"description":"添加网络学堂Deadline查询功能，修复网络学堂在Chrome下的排版问题",
+	"description":"漂亮的网络学堂，离线缓存数据，修复网络学堂在Chrome下的排版问题",
 	"content_scripts":[
 		{
 			"matches": [
@@ -23,7 +23,6 @@
 		"scripts" : ["background.js"]
 	},
 	"permissions" : ["*://learn.tsinghua.edu.cn/*", "tabs"],
-	"options_page": "exception.html",
 	"icons": {
 		"16" : "icons/16.png",
 		"48" : "icons/48.png",

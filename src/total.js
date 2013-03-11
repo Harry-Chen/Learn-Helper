@@ -712,5 +712,4 @@ function setAllReaded(){
 }
 //Start
 $(function(){
-	initMain(false);
 });
