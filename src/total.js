@@ -260,6 +260,7 @@ function evaluation(type, entry){
 	var STARED_FLAG = - (2 << 16);
 	var SUBMIT_FLAG =  (2 << 8);
 	var HOMEWORK_FLAG = - (2 << 3);
+	var HOMEWORK_TODAY_FLAG = -(2 << 8);
 	var today = new Date();
 	var e = 0;
 	var read_status_priority = {
@@ -280,6 +281,9 @@ function evaluation(type, entry){
 		}
 		if (entry.submit_state === '已经提交'){
 			e += SUBMIT_FLAG;
+		}
+		if (dueDays == 0){
+			e += HOMEWORK_TODAY_FLAG;
 		}
 	}
 	else if (type == 'notification'){
@@ -308,7 +312,7 @@ function gui_main_createNewLine(data){
 		}else{
 			line += '<i class="icon-pencil"></i>';
 		}
-		if (dueDays > 0){
+		if (dueDays >= 0){
 			line += ' ' + dueDays;
 		}
 		line += '</span> ' + data.name + '</a>';
@@ -438,7 +442,6 @@ var gui_main_updateCollect = function() {
 			CList = CList.sort(function(a, b) {
 				return a.eval - b.eval;
 			});
-			console.log(CList);
 			for (var i = 0; i < CList.length && CList[i].eval < 7 && i < 20; i++){
 				var line = gui_main_createNewLine(CList[i]);
 				GUIList.append($(line));
