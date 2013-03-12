@@ -1,0 +1,12 @@
+html {
+  background: url('../image/creampaper.png');
+}
+body {
+	font: 16px / 1.5 "微软雅黑", Helvetica, Serif;
+  text-shadow: 0 -1px 0 #F0F0F0;
+  padding: 30px 50px;
+}
+
+ul {
+  list-style: square;
+}
