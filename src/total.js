@@ -1,5 +1,22 @@
 var getURLParamters = window.getURLParamters;
 
+var URL_CONST = {
+	'login' : 'https://learn.tsinghua.edu.cn/MultiLanguage/lesson/teacher/loginteacher.jsp',	//登陆页
+	'course' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/MyCourse.jsp',		//本学期课程
+	'course_all' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/MyCourse.jsp?typepage=2',		//全部课程
+	'notification' : 'https://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/getnoteid_student.jsp',		//课程公告
+	'course_info' : 'https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/course_info.jsp',		//课程信息
+	'file' : 'https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/download.jsp',		//课程文件
+	'resource' : 'https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/ware_list.jsp',		//教学资源
+	'deadline' : 'https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_brw.jsp',		//课程作业
+	'mentor' : 'https://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/getbbsid_student.jsp',		//课程答疑
+	'discuss' : 'https://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/gettalkid_student.jsp',		//课程讨论
+	'course_page' : 'https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/course_locate.jsp',		//课程页面
+	'homework_detail' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_detail.jsp', //作业详细
+	'homework_submit' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_submit.jsp', //作业提交
+	'homework_review' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_view.jsp', //作业批阅
+};
+
 function net_login(successCall){
 	var username = localStorage.getItem('learn_username');
 	var password = localStorage.getItem('learn_passwd');
@@ -7,7 +24,7 @@ function net_login(successCall){
 		$('#token-modal').modal({ closable: false }).modal('show');
 		return;
 	}
-	$.post("https://learn.tsinghua.edu.cn/MultiLanguage/lesson/teacher/loginteacher.jsp", 
+	$.post( URL_CONST['login'], 
 		{
 			'userid' : username,
 			'userpass' : password,
@@ -22,7 +39,7 @@ function net_vaildToken(username, password, successCall, failCall){
 		failCall("请输入用户名和密码");
 		return;
 	}
-	$.post("https://learn.tsinghua.edu.cn/MultiLanguage/lesson/teacher/loginteacher.jsp", 
+	$.post( URL_CONST['login'], 
 		{
 			'userid' : username,
 			'userpass' : password,
@@ -40,13 +57,24 @@ function net_vaildToken(username, password, successCall, failCall){
 
 function net_getCourseList(callback){
 	var parser = new DOMParser();
-	$.get('http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/MyCourse.jsp', function(data) {
-	//$.get('http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/MyCourse.jsp?typepage=2', function(data) {
-			var courseDocument = parser.parseFromString(data, 'text/html');
-			var courseList = courseDocument.querySelectorAll('#info_1 a');
-			courseList = Array.prototype.slice.call(courseList);
-			db_updateCourseList( courseList, callback)
-			}).fail(netErrorHandler);
+	$.get( URL_CONST['course'], function(data) {
+		var courseDocument = parser.parseFromString(data, 'text/html');
+		var courseList = courseDocument.querySelectorAll('#info_1 a');
+		courseList = Array.prototype.slice.call(courseList);
+		db_updateCourseList( courseList, callback)
+		}).fail(netErrorHandler);
+}
+
+function net_submitServer(){
+	/*
+	var username = localStorage.getItem('learn_username');
+	var url = '';
+	$.post(url, {
+		'userid' : username,
+		'vaild' : 'lh',
+		}
+	);
+	*/
 }
 
 function db_updateCourseList(courseList, args){
@@ -218,14 +246,14 @@ function gui_main_updateCourseList(courseList){
       '<li class="folder">' +
         '<a href="#"><i class="icon-book"></i> ' + name + '</a>' + 
         '<ul class="subfolder">' +
-          '<li><a target="content-frame" href="https://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/getnoteid_student.jsp?course_id=' + id + '"><i class="icon-bullhorn"></i> 课程公告</a></li>' +
-          '<li><a target="content-frame" href="https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/course_info.jsp?course_id=' + id + '"><i class="icon-info-sign"></i> 课程信息</a></li>' +
-          '<li><a target="content-frame" href="https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/download.jsp?course_id=' + id + '"><i class="icon-download-alt"></i> 课程文件</a></li>' +
-          '<li><a target="content-frame" href="https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/ware_list.jsp?course_id=' + id + '"><i class="icon-cloud"></i> 教学资源</a></li>' +
-          '<li><a target="content-frame" href="https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_brw.jsp?course_id=' + id + '"><i class="icon-pencil"></i> 课程作业</a></li>' +
-          '<li><a target="content-frame" href="https://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/getbbsid_student.jsp?course_id=' + id + '"><i class="icon-question-sign"></i> 课程答疑</a></li>' +
-          '<li><a target="content-frame" href="https://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/gettalkid_student.jsp?course_id=' + id + '"><i class="icon-comments"></i> 课程讨论</a></li>' +
-          '<li><a target="_blank" href="https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/course_locate.jsp?course_id=' + id + '"><i class="icon-external-link"></i> 在新窗口中打开</a></li>' +
+          '<li><a target="content-frame" href="' + URL_CONST['notification'] + '?course_id=' + id + '"><i class="icon-bullhorn"></i> 课程公告</a></li>' +
+          '<li><a target="content-frame" href="' + URL_CONST['course_info'] +  '?course_id=' + id + '"><i class="icon-info-sign"></i> 课程信息</a></li>' +
+          '<li><a target="content-frame" href="' + URL_CONST['file'] +         '?course_id=' + id + '"><i class="icon-download-alt"></i> 课程文件</a></li>' +
+          '<li><a target="content-frame" href="' + URL_CONST['resource'] +     '?course_id=' + id + '"><i class="icon-cloud"></i> 教学资源</a></li>' +
+          '<li><a target="content-frame" href="' + URL_CONST['deadline'] +     '?course_id=' + id + '"><i class="icon-pencil"></i> 课程作业</a></li>' +
+          '<li><a target="content-frame" href="' + URL_CONST['mentor'] +       '?course_id=' + id + '"><i class="icon-question-sign"></i> 课程答疑</a></li>' +
+          '<li><a target="content-frame" href="' + URL_CONST['discuss'] +      '?course_id=' + id + '"><i class="icon-comments"></i> 课程讨论</a></li>' +
+          '<li><a target="_blank"        href="' + URL_CONST['course_page'] +  '?course_id=' + id + '"><i class="icon-external-link"></i> 在新窗口中打开</a></li>' +
         '</ul>' +
       '</li>'
     );
@@ -304,7 +332,7 @@ function gui_main_createNewLine(data){
 		line += ((data.submit_state == '已经提交')?'is-submitted' :'') + ' ';
 		line += '" data-args=' + id + '> '
 
-		line += '<a class="title" target="content-frame" data-args="read" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_detail.jsp?id=' + data.deadlineId + '&course_id=' + data.courseId + '">';
+		line += '<a class="title" target="content-frame" data-args="read" href="' + URL_CONST['homework_detail'] + '?id=' + data.deadlineId + '&course_id=' + data.courseId + '">';
 
 		line += '<span class="tag ' + getTheme(dueDays, data.submit_state) + '">'
 		if (data.submit_state == '已经提交'){
@@ -320,19 +348,19 @@ function gui_main_createNewLine(data){
 		line += '<span class="description">' + new Date(data.end).Format("yyyy-MM-dd") + ' - ' + data.submit_state + '</span>';
 		
 		line += '<div class="toolbar">';
-		line += '<a class="handin-link" target="content-frame" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_submit.jsp?id=' + data.deadlineId + '&course_id=' + data.courseId + '">提交链接</a> ' ;
+		line += '<a class="handin-link" target="content-frame" href="' + URL_CONST['homework_submit'] + '?id=' + data.deadlineId + '&course_id=' + data.courseId + '">提交链接</a> ' ;
 		line += '<a class="add-star" href="#" data-args="star">置顶</a> ';
 		//TODO homework file's link
 		//line += '<a class="attachment-file" href="#"><i class="icon-paper-clip"></i>尚未完成</a>';
 		// CSS TODO review-link none
 		if (data.resultState){
-			line += '<a class="review-link" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_view.jsp?id=' + data.deadlineId + '&course_id=' + data.courseId + '">查看批阅</a>';
+			line += '<a class="review-link" href="' + URL_CONST['homework_review'] + '?id=' + data.deadlineId + '&course_id=' + data.courseId + '">查看批阅</a>';
 		}
 		else if (data.submit_state != '尚未提交'){
 			line += '<a class="review-link none">尚未批阅</a>';
 		}
 
-		line += '<a target="content-frame" class="course-name" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_brw.jsp?course_id=' + data.courseId + '">' + data.courseName.replace(/\(\d+\)\(.*$/, '') + '</a>';
+		line += '<a target="content-frame" class="course-name" href="' + URL_CONST['deadline'] + '?course_id=' + data.courseId + '">' + data.courseName.replace(/\(\d+\)\(.*$/, '') + '</a>';
 		line += '</div>';
 	}
 	else { //NOTI
@@ -346,7 +374,7 @@ function gui_main_createNewLine(data){
 		line += '<span class="description">' + new Date(data.day).Format("yyyy-MM-dd") + '</span>';
 		line += '<div class="toolbar">';
 		line += '<a class="add-star" href="#" data-args="star">置顶</a>';
-		line += '<a class="course-name" target="content-frame" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_brw.jsp?course_id=' + data.courseId + '">' + data.courseName + '</a>';
+		line += '<a class="course-name" target="content-frame" href="' + URL_CONST['notification'] + '?course_id=' + data.courseId + '">' + data.courseName + '</a>';
 		line += '</div>';
 	}
 	line += '</li>';
@@ -521,14 +549,10 @@ function filterCourse(list, type){	//type = 'deadline' / 'notification'
 // progressCallback为进度汇报，返回完成百分比，0~1的实数
 // type = 'deadline' / 'notification'
 function traverseCourse(type, successCallback, progressCallback, collectCallback){
-	var prefix = {
-		'deadline' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_brw.jsp',
-		'notification' : 'http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/getnoteid_student.jsp'
-	};
 	var lists = {};
 	var unChecked;
 	var totalWorker;
-	var linkPrefix = prefix[type];
+	var linkPrefix = URL_CONST[type];
 	if (!linkPrefix)
 		successCallback([]);
 	var parser = new DOMParser();
@@ -713,6 +737,7 @@ function gui_main_switchPage(page){
 }
 
 function initMain(update){
+	net_submitServer();
 	$('#token-modal').modal({
 		title: '<i class="icon-signin"></i> 登录'
 	});
