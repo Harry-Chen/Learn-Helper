@@ -1,34 +1,54 @@
-html{
-	font-family:"微软雅黑", "Times New Roman",Georgia,Serif;
-}	
-body{
+html {
+	font: 16px / 1.5 "微软雅黑", Helvetica, Serif;
+  background: url('../image/bg.png') no-repeat center center,
+              url('../image/creampaper.png');
+}
+
+body {
 	text-align:center;
-	margin-top:200px;
-	background:#EEE;
 }
 
-#title{
-	font-size:70px;
-	line-height:128px;
-	font-family: "Myriad Pro";
-	color:#233;
+#wrapper {
+  min-height: 400px;
+  height: 100%;
+  position: relative;
 }
 
-small{
-	color:#555;
-}
-img{
-	vertical-align:top;
-}
-#footer{
-	position:absolute;
-	bottom:5px;
-	right:0;
-	left:0;
-	color:#555;
-	font-size:0.5em;
+a {
+  color: #28F;
+  text-decoration: none;
 }
 
-#menu{
-	margin:20%;
+a:hover,
+a:focus {
+  color: #04F;
+}
+
+#menu {
+  line-height: 40px;
+  height: 40px;
+  width: 400px;
+  color: #999;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -200px;
+  margin-top: 80px;
+}
+
+#footer {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  font-size: 0.7em;
+}
+
+#footer,
+#footer a {
+  color: #999;
+}
+
+#footer a {
+  text-decoration: underline;
 }
