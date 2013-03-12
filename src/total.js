@@ -340,7 +340,8 @@ function gui_main_createNewLine(data){
 		line += 'is-' + data.state + ' ';
 		line += '" data-args=' + id + '> '
 
-		line += '<a class="title" target="content-frame" data-args="read" href="http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/'+data.href+'"><span class="tag"><i class="icon-bullhorn"></i></span> ' + data.name + '</a></td>';
+		line += '<a class="title" target="content-frame" data-args="read" href="http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/'+ 
+			data.href+'"><span class="tag theme-purple"><i class="icon-bullhorn"></i></span> ' + data.name + '</a></td>';
 
 		line += '<span class="description">' + new Date(data.day).Format("yyyy-MM-dd") + '</span>';
 		line += '<div class="toolbar">';
@@ -357,7 +358,7 @@ function gui_main_updateDeadlineList(deadlineList, collectCallback){
 	for (id in deadlineList){
 		temp.push(evaluation('deadline', deadlineList[id]));
 	}
-	collectCallback(temp);
+	collectCallback && collectCallback(temp);
 	deadlineList = temp.sort(function(a, b) {
 			return a.eval - b.eval;
 		});
@@ -393,7 +394,7 @@ function gui_main_updateNotificationList(notificationList, collectCallback){
 	for (id in notificationList){
 		temp.push(evaluation('notification', notificationList[id]));
 	}
-	collectCallback(temp);
+	collectCallback && collectCallback(temp);
 	notificationList= temp.sort(function(a, b) {
 		return a.eval - b.eval;
 	});
@@ -672,13 +673,43 @@ function changeToken(){
 		);
 }
 function gui_main_switchPage(page){
-	console.log(page);
+	updateData(false);
 	panelList = ['notification-page', 'deadline-page', 'main-page'];
+	/*
 	for (var i in panelList){
 		var entry = panelList[i];
-		$('#' + entry).hide();
+		$('#' + entry).hide(500);
 	}
-	$('#' + page).show();
+	$('#' + page).fadeIn(500);
+	*/
+	var currentPane = null;
+	for (var i in panelList){
+		var entry = panelList[i];
+		if ($('#' + entry).is(':visible')) currentPane = $('#' + entry).hide();
+	}
+	currentPane.show();
+	page = $('#' + page);
+	if (currentPane.is(page)) {
+		return;
+	}
+	currentPane.css({
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		right: 0,
+	});
+	page.css({
+		position: 'relative',
+		left: 350,
+	}).show();
+
+	page.animate({
+		left: 0
+	}, 300);
+	currentPane.animate({
+		left: -350,
+		right: 350
+	}, 300, currentPane.hide.bind(currentPane));
 }
 
 function initMain(update){
