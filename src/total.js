@@ -722,17 +722,18 @@ function gui_main_switchPage(page){
 		left: 0,
 		right: 0,
 	});
+  var dx = currentPane.width();
 	page.css({
 		position: 'relative',
-		left: 350,
+		left: dx,
 	}).show();
 
 	page.animate({
 		left: 0
 	}, 300);
 	currentPane.animate({
-		left: -350,
-		right: 350
+		left: -dx,
+		right: dx
 	}, 300, currentPane.hide.bind(currentPane));
 }
 
