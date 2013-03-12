@@ -3,10 +3,101 @@ html {
 }
 body {
 	font: 16px / 1.5 "微软雅黑", Helvetica, Serif;
-  text-shadow: 0 -1px 0 #F0F0F0;
-  padding: 30px 50px;
 }
 
 ul {
   list-style: square;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 0;
+  border-bottom: 1px solid #999;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+}
+
+.clearfix:before,
+.clearfix:after {
+    content: " ";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+.wrapper {
+  margin: 30px auto;
+  max-width: 550px;
+  min-width: 400px;
+  background: #FFF;
+  border: 1px solid #999;
+  border-radius: 3px;
+  box-shadow: 0px 0px 2px #AAA;
+}
+
+.text-block {
+  padding: 30px;
+}
+
+.image-block {
+  border-top: 1px solid #999;
+}
+
+.image-block:first-child {
+  border: none;
+}
+
+.image-block h2 {
+  margin: 0 0 5px 0;
+  color: #333;
+  color: #28F;
+}
+
+.image-block img {
+  border: 1px solid #666;
+  border-radius: 3px;
+  margin: 20px;
+  margin-right: 30px;
+  float: left;
+}
+
+.image-block-right img {
+  float: right;
+  margin-left: 30px;
+  margin-right: 20px;
+}
+
+.image-block .text {
+  padding: 20px 20px 20px 0;
+  color: #999;
+}
+
+.image-block-right .text {
+  padding-right: 0;
+  padding-left: 20px;
+}
+
+.back-link {
+  border-top: 1px solid #999;
+  display: block;
+  padding: 10px;
+  text-align: center;
+  color: #666;
+}
+
+.back-link:hover {
+  color: #000;
 }
