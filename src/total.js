@@ -734,7 +734,10 @@ function gui_main_switchPage(page){
 	currentPane.animate({
 		left: -dx,
 		right: dx
-	}, 300, currentPane.hide.bind(currentPane));
+	}, 300, function() {
+    currentPane.hide();
+    page.show();
+  });
 }
 
 function initMain(update){
