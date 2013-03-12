@@ -1195,7 +1195,6 @@ body {
   padding: 8px 0;
   text-align: center;
   border: none;
-  border-top: 1px solid;
   border-bottom: 1px solid;
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #e6e6e6), color-stop(1, #ddd));
   background: -webkit-linear-gradient(top, #e6e6e6 0%, #ddd 100%);
