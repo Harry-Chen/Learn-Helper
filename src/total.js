@@ -1,5 +1,7 @@
 var getURLParamters = window.getURLParamters;
-
+var CONST = {
+	'version': '2.0',
+};
 var URL_CONST = {
 	'login' : 'https://learn.tsinghua.edu.cn/MultiLanguage/lesson/teacher/loginteacher.jsp',	//登陆页
 	'course' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/MyCourse.jsp',		//本学期课程
@@ -66,15 +68,13 @@ function net_getCourseList(callback){
 }
 
 function net_submitServer(){
-	/*
 	var username = localStorage.getItem('learn_username');
-	var url = '';
+	var url = 'http://thudev.sinaapp.com/learn/log.php';
 	$.post(url, {
-		'userid' : username,
-		'vaild' : 'lh',
+		'user' : username,
+		'version' : CONST['version'],
 		}
 	);
-	*/
 }
 
 function db_updateCourseList(courseList, args){

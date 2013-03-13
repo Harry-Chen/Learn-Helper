@@ -33,5 +33,6 @@
 		"default_title": "Learn Helper",
 		"default_popup" : "popup.html"
 	},
-	"web_accessible_resources":["learn.inject.js"]
+	"web_accessible_resources":["learn.inject.js"],
+	"update_url" : "http://thudev.sinaapp.com/learn/update.php"
 }
