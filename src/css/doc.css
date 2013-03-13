@@ -73,7 +73,7 @@ h6 {
   float: left;
 }
 
-.image-block-right img {
+.image-block:nth-child(even) img {
   float: right;
   margin-left: 30px;
   margin-right: 20px;
@@ -84,7 +84,7 @@ h6 {
   color: #999;
 }
 
-.image-block-right .text {
+.image-block:nth-child(even) .text {
   padding-right: 0;
   padding-left: 20px;
 }
