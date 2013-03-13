@@ -616,7 +616,9 @@ function traverseCourse(type, successCallback, progressCallback, collectCallback
 }
 
 function netErrorHandler(msg){
-	$('#net-error-modal').modal('show');
+	if (localStorage.getItem('learn_username')){
+		$('#net-error-modal').modal('show');
+	}
 }
 
 function updateData(update, list_update){
