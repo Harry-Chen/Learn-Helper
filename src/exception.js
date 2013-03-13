@@ -28,7 +28,6 @@ function createTable(courseList){
 		addException.apply(null, args);
 		init();
 	});
-	$('.exbtn').button();
 }
 function checkCourse(id){
 	hw_list = JSON.parse(localStorage.getItem("ignore_list_deadline")) || [];
@@ -74,6 +73,5 @@ function clearAll(){
 }
 
 $(function(){
-	$("button") .button();
 	init();
 });
