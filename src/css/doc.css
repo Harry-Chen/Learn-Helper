@@ -24,6 +24,10 @@ h6 {
   font-weight: normal;
 }
 
+a {
+  color: #28F;
+}
+
 .clearfix:before,
 .clearfix:after {
     content: " ";
