@@ -119,7 +119,6 @@ function setState(op, node){	//allowed state = 'readed', 'unread', 'stared'
 	var id = node.getAttribute('data-args');
 	var cur_state = node.className.match(/is-(\w*)/)[1];
 	var type = node.className.match(/homework|notification/)[0];
-	console.log(type, id, cur_state, op);
 	var choose = {
 		'homework' : 'deadline_list',
 		'notification' : 'notification_list',
@@ -324,9 +323,9 @@ function evaluation(type, entry){
 
 function gui_main_createNewLine(data){
 	var line = '<li class="message ';
-	var id = data.deadlineId;
 	if (data.deadlineId){ // DDL
 		var dueDays = data.dueDays;
+		var id = data.deadlineId;
 		line += 'homework ';
 		line += 'is-' + data.state + ' ';
 		line += ((data.submit_state == '已经提交')?'is-submitted' :'') + ' ';
@@ -364,6 +363,7 @@ function gui_main_createNewLine(data){
 		line += '</div>';
 	}
 	else { //NOTI
+		var id = data.id;
 		line += 'notification ';
 		line += 'is-' + data.state + ' ';
 		line += '" data-args=' + id + '> '
@@ -615,17 +615,9 @@ function traverseCourse(type, successCallback, progressCallback, collectCallback
 	});
 }
 
-function print(list){
-	console.log(list);
-}
-
 function netErrorHandler(msg){
 	$('#net-error-modal').modal('show');
 }
-function errorHandeler(msg){
-	alert(msg);
-}
-
 
 function updateData(update, list_update){
   $folder = $('.pane-folder');
@@ -691,7 +683,6 @@ function changeToken(){
 				}, 3000);
 			},
 			function(msg){
-				console.log(msg);
 				alert(msg);
 			}
 		);
@@ -699,13 +690,6 @@ function changeToken(){
 function gui_main_switchPage(page){
 	updateData(false);
 	panelList = ['notification-page', 'deadline-page', 'main-page'];
-	/*
-	for (var i in panelList){
-		var entry = panelList[i];
-		$('#' + entry).hide(500);
-	}
-	$('#' + page).fadeIn(500);
-	*/
 	var currentPane = null;
 	for (var i in panelList){
 		var entry = panelList[i];
@@ -784,6 +768,3 @@ function setAllReaded(){
 	db_setAllReaded('deadline');
 	updateData(false);
 }
-//Start
-$(function(){
-});

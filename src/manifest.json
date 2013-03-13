@@ -22,7 +22,7 @@
 	"background" : {
 		"scripts" : ["background.js"]
 	},
-	"permissions" : ["*://learn.tsinghua.edu.cn/*", "tabs"],
+	"permissions" : ["*://learn.tsinghua.edu.cn/*", "tabs", "*://thudev.sinaapp.com/*"],
 	"icons": {
 		"16" : "icons/16.png",
 		"48" : "icons/48.png",
