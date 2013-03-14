@@ -675,6 +675,7 @@ function changeToken(){
 				if (username === localStorage.getItem('learn_username', '')){
 					$('#token-modal').modal('hide');
 				}
+				localStorage.clear();
 				db_saveToken(username, password);
 				// update gui
 				$('#token-modal').modal('hide');
