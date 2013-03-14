@@ -82,7 +82,7 @@ function db_updateCourseList(courseList, args){
 	for (var i = 0; i < courseList.length; i++){
 		id = getURLParamters(courseList[i].getAttribute('href')).course_id;
 		var name = $.trim(courseList[i].innerText);
-		name = name.match(/^([^(]*)\(/)[1];
+		name = name.match(/^(.*)\s*\([^(]*\)\s*\([^(]*\)$/)[1];
 		var course = { 'id' : id,
 			 'name' : name
 		};
