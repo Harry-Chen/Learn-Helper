@@ -105,3 +105,8 @@ a {
 .back-link:hover {
   color: #666;
 }
+.text-block{
+	color:#533;
+	padding:10px;
+	font-weight:bold;
+}
