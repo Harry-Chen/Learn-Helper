@@ -123,7 +123,8 @@ function db_saveToken(username, password){
 function db_updateList(type, List, args, collectCallback){
 	var choose = {
 		'deadline' : 'deadline_list',
-		'notification' : 'notification_list'
+		'notification' : 'notification_list',
+		'file' : 'file_list'
 	};
 	var _name = choose[type];
 	if (!_name) return;
@@ -469,6 +470,12 @@ function gui_main_updateNotificationList(notificationList, collectCallback){
 	gui_main_updatePopupNumber('notification', counter);
 }
 
+//TODO
+function gui_main_updateFileList(fileList, collectCallback){
+
+
+}
+
 var gui_main_updateCollect = function() {
 	var notificationList;
 	var deadlineList;
@@ -545,8 +552,22 @@ function processNotificationList(update, callback, progressCallback, collectCall
 	}
 	notificationList = JSON.parse(notificationList);
 	callback(notificationList, collectCallback);
-  progressCallback && progressCallback(1);
+	progressCallback && progressCallback(1);
 }
+function processFileList(update, callback, progressCallback, collectCallback){
+  progressCallback && progressCallback(0);
+  //TODO
+	$('#file-heading li').remove();
+	var fileList = localStorage.file_list;
+	if (!fileList || update){
+		traverseCourse('file', callback, progressCallback ,collectCallback);
+		return;
+	}
+	fileList = JSON.parse(fileList);
+	callback(fileList, collectCallback);
+	progressCallback && progressCallback(1);
+}
+
 
 function filterCourse(list, type){	//type = 'deadline' / 'notification'
 	var _name;
@@ -595,7 +616,7 @@ function traverseCourse(type, successCallback, progressCallback, collectCallback
 						var attr = homeworkList[j].querySelectorAll('td');
 						if (type == 'deadline'){
 							var title = $(attr[0].querySelector('a')).attr('href');
-							var id = getURLParamters(title).id;	//goto http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_detail.jsp?id=
+							var id = getURLParamters(title).id;	
 							lists[id] = {
 								courseId: courseId,
 								courseName: courseName,
@@ -605,7 +626,7 @@ function traverseCourse(type, successCallback, progressCallback, collectCallback
 								submit_state: $.trim(attr[3].innerText),
 								state : 'unread',
 								deadlineId : id,
-								resultState : !attr[5].querySelector('#lookinfo').disabled,
+								resultState : !((attr[5].querySelector('#lookinfo')).disabled),
 							};
 						}
 						else if(type == 'notification'){
@@ -617,6 +638,19 @@ function traverseCourse(type, successCallback, progressCallback, collectCallback
 								courseName: courseName,
 								name: $.trim(attr[1].innerText),
 								day: new Date($.trim(attr[3].innerText)),
+								href: $.trim($(attr[1]).find("a").attr('href')),
+								state: 'unread',
+							};
+						}
+						else if(type == 'file'){
+							var title = $(attr[1].querySelectorAll('a')).attr('href');
+							var id = getURLParamters(title).file_id;
+							lists[id] = {
+								id : id,
+								courseId : courseId,
+								courseName : courseName,
+								name : $.trim(attr[1].innerText),
+								day: new Date($.trim(attr[4].innerText)),
 								href: $.trim($(attr[1]).find("a").attr('href')),
 								state: 'unread',
 							};
@@ -793,3 +827,7 @@ function setAllReaded(){
 	db_setAllReaded('deadline');
 	updateData(false);
 }
+
+$(function(){
+	traverseCourse('file');
+});
