@@ -21,8 +21,8 @@ var URL_CONST = {
 };
 
 function net_login(successCall){
-	var username = localStorage.getItem('learn_username');
-	var password = localStorage.getItem('learn_passwd');
+	var username = db_getUsername();
+	var password = db_getPassword();
 	if (!(username && password)){
 		$('#token-modal').modal({ closable: false }).modal('show');
 		return;
@@ -69,13 +69,32 @@ function net_getCourseList(callback){
 }
 
 function net_submitServer(){
-	var username = localStorage.getItem('learn_username');
+	var username = db_getUsername();
 	var url = 'http://thudev.sinaapp.com/learn/log.php';
 	$.post(url, {
 		'user' : username,
 		'version' : CONST['version'],
 		}
 	);
+}
+function db_fixOldMess(){
+	//2.0 -> 2.0.1
+	var passwordTemp = localStorage.getItem('learn_passwd');
+	if (passwordTemp){	
+		localStorage.removeItem('learn_passwd');
+		console.log('fixed', passwordTemp);
+		db_saveToken(db_getUsername(), passwordTemp);
+	}
+}
+function db_getUsername(){
+	return localStorage.getItem('learn_username', '');
+}
+function db_getPassword(){
+	var password = localStorage.getItem('learn_encrypt_password', '');
+	if (!password){
+		return password;
+	}
+	return sjcl.decrypt("LEARNpassword", password);
 }
 
 function db_updateCourseList(courseList, args){
@@ -97,7 +116,8 @@ function db_updateCourseList(courseList, args){
 
 function db_saveToken(username, password){
 	localStorage.setItem('learn_username', username);
-	localStorage.setItem('learn_passwd', password);
+	var encryptPassword = sjcl.encrypt("LEARNpassword", password)
+	localStorage.setItem('learn_encrypt_password', encryptPassword);
 }
 
 function db_updateList(type, List, args, collectCallback){
@@ -617,7 +637,7 @@ function traverseCourse(type, successCallback, progressCallback, collectCallback
 }
 
 function netErrorHandler(msg){
-	if (localStorage.getItem('learn_username')){
+	if (db_getUsername()){
 		$('#net-error-modal').modal('show');
 	}
 }
@@ -673,7 +693,7 @@ function changeToken(){
 	var password = $('#token-password').val();
 	net_vaildToken(username, password, 
 			function(){
-				if (username === localStorage.getItem('learn_username', '')){
+				if (username === db_getUsername()){
 					$('#token-modal').modal('hide');
 				}
 				localStorage.clear();
@@ -729,6 +749,7 @@ function gui_main_switchPage(page){
 }
 
 function initMain(update){
+	db_fixOldMess();
 	net_submitServer();
 	$('#token-modal').modal({
 		title: '<i class="icon-signin"></i> 登录'
