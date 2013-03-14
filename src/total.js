@@ -1,6 +1,6 @@
 var getURLParamters = window.getURLParamters;
 var CONST = {
-	'version': '2.0',
+	'version': '2.0.1',
 };
 var URL_CONST = {
 	'login' : 'https://learn.tsinghua.edu.cn/MultiLanguage/lesson/teacher/loginteacher.jsp',	//登陆页
