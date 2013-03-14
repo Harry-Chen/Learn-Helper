@@ -1,6 +1,7 @@
 var getURLParamters = window.getURLParamters;
+var manifest = getManifest();
 var CONST = {
-	'version': '2.0.1',
+	'version': manifest.version
 };
 var URL_CONST = {
 	'login' : 'https://learn.tsinghua.edu.cn/MultiLanguage/lesson/teacher/loginteacher.jsp',	//登陆页
