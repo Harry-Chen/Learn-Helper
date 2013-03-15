@@ -82,8 +82,45 @@ function db_fixOldMess(){
 	var passwordTemp = localStorage.getItem('learn_passwd');
 	if (passwordTemp){	
 		localStorage.removeItem('learn_passwd');
-		console.log('fixed', passwordTemp);
 		db_saveToken(db_getUsername(), passwordTemp);
+	}
+	// 2.0.1 -> 2.0.2
+	var d = localStorage.getItem('deadline_list');
+	if (d){
+		d = JSON.parse(d);
+		for (var item in d){
+			if (d[item].type){
+				break;
+			}
+			d[item].type = 'd';
+			d[item].id = d[item].deadlineId;
+		}
+		d = JSON.stringify(d);
+		localStorage.setItem('deadline_list', d);
+	}
+	var d = localStorage.getItem('notification_list');
+	if (d){
+		d = JSON.parse(d);
+		for (var item in d){
+			if (d[item].type){
+				break;
+			}
+			d[item].type = 'n';
+		}
+		d = JSON.stringify(d);
+		localStorage.setItem('notification_list', d);
+	}
+	var d = localStorage.getItem('file_list');
+	if (d){
+		d = JSON.parse(d);
+		for (var item in d){
+			if (d[item].type){
+				break;
+			}
+			d[item].type = 'f';
+		}
+		d = JSON.stringify(d);
+		localStorage.setItem('file_list', d);
 	}
 }
 function db_getUsername(){
@@ -339,21 +376,25 @@ function evaluation(type, entry){
 		var dueDays = Math.floor((new Date(entry.day) - today) / (60 * 60 * 1000 * 24));
 		e -= dueDays;
 	}
+	else if (type == 'file'){
+		var dueDays = Math.floor((new Date(entry.day) - today) / (60 * 60 * 1000 * 24));
+		e -= dueDays;
+	}
 	entry['eval'] = e;
 	return entry;
 }
 
 function gui_main_createNewLine(data){
 	var line = '<li class="message ';
-	if (data.deadlineId){ // DDL
+	var id = data.id;
+	if (data.type === 'd'){ // DDL
 		var dueDays = data.dueDays;
-		var id = data.deadlineId;
 		line += 'homework ';
 		line += 'is-' + data.state + ' ';
 		line += ((data.submit_state == '已经提交')?'is-submitted' :'') + ' ';
 		line += '" data-args=' + id + '> '
 
-		line += '<a class="title" target="content-frame" data-args="read" href="' + URL_CONST['homework_detail'] + '?id=' + data.deadlineId + '&course_id=' + data.courseId + '">';
+		line += '<a class="title" target="content-frame" data-args="read" href="' + URL_CONST['homework_detail'] + '?id=' + data.id + '&course_id=' + data.courseId + '">';
 
 		line += '<span class="tag ' + getTheme(dueDays, data.submit_state) + '">'
 		if (data.submit_state == '已经提交'){
@@ -369,13 +410,13 @@ function gui_main_createNewLine(data){
 		line += '<span class="description">' + new Date(data.end).Format("yyyy-MM-dd") + ' - ' + data.submit_state + '</span>';
 		
 		line += '<div class="toolbar">';
-		line += '<a class="handin-link" target="content-frame" href="' + URL_CONST['homework_submit'] + '?id=' + data.deadlineId + '&course_id=' + data.courseId + '">提交链接</a> ' ;
+		line += '<a class="handin-link" target="content-frame" href="' + URL_CONST['homework_submit'] + '?id=' + data.id + '&course_id=' + data.courseId + '">提交链接</a> ' ;
 		line += '<a class="add-star" href="#" data-args="star">置顶</a> ';
 		//TODO homework file's link
 		//line += '<a class="attachment-file" href="#"><i class="icon-paper-clip"></i>尚未完成</a>';
 		// CSS TODO review-link none
 		if (data.resultState){
-			line += '<a class="review-link" href="' + URL_CONST['homework_review'] + '?id=' + data.deadlineId + '&course_id=' + data.courseId + '">查看批阅</a>';
+			line += '<a class="review-link" href="' + URL_CONST['homework_review'] + '?id=' + data.id + '&course_id=' + data.courseId + '">查看批阅</a>';
 		}
 		else if (data.submit_state != '尚未提交'){
 			line += '<a class="review-link none">尚未批阅</a>';
@@ -384,8 +425,7 @@ function gui_main_createNewLine(data){
 		line += '<a target="content-frame" class="course-name" href="' + URL_CONST['deadline'] + '?course_id=' + data.courseId + '">' + data.courseName.replace(/\(\d+\)\(.*$/, '') + '</a>';
 		line += '</div>';
 	}
-	else { //NOTI
-		var id = data.id;
+	else if (data.type === 'n'){ //NOTI
 		line += 'notification ';
 		line += 'is-' + data.state + ' ';
 		line += '" data-args=' + id + '> '
@@ -393,6 +433,19 @@ function gui_main_createNewLine(data){
 		line += '<a class="title" target="content-frame" data-args="read" href="http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/'+ 
 			data.href+'"><span class="tag theme-purple"><i class="icon-bullhorn"></i></span> ' + data.name + '</a></td>';
 
+		line += '<span class="description">' + new Date(data.day).Format("yyyy-MM-dd") + '</span>';
+		line += '<div class="toolbar">';
+		line += '<a class="add-star" href="#" data-args="star">置顶</a>';
+		line += '<a class="course-name" target="content-frame" href="' + URL_CONST['notification'] + '?course_id=' + data.courseId + '">' + data.courseName + '</a>';
+		line += '</div>';
+	}
+	else if (data.type === 'f'){ // FILE
+		line += 'file ';
+		line += 'is-' + data.state + ' ';
+		line += '" data-args=' + id + '> '
+		//CSS TODO
+		line += '<a class="title" target="content-frame" data-args="read" href="https://learn.tsinghua.edu.cn/uploadFile/'+ 
+		data.href+'"><span class="tag theme-purple"><i class="icon-bullhorn"></i></span> ' + data.name + '</a></td>';
 		line += '<span class="description">' + new Date(data.day).Format("yyyy-MM-dd") + '</span>';
 		line += '<div class="toolbar">';
 		line += '<a class="add-star" href="#" data-args="star">置顶</a>';
@@ -472,6 +525,33 @@ function gui_main_updateNotificationList(notificationList, collectCallback){
 
 //TODO
 function gui_main_updateFileList(fileList, collectCallback){
+	temp = [];
+	for (id in fileList){
+		temp.push(evaluation('file', notificationList[id]));
+	}
+	collectCallback && collectCallback(temp);
+	notificationList= temp.sort(function(a, b) {
+		return a.eval - b.eval;
+	});
+	var GUIlist = $('#file-heading');
+	var today = new Date();
+	var counter = 0;
+	for (var i = 0; i < fileList.length; i++){
+		var data = fileList[i];
+		var line = gui_main_createNewLine(data);
+		GUIlist.append($(line));
+	}
+	$('.file .title').click(function() {
+		var args = this.getAttribute('data-args').split(',');
+		args.push(this.parentNode);
+		setState.apply(null, args);
+	});
+	$('.file .add-star').click(function() {
+		var args = this.getAttribute('data-args').split(',');
+		args.push(this.parentNode.parentNode);
+		setState.apply(null, args);
+	});
+	gui_main_updatePopupNumber('file', counter);
 
 
 }
@@ -618,6 +698,7 @@ function traverseCourse(type, successCallback, progressCallback, collectCallback
 							var title = $(attr[0].querySelector('a')).attr('href');
 							var id = getURLParamters(title).id;	
 							lists[id] = {
+								type: 'd',
 								courseId: courseId,
 								courseName: courseName,
 								name: $.trim(attr[0].innerText),
@@ -625,7 +706,7 @@ function traverseCourse(type, successCallback, progressCallback, collectCallback
 								end: new Date($.trim(attr[2].innerText) + ' 23:59:59'),
 								submit_state: $.trim(attr[3].innerText),
 								state : 'unread',
-								deadlineId : id,
+								id : id,
 								resultState : !((attr[5].querySelector('#lookinfo')).disabled),
 							};
 						}
@@ -633,6 +714,7 @@ function traverseCourse(type, successCallback, progressCallback, collectCallback
 							var title = $(attr[1].querySelector('a')).attr('href');
 							var id = getURLParamters(title).id;
 							lists[id] = {
+								type: 'n',
 								id : id,
 								courseId: courseId,
 								courseName: courseName,
@@ -646,6 +728,7 @@ function traverseCourse(type, successCallback, progressCallback, collectCallback
 							var title = $(attr[1].querySelectorAll('a')).attr('href');
 							var id = getURLParamters(title).file_id;
 							lists[id] = {
+								type : 'f',
 								id : id,
 								courseId : courseId,
 								courseName : courseName,
@@ -679,46 +762,59 @@ function netErrorHandler(msg){
 function updateData(update, list_update){
   $folder = $('.pane-folder');
   setLoading(0, $folder);
-  var progress = [0, 0, 0];
+  var progress = [0, 0, 0, 0];
 
   if (update || list_update){
 	  net_login(function(){
-		  setLoading(1.0 / 4, $folder);
+		  setLoading(1.0 / 5, $folder);
 
 		  processCourseList(list_update ? true : false, gui_main_updateCourseList, function(p) {
 			  progress[0] = p;
-			  setLoading((progress[0] + progress[1] + progress[2] + 1) / 4, $folder);
+			  setLoading((progress[0] + progress[1] + progress[2] + progress[3] + 1) / 5, $folder);
 		  });
 		  processDeadlineList(update, gui_main_updateDeadlineList, function(p) {
 			  progress[1] = p;
-			  setLoading((progress[0] + progress[1] + progress[2] + 1) / 4, $folder);
+			  setLoading((progress[0] + progress[1] + progress[2] + progress[3] +  1) / 5, $folder);
 		  }, 
 		  gui_main_updateCollect('deadline_getter')
 		  );
 		  processNotificationList(update, gui_main_updateNotificationList, function(p) {
 			  progress[2] = p;
-			  setLoading((progress[0] + progress[1] + progress[2] + 1) / 4, $folder);
+			  setLoading((progress[0] + progress[1] + progress[2] + progress[3] +  1) / 5, $folder);
 		  },
 		  gui_main_updateCollect('notification_getter')
 		  );
+		  processFileList(update, gui_main_updateFileList, function(p) {
+			  progress[3] = p;
+			  setLoading((progress[0] + progress[1] + progress[2] + progress[3] +  1) / 5, $folder);
+		  }, 
+		  gui_main_updateCollect('file_getter')
+		  );
+		  
 	  });
 	  return;
   }
   processCourseList(list_update ? true : false, gui_main_updateCourseList, function(p) {
 	  progress[0] = p;
-	  setLoading((progress[0] + progress[1] + progress[2]) / 3, $folder);
+	  setLoading((progress[0] + progress[1] + progress[2] + progress[3]) / 4, $folder);
   });
   processDeadlineList(update, gui_main_updateDeadlineList, function(p) {
 	  progress[1] = p;
-	  setLoading((progress[0] + progress[1] + progress[2]) / 3, $folder);
+	  setLoading((progress[0] + progress[1] + progress[2] + progress[3]) / 4, $folder);
   }, 
   gui_main_updateCollect('deadline_getter')
   );
   processNotificationList(update, gui_main_updateNotificationList, function(p) {
 	  progress[2] = p;
-	  setLoading((progress[0] + progress[1] + progress[2]) / 3, $folder);
+	  setLoading((progress[0] + progress[1] + progress[2] + progress[3] ) / 4, $folder);
   },
   gui_main_updateCollect('notification_getter')
+  );
+  processFileList(update, gui_main_updateFileList, function(p) {
+	  progress[3] = p;
+	  setLoading((progress[0] + progress[1] + progress[2] + progress[3] ) / 4, $folder);
+  }, 
+  gui_main_updateCollect('file_getter')
   );
 }
 
@@ -743,11 +839,11 @@ function changeToken(){
 			function(msg){
 				alert(msg);
 			}
-		);
+			);
 }
 function gui_main_switchPage(page){
 	updateData(false);
-	panelList = ['notification-page', 'deadline-page', 'main-page'];
+	panelList = ['notification-page', 'deadline-page', 'main-page', 'file-page'];
 	var currentPane = null;
 	for (var i in panelList){
 		var entry = panelList[i];
@@ -764,7 +860,7 @@ function gui_main_switchPage(page){
 		left: 0,
 		right: 0,
 	});
-  var dx = currentPane.width();
+	var dx = currentPane.width();
 	page.css({
 		position: 'relative',
 		left: dx,
@@ -777,9 +873,9 @@ function gui_main_switchPage(page){
 		left: -dx,
 		right: dx
 	}, 300, function() {
-    currentPane.hide();
-    page.show();
-  });
+		currentPane.hide();
+		page.show();
+	});
 }
 
 function initMain(update){
@@ -817,6 +913,7 @@ function initMain(update){
 	$('#switch-main-page').click(function(){gui_main_switchPage('main-page')});
 	$('#switch-notification-page').click(function(){gui_main_switchPage('notification-page')});
 	$('#switch-deadline-page').click(function(){gui_main_switchPage('deadline-page')});
+	$('#switch-file-page').click(function(){gui_main_switchPage('file-page')});
 	gui_main_switchPage('main-page');
 
 	updateData(update);
@@ -829,5 +926,4 @@ function setAllReaded(){
 }
 
 $(function(){
-	traverseCourse('file');
 });
