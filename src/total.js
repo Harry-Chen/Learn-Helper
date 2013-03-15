@@ -177,10 +177,11 @@ function db_updateList(type, List, args, collectCallback){
 function setState(op, node){	//allowed state = 'readed', 'unread', 'stared'
 	var id = node.getAttribute('data-args');
 	var cur_state = node.className.match(/is-(\w*)/)[1];
-	var type = node.className.match(/homework|notification/)[0];
+	var type = node.className.match(/homework|notification|file/)[0];
 	var choose = {
 		'homework' : 'deadline_list',
 		'notification' : 'notification_list',
+		'file' : 'file_list',
 	};
 	var result = {
 		'unread' : {
@@ -279,7 +280,8 @@ function clearCache(){
 function db_setAllReaded(type){
 	var choose = {
 		'deadline' : 'deadline_list',
-		'notification' : 'notification_list'
+		'notification' : 'notification_list',
+		'file' : 'file_list',
 	};
 	var _name = choose[type];
 	var List = [];
@@ -444,7 +446,7 @@ function gui_main_createNewLine(data){
 		line += 'is-' + data.state + ' ';
 		line += '" data-args=' + id + '> '
 		//CSS TODO
-		line += '<a class="title" target="content-frame" data-args="read" href="https://learn.tsinghua.edu.cn/uploadFile/'+ 
+		line += '<a class="title" target="content-frame" data-args="read" href="https://learn.tsinghua.edu.cn'+ 
 		data.href+'"><span class="tag theme-purple"><i class="icon-bullhorn"></i></span> ' + data.name + '</a></td>';
 		line += '<span class="description">' + new Date(data.day).Format("yyyy-MM-dd") + '</span>';
 		line += '<div class="toolbar">';
@@ -508,6 +510,9 @@ function gui_main_updateNotificationList(notificationList, collectCallback){
 	for (var i = 0; i < notificationList.length; i++){
 		var data = notificationList[i];
 		var line = gui_main_createNewLine(data);
+		if (data.state === 'unread'){
+			counter += 1;
+		}
 		GUIlist.append($(line));
 	}
 	$('.notification .title').click(function() {
@@ -527,10 +532,10 @@ function gui_main_updateNotificationList(notificationList, collectCallback){
 function gui_main_updateFileList(fileList, collectCallback){
 	temp = [];
 	for (id in fileList){
-		temp.push(evaluation('file', notificationList[id]));
+		temp.push(evaluation('file', fileList[id]));
 	}
 	collectCallback && collectCallback(temp);
-	notificationList= temp.sort(function(a, b) {
+	fileList = temp.sort(function(a, b) {
 		return a.eval - b.eval;
 	});
 	var GUIlist = $('#file-heading');
@@ -539,6 +544,9 @@ function gui_main_updateFileList(fileList, collectCallback){
 	for (var i = 0; i < fileList.length; i++){
 		var data = fileList[i];
 		var line = gui_main_createNewLine(data);
+		if (data.state === 'unread'){
+			counter += 1;
+		}
 		GUIlist.append($(line));
 	}
 	$('.file .title').click(function() {
@@ -557,30 +565,24 @@ function gui_main_updateFileList(fileList, collectCallback){
 }
 
 var gui_main_updateCollect = function() {
-	var notificationList;
-	var deadlineList;
+	var listCount = 0;
+	var cList = [];
 	return function _gui_main_updateCollect(instruction){
-		if (instruction === 'deadline_getter'){
+		if (instruction === 'setter'){
 			return function(d){
-				deadlineList = d;
+				cList = cList.concat(d);
+				listCount += 1;
 				gui_main_updateCollect('update');
 			};
 		}
-		if (instruction === 'notification_getter'){
-			return function(n){
-				notificationList = n;
-				gui_main_updateCollect('update');
-			};
-		}
-		if (instruction === 'update' && notificationList && deadlineList){
-			CList = notificationList.concat(deadlineList);
+		if (instruction === 'update' && listCount == 3){
 			var GUIList = $('#js-new');
 			GUIList.children().remove();
-			CList = CList.sort(function(a, b) {
+			cList = cList.sort(function(a, b) {
 				return a.eval - b.eval;
 			});
-			for (var i = 0; i < CList.length && CList[i].eval < 7 && i < 20; i++){
-				var line = gui_main_createNewLine(CList[i]);
+			for (var i = 0; i < cList.length && cList[i].eval < 7 && i < 20; i++){
+				var line = gui_main_createNewLine(cList[i]);
 				GUIList.append($(line));
 			}
 			$('#js-new .homework .title').click(function() {
@@ -776,19 +778,19 @@ function updateData(update, list_update){
 			  progress[1] = p;
 			  setLoading((progress[0] + progress[1] + progress[2] + progress[3] +  1) / 5, $folder);
 		  }, 
-		  gui_main_updateCollect('deadline_getter')
+		  gui_main_updateCollect('setter')
 		  );
 		  processNotificationList(update, gui_main_updateNotificationList, function(p) {
 			  progress[2] = p;
 			  setLoading((progress[0] + progress[1] + progress[2] + progress[3] +  1) / 5, $folder);
 		  },
-		  gui_main_updateCollect('notification_getter')
+		  gui_main_updateCollect('setter')
 		  );
 		  processFileList(update, gui_main_updateFileList, function(p) {
 			  progress[3] = p;
 			  setLoading((progress[0] + progress[1] + progress[2] + progress[3] +  1) / 5, $folder);
 		  }, 
-		  gui_main_updateCollect('file_getter')
+		  gui_main_updateCollect('setter')
 		  );
 		  
 	  });
@@ -802,19 +804,19 @@ function updateData(update, list_update){
 	  progress[1] = p;
 	  setLoading((progress[0] + progress[1] + progress[2] + progress[3]) / 4, $folder);
   }, 
-  gui_main_updateCollect('deadline_getter')
+  gui_main_updateCollect('setter')
   );
   processNotificationList(update, gui_main_updateNotificationList, function(p) {
 	  progress[2] = p;
 	  setLoading((progress[0] + progress[1] + progress[2] + progress[3] ) / 4, $folder);
   },
-  gui_main_updateCollect('notification_getter')
+  gui_main_updateCollect('setter')
   );
   processFileList(update, gui_main_updateFileList, function(p) {
 	  progress[3] = p;
 	  setLoading((progress[0] + progress[1] + progress[2] + progress[3] ) / 4, $folder);
   }, 
-  gui_main_updateCollect('file_getter')
+  gui_main_updateCollect('setter')
   );
 }
 
@@ -922,6 +924,7 @@ function initMain(update){
 function setAllReaded(){
 	db_setAllReaded('notification');
 	db_setAllReaded('deadline');
+	db_setAllReaded('file');
 	updateData(false);
 }
 
