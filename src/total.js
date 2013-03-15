@@ -447,7 +447,7 @@ function gui_main_createNewLine(data){
 		line += '" data-args=' + id + '> '
 		//CSS TODO
 		line += '<a class="title" target="content-frame" data-args="read" href="https://learn.tsinghua.edu.cn'+ 
-		data.href+'"><span class="tag theme-purple"><i class="icon-bullhorn"></i></span> ' + data.name + '</a></td>';
+		data.href+'"><span class="tag theme-yellow"><i class="icon-download-alt"></i></span> ' + data.name + '</a></td>';
 		line += '<span class="description">' + new Date(data.day).Format("yyyy-MM-dd") + '</span>';
 		line += '<div class="toolbar">';
 		line += '<a class="add-star" href="#" data-args="star">置顶</a>';
@@ -560,8 +560,6 @@ function gui_main_updateFileList(fileList, collectCallback){
 		setState.apply(null, args);
 	});
 	gui_main_updatePopupNumber('file', counter);
-
-
 }
 
 var gui_main_updateCollect = function() {
