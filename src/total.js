@@ -448,7 +448,7 @@ function gui_main_createNewLine(data){
 		//CSS TODO
 		line += '<a class="title" target="content-frame" data-args="read" href="https://learn.tsinghua.edu.cn'+ 
 		data.href+'"><span class="tag theme-yellow"><i class="icon-download-alt"></i></span> ' + data.name + '</a></td>';
-		line += '<span class="description">' + new Date(data.day).Format("yyyy-MM-dd") + '</span>';
+		line += '<span class="description">' + new Date(data.day).Format("yyyy-MM-dd") + data.explanation + '</span>';
 		line += '<div class="toolbar">';
 		line += '<a class="add-star" href="#" data-args="star">置顶</a>';
 		line += '<a class="course-name" target="content-frame" href="' + URL_CONST['notification'] + '?course_id=' + data.courseId + '">' + data.courseName + '</a>';
@@ -735,6 +735,7 @@ function traverseCourse(type, successCallback, progressCallback, collectCallback
 								name : $.trim(attr[1].innerText),
 								day: new Date($.trim(attr[4].innerText)),
 								href: $.trim($(attr[1]).find("a").attr('href')),
+								explanation : $.trim(attr[2].innerText),
 								state: 'unread',
 							};
 						}
