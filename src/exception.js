@@ -18,10 +18,10 @@ function createTable(courseList){
 					id + ',0,' + (+check[0]) +'">' + (check[0] ? "屏蔽" : "显示") + '</button>';
 		var no_b = '<button class="exbtn checked' + (+check[1]) + '" data-args="' +
 					id + ',1,' + (+check[1]) +'">' + (check[1] ? "屏蔽" : "显示") + '</button>';
-		var no_b = '<button class="exbtn checked' + (+check[1]) + '" data-args="' +
+		var fi_b = '<button class="exbtn checked' + (+check[2]) + '" data-args="' +
 					id + ',2,' + (+check[2]) +'">' + (check[2] ? "屏蔽" : "显示") + '</button>';
-		var line = "<td>" + id + "</td><td>" + name + "</td>" + "<td>" +
-			hw_b + "</td><td>" + no_b + "</td>";
+		var line = "<td>" + id + "</td><td>" + name + "</td><td>" +
+			hw_b + "</td><td>" + no_b + "</td><td>" + fi_b + '</td>';
 		row.html(line);
 		table.append(row);
 	}
@@ -51,8 +51,9 @@ function addException(id, type, op){
 	else if (type == 2){
 		var listname ="ignore_list_file";
 	}
-	else
+	else{
 		return;
+	}
 	var list = [];
 	if (localStorage.getItem(listname)){
 		list = JSON.parse(localStorage.getItem(listname));

@@ -245,37 +245,6 @@ function mergeList(newList, oldList){
 	return temp;
 }
 
-//operation = 'add', 'remove'
-//type = 'deadline', 'notification'
-function db_changeException(operation, courseId, type){
-	var _name;
-	var choose = {
-		'deadline' : 'ignore_list_deadline',
-		'notification' : 'ignore_list_notification'
-	};
-	var list = [];
-	if (!type) return false;
-	_name = choose[type];
-	if (!_name) return false;
-	if (localStorage.getItem(_name)){
-		list = JSON.parse(localStorage.getItem(_name));	
-	}
-	for (var i = 0; i < list.length; i++){
-		if (list[i] == courseId){
-			if (op == 'remove'){
-				list[i] = list[list.length - 1];
-				list.pop();
-				localStorage.setItem(_name, JSON.stringify(list));
-				return true;
-			}
-			return false;
-		}
-	}
-	list.push(id);
-	localStorage.setItem(_name, JSON.stringify(list));
-	return true;
-}
-
 function db_clearCache(type){
 	var choose = {
 		'courseList' : 'course_list',
@@ -675,7 +644,8 @@ function filterCourse(list, type){	//type = 'deadline' / 'notification'
 	var _name;
 	var choose = {
 		'deadline' : 'ignore_list_deadline',
-		'notification' : 'ignore_list_notification'
+		'notification' : 'ignore_list_notification',
+		'file' : 'ignore_list_file',
 	};
 	if (!type) return list;
 	_name = choose[type];
