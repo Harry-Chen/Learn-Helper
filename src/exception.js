@@ -7,7 +7,7 @@ function init(){
 function createTable(courseList){
 	var table = $('#course_table');
 	table.children().remove();
-	var head = $("<tr><th>课程序号</th><th>课程名称</th> <th>屏蔽本课程作业</th> <th>屏蔽本课程通知</th> </tr>");
+	var head = $("<tr><th>课程序号</th><th>课程名称</th> <th>屏蔽作业</th> <th>屏蔽通知</th> <th>屏蔽文件</th> </tr>");
 	table.append(head);
 	for (var i = 0; i < courseList.length; i++) {
 		var id = courseList[i].id;
@@ -18,6 +18,8 @@ function createTable(courseList){
 					id + ',0,' + (+check[0]) +'">' + (check[0] ? "屏蔽" : "显示") + '</button>';
 		var no_b = '<button class="exbtn checked' + (+check[1]) + '" data-args="' +
 					id + ',1,' + (+check[1]) +'">' + (check[1] ? "屏蔽" : "显示") + '</button>';
+		var no_b = '<button class="exbtn checked' + (+check[1]) + '" data-args="' +
+					id + ',2,' + (+check[2]) +'">' + (check[2] ? "屏蔽" : "显示") + '</button>';
 		var line = "<td>" + id + "</td><td>" + name + "</td>" + "<td>" +
 			hw_b + "</td><td>" + no_b + "</td>";
 		row.html(line);
@@ -32,7 +34,8 @@ function createTable(courseList){
 function checkCourse(id){
 	hw_list = JSON.parse(localStorage.getItem("ignore_list_deadline")) || [];
 	notifi_list = JSON.parse(localStorage.getItem("ignore_list_notification")) || [];
-	return [hw_list.indexOf(id) !== -1, notifi_list.indexOf(id) !== -1]
+	file_list = JSON.parse(localStorage.getItem("ignore_list_file")) || [];
+	return [hw_list.indexOf(id) !== -1, notifi_list.indexOf(id) !== -1, file_list.indexOf(id) !== -1];
 }	
 //op = 1 => 取消
 //op = 0 => 添加	
@@ -44,6 +47,9 @@ function addException(id, type, op){
 	}
 	else if (type == 1){
 		var listname ="ignore_list_notification";
+	}
+	else if (type == 2){
+		var listname ="ignore_list_file";
 	}
 	else
 		return;
@@ -69,6 +75,7 @@ function addException(id, type, op){
 function clearAll(){
 	localStorage.removeItem("ignore_list_deadline");
 	localStorage.removeItem("ignore_list_notification");
+	localStorage.removeItem("ignore_list_file");
 	window.location.reload();
 }
 

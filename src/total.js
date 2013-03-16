@@ -78,51 +78,65 @@ function net_submitServer(){
 	);
 }
 function db_fixOldMess(){
-	//2.0 -> 2.0.1
-	var passwordTemp = localStorage.getItem('learn_passwd');
-	if (passwordTemp){	
-		localStorage.removeItem('learn_passwd');
-		db_saveToken(db_getUsername(), passwordTemp);
-	}
-	// 2.0.1 -> 2.0.2
-	var d = localStorage.getItem('deadline_list');
-	if (d){
-		d = JSON.parse(d);
-		for (var item in d){
-			if (d[item].type){
-				break;
-			}
-			d[item].type = 'd';
-			d[item].id = d[item].deadlineId;
+	//2.0 version:0
+	//2.0 -> 2.0.1	version:1
+	if (version_control('check', 1)){
+		var passwordTemp = localStorage.getItem('learn_passwd');
+		if (passwordTemp){	
+			localStorage.removeItem('learn_passwd');
+			db_saveToken(db_getUsername(), passwordTemp);
 		}
-		d = JSON.stringify(d);
-		localStorage.setItem('deadline_list', d);
+		version_control('set', 1);
 	}
-	var d = localStorage.getItem('notification_list');
-	if (d){
-		d = JSON.parse(d);
-		for (var item in d){
-			if (d[item].type){
-				break;
+	// 2.0.1 -> 2.1  version:2
+	if (version_control('check', 2)){
+		var d = localStorage.getItem('deadline_list');
+		if (d){
+			d = JSON.parse(d);
+			for (var item in d){
+				if (d[item].type){
+					break;
+				}
+				d[item].type = 'd';
+				d[item].id = d[item].deadlineId;
 			}
-			d[item].type = 'n';
+			d = JSON.stringify(d);
+			localStorage.setItem('deadline_list', d);
 		}
-		d = JSON.stringify(d);
-		localStorage.setItem('notification_list', d);
-	}
-	var d = localStorage.getItem('file_list');
-	if (d){
-		d = JSON.parse(d);
-		for (var item in d){
-			if (d[item].type){
-				break;
+		var d = localStorage.getItem('notification_list');
+		if (d){
+			d = JSON.parse(d);
+			for (var item in d){
+				if (d[item].type){
+					break;
+				}
+				d[item].type = 'n';
 			}
-			d[item].type = 'f';
+			d = JSON.stringify(d);
+			localStorage.setItem('notification_list', d);
 		}
-		d = JSON.stringify(d);
-		localStorage.setItem('file_list', d);
+		var d = localStorage.getItem('file_list');
+		version_control('set', 2);
 	}
 }
+// version is a unsigned int
+// op = check, return whether need version update
+// op = set, set version.
+function version_control(op, version){
+	if (op == 'check'){
+		var cur = localStorage.getItem('learn_version_flag', '0');
+		if (version > cur){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	if (op == 'set'){
+		localStorage.setItem('learn_version_flag', version);
+	}
+}
+	
 function db_getUsername(){
 	return localStorage.getItem('learn_username', '');
 }
@@ -445,12 +459,12 @@ function gui_main_createNewLine(data){
 		line += 'file ';
 		line += 'is-' + data.state + ' ';
 		line += '" data-args=' + id + '> '
-		//CSS TODO
 		line += '<a class="title" target="content-frame" data-args="read" href="https://learn.tsinghua.edu.cn'+ 
 		data.href+'"><span class="tag theme-magenta"><i class="icon-download-alt"></i></span> ' + data.name + '</a></td>';
-		line += '<span class="description">' + new Date(data.day).Format("yyyy-MM-dd") + data.explanation + '</span>';
+		line += '<span class="description">' + new Date(data.day).Format("yyyy-MM-dd") + '&nbsp;&nbsp;' + data.explanation + '</span>';
 		line += '<div class="toolbar">';
 		line += '<a class="add-star" href="#" data-args="star">置顶</a>';
+		line += '<a class="set-readed" href="#" data-args="read">设为已读</a>';
 		line += '<a class="course-name" target="content-frame" href="' + URL_CONST['notification'] + '?course_id=' + data.courseId + '">' + data.courseName + '</a>';
 		line += '</div>';
 	}
@@ -479,12 +493,12 @@ function gui_main_updateDeadlineList(deadlineList, collectCallback){
 		var line = gui_main_createNewLine(data);
 		GUIList.append($(line));
 	}
-	$('.homework .title').click(function() {
+	$('#nearby-deadline .homework .title').click(function() {
 		var args = this.getAttribute('data-args').split(',');
 		args.push(this.parentNode);
 		setState.apply(null, args);
 	});
-	$('.homework .add-star').click(function() {
+	$('#nearby-deadline .homework .add-star').click(function() {
 		var args = this.getAttribute('data-args').split(',');
 		args.push(this.parentNode.parentNode);
 		setState.apply(null, args);
@@ -515,12 +529,12 @@ function gui_main_updateNotificationList(notificationList, collectCallback){
 		}
 		GUIlist.append($(line));
 	}
-	$('.notification .title').click(function() {
+	$('#category-heading .notification .title').click(function() {
 		var args = this.getAttribute('data-args').split(',');
 		args.push(this.parentNode);
 		setState.apply(null, args);
 	});
-	$('.notification .add-star').click(function() {
+	$('#category-heading .notification .add-star').click(function() {
 		var args = this.getAttribute('data-args').split(',');
 		args.push(this.parentNode.parentNode);
 		setState.apply(null, args);
@@ -528,7 +542,6 @@ function gui_main_updateNotificationList(notificationList, collectCallback){
 	gui_main_updatePopupNumber('notification', counter);
 }
 
-//TODO
 function gui_main_updateFileList(fileList, collectCallback){
 	temp = [];
 	for (id in fileList){
@@ -549,12 +562,17 @@ function gui_main_updateFileList(fileList, collectCallback){
 		}
 		GUIlist.append($(line));
 	}
-	$('.file .title').click(function() {
+	$('#file-heading .file .title').click(function() {
 		var args = this.getAttribute('data-args').split(',');
 		args.push(this.parentNode);
 		setState.apply(null, args);
 	});
-	$('.file .add-star').click(function() {
+	$('#file-heading .file .add-star').click(function() {
+		var args = this.getAttribute('data-args').split(',');
+		args.push(this.parentNode.parentNode);
+		setState.apply(null, args);
+	});
+	$('#file-heading .file .set-readed').click(function() {
 		var args = this.getAttribute('data-args').split(',');
 		args.push(this.parentNode.parentNode);
 		setState.apply(null, args);
@@ -583,12 +601,16 @@ var gui_main_updateCollect = function() {
 				var line = gui_main_createNewLine(cList[i]);
 				GUIList.append($(line));
 			}
-			$('#js-new .homework .title').click(function() {
+			// reset cList;
+			cList = [];
+			listCount = 0;
+
+			$('#js-new .title').click(function() {
 				var args = this.getAttribute('data-args').split(',');
 				args.push(this.parentNode);
 				setState.apply(null, args);
 			});
-			$('#js-new .homework .add-star').click(function() {
+			$('#js-new .add-star, .set-readed').click(function() {
 				var args = this.getAttribute('data-args').split(',');
 				args.push(this.parentNode.parentNode);
 				setState.apply(null, args);
