@@ -2,6 +2,7 @@ var getURLParamters = window.getURLParamters;
 var manifest = getManifest();
 var CONST = {
 	'version': manifest.version,
+	'featureName' : [ 'deadline', 'notification', 'file'],
 	'GUIListName' : {
 		'deadline' : '#nearby-deadline',
 		'notification' : '#category-heading',
@@ -440,7 +441,6 @@ function gui_main_createNewLine(data){
 }
 
 function gui_main_updateNormalList(type, List, collectCallback){
-	console.log(type);
 	temp = [];
 	for (id in List){
 		temp.push(evaluation(type, List[id]));
@@ -654,58 +654,43 @@ function updateData(update, list_update){
 	setLoading(0, $folder);
 	var progress = [0, 0, 0, 0];
 
+	var totalPart = 1 + CONST.featureName.length;
 	if (update || list_update){
 		net_login(function(){
-			setLoading(1.0 / 5, $folder);
-
+			// login
+			totalPart += 1;
+			setLoading(1.0 / totalPart, $folder);
 			processCourseList(list_update ? true : false, gui_main_updateCourseList, function(p) {
 				progress[0] = p;
-				setLoading((progress[0] + progress[1] + progress[2] + progress[3] + 1) / 5, $folder);
+				setLoading((progress[0] + progress[1] + progress[2] + progress[3] + 1) / totalPart, $folder);
 			});
-			processNormalList('deadline', update, gui_main_updateNormalList, function(p) {
-				progress[1] = p;
-				setLoading((progress[0] + progress[1] + progress[2] + progress[3] +  1) / 5, $folder);
-			}, 
-			gui_main_updateCollect('setter')
-			);
-			processNormalList('notification', update, gui_main_updateNormalList, function(p) {
-				progress[2] = p;
-				setLoading((progress[0] + progress[1] + progress[2] + progress[3] +  1) / 5, $folder);
-			},
-			gui_main_updateCollect('setter')
-			);
-			processNormalList('file', update, gui_main_updateNormalList, function(p) {
-				progress[3] = p;
-				setLoading((progress[0] + progress[1] + progress[2] + progress[3] +  1) / 5, $folder);
-			}, 
-			gui_main_updateCollect('setter')
-			);
-
+			for (var i = 0; i < CONST.featureName.length; i++){
+				processNormalList(CONST.featureName[i], update, gui_main_updateNormalList, function(kk){
+					return function(p) {
+						progress[kk + 1] = p;
+						setLoading((progress[0] + progress[1] + progress[2] + progress[3] +  1) / totalPart, $folder);
+					};
+				}(i), 
+				gui_main_updateCollect('setter')
+				);
+			}
 		});
 		return;
 	}
 	processCourseList(list_update ? true : false, gui_main_updateCourseList, function(p) {
 		progress[0] = p;
-		setLoading((progress[0] + progress[1] + progress[2] + progress[3]) / 4, $folder);
+		setLoading((progress[0] + progress[1] + progress[2] + progress[3]) / totalPart, $folder);
 	});
-	processNormalList('deadline', update, gui_main_updateNormalList, function(p) {
-		progress[1] = p;
-		setLoading((progress[0] + progress[1] + progress[2] + progress[3]) / 4, $folder);
-	}, 
-	gui_main_updateCollect('setter')
-	);
-	processNormalList('notification', update, gui_main_updateNormalList, function(p) {
-		progress[2] = p;
-		setLoading((progress[0] + progress[1] + progress[2] + progress[3] ) / 4, $folder);
-	},
-	gui_main_updateCollect('setter')
-	);
-	processNormalList('file', update, gui_main_updateNormalList, function(p) {
-		progress[3] = p;
-		setLoading((progress[0] + progress[1] + progress[2] + progress[3] ) / 4, $folder);
-	}, 
-	gui_main_updateCollect('setter')
-	);
+	for (var i = 0; i < CONST.featureName.length; i++){
+		processNormalList(CONST.featureName[i], update, gui_main_updateNormalList, function(kk){
+			return function(p) {
+				progress[kk + 1] = p;
+				setLoading((progress[0] + progress[1] + progress[2] + progress[3] ) / totalPart, $folder);
+			};
+		}(i), 
+		gui_main_updateCollect('setter')
+		);
+	}
 }
 
 function changeToken(){
@@ -810,9 +795,9 @@ function initMain(update){
 
 }
 function setAllReaded(){
-	db_setAllReaded('notification');
-	db_setAllReaded('deadline');
-	db_setAllReaded('file');
+	for (var i=0; i < CONST.featureName.length; i += 1){
+		db_setAllReaded(CONST.featureName[i]);
+	}
 	updateData(false);
 }
 
