@@ -32,7 +32,7 @@ var URL_CONST = {
 		'mentor' : 'https://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/getbbsid_student.jsp',		//课程答疑
 		'discuss' : 'https://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/gettalkid_student.jsp',		//课程讨论
 		'course_page' : 'https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/course_locate.jsp',		//课程页面
-		'homework_detail' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_detail.jsp', //作业详细
+		'deadline_detail' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_detail.jsp', //作业详细
 		'homework_submit' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_submit.jsp', //作业提交
 		'homework_review' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_view.jsp', //作业批阅
 };
@@ -264,12 +264,7 @@ function clearCache(){
 }
 
 function db_setAllReaded(type){
-	var choose = {
-		'deadline' : 'deadline_list',
-		'notification' : 'notification_list',
-		'file' : 'file_list',
-	};
-	var _name = choose[type];
+	var _name = CONST.cacheListName[type];
 	var List = [];
 	if (localStorage.getItem(_name))
 		List = JSON.parse(localStorage.getItem(_name));
@@ -382,7 +377,7 @@ function gui_main_createNewLine(data){
 		line += ((data.submit_state == '已经提交')?'is-submitted' :'') + ' ';
 		line += '" data-args=' + id + '> '
 
-			line += '<a class="title" target="content-frame" data-args="read" href="' + URL_CONST['homework_detail'] + '?id=' + data.id + '&course_id=' + data.courseId + '">';
+			line += '<a class="title" target="content-frame" data-args="read" href="' + URL_CONST['deadline_detail'] + '?id=' + data.id + '&course_id=' + data.courseId + '">';
 
 		line += '<span class="tag ' + getTheme(dueDays, data.submit_state) + '">'
 			if (data.submit_state == '已经提交'){
@@ -821,5 +816,3 @@ function setAllReaded(){
 	updateData(false);
 }
 
-$(function(){
-});
