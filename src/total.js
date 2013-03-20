@@ -401,7 +401,7 @@ function gui_main_createNewLine(data){
 		//line += '<a class="attachment-file" href="#"><i class="icon-paper-clip"></i>尚未完成</a>';
 		// CSS TODO review-link none
 		if (data.resultState){
-			line += '<a class="review-link" href="' + URL_CONST['homework_review'] + '?id=' + data.id + '&course_id=' + data.courseId + '">查看批阅</a>';
+			line += '<a class="review-link" target="content-frame" href="' + URL_CONST['homework_review'] + '?id=' + data.id + '&course_id=' + data.courseId + '">查看批阅</a>';
 		}
 		else if (data.submit_state != '尚未提交'){
 			line += '<a class="review-link none">尚未批阅</a>';
