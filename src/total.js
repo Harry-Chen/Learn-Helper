@@ -33,8 +33,8 @@ var URL_CONST = {
 		'discuss' : 'https://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/gettalkid_student.jsp',		//课程讨论
 		'course_page' : 'https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/course_locate.jsp',		//课程页面
 		'deadline_detail' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_detail.jsp', //作业详细
-		'homework_submit' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_submit.jsp', //作业提交
-		'homework_review' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_view.jsp', //作业批阅
+		'deadline_submit' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_submit.jsp', //作业提交
+		'deadline_review' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_view.jsp', //作业批阅
 };
 
 function net_login(successCall){
@@ -393,13 +393,13 @@ function gui_main_createNewLine(data){
 		line += '<span class="description">' + new Date(data.end).Format("yyyy-MM-dd") + ' - ' + data.submit_state + '</span>';
 
 		line += '<div class="toolbar">';
-		line += '<a class="handin-link" target="content-frame" href="' + URL_CONST['homework_submit'] + '?id=' + data.id + '&course_id=' + data.courseId + '">提交链接</a> ' ;
+		line += '<a class="handin-link" target="content-frame" href="' + URL_CONST['deadline_submit'] + '?id=' + data.id + '&course_id=' + data.courseId + '">提交链接</a> ' ;
 		line += '<a class="add-star" href="#" data-args="star">置顶</a> ';
 		//TODO homework file's link
 		//line += '<a class="attachment-file" href="#"><i class="icon-paper-clip"></i>尚未完成</a>';
 		// CSS TODO review-link none
 		if (data.resultState){
-			line += '<a class="review-link" target="content-frame" href="' + URL_CONST['homework_review'] + '?id=' + data.id + '&course_id=' + data.courseId + '">查看批阅</a>';
+			line += '<a class="review-link" target="content-frame" href="' + URL_CONST['deadline_review'] + '?id=' + data.id + '&course_id=' + data.courseId + '">查看批阅</a>';
 		}
 		else if (data.submit_state != '尚未提交'){
 			line += '<a class="review-link none">尚未批阅</a>';
