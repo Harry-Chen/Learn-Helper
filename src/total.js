@@ -19,7 +19,20 @@ var CONST = {
 		'notification' : 'ignore_list_notification',
 		'file' : 'ignore_list_file',
 	},
-		
+	'changeState' : {
+		'unread' : {
+			'read' : 'readed',
+			'star' : 'stared'
+		},
+		'readed' : {
+			'read' : 'readed',
+			'star' : 'stared'
+		},
+		'stared' : {
+			'read' : 'stared',
+			'star' : 'readed'
+		}
+	},
 };
 var URL_CONST = {
 	'login' : 'https://learn.tsinghua.edu.cn/MultiLanguage/lesson/teacher/loginteacher.jsp',	//登陆页
@@ -172,58 +185,44 @@ function db_updateCourseList(courseList, args){
 		id = getURLParamters(courseList[i].getAttribute('href')).course_id;
 		var name = $.trim(courseList[i].innerText);
 		name = name.match(/^(.*)\s*\([^(]*\)\s*\([^(]*\)$/)[1];
-						var course = { 'id' : id,
-							'name' : name
-						};
-						db_courseList.push(course);
-						}
-						localStorage.course_list = JSON.stringify(db_courseList);
-						if (args){
-							args(db_courseList);
-						}
-						}
+		var course = { 
+			'id' : id,
+			'name' : name,
+			};
+		db_courseList.push(course);
+	}
+	localStorage.course_list = JSON.stringify(db_courseList);
+	if (args){
+		args(db_courseList);
+	}
+}
 
-						function db_saveToken(username, password){
-							localStorage.setItem('learn_username', username);
-							var encryptPassword = sjcl.encrypt("LEARNpassword", password)
-			localStorage.setItem('learn_encrypt_password', encryptPassword);
-						}
+function db_saveToken(username, password){
+	localStorage.setItem('learn_username', username);
+	var encryptPassword = sjcl.encrypt("LEARNpassword", password);
+	localStorage.setItem('learn_encrypt_password', encryptPassword);
+}
 
-						function db_updateList(type, List, args, collectCallback){
-							var _name = CONST.cacheListName[type];
-							if (!_name) return;
-							if (localStorage.getItem(_name)){
-								var oldList = JSON.parse(localStorage.getItem(_name));
-								List = mergeList(List, oldList);
-							}
-							localStorage.setItem(_name, JSON.stringify(List));
-							if (args){
-								args(type, List, collectCallback);
-							}
-						}
+function db_updateList(type, List, args, collectCallback){
+	var _name = CONST.cacheListName[type];
+	if (!_name) return;
+	if (localStorage.getItem(_name)){
+		var oldList = JSON.parse(localStorage.getItem(_name));
+		List = mergeList(List, oldList);
+	}
+	localStorage.setItem(_name, JSON.stringify(List));
+	if (args){
+		args(type, List, collectCallback);
+	}
+}
 function setState(op, node){	//allowed state = 'readed', 'unread', 'stared'
 	var id = node.getAttribute('data-args');
 	var cur_state = node.className.match(/is-(\w*)/)[1];
 	var type = node.className.match(/deadline|notification|file/)[0];
-	var result = {
-		'unread' : {
-			'read' : 'readed',
-			'star' : 'stared'
-		},
-		'readed' : {
-			'read' : 'readed',
-			'star' : 'stared'
-		},
-		'stared' : {
-			'read' : 'stared',
-			'star' : 'readed'
-		}
-	};
-
 	if (!(id )){
 		return
 	}
-	var target_state = result[cur_state][op];
+	var target_state = CONST.changeState[cur_state][op];
 	if (target_state == cur_state){
 		return;
 	}
