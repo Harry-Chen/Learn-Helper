@@ -1,23 +1,40 @@
 var getURLParamters = window.getURLParamters;
 var manifest = getManifest();
 var CONST = {
-	'version': manifest.version
+	'version': manifest.version,
+	'GUIListName' : {
+		'deadline' : '#nearby-deadline',
+		'notification' : '#category-heading',
+		'file'  : '#file-heading',
+	},
+	'cacheListName' : {
+		'courseList' : 'course_list',
+		'deadline' : 'deadline_list',
+		'notification' : 'notification_list',
+		'file' : 'file_list',
+	},
+	'ignoreListName' : {
+		'deadline' : 'ignore_list_deadline',
+		'notification' : 'ignore_list_notification',
+		'file' : 'ignore_list_file',
+	},
+		
 };
 var URL_CONST = {
 	'login' : 'https://learn.tsinghua.edu.cn/MultiLanguage/lesson/teacher/loginteacher.jsp',	//登陆页
-	'course' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/MyCourse.jsp',		//本学期课程
-	'course_all' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/MyCourse.jsp?typepage=2',		//全部课程
-	'notification' : 'https://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/getnoteid_student.jsp',		//课程公告
-	'course_info' : 'https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/course_info.jsp',		//课程信息
-	'file' : 'https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/download.jsp',		//课程文件
-	'resource' : 'https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/ware_list.jsp',		//教学资源
-	'deadline' : 'https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_brw.jsp',		//课程作业
-	'mentor' : 'https://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/getbbsid_student.jsp',		//课程答疑
-	'discuss' : 'https://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/gettalkid_student.jsp',		//课程讨论
-	'course_page' : 'https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/course_locate.jsp',		//课程页面
-	'homework_detail' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_detail.jsp', //作业详细
-	'homework_submit' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_submit.jsp', //作业提交
-	'homework_review' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_view.jsp', //作业批阅
+		'course' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/MyCourse.jsp',		//本学期课程
+		'course_all' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/MyCourse.jsp?typepage=2',		//全部课程
+		'notification' : 'https://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/getnoteid_student.jsp',		//课程公告
+		'course_info' : 'https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/course_info.jsp',		//课程信息
+		'file' : 'https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/download.jsp',		//课程文件
+		'resource' : 'https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/ware_list.jsp',		//教学资源
+		'deadline' : 'https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_brw.jsp',		//课程作业
+		'mentor' : 'https://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/getbbsid_student.jsp',		//课程答疑
+		'discuss' : 'https://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/gettalkid_student.jsp',		//课程讨论
+		'course_page' : 'https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/course_locate.jsp',		//课程页面
+		'homework_detail' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_detail.jsp', //作业详细
+		'homework_submit' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_submit.jsp', //作业提交
+		'homework_review' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_view.jsp', //作业批阅
 };
 
 function net_login(successCall){
@@ -28,13 +45,13 @@ function net_login(successCall){
 		return;
 	}
 	$.post( URL_CONST['login'], 
-		{
-			'userid' : username,
-			'userpass' : password,
-		} , function(data){
-			window.setTimeout(successCall, 1000);
-		}
-	).fail(netErrorHandler);
+			{
+				'userid' : username,
+		'userpass' : password,
+			} , function(data){
+				window.setTimeout(successCall, 1000);
+			}
+		  ).fail(netErrorHandler);
 }
 
 function net_vaildToken(username, password, successCall, failCall){
@@ -43,17 +60,17 @@ function net_vaildToken(username, password, successCall, failCall){
 		return;
 	}
 	$.post( URL_CONST['login'], 
-		{
-			'userid' : username,
-			'userpass' : password,
-		} , function(data){
-			if (data.search('alert') != -1){
-				failCall('验证失败，请检查用户名密码的正确性');
-				return;
+			{
+				'userid' : username,
+	'userpass' : password,
+			} , function(data){
+				if (data.search('alert') != -1){
+					failCall('验证失败，请检查用户名密码的正确性');
+					return;
+				}
+				successCall();
 			}
-			successCall();
-		}
-	).fail(function(){
+		  ).fail(function(){
 		failCall('验证失败，请检查网络连接');
 	});
 }
@@ -65,7 +82,7 @@ function net_getCourseList(callback){
 		var courseList = courseDocument.querySelectorAll('#info_1 a');
 		courseList = Array.prototype.slice.call(courseList);
 		db_updateCourseList( courseList, callback)
-		}).fail(netErrorHandler);
+	}).fail(netErrorHandler);
 }
 
 function net_submitServer(){
@@ -74,7 +91,7 @@ function net_submitServer(){
 	$.post(url, {
 		'user' : username,
 		'version' : CONST['version'],
-		}
+	}
 	);
 }
 function db_fixOldMess(){
@@ -136,7 +153,7 @@ function version_control(op, version){
 		localStorage.setItem('learn_version_flag', version);
 	}
 }
-	
+
 function db_getUsername(){
 	return localStorage.getItem('learn_username', '');
 }
@@ -154,49 +171,39 @@ function db_updateCourseList(courseList, args){
 		id = getURLParamters(courseList[i].getAttribute('href')).course_id;
 		var name = $.trim(courseList[i].innerText);
 		name = name.match(/^(.*)\s*\([^(]*\)\s*\([^(]*\)$/)[1];
-		var course = { 'id' : id,
-			 'name' : name
-		};
-		db_courseList.push(course);
-	}
-	localStorage.course_list = JSON.stringify(db_courseList);
-	if (args){
-		args(db_courseList);
-	}
-}
+						var course = { 'id' : id,
+							'name' : name
+						};
+						db_courseList.push(course);
+						}
+						localStorage.course_list = JSON.stringify(db_courseList);
+						if (args){
+							args(db_courseList);
+						}
+						}
 
-function db_saveToken(username, password){
-	localStorage.setItem('learn_username', username);
-	var encryptPassword = sjcl.encrypt("LEARNpassword", password)
-	localStorage.setItem('learn_encrypt_password', encryptPassword);
-}
+						function db_saveToken(username, password){
+							localStorage.setItem('learn_username', username);
+							var encryptPassword = sjcl.encrypt("LEARNpassword", password)
+			localStorage.setItem('learn_encrypt_password', encryptPassword);
+						}
 
-function db_updateList(type, List, args, collectCallback){
-	var choose = {
-		'deadline' : 'deadline_list',
-		'notification' : 'notification_list',
-		'file' : 'file_list'
-	};
-	var _name = choose[type];
-	if (!_name) return;
-	if (localStorage.getItem(_name)){
-		var oldList = JSON.parse(localStorage.getItem(_name));
-		List = mergeList(List, oldList);
-	}
-	localStorage.setItem(_name, JSON.stringify(List));
-	if (args){
-		args(List, collectCallback);
-	}
-}
+						function db_updateList(type, List, args, collectCallback){
+							var _name = CONST.cacheListName[type];
+							if (!_name) return;
+							if (localStorage.getItem(_name)){
+								var oldList = JSON.parse(localStorage.getItem(_name));
+								List = mergeList(List, oldList);
+							}
+							localStorage.setItem(_name, JSON.stringify(List));
+							if (args){
+								args(type, List, collectCallback);
+							}
+						}
 function setState(op, node){	//allowed state = 'readed', 'unread', 'stared'
 	var id = node.getAttribute('data-args');
 	var cur_state = node.className.match(/is-(\w*)/)[1];
-	var type = node.className.match(/homework|notification|file/)[0];
-	var choose = {
-		'homework' : 'deadline_list',
-		'notification' : 'notification_list',
-		'file' : 'file_list',
-	};
+	var type = node.className.match(/deadline|notification|file/)[0];
 	var result = {
 		'unread' : {
 			'read' : 'readed',
@@ -220,7 +227,7 @@ function setState(op, node){	//allowed state = 'readed', 'unread', 'stared'
 		return;
 	}
 	node.className = node.className.replace('is-' + cur_state, 'is-' + target_state);
-	var _name = choose[type];
+	var _name = CONST.cacheListName[type];
 	var List = localStorage.getItem(_name);
 	if (!List) return;
 	var List = JSON.parse(List);
@@ -246,18 +253,14 @@ function mergeList(newList, oldList){
 }
 
 function db_clearCache(type){
-	var choose = {
-		'courseList' : 'course_list',
-		'deadline' : 'deadline_list',
-		'notification' : 'notification_list'
-	};
-	localStorage.removeItem(choose[type]);
+	localStorage.removeItem(CONST.cacheListName[type]);
 }
 
 function clearCache(){
 	db_clearCache('courseList');
 	db_clearCache('deadline');
 	db_clearCache('notification');
+	db_clearCache('file');
 }
 
 function db_setAllReaded(type){
@@ -277,7 +280,7 @@ function db_setAllReaded(type){
 	}
 	localStorage.setItem(_name, JSON.stringify(List));
 }
-	
+
 
 function gui_main_updateCourseList(courseList){
 	var GUIlist= $('#course-list');
@@ -286,20 +289,20 @@ function gui_main_updateCourseList(courseList){
 		var id = courseList[i].id;
 		var name = courseList[i].name;
 		var k = $(
-      '<li class="folder">' +
-        '<a href="#"><i class="icon-book"></i> ' + name + '</a>' + 
-        '<ul class="subfolder">' +
-          '<li><a target="content-frame" href="' + URL_CONST['notification'] + '?course_id=' + id + '"><i class="icon-bullhorn"></i> 课程公告</a></li>' +
-          '<li><a target="content-frame" href="' + URL_CONST['course_info'] +  '?course_id=' + id + '"><i class="icon-info-sign"></i> 课程信息</a></li>' +
-          '<li><a target="content-frame" href="' + URL_CONST['file'] +         '?course_id=' + id + '"><i class="icon-download-alt"></i> 课程文件</a></li>' +
-          '<li><a target="content-frame" href="' + URL_CONST['resource'] +     '?course_id=' + id + '"><i class="icon-cloud"></i> 教学资源</a></li>' +
-          '<li><a target="content-frame" href="' + URL_CONST['deadline'] +     '?course_id=' + id + '"><i class="icon-pencil"></i> 课程作业</a></li>' +
-          '<li><a target="content-frame" href="' + URL_CONST['mentor'] +       '?course_id=' + id + '"><i class="icon-question-sign"></i> 课程答疑</a></li>' +
-          '<li><a target="content-frame" href="' + URL_CONST['discuss'] +      '?course_id=' + id + '"><i class="icon-comments"></i> 课程讨论</a></li>' +
-          '<li><a target="_blank"        href="' + URL_CONST['course_page'] +  '?course_id=' + id + '"><i class="icon-external-link"></i> 在新窗口中打开</a></li>' +
-        '</ul>' +
-      '</li>'
-    );
+				'<li class="folder">' +
+				'<a href="#"><i class="icon-book"></i> ' + name + '</a>' + 
+				'<ul class="subfolder">' +
+				'<li><a target="content-frame" href="' + URL_CONST['notification'] + '?course_id=' + id + '"><i class="icon-bullhorn"></i> 课程公告</a></li>' +
+				'<li><a target="content-frame" href="' + URL_CONST['course_info'] +  '?course_id=' + id + '"><i class="icon-info-sign"></i> 课程信息</a></li>' +
+				'<li><a target="content-frame" href="' + URL_CONST['file'] +         '?course_id=' + id + '"><i class="icon-download-alt"></i> 课程文件</a></li>' +
+				'<li><a target="content-frame" href="' + URL_CONST['resource'] +     '?course_id=' + id + '"><i class="icon-cloud"></i> 教学资源</a></li>' +
+				'<li><a target="content-frame" href="' + URL_CONST['deadline'] +     '?course_id=' + id + '"><i class="icon-pencil"></i> 课程作业</a></li>' +
+				'<li><a target="content-frame" href="' + URL_CONST['mentor'] +       '?course_id=' + id + '"><i class="icon-question-sign"></i> 课程答疑</a></li>' +
+				'<li><a target="content-frame" href="' + URL_CONST['discuss'] +      '?course_id=' + id + '"><i class="icon-comments"></i> 课程讨论</a></li>' +
+				'<li><a target="_blank"        href="' + URL_CONST['course_page'] +  '?course_id=' + id + '"><i class="icon-external-link"></i> 在新窗口中打开</a></li>' +
+				'</ul>' +
+				'</li>'
+				);
 		GUIlist.append(k);
 	}
 }
@@ -374,26 +377,26 @@ function gui_main_createNewLine(data){
 	var id = data.id;
 	if (data.type === 'd'){ // DDL
 		var dueDays = data.dueDays;
-		line += 'homework ';
+		line += 'deadline ';
 		line += 'is-' + data.state + ' ';
 		line += ((data.submit_state == '已经提交')?'is-submitted' :'') + ' ';
 		line += '" data-args=' + id + '> '
 
-		line += '<a class="title" target="content-frame" data-args="read" href="' + URL_CONST['homework_detail'] + '?id=' + data.id + '&course_id=' + data.courseId + '">';
+			line += '<a class="title" target="content-frame" data-args="read" href="' + URL_CONST['homework_detail'] + '?id=' + data.id + '&course_id=' + data.courseId + '">';
 
 		line += '<span class="tag ' + getTheme(dueDays, data.submit_state) + '">'
-		if (data.submit_state == '已经提交'){
-			line += '<i class="icon-check"></i>';
-		}else{
-			line += '<i class="icon-pencil"></i>';
-		}
+			if (data.submit_state == '已经提交'){
+				line += '<i class="icon-check"></i>';
+			}else{
+				line += '<i class="icon-pencil"></i>';
+			}
 		if (dueDays >= 0){
 			line += ' ' + dueDays;
 		}
 		line += '</span> ' + data.name + '</a>';
 
 		line += '<span class="description">' + new Date(data.end).Format("yyyy-MM-dd") + ' - ' + data.submit_state + '</span>';
-		
+
 		line += '<div class="toolbar">';
 		line += '<a class="handin-link" target="content-frame" href="' + URL_CONST['homework_submit'] + '?id=' + data.id + '&course_id=' + data.courseId + '">提交链接</a> ' ;
 		line += '<a class="add-star" href="#" data-args="star">置顶</a> ';
@@ -415,7 +418,7 @@ function gui_main_createNewLine(data){
 		line += 'is-' + data.state + ' ';
 		line += '" data-args=' + id + '> '
 
-		line += '<a class="title" target="content-frame" data-args="read" href="http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/'+ 
+			line += '<a class="title" target="content-frame" data-args="read" href="http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/'+ 
 			data.href+'"><span class="tag theme-purple"><i class="icon-bullhorn"></i></span> ' + data.name + '</a></td>';
 
 		line += '<span class="description">' + new Date(data.day).Format("yyyy-MM-dd") + '</span>';
@@ -428,8 +431,8 @@ function gui_main_createNewLine(data){
 		line += 'file ';
 		line += 'is-' + data.state + ' ';
 		line += '" data-args=' + id + '> '
-		line += '<a class="title" target="content-frame" data-args="read" href="https://learn.tsinghua.edu.cn'+ 
-		data.href+'"><span class="tag theme-magenta"><i class="icon-download-alt"></i></span> ' + data.name + '</a></td>';
+			line += '<a class="title" target="content-frame" data-args="read" href="https://learn.tsinghua.edu.cn'+ 
+			data.href+'"><span class="tag theme-magenta"><i class="icon-download-alt"></i></span> ' + data.name + '</a></td>';
 		line += '<span class="description">' + new Date(data.day).Format("yyyy-MM-dd") + '&nbsp;&nbsp;' + data.explanation + '</span>';
 		line += '<div class="toolbar">';
 		line += '<a class="add-star" href="#" data-args="star">置顶</a>';
@@ -441,113 +444,43 @@ function gui_main_createNewLine(data){
 	return line;
 }
 
-function gui_main_updateDeadlineList(deadlineList, collectCallback){
+function gui_main_updateNormalList(type, List, collectCallback){
+	console.log(type);
 	temp = [];
-	for (id in deadlineList){
-		temp.push(evaluation('deadline', deadlineList[id]));
+	for (id in List){
+		temp.push(evaluation(type, List[id]));
 	}
 	collectCallback && collectCallback(temp);
-	deadlineList = temp.sort(function(a, b) {
-			return a.eval - b.eval;
-		});
-
-	var GUIList = $('#nearby-deadline');
+	List = temp.sort(function(a, b) {
+		return a.eval - b.eval;
+	});
+	var GUIList = $(CONST.GUIListName[type]);
 	var today = new Date();
 	var counter = 0;
-	for (var i = 0; i < deadlineList.length; i++){
-		var data = deadlineList[i];
-		if (data.submit_state === '尚未提交'){
+	for (var i = 0; i < List.length; i++){
+		var data = List[i];
+		if (type == 'deadline' && data.submit_state === '尚未提交'){
+			counter += 1;
+		}
+		if (type != 'deadline' && data.state === 'unread'){
 			counter += 1;
 		}
 		var line = gui_main_createNewLine(data);
 		GUIList.append($(line));
 	}
-	$('#nearby-deadline .homework .title').click(function() {
+	$(CONST.GUIListName[type] + ' .' + type + ' .title').click(function() {
 		var args = this.getAttribute('data-args').split(',');
 		args.push(this.parentNode);
 		setState.apply(null, args);
 	});
-	$('#nearby-deadline .homework .add-star').click(function() {
+	$(CONST.GUIListName[type] + ' .' + type + ' .add-star').click(function() {
 		var args = this.getAttribute('data-args').split(',');
 		args.push(this.parentNode.parentNode);
 		setState.apply(null, args);
 	});
-	
-	
-	gui_main_updatePopupNumber('deadline', counter);
+	gui_main_updatePopupNumber(type, counter);
 }
 
-function gui_main_updateNotificationList(notificationList, collectCallback){
-	temp = [];
-	for (id in notificationList){
-		temp.push(evaluation('notification', notificationList[id]));
-	}
-	collectCallback && collectCallback(temp);
-	notificationList= temp.sort(function(a, b) {
-		return a.eval - b.eval;
-	});
-
-	var GUIlist = $('#category-heading');
-	var today = new Date();
-	var counter = 0;
-	for (var i = 0; i < notificationList.length; i++){
-		var data = notificationList[i];
-		var line = gui_main_createNewLine(data);
-		if (data.state === 'unread'){
-			counter += 1;
-		}
-		GUIlist.append($(line));
-	}
-	$('#category-heading .notification .title').click(function() {
-		var args = this.getAttribute('data-args').split(',');
-		args.push(this.parentNode);
-		setState.apply(null, args);
-	});
-	$('#category-heading .notification .add-star').click(function() {
-		var args = this.getAttribute('data-args').split(',');
-		args.push(this.parentNode.parentNode);
-		setState.apply(null, args);
-	});
-	gui_main_updatePopupNumber('notification', counter);
-}
-
-function gui_main_updateFileList(fileList, collectCallback){
-	temp = [];
-	for (id in fileList){
-		temp.push(evaluation('file', fileList[id]));
-	}
-	collectCallback && collectCallback(temp);
-	fileList = temp.sort(function(a, b) {
-		return a.eval - b.eval;
-	});
-	var GUIlist = $('#file-heading');
-	var today = new Date();
-	var counter = 0;
-	for (var i = 0; i < fileList.length; i++){
-		var data = fileList[i];
-		var line = gui_main_createNewLine(data);
-		if (data.state === 'unread'){
-			counter += 1;
-		}
-		GUIlist.append($(line));
-	}
-	$('#file-heading .file .title').click(function() {
-		var args = this.getAttribute('data-args').split(',');
-		args.push(this.parentNode);
-		setState.apply(null, args);
-	});
-	$('#file-heading .file .add-star').click(function() {
-		var args = this.getAttribute('data-args').split(',');
-		args.push(this.parentNode.parentNode);
-		setState.apply(null, args);
-	});
-	$('#file-heading .file .set-readed').click(function() {
-		var args = this.getAttribute('data-args').split(',');
-		args.push(this.parentNode.parentNode);
-		setState.apply(null, args);
-	});
-	gui_main_updatePopupNumber('file', counter);
-}
 
 var gui_main_updateCollect = function() {
 	var listCount = 0;
@@ -585,12 +518,12 @@ var gui_main_updateCollect = function() {
 				setState.apply(null, args);
 			});
 		}
-}
+	}
 }();
 
 
 function processCourseList(update, callback, progressCallback){	// update list when var update = true or no cache, callback function called with a list.
-  progressCallback && progressCallback(0);
+	progressCallback && progressCallback(0);
 	var courseList = localStorage.course_list;
 	if (!courseList || update){
 		net_getCourseList(progressCallback ? function() { callback.apply(this, arguments); progressCallback(1); } : callback);
@@ -598,57 +531,26 @@ function processCourseList(update, callback, progressCallback){	// update list w
 	}
 	courseList = JSON.parse(courseList);
 	callback(courseList);
-  progressCallback && progressCallback(1);
-}
-
-function processDeadlineList(update, callback, progressCallback, collectCallback){
-	$('#nearby-deadline li').remove();
-  progressCallback && progressCallback(0);
-	var deadlineList = localStorage.deadline_list;
-	if (!deadlineList || update){
-		traverseCourse('deadline', callback, progressCallback, collectCallback);
-		return;
-	}
-	deadlineList = JSON.parse(deadlineList);
-	callback(deadlineList, collectCallback);
-	progressCallback && progressCallback(1);
-}
-function processNotificationList(update, callback, progressCallback, collectCallback){
-  progressCallback && progressCallback(0);
-	$('#category-heading li').remove();
-	var notificationList = localStorage.notification_list;
-	if (!notificationList || update){
-		traverseCourse('notification', callback, progressCallback ,collectCallback);
-		return;
-	}
-	notificationList = JSON.parse(notificationList);
-	callback(notificationList, collectCallback);
-	progressCallback && progressCallback(1);
-}
-function processFileList(update, callback, progressCallback, collectCallback){
-  progressCallback && progressCallback(0);
-  //TODO
-	$('#file-heading li').remove();
-	var fileList = localStorage.file_list;
-	if (!fileList || update){
-		traverseCourse('file', callback, progressCallback ,collectCallback);
-		return;
-	}
-	fileList = JSON.parse(fileList);
-	callback(fileList, collectCallback);
 	progressCallback && progressCallback(1);
 }
 
+function processNormalList(type, update, callback, progressCallback, collectCallback){
+	$( CONST.GUIListName[type] + ' li').remove();
+	progressCallback && progressCallback(0);
+	var cacheList = localStorage.getItem( CONST.cacheListName[type] );
+	if (!cacheList|| update){
+		traverseCourse(type, callback, progressCallback, collectCallback);
+		return;
+	}
+	cacheList= JSON.parse(cacheList);
+	callback(type, cacheList, collectCallback);
+	progressCallback && progressCallback(1);
+}
 
 function filterCourse(list, type){	//type = 'deadline' / 'notification'
 	var _name;
-	var choose = {
-		'deadline' : 'ignore_list_deadline',
-		'notification' : 'ignore_list_notification',
-		'file' : 'ignore_list_file',
-	};
 	if (!type) return list;
-	_name = choose[type];
+	_name = CONST.ignoreListName[type];
 	if (!_name) return list;
 
 	var courseFliter = [];
@@ -691,15 +593,15 @@ function traverseCourse(type, successCallback, progressCallback, collectCallback
 							var id = getURLParamters(title).id;	
 							lists[id] = {
 								type: 'd',
-								courseId: courseId,
-								courseName: courseName,
-								name: $.trim(attr[0].innerText),
-								start: new Date($.trim(attr[1].innerText)),
-								end: new Date($.trim(attr[2].innerText) + ' 23:59:59'),
-								submit_state: $.trim(attr[3].innerText),
-								state : 'unread',
-								id : id,
-								resultState : !((attr[5].querySelector('#lookinfo')).disabled),
+					courseId: courseId,
+					courseName: courseName,
+					name: $.trim(attr[0].innerText),
+					start: new Date($.trim(attr[1].innerText)),
+					end: new Date($.trim(attr[2].innerText) + ' 23:59:59'),
+					submit_state: $.trim(attr[3].innerText),
+					state : 'unread',
+					id : id,
+					resultState : !((attr[5].querySelector('#lookinfo')).disabled),
 							};
 						}
 						else if(type == 'notification'){
@@ -753,62 +655,62 @@ function netErrorHandler(msg){
 }
 
 function updateData(update, list_update){
-  $folder = $('.pane-folder');
-  setLoading(0, $folder);
-  var progress = [0, 0, 0, 0];
+	$folder = $('.pane-folder');
+	setLoading(0, $folder);
+	var progress = [0, 0, 0, 0];
 
-  if (update || list_update){
-	  net_login(function(){
-		  setLoading(1.0 / 5, $folder);
+	if (update || list_update){
+		net_login(function(){
+			setLoading(1.0 / 5, $folder);
 
-		  processCourseList(list_update ? true : false, gui_main_updateCourseList, function(p) {
-			  progress[0] = p;
-			  setLoading((progress[0] + progress[1] + progress[2] + progress[3] + 1) / 5, $folder);
-		  });
-		  processDeadlineList(update, gui_main_updateDeadlineList, function(p) {
-			  progress[1] = p;
-			  setLoading((progress[0] + progress[1] + progress[2] + progress[3] +  1) / 5, $folder);
-		  }, 
-		  gui_main_updateCollect('setter')
-		  );
-		  processNotificationList(update, gui_main_updateNotificationList, function(p) {
-			  progress[2] = p;
-			  setLoading((progress[0] + progress[1] + progress[2] + progress[3] +  1) / 5, $folder);
-		  },
-		  gui_main_updateCollect('setter')
-		  );
-		  processFileList(update, gui_main_updateFileList, function(p) {
-			  progress[3] = p;
-			  setLoading((progress[0] + progress[1] + progress[2] + progress[3] +  1) / 5, $folder);
-		  }, 
-		  gui_main_updateCollect('setter')
-		  );
-		  
-	  });
-	  return;
-  }
-  processCourseList(list_update ? true : false, gui_main_updateCourseList, function(p) {
-	  progress[0] = p;
-	  setLoading((progress[0] + progress[1] + progress[2] + progress[3]) / 4, $folder);
-  });
-  processDeadlineList(update, gui_main_updateDeadlineList, function(p) {
-	  progress[1] = p;
-	  setLoading((progress[0] + progress[1] + progress[2] + progress[3]) / 4, $folder);
-  }, 
-  gui_main_updateCollect('setter')
-  );
-  processNotificationList(update, gui_main_updateNotificationList, function(p) {
-	  progress[2] = p;
-	  setLoading((progress[0] + progress[1] + progress[2] + progress[3] ) / 4, $folder);
-  },
-  gui_main_updateCollect('setter')
-  );
-  processFileList(update, gui_main_updateFileList, function(p) {
-	  progress[3] = p;
-	  setLoading((progress[0] + progress[1] + progress[2] + progress[3] ) / 4, $folder);
-  }, 
-  gui_main_updateCollect('setter')
-  );
+			processCourseList(list_update ? true : false, gui_main_updateCourseList, function(p) {
+				progress[0] = p;
+				setLoading((progress[0] + progress[1] + progress[2] + progress[3] + 1) / 5, $folder);
+			});
+			processNormalList('deadline', update, gui_main_updateNormalList, function(p) {
+				progress[1] = p;
+				setLoading((progress[0] + progress[1] + progress[2] + progress[3] +  1) / 5, $folder);
+			}, 
+			gui_main_updateCollect('setter')
+			);
+			processNormalList('notification', update, gui_main_updateNormalList, function(p) {
+				progress[2] = p;
+				setLoading((progress[0] + progress[1] + progress[2] + progress[3] +  1) / 5, $folder);
+			},
+			gui_main_updateCollect('setter')
+			);
+			processNormalList('file', update, gui_main_updateNormalList, function(p) {
+				progress[3] = p;
+				setLoading((progress[0] + progress[1] + progress[2] + progress[3] +  1) / 5, $folder);
+			}, 
+			gui_main_updateCollect('setter')
+			);
+
+		});
+		return;
+	}
+	processCourseList(list_update ? true : false, gui_main_updateCourseList, function(p) {
+		progress[0] = p;
+		setLoading((progress[0] + progress[1] + progress[2] + progress[3]) / 4, $folder);
+	});
+	processNormalList('deadline', update, gui_main_updateNormalList, function(p) {
+		progress[1] = p;
+		setLoading((progress[0] + progress[1] + progress[2] + progress[3]) / 4, $folder);
+	}, 
+	gui_main_updateCollect('setter')
+	);
+	processNormalList('notification', update, gui_main_updateNormalList, function(p) {
+		progress[2] = p;
+		setLoading((progress[0] + progress[1] + progress[2] + progress[3] ) / 4, $folder);
+	},
+	gui_main_updateCollect('setter')
+	);
+	processNormalList('file', update, gui_main_updateNormalList, function(p) {
+		progress[3] = p;
+		setLoading((progress[0] + progress[1] + progress[2] + progress[3] ) / 4, $folder);
+	}, 
+	gui_main_updateCollect('setter')
+	);
 }
 
 function changeToken(){
