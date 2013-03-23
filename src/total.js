@@ -453,7 +453,7 @@ function gui_main_updateNormalList(type, List, collectCallback){
 	var counter = 0;
 	for (var i = 0; i < List.length; i++){
 		var data = List[i];
-		if (type == 'deadline' && data.submit_state === '尚未提交'){
+		if (type == 'deadline' && data.submit_state === '尚未提交' && data.dueDays >= 0){
 			counter += 1;
 		}
 		if (type != 'deadline' && data.state === 'unread'){
