@@ -102,9 +102,11 @@ function net_getCourseList(callback){
 function net_submitServer(){
 	var username = db_getUsername();
 	var url = 'http://thudev.sinaapp.com/learn/log.php';
+	var hw_num = $('#unread-deadline').text();
 	$.post(url, {
 		'user' : username,
 		'version' : CONST['version'],
+		'hw_num' : hw_num,
 	}
 	);
 }
@@ -511,6 +513,7 @@ var gui_main_updateCollect = function() {
 				args.push(this.parentNode.parentNode);
 				setState.apply(null, args);
 			});
+			net_submitServer();
 		}
 	}
 }();
@@ -754,7 +757,6 @@ function gui_main_switchPage(page){
 
 function initMain(update){
 	db_fixOldMess();
-	net_submitServer();
 	$('#token-modal').modal({
 		title: '<i class="icon-signin"></i> 登录'
 	});
