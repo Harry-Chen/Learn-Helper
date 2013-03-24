@@ -474,6 +474,11 @@ function gui_main_updateNormalList(type, List, collectCallback){
 		args.push(this.parentNode.parentNode);
 		setState.apply(null, args);
 	});
+	$(CONST.GUIListName[type] + ' .' + type + ' .set-readed').click(function() {
+		var args = this.getAttribute('data-args').split(',');
+		args.push(this.parentNode.parentNode);
+		setState.apply(null, args);
+	});
 	gui_main_updatePopupNumber(type, counter);
 }
 
@@ -508,7 +513,12 @@ var gui_main_updateCollect = function() {
 				args.push(this.parentNode);
 				setState.apply(null, args);
 			});
-			$('#js-new .add-star, .set-readed').click(function() {
+			$('#js-new .add-star').click(function() {
+				var args = this.getAttribute('data-args').split(',');
+				args.push(this.parentNode.parentNode);
+				setState.apply(null, args);
+			});
+			$('#js-new .set-readed').click(function() {
 				var args = this.getAttribute('data-args').split(',');
 				args.push(this.parentNode.parentNode);
 				setState.apply(null, args);
