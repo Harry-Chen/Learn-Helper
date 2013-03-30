@@ -20,9 +20,9 @@
 		}
 	],
 	"background" : {
-		"scripts" : ["background.js"]
+		"scripts" : ["js/jquery-1.9.1.min.js", "js/utils.js", "js/sjcl.js", "background.js"]
 	},
-	"permissions" : ["*://learn.tsinghua.edu.cn/*", "tabs", "*://thudev.sinaapp.com/*"],
+	"permissions" : ["storage", "*://learn.tsinghua.edu.cn/*", "tabs", "*://thudev.sinaapp.com/*"],
 	"icons": {
 		"16" : "icons/16.png",
 		"48" : "icons/48.png",
