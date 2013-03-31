@@ -75,10 +75,11 @@ function net_vaildToken(username, password, successCall, failCall){
 
 
 function clearCache(){
-	db_clearCache('courseList');
-	db_clearCache('deadline');
-	db_clearCache('notification');
-	db_clearCache('file');
+	bg = chrome.extension.getBackgroundPage();
+	bg.db_clearCache('courseList');
+	bg.db_clearCache('deadline');
+	bg.db_clearCache('notification');
+	bg.db_clearCache('file');
 }
 
 function gui_main_updateCourseList(courseList){
@@ -286,19 +287,6 @@ var gui_main_updateCollect = function() {
 	}
 }();
 
-
-function processCourseList(update, callback, progressCallback){	// update list when var update = true or no cache, callback function called with a list.
-	progressCallback && progressCallback(0);
-	var courseList = localStorage.course_list;
-	if (!courseList || update){
-		net_getCourseList(progressCallback ? function() { callback.apply(this, arguments); progressCallback(1); } : callback);
-		return;
-	}
-	courseList = JSON.parse(courseList);
-	callback(courseList);
-	progressCallback && progressCallback(1);
-}
-
 function processNormalList(type, update, callback, progressCallback, collectCallback){
 	$( CONST.GUIListName[type] + ' li').remove();
 	progressCallback && progressCallback(0);
@@ -311,21 +299,6 @@ function processNormalList(type, update, callback, progressCallback, collectCall
 	callback(type, cacheList, collectCallback);
 	progressCallback && progressCallback(1);
 }
-
-function filterCourse(list, type){	//type = 'deadline' / 'notification'
-	var _name;
-	if (!type) return list;
-	_name = CONST.ignoreListName[type];
-	if (!_name) return list;
-
-	var courseFliter = [];
-	if (localStorage.getItem(_name)){
-		courseFliter = JSON.parse(localStorage.getItem(_name));
-	}
-	list = list.filter(function(x) { return courseFliter.indexOf(x.id) < 0; });
-	return list;
-}
-
 
 //ErrorHandler
 chrome.extension.onMessage.addListener(
@@ -441,7 +414,7 @@ function gui_main_switchPage(page){
 }
 
 function initMain(update){
-	db_fixOldMess();
+	//db_fixOldMess();
 	$('#token-modal').modal({
 		title: '<i class="icon-signin"></i> 登录'
 	});
@@ -475,9 +448,10 @@ function initMain(update){
 	$('#switch-notification-page').click(function(){gui_main_switchPage('notification-page')});
 	$('#switch-deadline-page').click(function(){gui_main_switchPage('deadline-page')});
 	$('#switch-file-page').click(function(){gui_main_switchPage('file-page')});
-	gui_main_switchPage('main-page');
+	//gui_main_switchPage('main-page');
 
-	updateData(update);
+	//updateData(update);
+	//chrome.extension.sendRequest({op:'init'}, function (response){console.log(response)});
 
 }
 function setAllReaded(){
@@ -488,10 +462,7 @@ function setAllReaded(){
 }
 
 $(function(){
-	console.log('aaa');
-	var bg = chrome.extension.getBackgroundPage();
-	if(bg){
-		bg.net_login(function(){console.log('success')});
-	}
-	console.log('bbb');
+	chrome.extension.sendRequest({op:'load'}, function (response) {
+		console.log(response)
+	});
 });

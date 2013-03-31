@@ -160,7 +160,6 @@ function db_fixOldMess(){
 			d = JSON.stringify(d);
 			localStorage.setItem('notification_list', d);
 		}
-		var d = localStorage.getItem('file_list');
 		version_control('set', 2);
 	}
 	if (version_control('check', 3)){
@@ -308,12 +307,6 @@ function db_setAllReaded(type){
 	localStorage.setItem(_name, JSON.stringify(List));
 }
 function evaluation(type, entry){
-	var EXPIRED_FLAG = 2 << 13;
-	var UNREAD_FLAG = - (2 << 15);
-	var STARED_FLAG = - (2 << 16);
-	var SUBMIT_FLAG =  (2 << 8);
-	var HOMEWORK_FLAG = - (2 << 3);
-	var HOMEWORK_TODAY_FLAG = -(2 << 8);
 	var today = new Date();
 	var e = 0;
 	var read_status_priority = {
@@ -372,7 +365,7 @@ function traverseCourse(type, successCallback, progressCallback, collectCallback
 			function worker(num){
 				var courseId = courseList[num]['id'];
 				var courseName = courseList[num]['name'];
-				$.get(linkPrefix , { course_id: courseId }, function (data) {
+				$.get(linkPrefix, { course_id: courseId }, function (data) {
 					var homeworkDocument = parser.parseFromString(data, 'text/html');
 					var homeworkList = homeworkDocument.querySelectorAll('#table_box .tr1, #table_box .tr2');
 					for (var j = 0, attr; j < homeworkList.length; j++) {
