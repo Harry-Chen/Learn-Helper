@@ -1,3 +1,3 @@
 $(function(){
-	initMain(true);
+	//initMain(true);
 });

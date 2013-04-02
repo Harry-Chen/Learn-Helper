@@ -1,57 +1,5 @@
 parser = new DOMParser()
 #getURLParamters = window.getURLParamters
-URL_CONST =
-	'login' : 'https://learn.tsinghua.edu.cn/MultiLanguage/lesson/teacher/loginteacher.jsp'	#登陆页
-	'course' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/MyCourse.jsp'		#本学期课程
-	'course_all' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/MyCourse.jsp?typepage=2'		#全部课程
-	'notification' : 'https://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/getnoteid_student.jsp'		#课程公告
-	'course_info' : 'https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/course_info.jsp'		#课程信息
-	'file' : 'https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/download.jsp'		#课程文件
-	'resource' : 'https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/ware_list.jsp'		#教学资源
-	'deadline' : 'https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_brw.jsp'		#课程作业
-	'mentor' : 'https://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/getbbsid_student.jsp'		#课程答疑
-	'discuss' : 'https://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/gettalkid_student.jsp'		#课程讨论
-	'course_page' : 'https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/course_locate.jsp'		#课程页面
-	'deadline_detail' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_detail.jsp' #作业详细
-	'deadline_submit' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_submit.jsp' #作业提交
-	'deadline_review' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_view.jsp' #作业批阅
-CONST =
-	version : window.getManifest().version
-	featureName : [ 'deadline', 'notification', 'file']
-	GUIListName :
-		deadline : '#nearby-deadline'
-		notification : '#category-heading'
-		file  : '#file-heading'
-	cacheListName :
-		courseList : 'course_list'
-		deadline : 'deadline_list'
-		notification : 'notification_list'
-		file : 'file_list'
-	ignoreListName :
-		deadline : 'ignore_list_deadline'
-		notification : 'ignore_list_notification'
-		file : 'ignore_list_file'
-	changeState :
-		unread :
-			read : 'readed'
-			star : 'stared'
-		readed :
-			read : 'readed'
-			star : 'stared'
-		stared :
-			read : 'stared'
-			star : 'readed'
-	evalFlag :
-		EXPIRED : 2 << 13
-		READED : 0
-		UNREAD : - (2 << 15)
-		STARED : - (2 << 16)
-		SUBMIT :  (2 << 8)
-		HOMEWORK : - (2 << 3)
-		HOMEWORK_TODAY : -(2 << 8)
-	stateTrans :
-		submitted : '已经提交'
-		unsubmit : '尚未提交'
 errorEnum = ['noToken', 'netFail']
 state=
 	tabId : null
@@ -401,12 +349,14 @@ prepareCollectList = do () ->
 		else if instruction is 'update' and listCount is CONST.featureName.length
 			cList = cList.sort (a, b) ->
 				return a.eval - b.eval
+			counter = 0
+			temp = (item for item in cList when (counter++ < CONST.collectNumber and item.eval < CONST.collectEvalLimit))
+			# save and backcall
+			db_set 'cache_collect', temp, ->
+				backcallFunction and backcallFunction()
 			# reset cList
 			cList = []
 			listCount = 0
-			# save and backcall
-			await db_set 'cache_collect', cList, defer TC
-			backcallFunction and backcallFunction()
 
 #INTERFACE
 window.db_fixOldMess = db_fixOldMess
@@ -414,23 +364,24 @@ window.db_clearCache = db_clearCache
 
 load = (sendResponse) ->
 	#TODO whether need reload
-	readyCounter = 0
-	bc = ()->
-		readyCounter++
-		if readyCounter is (CONST.featureName.length + 1)
-			sendResponse({op : 'ready'})
-		return
-	prepareCollectList('backcall', bc)
-	for type in CONST.featureName
-		traverseCourse(
-			type
-			prepareNormalList
-			(p)->
-				console.log(p)
-				return
-			prepareCollectList('setter')
-			bc
-		)
+	net_login ->
+		readyCounter = 0
+		bc = ()->
+			readyCounter++
+			if readyCounter is (CONST.featureName.length + 1)
+				sendResponse({op : 'ready'})
+			return
+		prepareCollectList('backcall', bc)
+		for type in CONST.featureName
+			traverseCourse(
+				type
+				prepareNormalList
+				(p)->
+					console.log(p)
+					return
+				prepareCollectList('setter')
+				bc
+			)
 	return
 
 chrome.extension.onMessage.addListener (feeds, sender, sendResponse) ->
