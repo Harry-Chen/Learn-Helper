@@ -30,7 +30,7 @@ gui_updateCourseList = () ->
 gui_updatePopupNumber = ->
 	for type in CONST.featureName
 		num = localStorage.getItem('number_' + type, '0')
-		$('#unread-' + type).text(num);
+		$('#unread-' + type).text(num)
 # ROW CREATOR
 getTheme = (dueDays, submit_state) ->
 	prefix = 'theme-'
@@ -111,25 +111,131 @@ gui_clearList = (type) ->
 gui_updateNormalList = (type) ->
 	gui_clearList type
 	await db_get ('cache_' + type), [], defer list
-	if type is 'collect'
-		console.log list
 	GUIList = $(CONST.GUIListName[type])
 	counter = 0
 	for value in list
 		line = gui_main_createNewLine(value)
 		GUIList.append $(line)
-	$(CONST.GUIListName[type]  + ' .title').click =>
-		args = this.getAttribute('data-args').split(',')
-		args.push(this.parentNode)
+	$(CONST.GUIListName[type]  + ' .title').click (e) ->
+		node = e.target
+		args = node.getAttribute('data-args').split(',')
+		args.push(node.parentNode)
 		setState.apply(null, args)
-	$(CONST.GUIListName[type] + ' .add-star').click =>
-		args = this.getAttribute('data-args').split(',')
-		args.push(this.parentNode.parentNode)
+	$(CONST.GUIListName[type] + ' .add-star').click (e) ->
+		node = e.target
+		args = node.getAttribute('data-args').split(',')
+		args.push(node.parentNode.parentNode)
 		setState.apply(null, args)
-	$(CONST.GUIListName[type] + ' .set-readed').click =>
-		args = this.getAttribute('data-args').split(',')
-		args.push(this.parentNode.parentNode)
+	$(CONST.GUIListName[type] + ' .set-readed').click (e) ->
+		node = e.target
+		args = node.getAttribute('data-args').split(',')
+		args.push(node.parentNode.parentNode)
 		setState.apply(null, args)
+
+setState = (op, node) ->
+	id = node.getAttribute('data-args')
+	cur_state = node.className.match(/is-(\w*)/)[1]
+	type = node.className.match(/deadline|notification|file/)[0]
+	target_state = CONST.changeState[cur_state][op]
+	if target_state is cur_state
+		return
+	node.className = node.className.replace('is-' + cur_state, 'is-' + target_state)
+	chrome.extension.sendRequest(
+		op : 'state'
+		data :
+			type : type
+			id : id
+			targetState : target_state
+		(response) ->
+			gui_updatePopupNumber()
+			for name in ['collect', type]
+				entry = CONST.panelTran[name]
+				if not $('#' + entry).is(':visible')
+					gui_updateNormalList(name)
+	)
+gui_switchPage = (page) ->
+	currentPane = null
+	for name in CONST.listTemp
+		entry = CONST.panelTran[name]
+		if $('#' + entry).is(':visible')
+			currentPane = $('#' + entry).hide()
+			do (name) ->
+				window.setTimeout(
+					->
+						gui_updateNormalList(name)
+						console.log name
+					300
+				)
+	currentPane.show()
+	page = $('#' + page)
+	if currentPane.is page
+		return
+	currentPane.css(
+		position: 'absolute'
+		top: 0
+		left: 0
+		right: 0
+	)
+	dx = currentPane.width()
+	page.css(
+		position: 'relative'
+		left: dx
+	).show()
+
+	page.animate(
+		left: 0
+		300)
+	currentPane.animate(
+		left: -dx
+		right: dx
+		300
+		->
+			currentPane.hide()
+			page.show()
+	)
+clearCache = ->
+	chrome.extension.sendRequest(
+		op:'clear'
+		(response) ->
+			for name in CONST.listTemp
+				gui_updateNormalList(name)
+	)
+forceReload = ->
+	chrome.extension.sendRequest(
+		op:'forcereload'
+		(response) ->
+			for name in CONST.listTemp
+				gui_updateNormalList(name)
+			if response.op is 'ready'
+				loadData()
+	)
+setAllReaded = ->
+	chrome.extension.sendRequest(
+		op:'allread'
+		(response) ->
+			loadData()
+	)
+
+
+guiInit = ->
+	for name in CONST.listTemp
+		page = CONST.panelTran[name]
+		do (page) ->
+			$('#switch-' + page).click ->
+				gui_switchPage page
+	gui_switchPage('main-page')
+	$('#token-modal').modal
+		title: '<i class="icon-signin"></i> 登录'
+	$('#msg-modal').modal
+		title: '<i class="icon-info-sign"></i> 通知'
+	$('#net-error-modal').modal
+		title: '<i class="icon-warning-sign"></i> 网络错误',
+		closable : false
+	$('#option-clear-cache').click(clearCache)
+	$('#option-set-all-read').click(setAllReaded)
+	$('#option-force-reload-all').click(forceReload)
+
+# Message
 loadData = ->
 	gui_updateCourseList()
 	gui_updatePopupNumber()
@@ -144,3 +250,13 @@ $ ->
 			if response.op is 'ready'
 				loadData()
 	)
+	guiInit()
+	chrome.extension.onRequest.addListener (request, sender, sendRequest) ->
+		console.log request.op
+		if request.op is 'progress'
+			$folder = $ '.pane-folder'
+			setLoading request.data, $folder
+	#ErrorHandler
+	chrome.extension.onMessage.addListener (request, sender, sendResponse)->
+		if request.type is 'netError'
+			$('#net-error-modal').modal('show')

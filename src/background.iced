@@ -37,7 +37,8 @@ net_getCourseList = (callback) ->
 			courseList = courseDocument.querySelectorAll '#info_1 a'
 			courseList = Array.prototype.slice.call courseList
 			db_updateCourseList courseList, callback
-	).fail(errorHandler 'netFail')
+	).fail ->
+		errorHandler 'netFail'
 net_submitServer = ->
 	#TODO
 	#username = db_getUsername()
@@ -158,8 +159,13 @@ db_updateList = (type, list, callback, collectCallback, finishCallback) ->
 		list = mergeList list, oldList
 	db_set _name, list
 	callback and callback(type, list, collectCallback, finishCallback)
-
-db_setState = (type, id, targetState) ->
+db_getList = (type, callback, collectCallback, finishCallback) ->
+	_name = CONST.cacheListName[type]
+	if not _name
+		return
+	await db_get _name, {}, defer list
+	callback and callback(type, list, collectCallback, finishCallback)
+db_setState = (type, id, targetState, cb) ->
 	if not (id and type and targetState)
 		return
 	_name = CONST.cacheListName[type]
@@ -167,16 +173,17 @@ db_setState = (type, id, targetState) ->
 	if not list
 		return
 	list[id].state = targetState
-	db_set _name, list
+	db_set _name, list, ->
+		cb && cb()
 db_clearCache = (type) ->
 	db_set CONST.cacheListName[type], ''
-db_setAllReaded = (type) ->
+db_setAllReaded = (type, cb) ->
 	_name = CONST.cacheListName[type]
 	await db_get _name, {}, defer list
 	for key of list
-		if not list[key] is 'stared'
+		if list[key] isnt 'stared'
 			list[key].state = 'readed'
-	db_set _name, list
+	db_set _name, list, cb
 #CONTROLLER
 mergeList = (newList, oldList) ->
 	if not oldList
@@ -229,19 +236,43 @@ filterCourse = (list, type)	->
 		return courseFliter.indexOf(x.id) < 0
 	return list
 
+progressLoader = do () ->
+	progress = [0, 0, 0, 0, 0]
+	totalPart = 2 + CONST.featureName.length
+	trans =
+		login : 0
+		courseList : 1
+		deadline : 2
+		notification : 3
+		file : 4
+	sendProgress = (p) ->
+		chrome.extension.sendRequest(
+			op : 'progress'
+			data : p
+		)
+	return (type, p) ->
+		if type is 'clear'
+			progress = [0, 0, 0, 0, 0]
+			sendProgress 0
+		else
+			progress[trans[type]] = p
+			sum = 0
+			for i in progress
+				sum += i
+			sendProgress sum / totalPart
+		
 processCourseList = (update, callback, progressCallback) ->
 #update list when var update = true or no cache, callback function called with a list.
-	progressCallback && progressCallback(0)
 	courseList = localStorage.course_list
 	if not courseList and update
 		net_getCourseList (if progressCallback then ->
+				progressCallback 'courseList', 1
 				callback.apply(this, arguments)
-				progressCallback(1)
 			else callback
 		)
 		return
 	courseList = JSON.parse courseList
-	progressCallback && progressCallback 1
+	progressCallback && progressCallback 'courseList', 1
 	callback courseList
 traverseCourse =(type, successCallback, progressCallback, collectCallback, finishCallback)->
 	lists = {}
@@ -251,7 +282,7 @@ traverseCourse =(type, successCallback, progressCallback, collectCallback, finis
 	parser = new DOMParser()
 	if not linkPrefix
 		successCallback lists
-	processCourseList false, (courseList)->
+	processCourseList(false, (courseList)->
 		courseList = filterCourse courseList, type
 		unChecked = courseList.length
 		totalWorker = unChecked
@@ -308,12 +339,13 @@ traverseCourse =(type, successCallback, progressCallback, collectCallback, finis
 									explanation : $.trim(attr[2].innerText)
 									state: 'unread'
 						unChecked--
-						progressCallback and progressCallback(1 - unChecked / totalWorker)
+						progressCallback and progressCallback(type, 1 - unChecked / totalWorker)
 						if unChecked is 0
 							db_updateList(type, lists, successCallback, collectCallback, finishCallback)
 				'html'
 				).fail ->
 					errorHandler 'netFail'
+	progressCallback)
 	return
 
 prepareNormalList = (type, list, collectCallback, finishCallback) ->
@@ -330,7 +362,7 @@ prepareNormalList = (type, list, collectCallback, finishCallback) ->
 	list = temp.sort (a, b) ->
 		return a.eval - b.eval
 	db_set ('cache_' + type), list, ->
-		finishCallback()
+		finishCallback && finishCallback()
 	localStorage.setItem('number_' + type, counter)
 	return
 
@@ -362,27 +394,38 @@ prepareCollectList = do () ->
 window.db_fixOldMess = db_fixOldMess
 window.db_clearCache = db_clearCache
 
-load = (sendResponse) ->
+load = (force, sendResponse) ->
 	#TODO whether need reload
-	net_login ->
-		readyCounter = 0
-		bc = ()->
-			readyCounter++
-			if readyCounter is (CONST.featureName.length + 1)
-				sendResponse({op : 'ready'})
-			return
+	readyCounter = 0
+	bc = ()->
+		readyCounter++
+		if readyCounter is (CONST.featureName.length + 1)
+			sendResponse({op : 'ready'})
+		return
+	if force or false
+		console.log 'xx'
+		progressLoader('clear')
+		net_login ->
+			progressLoader 'login', 1
+			prepareCollectList('backcall', bc)
+			for type in CONST.featureName
+				traverseCourse(
+					type
+					prepareNormalList
+					progressLoader
+					prepareCollectList('setter')
+					bc
+				)
+		return
+	else #no need to update
 		prepareCollectList('backcall', bc)
 		for type in CONST.featureName
-			traverseCourse(
+			db_getList(
 				type
 				prepareNormalList
-				(p)->
-					console.log(p)
-					return
 				prepareCollectList('setter')
 				bc
 			)
-	return
 
 chrome.extension.onMessage.addListener (feeds, sender, sendResponse) ->
 	chrome.tabs.create
@@ -391,7 +434,43 @@ chrome.extension.onMessage.addListener (feeds, sender, sendResponse) ->
 			state.tabId = tab.id
 	sendResponse()
 
+flashResult = (sendResponse)->
+	readyCounter = 0
+	bc = ()->
+		readyCounter++
+		if readyCounter is (CONST.featureName.length + 1)
+			sendResponse({})
+			return
+	prepareCollectList('backcall', bc)
+	for type in CONST.featureName
+		db_getList(
+			type
+			prepareNormalList
+			prepareCollectList('setter')
+			bc
+		)
 chrome.extension.onRequest.addListener (request, sender, sendResponse) ->
 	console.log request.op
 	if request.op is 'load'
-		load(sendResponse)
+		load(false, sendResponse)
+	else if request.op is 'state'
+		d = request.data
+		db_setState d.type, d.id, d.targetState, ->
+			flashResult sendResponse
+	else if request.op is 'clear'
+		for name in CONST.featureName
+			db_clearCache name
+		await
+			for name in CONST.listTemp
+				db_set 'cache_' + name, {}, defer TC
+		sendResponse({})
+	else if request.op is 'forcereload'
+		load(true, sendResponse)
+	else if request.op is 'allread'
+		await
+			for name in CONST.featureName
+				db_setAllReaded(name, defer TC)
+		flashResult sendResponse
+
+
+

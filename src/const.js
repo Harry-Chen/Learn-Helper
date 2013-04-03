@@ -30,6 +30,12 @@
       collect: '#js-new'
     },
     listTemp: ['collect', 'deadline', 'notification', 'file'],
+    panelTran: {
+      collect: 'main-page',
+      deadline: 'deadline-page',
+      notification: 'notification-page',
+      file: 'file-page'
+    },
     cacheListName: {
       courseList: 'course_list',
       deadline: 'deadline_list',
