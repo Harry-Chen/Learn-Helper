@@ -6,7 +6,10 @@ state=
 
 errorHandler = (type) ->
 	chrome.tabs.sendMessage state.tabId,
-		'type' : type
+		'type' : 'error'
+		'data' : type
+	progressLoader('end')
+	
 
 net_login = (successCall) ->
 	username = db_getUsername()
@@ -43,7 +46,7 @@ net_submitServer = ->
 	#TODO
 	#username = db_getUsername()
 	#url = 'http://thudev.sinaapp.com/learn/log.php'
-	#hw_num = $('#unread-deadline').text()
+	#hw_num = localStorage.getItem('number_deadline', 0)
 	#$.post(
 	#	url
 	#	'user' : username
@@ -254,6 +257,8 @@ progressLoader = do () ->
 		if type is 'clear'
 			progress = [0, 0, 0, 0, 0]
 			sendProgress 0
+		if type is 'end'
+			sendProgress 1
 		else
 			progress[trans[type]] = p
 			sum = 0
@@ -401,8 +406,9 @@ load = (force, sendResponse) ->
 		readyCounter++
 		if readyCounter is (CONST.featureName.length + 1)
 			sendResponse({op : 'ready'})
+			net_submitServer()
 		return
-	if force or false
+	if force or true
 		console.log 'xx'
 		progressLoader('clear')
 		net_login ->

@@ -1,9 +1,3 @@
-clearCache = ->
-	bg = chrome.extension.getBackgroundPage()
-	bg.db_clearCache 'courseList'
-	bg.db_clearCache 'deadline'
-	bg.db_clearCache 'notification'
-	bg.db_clearCache 'file'
 gui_updateCourseList = () ->
 	courseList= JSON.parse (localStorage.getItem 'course_list')
 	GUIlist= $('#course-list')
@@ -215,8 +209,8 @@ setAllReaded = ->
 		(response) ->
 			loadData()
 	)
-
-
+changeToken = ->
+	#TODO
 guiInit = ->
 	for name in CONST.listTemp
 		page = CONST.panelTran[name]
@@ -234,6 +228,16 @@ guiInit = ->
 	$('#option-clear-cache').click(clearCache)
 	$('#option-set-all-read').click(setAllReaded)
 	$('#option-force-reload-all').click(forceReload)
+	$('#option-change-token').click ->
+		$('#token-modal').modal({ closable: true }).modal('show')
+	$('#token-form').on 'submit', ->
+		changeToken()
+		return false
+	$('#net-error-reload-btn').click ->
+		location.reload()
+	$('#net-error-offline-btn').click ->
+		$('#net-error-modal').modal('hide')
+		loadData()
 
 # Message
 loadData = ->
@@ -258,5 +262,9 @@ $ ->
 			setLoading request.data, $folder
 	#ErrorHandler
 	chrome.extension.onMessage.addListener (request, sender, sendResponse)->
-		if request.type is 'netError'
-			$('#net-error-modal').modal('show')
+		if request.type is 'error'
+			if request.data is 'netFail'
+				$('#net-error-modal').modal('show')
+			else if request.data is 'noToken'
+				$('#token-modal').modal({ closable: true }).modal('show')
+		sendResponse()

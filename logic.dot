@@ -1,0 +1,58 @@
+digraph G{
+	//graph [splines=polyline];
+	subgraph cluster0 {
+		label = "view";
+		open -> wait [style=dashed];
+		wait -> gui_updateList;
+		clearAll -> modalWaiting;
+		modalWaiting -> modalOK [style=dashed];
+		modalOK -> reload;
+		stateChanged -> setState;
+		gui_switchPanel -> gui_updateList[label="only switched"];
+		color = "red";
+		forceFlash -> wait[style=dashed];
+		progressInit -> progressUpdate[style=dashed];
+		setAllReaded;
+	}
+	subgraph cluster1{
+		label = "background";
+		load -> judgeNeedUpdate;
+		judgeNeedUpdate -> finishPrepare [label="less than 10min"];
+		subgraph cluster4{
+			label = "network";
+			updateCourseList -> Travel4List;
+			Travel4List -> prepareGUIList;
+			updateCourseList -> progressLoader;
+			Travel4List -> progressLoader;
+		}
+		judgeNeedUpdate -> updateCourseList [label="need update"];
+		prepareGUIList -> finishPrepare;
+		subgraph cluster2{
+			label = "clear"
+			db_clearCache -> finishClear;
+		}
+		db_setState -> prepareGUIList;
+		color = "blue";
+		setReaded -> prepareGUIList;
+	}
+	start[shape=Mdiamond];
+	start -> open;
+
+	userClick[shape=Mdiamond];
+	userClick -> stateChanged;
+	userClick -> gui_switchPanel;
+	userClick -> clearAll;
+	userClick -> forceFlash;
+	userClick -> setAllReaded;
+
+	edge[color=green];
+	open -> load [label="open"];
+	finishPrepare -> wait [label="ready, panel=all"];
+	clearAll -> db_clearCache [label="clearall"];
+	finishClear -> modalOK [label="cleared"];
+	setState -> db_setState[label="state, type=,id=,op="];
+	forceFlash -> updateCourseList[label="force"];
+	progressLoader -> progressUpdate[label="progress, op=update,data=0.x"]
+	updateCourseList -> progressInit[label="progress, op=init"]
+	setAllReaded -> setReaded[label="allread"]
+}

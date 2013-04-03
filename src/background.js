@@ -52,9 +52,11 @@
   };
 
   errorHandler = function(type) {
-    return chrome.tabs.sendMessage(state.tabId, {
-      'type': type
+    chrome.tabs.sendMessage(state.tabId, {
+      'type': 'error',
+      'data': type
     });
+    return progressLoader('end');
   };
 
   net_login = function(successCall) {
@@ -243,7 +245,7 @@
             return oldList = arguments[0];
           };
         })(),
-        lineno: 157
+        lineno: 160
       }));
       __iced_deferrals._fulfill();
     })(function() {
@@ -272,7 +274,7 @@
             return list = arguments[0];
           };
         })(),
-        lineno: 166
+        lineno: 169
       }));
       __iced_deferrals._fulfill();
     })(function() {
@@ -299,7 +301,7 @@
             return list = arguments[0];
           };
         })(),
-        lineno: 172
+        lineno: 175
       }));
       __iced_deferrals._fulfill();
     })(function() {
@@ -333,7 +335,7 @@
             return list = arguments[0];
           };
         })(),
-        lineno: 182
+        lineno: 185
       }));
       __iced_deferrals._fulfill();
     })(function() {
@@ -429,7 +431,10 @@
       var i, sum, _i, _len;
       if (type === 'clear') {
         progress = [0, 0, 0, 0, 0];
-        return sendProgress(0);
+        sendProgress(0);
+      }
+      if (type === 'end') {
+        return sendProgress(1);
       } else {
         progress[trans[type]] = p;
         sum = 0;
@@ -620,9 +625,10 @@
         sendResponse({
           op: 'ready'
         });
+        net_submitServer();
       }
     };
-    if (force || false) {
+    if (force || true) {
       console.log('xx');
       progressLoader('clear');
       net_login(function() {
@@ -714,7 +720,7 @@
                         return TC = arguments[0];
                       };
                     })(),
-                    lineno: 465
+                    lineno: 471
                   }));
                 }
                 __iced_deferrals._fulfill();
@@ -743,7 +749,7 @@
                                 return TC = arguments[0];
                               };
                             })(),
-                            lineno: 472
+                            lineno: 478
                           }));
                         }
                         __iced_deferrals._fulfill();
