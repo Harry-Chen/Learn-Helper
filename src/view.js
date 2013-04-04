@@ -141,7 +141,10 @@
 
   db_get = function(key, defaultValue, callback) {
     return chrome.storage.local.get(key, function(result) {
-      if (result[key] === void 0) callback(defaultValue);
+      if (result[key] === void 0) {
+        callback(defaultValue);
+        return;
+      }
       return callback(JSON.parse(result[key]));
     });
   };
@@ -168,7 +171,7 @@
             return list = arguments[0];
           };
         })(),
-        lineno: 107
+        lineno: 108
       }));
       __iced_deferrals._fulfill();
     })(function() {
@@ -317,7 +320,31 @@
     });
   };
 
-  changeToken = function() {};
+  changeToken = function() {
+    var password, username;
+    username = $('#token-username').val();
+    password = $('#token-password').val();
+    $('#msg-text').text('正在验证中...');
+    return chrome.extension.sendRequest({
+      op: 'token',
+      data: {
+        username: username,
+        password: password
+      }
+    }, function(response) {
+      if (response.op === 'savedToken') {
+        $('#token-modal').modal('hide');
+        $('#msg-text').text('旧信息已全部删除，新用户名密码已储存。将在 2 秒内刷新该页面。');
+        $('#msg-modal').modal('show');
+        window.setTimeout(function() {
+          return location.reload();
+        });
+        return 2000;
+      } else if (response.op === 'failToken') {
+        return alert(response.reason);
+      }
+    });
+  };
 
   guiInit = function() {
     var name, page, _fn, _i, _len, _ref;

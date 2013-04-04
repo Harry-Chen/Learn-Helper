@@ -1,7 +1,8 @@
 function init(){
 	var parser = new DOMParser();
 	var result = "";
-	processCourseList(false, createTable);
+	var bg = chrome.extension.getBackgroundPage();
+	bg.processCourseList(false, createTable);
 	$("#clearall").click(function(){clearAll()});
 }
 function createTable(courseList){

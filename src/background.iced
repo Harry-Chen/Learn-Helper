@@ -6,11 +6,40 @@ state=
 
 errorHandler = (type) ->
 	chrome.tabs.sendMessage state.tabId,
-		'type' : 'error'
-		'data' : type
+		type : 'error'
+		data : type
 	progressLoader('end')
 	
 
+net_vaildToken = (username, password, sendResponse) ->
+	if not username or not password
+		sendResponse(
+			op : 'failToken'
+			reason : '请输入用户名和密码'
+		)
+		return
+	$.post(
+		URL_CONST['login']
+		'userid' : username
+		'userpass' : password
+		(data) ->
+			if (data.search 'window.alert') isnt -1
+				sendResponse(
+					op : 'failToken'
+					reason : '验证失败，请检查用户名密码'
+				)
+				return
+			else
+				if db_getUsername isnt username
+					chrome.storage.local.clear()
+					localStorage.clear()
+				db_saveToken(username, password)
+				sendResponse(op : 'savedToken')
+		).fail ->
+			sendResponse(
+				op : 'failToken'
+				reason : '无法连接到网络学堂，请检查网络学堂能否打开'
+			)
 net_login = (successCall) ->
 	username = db_getUsername()
 	password = db_getPassword()
@@ -43,6 +72,7 @@ net_getCourseList = (callback) ->
 	).fail ->
 		errorHandler 'netFail'
 net_submitServer = ->
+	console.log "server~"
 	#TODO
 	#username = db_getUsername()
 	#url = 'http://thudev.sinaapp.com/learn/log.php'
@@ -61,6 +91,7 @@ db_get = (key, defaultValue, callback) ->
 	chrome.storage.local.get key, (result) ->
 		if result[key] is undefined
 			callback defaultValue
+			return
 		callback (JSON.parse result[key])
 
 db_fixOldMess = ->
@@ -70,7 +101,7 @@ db_fixOldMess = ->
 		passwordTemp = localStorage.getItem 'learn_passwd'
 		if passwordTemp
 			localStorage.removeItem 'learn_passwd'
-			old_db_saveToken old_db_getUsername(), passwordTemp
+			db_saveToken db_getUsername(), passwordTemp
 		version_control 'set', 1
 	#2.0.1 -> 2.1  version:2
 	if version_control 'check', 2
@@ -269,7 +300,7 @@ progressLoader = do () ->
 processCourseList = (update, callback, progressCallback) ->
 #update list when var update = true or no cache, callback function called with a list.
 	courseList = localStorage.course_list
-	if not courseList and update
+	if not courseList or update
 		net_getCourseList (if progressCallback then ->
 				progressCallback 'courseList', 1
 				callback.apply(this, arguments)
@@ -396,8 +427,7 @@ prepareCollectList = do () ->
 			listCount = 0
 
 #INTERFACE
-window.db_fixOldMess = db_fixOldMess
-window.db_clearCache = db_clearCache
+window.processCourseList = processCourseList
 
 load = (force, sendResponse) ->
 	#TODO whether need reload
@@ -408,7 +438,7 @@ load = (force, sendResponse) ->
 			sendResponse({op : 'ready'})
 			net_submitServer()
 		return
-	if force or true
+	if force or false
 		console.log 'xx'
 		progressLoader('clear')
 		net_login ->
@@ -477,6 +507,7 @@ chrome.extension.onRequest.addListener (request, sender, sendResponse) ->
 			for name in CONST.featureName
 				db_setAllReaded(name, defer TC)
 		flashResult sendResponse
-
-
+	else if request.op is 'token'
+		net_vaildToken request.data.username, request.data.password, sendResponse
+		return
 

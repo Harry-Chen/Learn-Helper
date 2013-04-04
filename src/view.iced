@@ -98,6 +98,7 @@ db_get = (key, defaultValue, callback) ->
 	chrome.storage.local.get key, (result) ->
 		if result[key] is undefined
 			callback defaultValue
+			return
 		callback (JSON.parse result[key])
 
 gui_clearList = (type) ->
@@ -210,7 +211,25 @@ setAllReaded = ->
 			loadData()
 	)
 changeToken = ->
-	#TODO
+	username = $('#token-username').val()
+	password = $('#token-password').val()
+	$('#msg-text').text '正在验证中...'
+	chrome.extension.sendRequest(
+		op : 'token'
+		data :
+			username : username
+			password : password
+		(response) ->
+			if response.op is 'savedToken'
+				$('#token-modal').modal('hide')
+				$('#msg-text').text('旧信息已全部删除，新用户名密码已储存。将在 2 秒内刷新该页面。')
+				$('#msg-modal').modal('show')
+				window.setTimeout ->
+						location.reload()
+					2000
+			else if response.op is 'failToken'
+				alert response.reason
+	)
 guiInit = ->
 	for name in CONST.listTemp
 		page = CONST.panelTran[name]
