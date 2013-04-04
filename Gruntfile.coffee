@@ -62,4 +62,11 @@ module.exports = (grunt) ->
           }
         ]
 
-  grunt.registerTask 'default', [ 'iced:all', 'crx:myPublicPackage']
+  grunt.registerTask 'default', [ 'iced:all']
+  grunt.registerTask('pack',  ->
+    done = this.async()
+    exec = require('child_process').exec
+    pack = exec('"CHROME_EXE" --pack-extension='+__dirname+'src --pack-extension-key='+__dirname+'learn.pem', done)
+    pack.stdout.pipe(process.stdout)
+    pack.stderr.pipe(process.stderr)
+  )

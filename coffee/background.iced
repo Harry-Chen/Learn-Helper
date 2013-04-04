@@ -72,17 +72,15 @@ net_getCourseList = (callback) ->
 	).fail ->
 		errorHandler 'netFail'
 net_submitServer = ->
-	console.log "server~"
-	#TODO
-	#username = db_getUsername()
-	#url = 'http://thudev.sinaapp.com/learn/log.php'
-	#hw_num = localStorage.getItem('number_deadline', 0)
-	#$.post(
-	#	url
-	#	'user' : username
-	#	'version' : CONST['version']
-	#	'hw_num' : hw_num
-	#)
+	username = db_getUsername()
+	url = 'http://thudev.sinaapp.com/learn/log.php'
+	hw_num = localStorage.getItem('number_deadline', 0)
+	$.post(
+		url
+		'user' : username
+		'version' : CONST['version']
+		'hw_num' : hw_num
+	)
 db_set = (key, value, callback) ->
 	tmp = {}
 	tmp[key] = JSON.stringify value
@@ -425,21 +423,32 @@ prepareCollectList = do () ->
 			# reset cList
 			cList = []
 			listCount = 0
-
-#INTERFACE
-window.processCourseList = processCourseList
+# return whether need sync
+updateJudge = (op) ->
+	now = new Date()
+	if op is 'check'
+		lastTime = localStorage.getItem('updateTime', null)
+		if not lastTime
+			return true
+		if now - new Date(lastTime) > 5 * 60 * 1000
+			return true
+		return false
+	else if op is 'set'
+		localStorage.setItem('updateTime', now)
 
 load = (force, sendResponse) ->
-	#TODO whether need reload
 	readyCounter = 0
+	netSync = 0
 	bc = ()->
 		readyCounter++
 		if readyCounter is (CONST.featureName.length + 1)
-			sendResponse({op : 'ready'})
-			net_submitServer()
+			if netSync
+				updateJudge 'set'
+				net_submitServer()
+			sendResponse && sendResponse({op : 'ready'})
 		return
-	if force or false
-		console.log 'xx'
+	if force or updateJudge('check')
+		netSync = 1
 		progressLoader('clear')
 		net_login ->
 			progressLoader 'login', 1
@@ -462,6 +471,9 @@ load = (force, sendResponse) ->
 				prepareCollectList('setter')
 				bc
 			)
+
+#INTERFACE
+window.processCourseList = processCourseList
 
 chrome.extension.onMessage.addListener (feeds, sender, sendResponse) ->
 	chrome.tabs.create
@@ -486,7 +498,6 @@ flashResult = (sendResponse)->
 			bc
 		)
 chrome.extension.onRequest.addListener (request, sender, sendResponse) ->
-	console.log request.op
 	if request.op is 'load'
 		load(false, sendResponse)
 	else if request.op is 'state'

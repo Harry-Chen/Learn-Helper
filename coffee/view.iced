@@ -158,7 +158,6 @@ gui_switchPage = (page) ->
 				window.setTimeout(
 					->
 						gui_updateNormalList(name)
-						console.log name
 					300
 				)
 	currentPane.show()
@@ -269,13 +268,11 @@ $ ->
 	chrome.extension.sendRequest(
 		op:'load'
 		(response) ->
-			console.log response.op
 			if response.op is 'ready'
 				loadData()
 	)
 	guiInit()
 	chrome.extension.onRequest.addListener (request, sender, sendRequest) ->
-		console.log request.op
 		if request.op is 'progress'
 			$folder = $ '.pane-folder'
 			setLoading request.data, $folder
