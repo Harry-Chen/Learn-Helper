@@ -1,0 +1,14 @@
+{
+  "name": "Learn-Helper-Extension",
+  "version": "2.3.0",
+  "author" : {
+	  "name" : "xxr3376"
+  },
+  "main" : "Gruntfile.js",
+  "devDependencies": {
+	  "iced-coffee-script": "~1.4.0",
+	  "grunt-contrib-watch": "~0.2.0",
+	  "grunt-crx" : "~0.2.0",
+	  "grunt": "~0.4.1"
+  }
+}
