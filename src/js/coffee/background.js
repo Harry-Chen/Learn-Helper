@@ -432,7 +432,7 @@
         e += dueDays;
       }
       if (entry.submit_state === CONST.stateTrans.submitted) {
-        e += CONST.evalFlag.SUBMIT_FLAG;
+        e += CONST.evalFlag.SUBMIT;
       }
       if (dueDays === 0) e += CONST.evalFlag.HOMEWORK_TODAY;
     } else if ((type === 'notification') || (type === 'file')) {
@@ -440,6 +440,7 @@
       e -= dueDays;
     }
     entry['eval'] = e;
+    console.log(e);
     return entry;
   };
 
@@ -782,7 +783,7 @@
                         return TC = arguments[0];
                       };
                     })(),
-                    lineno: 512
+                    lineno: 513
                   }));
                 }
                 __iced_deferrals._fulfill();
@@ -811,7 +812,7 @@
                                 return TC = arguments[0];
                               };
                             })(),
-                            lineno: 519
+                            lineno: 520
                           }));
                         }
                         __iced_deferrals._fulfill();

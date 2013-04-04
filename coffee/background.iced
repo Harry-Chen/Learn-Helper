@@ -246,13 +246,14 @@ evaluation = (type, entry) ->
 		else
 			e += dueDays
 		if entry.submit_state is CONST.stateTrans.submitted
-			e += CONST.evalFlag.SUBMIT_FLAG
+			e += CONST.evalFlag.SUBMIT
 		if dueDays is 0
 			e += CONST.evalFlag.HOMEWORK_TODAY
 	else if (type is 'notification') or (type is 'file')
 		dueDays = Math.floor((new Date(entry.day) - today) / (60 * 60 * 1000 * 24))
 		e -= dueDays
 	entry['eval'] = e
+	console.log e
 	return entry
 
 filterCourse = (list, type)	->
