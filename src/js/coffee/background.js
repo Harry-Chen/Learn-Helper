@@ -112,7 +112,7 @@
     });
   };
 
-  net_digDetail = function(type, id) {};
+  net_digDetail = function(type, id, callback) {};
 
   db_getUsername = function() {
     return localStorage.getItem('learn_username', '');
@@ -826,8 +826,11 @@
                         net_vaildToken(request.data.username, request.data.password, sendResponse);
                         return;
                       } else if (request.op === 'detail') {
-                        console.log(request.data.type);
-                        console.log(request.data.id);
+                        net_digDetail(request.data.type, request.data.id, function() {
+                          return sendResponse({
+                            op: 'detailReady'
+                          });
+                        });
                       }
                       return __iced_k();
                     }
