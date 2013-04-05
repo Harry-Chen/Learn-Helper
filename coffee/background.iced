@@ -54,6 +54,8 @@ net_login = (successCall) ->
 			window.setTimeout successCall, 1000
 		).fail ->
 			errorHandler 'netFail'
+net_digDetail = (type, id) ->
+	#TODO
 db_getUsername = ->
 	localStorage.getItem 'learn_username', ''
 db_getPassword = ->
@@ -522,4 +524,7 @@ chrome.extension.onRequest.addListener (request, sender, sendResponse) ->
 	else if request.op is 'token'
 		net_vaildToken request.data.username, request.data.password, sendResponse
 		return
+	else if request.op is 'detail'
+		console.log(request.data.type)
+		console.log(request.data.id)
 

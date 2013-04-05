@@ -115,23 +115,37 @@ gui_updateNormalList = (type) ->
 		node = e.target
 		args = node.getAttribute('data-args').split(',')
 		args.push(node.parentNode)
-		setState.apply(null, args)
+		onItemClick.apply(null, args)
 	$(CONST.GUIListName[type] + ' .add-star').click (e) ->
 		node = e.target
 		args = node.getAttribute('data-args').split(',')
 		args.push(node.parentNode.parentNode)
-		setState.apply(null, args)
+		onItemClick.apply(null, args)
 	$(CONST.GUIListName[type] + ' .set-readed').click (e) ->
 		node = e.target
 		args = node.getAttribute('data-args').split(',')
 		args.push(node.parentNode.parentNode)
-		setState.apply(null, args)
+		onItemClick.apply(null, args)
 
-setState = (op, node) ->
+detailLoader = (type, id) ->
+	if type is 'file'
+		return
+	chrome.extension.sendRequest(
+		op : 'detail'
+		data :
+			type : type
+			id : id
+		(response) ->
+			console.log response.data
+	)
+# set read state and call background to load detail data
+onItemClick= (op, node) ->
 	id = node.getAttribute('data-args')
 	cur_state = node.className.match(/is-(\w*)/)[1]
 	type = node.className.match(/deadline|notification|file/)[0]
 	target_state = CONST.changeState[cur_state][op]
+	if op is 'read'
+		detailLoader type, id
 	if target_state is cur_state
 		return
 	node.className = node.className.replace('is-' + cur_state, 'is-' + target_state)
