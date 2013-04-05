@@ -410,6 +410,8 @@
       if (response.op === 'ready') return loadData();
     });
     guiInit();
+    gui_updateCourseList();
+    gui_updatePopupNumber();
     chrome.extension.onRequest.addListener(function(request, sender, sendRequest) {
       var $folder;
       if (request.op === 'progress') {

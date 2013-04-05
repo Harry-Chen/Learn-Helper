@@ -272,6 +272,10 @@ $ ->
 				loadData()
 	)
 	guiInit()
+	# Preload
+	gui_updateCourseList()
+	gui_updatePopupNumber()
+	# Messager
 	chrome.extension.onRequest.addListener (request, sender, sendRequest) ->
 		if request.op is 'progress'
 			$folder = $ '.pane-folder'
