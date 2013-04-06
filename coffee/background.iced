@@ -54,8 +54,36 @@ net_login = (successCall) ->
 			window.setTimeout successCall, 1000
 		).fail ->
 			errorHandler 'netFail'
-net_digDetail = (type, id, callback) ->
-	#TODO
+net_digDetail = (type, id, force, callback) ->
+	await db_get type + '_list', {}, defer list
+	if (not force) and list[id].detail
+		console.log 'from storage'
+		callback(
+			type
+			list[id].detail
+		)
+	else
+		console.log 'from network'
+		if type is 'notification'
+			href = 'http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/'+ list[id].href
+		else if type is 'deadline'
+			href = URL_CONST['deadline_detail'] + '?id=' + data.id + '&course_id=' + data.courseId
+		$.get(
+			href
+			(data) ->
+				detail = parser.parseFromString data, 'text/html'
+				table = detail.querySelectorAll '#table_box tr'
+				title = (table[0].querySelectorAll 'td')[1].innerText
+				content = (table[1].querySelectorAll 'td')[1].innerHTML
+				list[id].detail = 
+					title : title
+					content : content
+				db_set type + '_list', list
+				callback(
+					type
+					list[id].detail
+				)
+		)
 db_getUsername = ->
 	localStorage.getItem 'learn_username', ''
 db_getPassword = ->
@@ -255,7 +283,6 @@ evaluation = (type, entry) ->
 		dueDays = Math.floor((new Date(entry.day) - today) / (60 * 60 * 1000 * 24))
 		e -= dueDays
 	entry['eval'] = e
-	console.log e
 	return entry
 
 filterCourse = (list, type)	->
@@ -525,6 +552,9 @@ chrome.extension.onRequest.addListener (request, sender, sendResponse) ->
 		net_vaildToken request.data.username, request.data.password, sendResponse
 		return
 	else if request.op is 'detail'
-		net_digDetail request.data.type, request.data.id, ->
-			sendResponse({op : 'detailReady'})
-
+		net_digDetail request.data.type, request.data.id, false, (type, data)->
+			sendResponse(
+				op : 'detailReady'
+				type : type
+				data : data
+			)

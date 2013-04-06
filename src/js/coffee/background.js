@@ -112,7 +112,53 @@
     });
   };
 
-  net_digDetail = function(type, id, callback) {};
+  net_digDetail = function(type, id, force, callback) {
+    var href, list, ___iced_passed_deferral, __iced_deferrals, __iced_k,
+      _this = this;
+    __iced_k = __iced_k_noop;
+    ___iced_passed_deferral = iced.findDeferral(arguments);
+    (function(__iced_k) {
+      __iced_deferrals = new iced.Deferrals(__iced_k, {
+        parent: ___iced_passed_deferral,
+        filename: "coffee\background.iced",
+        funcname: "net_digDetail"
+      });
+      db_get(type + '_list', {}, __iced_deferrals.defer({
+        assign_fn: (function() {
+          return function() {
+            return list = arguments[0];
+          };
+        })(),
+        lineno: 58
+      }));
+      __iced_deferrals._fulfill();
+    })(function() {
+      if ((!force) && list[id].detail) {
+        console.log('from storage');
+        return callback(type, list[id].detail);
+      } else {
+        console.log('from network');
+        if (type === 'notification') {
+          href = 'http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/' + list[id].href;
+        } else if (type === 'deadline') {
+          href = URL_CONST['deadline_detail'] + '?id=' + data.id + '&course_id=' + data.courseId;
+        }
+        return $.get(href, function(data) {
+          var content, detail, table, title;
+          detail = parser.parseFromString(data, 'text/html');
+          table = detail.querySelectorAll('#table_box tr');
+          title = (table[0].querySelectorAll('td'))[1].innerText;
+          content = (table[1].querySelectorAll('td'))[1].innerHTML;
+          list[id].detail = {
+            title: title,
+            content: content
+          };
+          db_set(type + '_list', list);
+          return callback(type, list[id].detail);
+        });
+      }
+    });
+  };
 
   db_getUsername = function() {
     return localStorage.getItem('learn_username', '');
@@ -295,7 +341,7 @@
             return oldList = arguments[0];
           };
         })(),
-        lineno: 191
+        lineno: 219
       }));
       __iced_deferrals._fulfill();
     })(function() {
@@ -324,7 +370,7 @@
             return list = arguments[0];
           };
         })(),
-        lineno: 200
+        lineno: 228
       }));
       __iced_deferrals._fulfill();
     })(function() {
@@ -351,7 +397,7 @@
             return list = arguments[0];
           };
         })(),
-        lineno: 206
+        lineno: 234
       }));
       __iced_deferrals._fulfill();
     })(function() {
@@ -385,7 +431,7 @@
             return list = arguments[0];
           };
         })(),
-        lineno: 216
+        lineno: 244
       }));
       __iced_deferrals._fulfill();
     })(function() {
@@ -442,7 +488,6 @@
       e -= dueDays;
     }
     entry['eval'] = e;
-    console.log(e);
     return entry;
   };
 
@@ -785,7 +830,7 @@
                         return TC = arguments[0];
                       };
                     })(),
-                    lineno: 515
+                    lineno: 542
                   }));
                 }
                 __iced_deferrals._fulfill();
@@ -814,7 +859,7 @@
                                 return TC = arguments[0];
                               };
                             })(),
-                            lineno: 522
+                            lineno: 549
                           }));
                         }
                         __iced_deferrals._fulfill();
@@ -826,9 +871,11 @@
                         net_vaildToken(request.data.username, request.data.password, sendResponse);
                         return;
                       } else if (request.op === 'detail') {
-                        net_digDetail(request.data.type, request.data.id, function() {
+                        net_digDetail(request.data.type, request.data.id, false, function(type, data) {
                           return sendResponse({
-                            op: 'detailReady'
+                            op: 'detailReady',
+                            type: type,
+                            data: data
                           });
                         });
                       }

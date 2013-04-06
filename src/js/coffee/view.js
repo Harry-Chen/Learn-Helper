@@ -93,7 +93,7 @@
       line += 'is-' + data.state + ' ';
       line += (data.submit_state === '已经提交' ? 'is-submitted' : '') + ' ';
       line += '" data-args=' + id + '> ';
-      line += '<a class="title" target="content-frame" data-args="read" href="' + URL_CONST['deadline_detail'] + '?id=' + data.id + '&course_id=' + data.courseId + '">';
+      line += '<a class="title" target="content-frame" data-args="read">';
       line += '<span class="tag ' + getTheme(dueDays, data.submit_state) + '">';
       if (data.submit_state === CONST.stateTrans.submitted) {
         line += '<i class="icon-check"></i>';
@@ -117,7 +117,7 @@
       line += 'notification ';
       line += 'is-' + data.state + ' ';
       line += '" data-args=' + id + '> ';
-      line += '<a class="title" target="content-frame" data-args="read" href="http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/' + data.href + '"><span class="tag theme-purple"><i class="icon-bullhorn"></i></span> ' + data.name + '</a></td>';
+      line += '<a class="title" data-args="read"><span class="tag theme-purple"><i class="icon-bullhorn"></i></span> ' + data.name + '</a></td>';
       line += '<span class="description">' + new Date(data.day).Format("yyyy-MM-dd") + '</span>';
       line += '<div class="toolbar">';
       line += '<a class="add-star" href="#" data-args="star">置顶</a>';
