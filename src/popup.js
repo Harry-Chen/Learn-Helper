@@ -1,1 +1,1 @@
-chrome.extension.sendMessage({url: 'index.html'});
+chrome.extension.sendMessage({op: 'popup', url: 'index.html'});

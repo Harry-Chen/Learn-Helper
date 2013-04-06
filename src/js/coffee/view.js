@@ -209,7 +209,7 @@
 
   detailLoader = function(type, id) {
     if (type === 'file') return;
-    return chrome.extension.sendRequest({
+    return chrome.extension.sendMessage({
       op: 'detail',
       data: {
         type: type,
@@ -229,7 +229,7 @@
     if (op === 'read') detailLoader(type, id);
     if (target_state === cur_state) return;
     node.className = node.className.replace('is-' + cur_state, 'is-' + target_state);
-    return chrome.extension.sendRequest({
+    return chrome.extension.sendMessage({
       op: 'state',
       data: {
         type: type,
@@ -297,7 +297,7 @@
   };
 
   clearCache = function() {
-    return chrome.extension.sendRequest({
+    return chrome.extension.sendMessage({
       op: 'clear'
     }, function(response) {
       var name, _i, _len, _ref, _results;
@@ -312,7 +312,7 @@
   };
 
   forceReload = function() {
-    return chrome.extension.sendRequest({
+    return chrome.extension.sendMessage({
       op: 'forcereload'
     }, function(response) {
       var name, _i, _len, _ref;
@@ -326,7 +326,7 @@
   };
 
   setAllReaded = function() {
-    return chrome.extension.sendRequest({
+    return chrome.extension.sendMessage({
       op: 'allread'
     }, function(response) {
       return loadData();
@@ -338,7 +338,7 @@
     username = $('#token-username').val();
     password = $('#token-password').val();
     $('#msg-text').text('正在验证中...');
-    return chrome.extension.sendRequest({
+    return chrome.extension.sendMessage({
       op: 'token',
       data: {
         username: username,
@@ -418,7 +418,7 @@
   };
 
   $(function() {
-    chrome.extension.sendRequest({
+    chrome.extension.sendMessage({
       op: 'load'
     }, function(response) {
       if (response.op === 'ready') return loadData();
@@ -426,7 +426,7 @@
     guiInit();
     gui_updateCourseList();
     gui_updatePopupNumber();
-    chrome.extension.onRequest.addListener(function(request, sender, sendRequest) {
+    chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
       var $folder;
       if (request.op === 'progress') {
         $folder = $('.pane-folder');
@@ -436,14 +436,13 @@
     return chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
       if (request.type === 'error') {
         if (request.data === 'netFail') {
-          $('#net-error-modal').modal('show');
+          return $('#net-error-modal').modal('show');
         } else if (request.data === 'noToken') {
-          $('#token-modal').modal({
+          return $('#token-modal').modal({
             closable: true
           }).modal('show');
         }
       }
-      return sendResponse();
     });
   });
 

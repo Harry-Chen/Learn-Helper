@@ -130,7 +130,7 @@ gui_updateNormalList = (type) ->
 detailLoader = (type, id) ->
 	if type is 'file'
 		return
-	chrome.extension.sendRequest(
+	chrome.extension.sendMessage(
 		op : 'detail'
 		data :
 			type : type
@@ -149,7 +149,7 @@ onItemClick= (op, node) ->
 	if target_state is cur_state
 		return
 	node.className = node.className.replace('is-' + cur_state, 'is-' + target_state)
-	chrome.extension.sendRequest(
+	chrome.extension.sendMessage(
 		op : 'state'
 		data :
 			type : type
@@ -202,14 +202,14 @@ gui_switchPage = (page) ->
 			page.show()
 	)
 clearCache = ->
-	chrome.extension.sendRequest(
+	chrome.extension.sendMessage(
 		op:'clear'
 		(response) ->
 			for name in CONST.listTemp
 				gui_updateNormalList(name)
 	)
 forceReload = ->
-	chrome.extension.sendRequest(
+	chrome.extension.sendMessage(
 		op:'forcereload'
 		(response) ->
 			for name in CONST.listTemp
@@ -218,7 +218,7 @@ forceReload = ->
 				loadData()
 	)
 setAllReaded = ->
-	chrome.extension.sendRequest(
+	chrome.extension.sendMessage(
 		op:'allread'
 		(response) ->
 			loadData()
@@ -227,7 +227,7 @@ changeToken = ->
 	username = $('#token-username').val()
 	password = $('#token-password').val()
 	$('#msg-text').text '正在验证中...'
-	chrome.extension.sendRequest(
+	chrome.extension.sendMessage(
 		op : 'token'
 		data :
 			username : username
@@ -279,7 +279,7 @@ loadData = ->
 		gui_updateNormalList(name)
 
 $ ->
-	chrome.extension.sendRequest(
+	chrome.extension.sendMessage(
 		op:'load'
 		(response) ->
 			if response.op is 'ready'
@@ -290,7 +290,7 @@ $ ->
 	gui_updateCourseList()
 	gui_updatePopupNumber()
 	# Messager
-	chrome.extension.onRequest.addListener (request, sender, sendRequest) ->
+	chrome.extension.onMessage.addListener (request, sender, sendResponse) ->
 		if request.op is 'progress'
 			$folder = $ '.pane-folder'
 			setLoading request.data, $folder
@@ -301,4 +301,3 @@ $ ->
 				$('#net-error-modal').modal('show')
 			else if request.data is 'noToken'
 				$('#token-modal').modal({ closable: true }).modal('show')
-		sendResponse()

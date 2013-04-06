@@ -308,7 +308,7 @@ progressLoader = do () ->
 		notification : 3
 		file : 4
 	sendProgress = (p) ->
-		chrome.extension.sendRequest(
+		chrome.extension.sendMessage(
 			op : 'progress'
 			data : p
 		)
@@ -501,16 +501,60 @@ load = (force, sendResponse) ->
 				prepareCollectList('setter')
 				bc
 			)
-
+clearCache = (sendResponse) ->
+	for name in CONST.featureName
+		db_clearCache name
+	await
+		for name in CONST.listTemp
+			db_set 'cache_' + name, {}, defer TC
+	localStorage.removeItem('updateTime')
+	sendResponse()
+readAll = (sendResponse) ->
+	await
+		for name in CONST.featureName
+			db_setAllReaded(name, defer TC)
+	flashResult sendResponse
 #INTERFACE
 window.processCourseList = processCourseList
 
-chrome.extension.onMessage.addListener (feeds, sender, sendResponse) ->
-	chrome.tabs.create
-		'url' : feeds.url
-		(tab) ->
-			state.tabId = tab.id
-	sendResponse()
+chrome.runtime.onMessage.addListener (feeds, sender, sendResponse) ->
+	if feeds.op is 'popup'
+		chrome.tabs.create
+			'url' : feeds.url
+			(tab) ->
+				state.tabId = tab.id
+chrome.runtime.onMessage.addListener (feeds, sender, sendResponse) ->
+	if feeds.op is 'load'
+		load(false, sendResponse)
+		return true
+chrome.runtime.onMessage.addListener (feeds, sender, sendResponse) ->
+	if feeds.op is 'state'
+		d = feeds.data
+		db_setState d.type, d.id, d.targetState, ->
+			flashResult sendResponse
+		return true
+chrome.runtime.onMessage.addListener (feeds, sender, sendResponse) ->
+	if feeds.op is 'clear'
+		clearCache sendResponse
+		return true
+chrome.runtime.onMessage.addListener (feeds, sender, sendResponse) ->
+	if feeds.op is 'forcereload'
+		load(true, sendResponse)
+		return true
+	else if feeds.op is 'allread'
+		readAll sendResponse
+		return true
+	else if feeds.op is 'token'
+		net_vaildToken feeds.data.username, feeds.data.password, sendResponse
+		return true
+	else if feeds.op is 'detail'
+		net_digDetail feeds.data.type, feeds.data.id, false, (type, data)->
+			sendResponse(
+				op : 'detailReady'
+				type : type
+				data : data
+			)
+		return true
 
 flashResult = (sendResponse)->
 	readyCounter = 0
@@ -527,34 +571,3 @@ flashResult = (sendResponse)->
 			prepareCollectList('setter')
 			bc
 		)
-chrome.extension.onRequest.addListener (request, sender, sendResponse) ->
-	if request.op is 'load'
-		load(false, sendResponse)
-	else if request.op is 'state'
-		d = request.data
-		db_setState d.type, d.id, d.targetState, ->
-			flashResult sendResponse
-	else if request.op is 'clear'
-		for name in CONST.featureName
-			db_clearCache name
-		await
-			for name in CONST.listTemp
-				db_set 'cache_' + name, {}, defer TC
-		sendResponse({})
-	else if request.op is 'forcereload'
-		load(true, sendResponse)
-	else if request.op is 'allread'
-		await
-			for name in CONST.featureName
-				db_setAllReaded(name, defer TC)
-		flashResult sendResponse
-	else if request.op is 'token'
-		net_vaildToken request.data.username, request.data.password, sendResponse
-		return
-	else if request.op is 'detail'
-		net_digDetail request.data.type, request.data.id, false, (type, data)->
-			sendResponse(
-				op : 'detailReady'
-				type : type
-				data : data
-			)
