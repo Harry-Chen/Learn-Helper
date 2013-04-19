@@ -1,5 +1,7 @@
 gui_updateCourseList = () ->
 	courseList= JSON.parse (localStorage.getItem 'course_list')
+	if not courseList
+		return
 	GUIlist= $('#course-list')
 	$('#course-list .folder').remove()
 	for i in [0...courseList.length]

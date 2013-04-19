@@ -46,6 +46,7 @@
   gui_updateCourseList = function() {
     var GUIlist, courseList, i, id, k, name, _i, _ref, _results;
     courseList = JSON.parse(localStorage.getItem('course_list'));
+    if (!courseList) return;
     GUIlist = $('#course-list');
     $('#course-list .folder').remove();
     _results = [];
@@ -171,7 +172,7 @@
             return list = arguments[0];
           };
         })(),
-        lineno: 108
+        lineno: 110
       }));
       __iced_deferrals._fulfill();
     })(function() {
