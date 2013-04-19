@@ -129,19 +129,19 @@
             return list = arguments[0];
           };
         })(),
-        lineno: 58
+        lineno: 59
       }));
       __iced_deferrals._fulfill();
     })(function() {
       if ((!force) && list[id].detail) {
         console.log('from storage');
-        return callback(type, list[id].detail);
+        return callback(type, list[id]);
       } else {
         console.log('from network');
         if (type === 'notification') {
           href = 'http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/' + list[id].href;
         } else if (type === 'deadline') {
-          href = URL_CONST['deadline_detail'] + '?id=' + data.id + '&course_id=' + data.courseId;
+          href = URL_CONST['deadline_detail'] + '?id=' + id + '&course_id=' + list[id].courseId;
         }
         return $.get(href, function(data) {
           var content, detail, table, title;
@@ -154,7 +154,7 @@
             content: content
           };
           db_set(type + '_list', list);
-          return callback(type, list[id].detail);
+          return callback(type, list[id]);
         });
       }
     });
@@ -341,7 +341,7 @@
             return oldList = arguments[0];
           };
         })(),
-        lineno: 219
+        lineno: 220
       }));
       __iced_deferrals._fulfill();
     })(function() {
@@ -370,7 +370,7 @@
             return list = arguments[0];
           };
         })(),
-        lineno: 228
+        lineno: 229
       }));
       __iced_deferrals._fulfill();
     })(function() {
@@ -397,7 +397,7 @@
             return list = arguments[0];
           };
         })(),
-        lineno: 234
+        lineno: 235
       }));
       __iced_deferrals._fulfill();
     })(function() {
@@ -431,7 +431,7 @@
             return list = arguments[0];
           };
         })(),
-        lineno: 244
+        lineno: 245
       }));
       __iced_deferrals._fulfill();
     })(function() {
@@ -790,7 +790,7 @@
               return TC = arguments[0];
             };
           })(),
-          lineno: 509
+          lineno: 510
         }));
       }
       __iced_deferrals._fulfill();
@@ -821,7 +821,7 @@
               return TC = arguments[0];
             };
           })(),
-          lineno: 515
+          lineno: 516
         }));
       }
       __iced_deferrals._fulfill();

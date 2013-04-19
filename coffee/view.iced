@@ -48,7 +48,7 @@ gui_main_createNewLine = (data) ->
 		line += 'is-' + data.state + ' '
 		line += (if (data.submit_state is '已经提交') then 'is-submitted' else '' ) + ' '
 		line += '" data-args=' + id + '> '
-		line += '<a class="title" target="content-frame" data-args="read">'
+		line += '<a class="title" data-args="read" target="content-frame" href="subframe.html?type=deadline&id=' + id + '">'
 		line += '<span class="tag ' + getTheme(dueDays, data.submit_state) + '">'
 		if data.submit_state is CONST.stateTrans.submitted
 			line += '<i class="icon-check"></i>'
@@ -74,7 +74,7 @@ gui_main_createNewLine = (data) ->
 		line += 'is-' + data.state + ' '
 		line += '" data-args=' + id + '> '
 		#line += '<a class="title" target="content-frame" data-args="read" href="http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/'+
-		line += '<a class="title" data-args="read"><span class="tag theme-purple"><i class="icon-bullhorn"></i></span> ' + data.name + '</a></td>'
+		line += '<a class="title" data-args="read" target="content-frame" href="subframe.html?type=notification&id=' + id + '"><span class="tag theme-purple"><i class="icon-bullhorn"></i></span> ' + data.name + '</a></td>'
 		line += '<span class="description">' + new Date(data.day).Format("yyyy-MM-dd") + '</span>'
 		line += '<div class="toolbar">'
 		line += '<a class="add-star" href="#" data-args="star">置顶</a>'
@@ -127,25 +127,12 @@ gui_updateNormalList = (type) ->
 		args.push(node.parentNode.parentNode)
 		onItemClick.apply(null, args)
 
-detailLoader = (type, id) ->
-	if type is 'file'
-		return
-	chrome.extension.sendMessage(
-		op : 'detail'
-		data :
-			type : type
-			id : id
-		(response) ->
-			console.log response.data
-	)
 # set read state and call background to load detail data
 onItemClick= (op, node) ->
 	id = node.getAttribute('data-args')
 	cur_state = node.className.match(/is-(\w*)/)[1]
 	type = node.className.match(/deadline|notification|file/)[0]
 	target_state = CONST.changeState[cur_state][op]
-	if op is 'read'
-		detailLoader type, id
 	if target_state is cur_state
 		return
 	node.className = node.className.replace('is-' + cur_state, 'is-' + target_state)

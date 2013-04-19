@@ -54,20 +54,21 @@ net_login = (successCall) ->
 			window.setTimeout successCall, 1000
 		).fail ->
 			errorHandler 'netFail'
+
 net_digDetail = (type, id, force, callback) ->
 	await db_get type + '_list', {}, defer list
 	if (not force) and list[id].detail
 		console.log 'from storage'
 		callback(
 			type
-			list[id].detail
+			list[id]
 		)
 	else
 		console.log 'from network'
 		if type is 'notification'
 			href = 'http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/'+ list[id].href
 		else if type is 'deadline'
-			href = URL_CONST['deadline_detail'] + '?id=' + data.id + '&course_id=' + data.courseId
+			href = URL_CONST['deadline_detail'] + '?id=' + id + '&course_id=' + list[id].courseId
 		$.get(
 			href
 			(data) ->
@@ -75,13 +76,13 @@ net_digDetail = (type, id, force, callback) ->
 				table = detail.querySelectorAll '#table_box tr'
 				title = (table[0].querySelectorAll 'td')[1].innerText
 				content = (table[1].querySelectorAll 'td')[1].innerHTML
-				list[id].detail = 
+				list[id].detail =
 					title : title
 					content : content
 				db_set type + '_list', list
 				callback(
 					type
-					list[id].detail
+					list[id]
 				)
 		)
 db_getUsername = ->
