@@ -94,7 +94,7 @@
       line += 'is-' + data.state + ' ';
       line += (data.submit_state === '已经提交' ? 'is-submitted' : '') + ' ';
       line += '" data-args=' + id + '> ';
-      line += '<a class="title" data-args="read" target="content-frame" href="subframe.html?type=deadline&id=' + id + '">';
+      line += '<a class="title" data-args="read" target="content-frame" href="subframe.html?type=deadline&id=' + id + '" title="' + data.name + '">';
       line += '<span class="tag ' + getTheme(dueDays, data.submit_state) + '">';
       if (data.submit_state === CONST.stateTrans.submitted) {
         line += '<i class="icon-check"></i>';
@@ -118,7 +118,7 @@
       line += 'notification ';
       line += 'is-' + data.state + ' ';
       line += '" data-args=' + id + '> ';
-      line += '<a class="title" data-args="read" target="content-frame" href="subframe.html?type=notification&id=' + id + '"><span class="tag theme-purple"><i class="icon-bullhorn"></i></span> ' + data.name + '</a></td>';
+      line += '<a class="title" data-args="read" target="content-frame" href="subframe.html?type=notification&id=' + id + '" title="' + data.name + '"><span class="tag theme-purple"><i class="icon-bullhorn"></i></span> ' + data.name + '</a></td>';
       line += '<span class="description">' + new Date(data.day).Format("yyyy-MM-dd") + '</span>';
       line += '<div class="toolbar">';
       line += '<a class="add-star" href="#" data-args="star">置顶</a>';
@@ -128,7 +128,7 @@
       line += 'file ';
       line += 'is-' + data.state + ' ';
       line += '" data-args=' + id + '> ';
-      line += '<a class="title" target="content-frame" data-args="read" href="https://learn.tsinghua.edu.cn' + data.href + '"><span class="tag theme-magenta"><i class="icon-download-alt"></i></span> ' + data.name + '</a></td>';
+      line += '<a class="title" target="content-frame" data-args="read" href="https://learn.tsinghua.edu.cn' + data.href + '" title="' + data.name + '"><span class="tag theme-magenta"><i class="icon-download-alt"></i></span> ' + data.name + '</a></td>';
       line += '<span class="description">' + new Date(data.day).Format("yyyy-MM-dd") + '&nbsp;&nbsp;' + data.explanation + '</span>';
       line += '<div class="toolbar">';
       line += '<a class="add-star" href="#" data-args="star">置顶</a>';

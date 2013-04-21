@@ -16,28 +16,34 @@ body {
 	box-shadow: 0px 0px 2px #AAA;
 	color: #333;
 	position: relative;
-	padding-top : 60px;
 }
 .title {
 	text-align: center;
 	font-size: 1.5em;
+	border-bottom: 1px solid #CCC;
+	padding: 0 0 10px 0;
 }
-.toolbar{
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
+.toolbar{;
+	padding: 10px;
+	color: #555;
+	text-align: right;
 
+	/*
 	background : linear-gradient(rgba(144, 34, 208, 1.0), #508);
-	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(193, 95, 250, 1.0);
 	color: #FFF;
+	text-shadow: 0 1px 1px rgba(0,0,0,0.7);
+	border: 1px solid #508;
 	height : 50px;
 	line-height: 25px;
 	padding: 5px 10px;
-	font-size: 0.8em;
+	*/
 }
 
-.author {
+.courseName {
+}
+.author, .date {
+	font-size: 0.8em;
 }
 .deadline .date::before {
 	content: "截止时间: ";
