@@ -15,7 +15,8 @@
     'course_page': 'https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/course_locate.jsp',
     'deadline_detail': 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_detail.jsp',
     'deadline_submit': 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_submit.jsp',
-    'deadline_review': 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_view.jsp'
+    'deadline_review': 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_view.jsp',
+    'base_URL': 'http://learn.tsinghua.edu.cn'
   };
 
   window.CONST = {

@@ -67,24 +67,29 @@ net_digDetail = (type, id, force, callback) ->
 		console.log 'from network'
 		if type is 'notification'
 			href = 'http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/'+ list[id].href
+			await $.get href, defer data
+			detail = parser.parseFromString data, 'text/html'
+			table = detail.querySelectorAll '#table_box .tr_l2'
+			list[id].detail =
+				title : table[0].innerText
+				content : table[1].innerHTML
 		else if type is 'deadline'
 			href = URL_CONST['deadline_detail'] + '?id=' + id + '&course_id=' + list[id].courseId
-		$.get(
-			href
-			(data) ->
-				detail = parser.parseFromString data, 'text/html'
-				table = detail.querySelectorAll '#table_box tr'
-				title = (table[0].querySelectorAll 'td')[1].innerText
-				content = (table[1].querySelectorAll 'td')[1].innerHTML
-				list[id].detail =
-					title : title
-					content : content
-				db_set type + '_list', list
-				callback(
-					type
-					list[id]
-				)
-		)
+			await $.get href, defer data
+			detail = parser.parseFromString data, 'text/html'
+			# add base_url to all link
+			for item in detail.querySelectorAll 'a[target="_top"]'
+				item.href = URL_CONST.base_URL + item.getAttribute('href')
+
+			table = detail.querySelectorAll '#table_box .tr_2'
+			list[id].detail =
+				title : table[0].innerText
+				content : table[1].children[0].innerHTML
+				attach : table[2].innerHTML
+				uploadText : table[3].children[0].innerHTML
+				uploadAttach : table[4].innerHTML
+		db_set type + '_list', list
+		callback type, list[id]
 db_getUsername = ->
 	localStorage.getItem 'learn_username', ''
 db_getPassword = ->
@@ -256,6 +261,8 @@ mergeList = (newList, oldList) ->
 		if newList[key]
 			temp[key] = newList[key]
 			temp[key].state = value.state
+			# save detail for cache
+			temp[key].detail = value.detail
 	for key, value of newList
 		if not oldList[key]
 			temp[key] = value
@@ -339,6 +346,7 @@ processCourseList = (update, callback, progressCallback) ->
 	courseList = JSON.parse courseList
 	progressCallback && progressCallback 'courseList', 1
 	callback courseList
+# traverse Course in course_list and save data to list
 traverseCourse =(type, successCallback, progressCallback, collectCallback, finishCallback)->
 	lists = {}
 	unChecked = 0
@@ -389,6 +397,7 @@ traverseCourse =(type, successCallback, progressCallback, collectCallback, finis
 									name: $.trim(attr[1].innerText)
 									day: new Date($.trim(attr[3].innerText))
 									href: $.trim($(attr[1]).find("a").attr('href'))
+									author: $.trim(attr[2].innerText)
 									state: 'unread'
 							else if type is 'file'
 								title = $(attr[1].querySelectorAll('a')).attr('href')

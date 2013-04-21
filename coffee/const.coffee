@@ -13,6 +13,7 @@ window.URL_CONST =
 	'deadline_detail' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_detail.jsp' #作业详细
 	'deadline_submit' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_submit.jsp' #作业提交
 	'deadline_review' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_view.jsp' #作业批阅
+	'base_URL' : 'http://learn.tsinghua.edu.cn'
 window.CONST =
 	version : window.getManifest().version
 	featureName : [ 'deadline', 'notification', 'file']

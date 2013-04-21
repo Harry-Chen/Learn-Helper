@@ -12,12 +12,25 @@
       }
     }, function(response) {
       var d;
-      console.log(response);
       d = response.data;
-      $('.title').text(d.detail.title);
-      $('.content').html(d.detail.content);
-      $('.date').text(d.day);
-      return $('.courseName').text(d.courseName);
+      if (response.type === 'notification') {
+        $('.noti-wrap').show();
+        $('.title').text(d.detail.title);
+        $('.content').html(d.detail.content);
+        $('.date').text(new Date(d.day).Format("yyyy-MM-dd"));
+        $('.courseName').text(d.courseName);
+        $('.author').text(d.author);
+      } else if (response.type === 'deadline') {
+        $('.ddl-wrap').show();
+        $('.title').text(d.detail.title);
+        $('.content').html(d.detail.content);
+        $('.date').text(new Date(d.end).Format("yyyy-MM-dd"));
+        $('.courseName').text(d.courseName);
+        $('.uploadText').html(d.detail.uploadText);
+        $('.uploadAttach').html(d.detail.uploadAttach);
+        $('.attach').html(d.detail.attach);
+      }
+      return $('.loading').hide();
     });
   };
 
@@ -28,6 +41,8 @@
   };
 
   $(function() {
+    $('.noti-wrap').hide();
+    $('.ddl-wrap').hide();
     return init();
   });
 
