@@ -170,7 +170,7 @@
                 detail = parser.parseFromString(data, 'text/html');
                 table = detail.querySelectorAll('#table_box .tr_l2');
                 return __iced_k(list[id].detail = {
-                  title: table[0].innerText,
+                  title: $.trim(table[0].innerText),
                   content: table[1].innerHTML
                 });
               });
@@ -203,7 +203,7 @@
                     }
                     table = detail.querySelectorAll('#table_box .tr_2');
                     return __iced_k(list[id].detail = {
-                      title: table[0].innerText,
+                      title: $.trim(table[0].innerText),
                       content: table[1].children[0].innerHTML,
                       attach: table[2].innerHTML,
                       uploadText: table[3].children[0].innerHTML,

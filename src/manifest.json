@@ -17,7 +17,15 @@
 				"*://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/mainstudent.jsp"
 			],
 			"js" : ["main.js"]
+		},
+		{
+			"matches" :[
+				"*://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/*"
+			],
+			"js" : ["js/jquery-1.9.1.min.js", "bbsFix.js"],
+			"all_frames" : true
 		}
+
 	],
 	"background" : {
 		"scripts" : ["js/jquery-1.9.1.min.js", "js/utils.js", "js/sjcl.js", "js/html-domparser.js", "js/coffee/const.js", "js/coffee/background.js"]

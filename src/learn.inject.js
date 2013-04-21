@@ -1,3 +1,4 @@
+// 作业分类标签位置
 window.NN_showImage = function(num, k) {
     for (var i = 1; i <= num; ++i) {
         var obj = document.getElementById("ImageTab" + i);

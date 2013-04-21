@@ -8,10 +8,14 @@ detailLoader = (type, id) ->
 			id : id
 		(response) ->
 			d = response.data
+			$('body').addClass response.type
 			if response.type is 'notification'
 				$('.noti-wrap').show()
 				$('.title').text(d.detail.title)
-				$('.content').html(d.detail.content)
+				try
+					$('.content').html(d.detail.content)
+				catch e
+					a = 1
 				$('.date').text(new Date(d.day).Format("yyyy-MM-dd"))
 				$('.courseName').text(d.courseName)
 				$('.author').text(d.author)

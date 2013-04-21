@@ -77,7 +77,7 @@ net_digDetail = (type, id, force, callback) ->
 				detail = parser.parseFromString data, 'text/html'
 				table = detail.querySelectorAll '#table_box .tr_l2'
 				list[id].detail =
-					title : table[0].innerText
+					title : $.trim table[0].innerText
 					content : table[1].innerHTML
 			else if type is 'deadline'
 				href = URL_CONST['deadline_detail'] + '?id=' + id + '&course_id=' + list[id].courseId
@@ -90,7 +90,7 @@ net_digDetail = (type, id, force, callback) ->
 
 				table = detail.querySelectorAll '#table_box .tr_2'
 				list[id].detail =
-					title : table[0].innerText
+					title : $.trim table[0].innerText
 					content : table[1].children[0].innerHTML
 					attach : table[2].innerHTML
 					uploadText : table[3].children[0].innerHTML

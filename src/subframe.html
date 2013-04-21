@@ -12,42 +12,34 @@
 		<link rel="stylesheet" href="/css/detail.css" type="text/css" charset="utf-8">
 	</head>
 	<body>
-		<div class="toolbar">
-			<ul>
-				<li class="courseName">  </li>
-				<li style="float: right;"> 刷新 </li>
-			</ul>
-		</div>
 		<div class="page-wrap">
+			<div class="toolbar">
+<!--
+				<ul class="action">
+					<li> 刷新 </li>
+				</ul>
+-->
+
+				<span class="courseName">  </span>
+				<div>
+					<span class="author">  </span>
+					<span class="date"></span>
+				</div>
+			</div>
+
 			<div class="loading">
 				载入中...请稍后
 			</div>
 			<div class="noti-wrap">
 					<h1 class="title"></h1>
-					<div class="description">
-						<div class="meta">
-							发布者：
-							<span class="author"></span>
-						</div>
-						<div class="meta">
-							时间：
-							<span class="date"></span>
-						</div>
-					</div>
-					<div class="content"></div>
+					<pre class="content"></pre>
 			</div>
 			<div class="ddl-wrap">
 					<h1 class="title"></h1>
-					<div class="description">
-						<div class="meta">
-							截止时间：
-							<span class="date"></span>
-						</div>
-					</div>
 					<pre class="content"></pre>
 					<div>作业文件：<span class="attach"></span></div>
 					<div>已提交文件：<span class="uploadAttach"></span></div>
-					<div>已提交文本：<div class="uploadText"></div></div>
+					<div>已提交文本：<pre class="uploadText"></pre></div>
 			</div>
 		</div>
 
