@@ -40,20 +40,25 @@ net_vaildToken = (username, password, sendResponse) ->
 				op : 'failToken'
 				reason : '无法连接到网络学堂，请检查网络学堂能否打开'
 			)
-net_login = (successCall) ->
+net_login = (successCall, force) ->
 	username = db_getUsername()
 	password = db_getPassword()
 	if not username or not password
 		errorHandler 'noToken'
 		return
-	$.post(
-		URL_CONST['login'],
-		'userid' : username
-		'userpass' : password
-		(data) ->
-			window.setTimeout successCall, 1000
-		).fail ->
-			errorHandler 'netFail'
+	if force or updateJudge 'loginTime', 'check'
+		$.post(
+			URL_CONST['login'],
+			'userid' : username
+			'userpass' : password
+			(data) ->
+				updateJudge 'loginTime', 'set'
+				localStorage.setItem('lastLogin', new Date())
+				successCall && window.setTimeout successCall, 800
+			).fail ->
+				errorHandler 'netFail'
+	else
+		successCall && successCall()
 
 net_digDetail = (type, id, force, callback) ->
 	await db_get type + '_list', {}, defer list
@@ -65,31 +70,34 @@ net_digDetail = (type, id, force, callback) ->
 		)
 	else
 		console.log 'from network'
-		if type is 'notification'
-			href = 'http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/'+ list[id].href
-			await $.get href, defer data
-			detail = parser.parseFromString data, 'text/html'
-			table = detail.querySelectorAll '#table_box .tr_l2'
-			list[id].detail =
-				title : table[0].innerText
-				content : table[1].innerHTML
-		else if type is 'deadline'
-			href = URL_CONST['deadline_detail'] + '?id=' + id + '&course_id=' + list[id].courseId
-			await $.get href, defer data
-			detail = parser.parseFromString data, 'text/html'
-			# add base_url to all link
-			for item in detail.querySelectorAll 'a[target="_top"]'
-				item.href = URL_CONST.base_URL + item.getAttribute('href')
+		net_login ->
+			if type is 'notification'
+				href = 'http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/'+ list[id].href
+				await $.get href, defer data
+				detail = parser.parseFromString data, 'text/html'
+				table = detail.querySelectorAll '#table_box .tr_l2'
+				list[id].detail =
+					title : table[0].innerText
+					content : table[1].innerHTML
+			else if type is 'deadline'
+				href = URL_CONST['deadline_detail'] + '?id=' + id + '&course_id=' + list[id].courseId
+				await $.get href, defer data
+				detail = parser.parseFromString data, 'text/html'
+				console.log detail
+				# add base_url to all link
+				for item in detail.querySelectorAll 'a[target="_top"]'
+					item.href = URL_CONST.base_URL + item.getAttribute('href')
 
-			table = detail.querySelectorAll '#table_box .tr_2'
-			list[id].detail =
-				title : table[0].innerText
-				content : table[1].children[0].innerHTML
-				attach : table[2].innerHTML
-				uploadText : table[3].children[0].innerHTML
-				uploadAttach : table[4].innerHTML
-		db_set type + '_list', list
-		callback type, list[id]
+				table = detail.querySelectorAll '#table_box .tr_2'
+				list[id].detail =
+					title : table[0].innerText
+					content : table[1].children[0].innerHTML
+					attach : table[2].innerHTML
+					uploadText : table[3].children[0].innerHTML
+					uploadAttach : table[4].innerHTML
+			db_set type + '_list', list
+			callback type, list[id]
+
 db_getUsername = ->
 	localStorage.getItem 'learn_username', ''
 db_getPassword = ->
@@ -464,17 +472,18 @@ prepareCollectList = do () ->
 			cList = []
 			listCount = 0
 # return whether need sync
-updateJudge = (op) ->
+# key name = updateTime or loginTime
+updateJudge = (keyName, op) ->
 	now = new Date()
 	if op is 'check'
-		lastTime = localStorage.getItem('updateTime', null)
+		lastTime = localStorage.getItem(keyName, null)
 		if not lastTime
 			return true
 		if now - new Date(lastTime) > 5 * 60 * 1000
 			return true
 		return false
 	else if op is 'set'
-		localStorage.setItem('updateTime', now)
+		localStorage.setItem(keyName, now)
 
 load = (force, sendResponse) ->
 	readyCounter = 0
@@ -483,11 +492,11 @@ load = (force, sendResponse) ->
 		readyCounter++
 		if readyCounter is (CONST.featureName.length + 1)
 			if netSync
-				updateJudge 'set'
+				updateJudge 'updateTime', 'set'
 				net_submitServer()
 			sendResponse && sendResponse({op : 'ready'})
 		return
-	if force or updateJudge('check')
+	if force or updateJudge('updateTime', 'check')
 		netSync = 1
 		progressLoader('clear')
 		net_login ->

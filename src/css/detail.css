@@ -1,0 +1,16 @@
+.page-wrap{
+	margin : 10px;
+	margin-top : 40px;
+}
+.toolbar{
+	position : fixed;
+	left : 0;
+	right : 0;
+	background : #666;
+	color: #FFF;
+	height : 30px;
+	top : 0;
+	line-height: 30px;
+}
+.toolbar ul { padding : 0; margin: 0; list-style: none; }
+.toolbar li { display: inline-block; padding: 0 10px; margin: 0 2px; border-right: 1px solid #888;}

@@ -94,7 +94,7 @@
     });
   };
 
-  net_login = function(successCall) {
+  net_login = function(successCall, force) {
     var password, username;
     username = db_getUsername();
     password = db_getPassword();
@@ -102,18 +102,24 @@
       errorHandler('noToken');
       return;
     }
-    return $.post(URL_CONST['login'], {
-      'userid': username,
-      'userpass': password
-    }, function(data) {
-      return window.setTimeout(successCall, 1000);
-    }).fail(function() {
-      return errorHandler('netFail');
-    });
+    if (force || updateJudge('loginTime', 'check')) {
+      return $.post(URL_CONST['login'], {
+        'userid': username,
+        'userpass': password
+      }, function(data) {
+        updateJudge('loginTime', 'set');
+        localStorage.setItem('lastLogin', new Date());
+        return successCall && window.setTimeout(successCall, 800);
+      }).fail(function() {
+        return errorHandler('netFail');
+      });
+    } else {
+      return successCall && successCall();
+    }
   };
 
   net_digDetail = function(type, id, force, callback) {
-    var data, detail, href, item, list, table, ___iced_passed_deferral, __iced_deferrals, __iced_k,
+    var list, ___iced_passed_deferral, __iced_deferrals, __iced_k,
       _this = this;
     __iced_k = __iced_k_noop;
     ___iced_passed_deferral = iced.findDeferral(arguments);
@@ -129,85 +135,90 @@
             return list = arguments[0];
           };
         })(),
-        lineno: 59
+        lineno: 64
       }));
       __iced_deferrals._fulfill();
     })(function() {
       if ((!force) && list[id].detail) {
         console.log('from storage');
-        return __iced_k(callback(type, list[id]));
+        return callback(type, list[id]);
       } else {
         console.log('from network');
-        (function(__iced_k) {
-          if (type === 'notification') {
-            href = 'http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/' + list[id].href;
-            (function(__iced_k) {
-              __iced_deferrals = new iced.Deferrals(__iced_k, {
-                parent: ___iced_passed_deferral,
-                filename: "coffee\background.iced",
-                funcname: "net_digDetail"
-              });
-              $.get(href, __iced_deferrals.defer({
-                assign_fn: (function() {
-                  return function() {
-                    return data = arguments[0];
-                  };
-                })(),
-                lineno: 70
-              }));
-              __iced_deferrals._fulfill();
-            })(function() {
-              detail = parser.parseFromString(data, 'text/html');
-              table = detail.querySelectorAll('#table_box .tr_l2');
-              return __iced_k(list[id].detail = {
-                title: table[0].innerText,
-                content: table[1].innerHTML
-              });
-            });
-          } else {
-            (function(__iced_k) {
-              if (type === 'deadline') {
-                href = URL_CONST['deadline_detail'] + '?id=' + id + '&course_id=' + list[id].courseId;
-                (function(__iced_k) {
-                  __iced_deferrals = new iced.Deferrals(__iced_k, {
-                    parent: ___iced_passed_deferral,
-                    filename: "coffee\background.iced",
-                    funcname: "net_digDetail"
-                  });
-                  $.get(href, __iced_deferrals.defer({
-                    assign_fn: (function() {
-                      return function() {
-                        return data = arguments[0];
-                      };
-                    })(),
-                    lineno: 78
-                  }));
-                  __iced_deferrals._fulfill();
-                })(function() {
-                  var _i, _len, _ref;
-                  detail = parser.parseFromString(data, 'text/html');
-                  _ref = detail.querySelectorAll('a[target="_top"]');
-                  for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-                    item = _ref[_i];
-                    item.href = URL_CONST.base_URL + item.getAttribute('href');
-                  }
-                  table = detail.querySelectorAll('#table_box .tr_2');
-                  return __iced_k(list[id].detail = {
-                    title: table[0].innerText,
-                    content: table[1].children[0].innerHTML,
-                    attach: table[2].innerHTML,
-                    uploadText: table[3].children[0].innerHTML,
-                    uploadAttach: table[4].innerHTML
-                  });
+        return net_login(function() {
+          var data, detail, href, item, table, ___iced_passed_deferral1, __iced_deferrals, __iced_k,
+            _this = this;
+          __iced_k = __iced_k_noop;
+          ___iced_passed_deferral1 = iced.findDeferral(arguments);
+          (function(__iced_k) {
+            if (type === 'notification') {
+              href = 'http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/' + list[id].href;
+              (function(__iced_k) {
+                __iced_deferrals = new iced.Deferrals(__iced_k, {
+                  parent: ___iced_passed_deferral1,
+                  filename: "coffee\background.iced"
                 });
-              } else {
-                return __iced_k();
-              }
-            })(__iced_k);
-          }
-        })(function() {
-          db_set(type + '_list', list);
-          return __iced_k(callback(type, list[id]));
+                $.get(href, __iced_deferrals.defer({
+                  assign_fn: (function() {
+                    return function() {
+                      return data = arguments[0];
+                    };
+                  })(),
+                  lineno: 76
+                }));
+                __iced_deferrals._fulfill();
+              })(function() {
+                detail = parser.parseFromString(data, 'text/html');
+                table = detail.querySelectorAll('#table_box .tr_l2');
+                return __iced_k(list[id].detail = {
+                  title: table[0].innerText,
+                  content: table[1].innerHTML
+                });
+              });
+            } else {
+              (function(__iced_k) {
+                if (type === 'deadline') {
+                  href = URL_CONST['deadline_detail'] + '?id=' + id + '&course_id=' + list[id].courseId;
+                  (function(__iced_k) {
+                    __iced_deferrals = new iced.Deferrals(__iced_k, {
+                      parent: ___iced_passed_deferral1,
+                      filename: "coffee\background.iced"
+                    });
+                    $.get(href, __iced_deferrals.defer({
+                      assign_fn: (function() {
+                        return function() {
+                          return data = arguments[0];
+                        };
+                      })(),
+                      lineno: 84
+                    }));
+                    __iced_deferrals._fulfill();
+                  })(function() {
+                    var _i, _len, _ref;
+                    detail = parser.parseFromString(data, 'text/html');
+                    console.log(detail);
+                    _ref = detail.querySelectorAll('a[target="_top"]');
+                    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                      item = _ref[_i];
+                      item.href = URL_CONST.base_URL + item.getAttribute('href');
+                    }
+                    table = detail.querySelectorAll('#table_box .tr_2');
+                    return __iced_k(list[id].detail = {
+                      title: table[0].innerText,
+                      content: table[1].children[0].innerHTML,
+                      attach: table[2].innerHTML,
+                      uploadText: table[3].children[0].innerHTML,
+                      uploadAttach: table[4].innerHTML
+                    });
+                  });
+                } else {
+                  return __iced_k();
+                }
+              })(__iced_k);
+            }
+          })(function() {
+            db_set(type + '_list', list);
+            return callback(type, list[id]);
+          });
         });
       }
     });
@@ -394,7 +405,7 @@
             return oldList = arguments[0];
           };
         })(),
-        lineno: 225
+        lineno: 233
       }));
       __iced_deferrals._fulfill();
     })(function() {
@@ -423,7 +434,7 @@
             return list = arguments[0];
           };
         })(),
-        lineno: 234
+        lineno: 242
       }));
       __iced_deferrals._fulfill();
     })(function() {
@@ -450,7 +461,7 @@
             return list = arguments[0];
           };
         })(),
-        lineno: 240
+        lineno: 248
       }));
       __iced_deferrals._fulfill();
     })(function() {
@@ -484,7 +495,7 @@
             return list = arguments[0];
           };
         })(),
-        lineno: 250
+        lineno: 258
       }));
       __iced_deferrals._fulfill();
     })(function() {
@@ -763,16 +774,16 @@
     };
   })();
 
-  updateJudge = function(op) {
+  updateJudge = function(keyName, op) {
     var lastTime, now;
     now = new Date();
     if (op === 'check') {
-      lastTime = localStorage.getItem('updateTime', null);
+      lastTime = localStorage.getItem(keyName, null);
       if (!lastTime) return true;
       if (now - new Date(lastTime) > 5 * 60 * 1000) return true;
       return false;
     } else if (op === 'set') {
-      return localStorage.setItem('updateTime', now);
+      return localStorage.setItem(keyName, now);
     }
   };
 
@@ -784,7 +795,7 @@
       readyCounter++;
       if (readyCounter === (CONST.featureName.length + 1)) {
         if (netSync) {
-          updateJudge('set');
+          updateJudge('updateTime', 'set');
           net_submitServer();
         }
         sendResponse && sendResponse({
@@ -792,7 +803,7 @@
         });
       }
     };
-    if (force || updateJudge('check')) {
+    if (force || updateJudge('updateTime', 'check')) {
       netSync = 1;
       progressLoader('clear');
       net_login(function() {
@@ -845,7 +856,7 @@
               return TC = arguments[0];
             };
           })(),
-          lineno: 519
+          lineno: 528
         }));
       }
       __iced_deferrals._fulfill();
@@ -876,7 +887,7 @@
               return TC = arguments[0];
             };
           })(),
-          lineno: 525
+          lineno: 534
         }));
       }
       __iced_deferrals._fulfill();

@@ -9,14 +9,20 @@
 		<script src="js/utils.js"></script>
 		<script language="javascript" type="text/javascript" src="js/coffee/const.js"> </script>
 		<script language="javascript" type="text/javascript" src="js/coffee/detail.js"> </script>
+		<link rel="stylesheet" href="/css/detail.css" type="text/css" charset="utf-8">
 	</head>
 	<body>
+		<div class="toolbar">
+			<ul>
+				<li class="courseName">  </li>
+				<li style="float: right;"> 刷新 </li>
+			</ul>
+		</div>
 		<div class="page-wrap">
 			<div class="loading">
 				载入中...请稍后
 			</div>
 			<div class="noti-wrap">
-					<div class="courseName"></div>
 					<h1 class="title"></h1>
 					<div class="description">
 						<div class="meta">
@@ -31,22 +37,19 @@
 					<div class="content"></div>
 			</div>
 			<div class="ddl-wrap">
-					<div class="courseName"></div>
 					<h1 class="title"></h1>
 					<div class="description">
 						<div class="meta">
-							时间：
+							截止时间：
 							<span class="date"></span>
 						</div>
 					</div>
-					<div class="content"></div>
-					<div class="uploadAttach"></div>
-					<div class="uploadText"></div>
-
-					<div class="attach"></div>
+					<pre class="content"></pre>
+					<div>作业文件：<span class="attach"></span></div>
+					<div>已提交文件：<span class="uploadAttach"></span></div>
+					<div>已提交文本：<div class="uploadText"></div></div>
 			</div>
 		</div>
 
 	</body>
 	</html>
-
