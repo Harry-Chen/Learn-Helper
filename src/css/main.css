@@ -1332,14 +1332,14 @@ body {
   border: 1px solid #be0000;
 }
 .pane-message .message .tag.theme-magenta {
-  color: #f4cce0;
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #c06), color-stop(1, #b8005c));
-  background: -webkit-linear-gradient(top, #c06 0%, #b8005c 100%);
-  background: linear-gradient(top, #c06 0%, #b8005c 100%);
-  -webkit-box-shadow: inset 0 1px 0px #ff0a85;
-  box-shadow: inset 0 1px 0px #ff0a85;
-  text-shadow: 0 -1px 0px #a30052;
-  border: 1px solid #a30052;
+  color: #fad1e5;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #e91981), color-stop(1, #d41474));
+  background: -webkit-linear-gradient(top, #e91981 0%, #d41474 100%);
+  background: linear-gradient(top, #e91981 0%, #d41474 100%);
+  -webkit-box-shadow: inset 0 1px 0px #ed479a;
+  box-shadow: inset 0 1px 0px #ed479a;
+  text-shadow: 0 -1px 0px #bc1267;
+  border: 1px solid #bc1267;
 }
 .pane-message .message .tag.theme-yellow {
   color: #2f2f00;
@@ -1372,14 +1372,14 @@ body {
   border: 1px solid #368836;
 }
 .pane-message .message .tag.theme-purple {
-  color: #ead2f8;
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #92d), color-stop(1, #8a1fc7));
-  background: -webkit-linear-gradient(top, #92d 0%, #8a1fc7 100%);
-  background: linear-gradient(top, #92d 0%, #8a1fc7 100%);
-  -webkit-box-shadow: inset 0 1px 0px #ad4ee4;
-  box-shadow: inset 0 1px 0px #ad4ee4;
-  text-shadow: 0 -1px 0px #7a1bb1;
-  border: 1px solid #7a1bb1;
+  color: #e5cdf2;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #7e08be), color-stop(1, #7107ab));
+  background: -webkit-linear-gradient(top, #7e08be 0%, #7107ab 100%);
+  background: linear-gradient(top, #7e08be 0%, #7107ab 100%);
+  -webkit-box-shadow: inset 0 1px 0px #a40ff5;
+  box-shadow: inset 0 1px 0px #a40ff5;
+  text-shadow: 0 -1px 0px #650698;
+  border: 1px solid #650698;
 }
 .pane-message .message .tag.theme-white {
   color: #2f2f2f;
