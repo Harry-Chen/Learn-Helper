@@ -14,16 +14,21 @@ body, pre {
 }
 .title-wrap {
 	text-align: center;
-	border-top: 1px solid rgba(0,0,0,0.2);
-	border-bottom: 1px solid rgba(0,0,0,0.8);
   padding: 10px 20px;
   box-sizing: border-box;
 
+  /*
   text-shadow: 0 -1px 0 rgba(0,0,0,0.6);
-
+	border-top: 1px solid rgba(0,0,0,0.2);
+	border-bottom: 1px solid rgba(0,0,0,0.8);
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
   background: linear-gradient(transparent, rgba(0,0,0,0.3)), #193D88;
   color: rgba(255,255,255,0.9);
+  */
+  /*
+  background: #1B36A2;
+  color: #FFF;
+  */
 }
 
 
@@ -32,14 +37,17 @@ body, pre {
   padding: 0;
 	font-size: 24px;
   font-weight: normal;
+  margin-top: 5px;
 }
 
 .toolbar{
-  margin-top: 5px;
 	padding: 10px;
 	color: #AAA;
+  /*
   border-bottom: 1px solid #FFF;
   box-shadow: inset 0 -1px 0 #CCC;
+  */
+  border-bottom: 1px solid #CCC;
 }
 
 .courseName {
