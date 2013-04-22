@@ -12,37 +12,41 @@
 		<link rel="stylesheet" href="/css/detail.css" type="text/css" charset="utf-8">
 	</head>
 	<body>
+      <div class="title-wrap">
+        <h1 class="title">载入中...请稍后</h1>
+      </div>
 		<div class="page-wrap">
 
 			<div class="loading">
-				载入中...请稍后
-			</div>
-			<div class="noti-wrap">
-					<h1 class="title"></h1>
-					<pre class="content"></pre>
-			</div>
-			<div class="ddl-wrap">
-					<h1 class="title"></h1>
-					<pre class="content"></pre>
-					<div>作业文件：<span class="attach"></span></div>
-					<div>已提交文件：<span class="uploadAttach"></span></div>
-					<div>已提交文本：<pre class="uploadText"></pre></div>
+				<!--载入中...请稍后-->
 			</div>
 
 			<div class="toolbar">
-<!--
-				<ul class="action">
-					<li> 刷新 </li>
-				</ul>
--->
+          <ul class="action">
+            <li> <a href="#"><i class="icon icon-star"></i></a> </li>
+            <li> <a href="#"><i class="icon icon-refresh"></i></a> </li>
+          </ul>
 
-				<span class="courseName">  </span>
-				<div>
-					<span class="author">  </span>
-					<span class="date"></span>
-				</div>
+          <div>
+            <span class="date"></span>
+            <span class="author">  </span>
+          </div>
+          <span class="courseName">  </span>
+        </div>
+
+			<div class="noti-wrap">
+					<pre class="content"></pre>
 			</div>
-		</div>
+			<div class="ddl-wrap">
+					<pre class="content"></pre>
+					<div class="misc-content">
+            <div>作业文件：<span class="attach"></span></div>
+            <div>已提交文件：<span class="uploadAttach"></span></div>
+            <div>已提交文本：<pre class="uploadText"></pre></div>
+          </div>
+			</div>
+
+    </div>
 
 	</body>
 	</html>
