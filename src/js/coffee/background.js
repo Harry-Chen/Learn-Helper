@@ -310,7 +310,7 @@
       }
       version_control('set', 2);
     }
-    if (true || version_control('check', 3)) {
+    if (version_control('check', 3)) {
       d = localStorage.getItem('deadline_list');
       temp = {};
       if (d) {
@@ -897,6 +897,8 @@
   };
 
   window.processCourseList = processCourseList;
+
+  db_fixOldMess();
 
   chrome.runtime.onMessage.addListener(function(feeds, sender, sendResponse) {
     if (feeds.op === 'popup') {

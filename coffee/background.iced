@@ -167,7 +167,7 @@ db_fixOldMess = ->
 			localStorage.setItem 'notification_list', (JSON.stringify d)
 		version_control 'set', 2
 	# version 3
-	if true or version_control 'check', 3
+	if version_control 'check', 3
 		d = localStorage.getItem 'deadline_list'
 		temp = {}
 		if d
@@ -535,6 +535,7 @@ readAll = (sendResponse) ->
 	flashResult sendResponse
 #INTERFACE
 window.processCourseList = processCourseList
+db_fixOldMess()
 
 chrome.runtime.onMessage.addListener (feeds, sender, sendResponse) ->
 	if feeds.op is 'popup'
