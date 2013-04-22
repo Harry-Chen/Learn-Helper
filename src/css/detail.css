@@ -103,3 +103,8 @@ body, pre {
 a {
   color: #444;
 }
+hr {
+  border: none;
+  border-bottom: 1px solid #DDD;
+
+}
