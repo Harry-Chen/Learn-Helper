@@ -1,8 +1,9 @@
-detailLoader = (type, id) ->
+detailLoader = (type, id, force) ->
 	if type is 'file'
 		return
 	chrome.extension.sendMessage(
 		op : 'detail'
+		force : force
 		data :
 			type : type
 			id : id
@@ -29,10 +30,17 @@ detailLoader = (type, id) ->
 				$('.uploadAttach').html(d.detail.uploadAttach)
 				$('.attach').html(d.detail.attach)
 			$('.loading').hide()
+			if d.state is 'stared'
+				$('.action-star').addClass('stared')
 	)
 init = ->
 	args = window.getURLParamters(window.location.href)
-	detailLoader(args.type, args.id)
+	detailLoader(args.type, args.id, false)
+	$('.action-refresh').click(update)
+update = ->
+	args = window.getURLParamters(window.location.href)
+	detailLoader(args.type, args.id, true)
+
 $ ->
 	$('.noti-wrap').hide()
 	$('.ddl-wrap').hide()

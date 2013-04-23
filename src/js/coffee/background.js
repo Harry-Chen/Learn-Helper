@@ -946,7 +946,7 @@
       net_vaildToken(feeds.data.username, feeds.data.password, sendResponse);
       return true;
     } else if (feeds.op === 'detail') {
-      net_digDetail(feeds.data.type, feeds.data.id, false, function(type, data) {
+      net_digDetail(feeds.data.type, feeds.data.id, feeds.force, function(type, data) {
         return sendResponse({
           op: 'detailReady',
           type: type,

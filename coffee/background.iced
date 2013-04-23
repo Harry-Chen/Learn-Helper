@@ -568,7 +568,7 @@ chrome.runtime.onMessage.addListener (feeds, sender, sendResponse) ->
 		net_vaildToken feeds.data.username, feeds.data.password, sendResponse
 		return true
 	else if feeds.op is 'detail'
-		net_digDetail feeds.data.type, feeds.data.id, false, (type, data)->
+		net_digDetail feeds.data.type, feeds.data.id, feeds.force, (type, data)->
 			sendResponse(
 				op : 'detailReady'
 				type : type
