@@ -1,3 +1,4 @@
+args = new Object()
 detailLoader = (type, id, force) ->
 	if type is 'file'
 		return
@@ -34,13 +35,14 @@ detailLoader = (type, id, force) ->
 				$('.action-star').addClass('stared')
 	)
 init = ->
-	args = window.getURLParamters(window.location.href)
+	args = window.getURLParamters(window.location.href.replace(/#*$/, ''))
+	console.log args
 	detailLoader(args.type, args.id, false)
-	$('.action-refresh').click(update)
+	$('.action-refresh').click (e)->
+		e.preventDefault()
+		update()
 update = ->
-	args = window.getURLParamters(window.location.href)
 	detailLoader(args.type, args.id, true)
-
 $ ->
 	$('.noti-wrap').hide()
 	$('.ddl-wrap').hide()
