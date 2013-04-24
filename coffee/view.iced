@@ -290,3 +290,12 @@ $ ->
 				$('#net-error-modal').modal('show')
 			else if request.data is 'noToken'
 				$('#token-modal').modal({ closable: true }).modal('show')
+	chrome.extension.onMessage.addListener (request, sender, sendResponse) ->
+		if request.type is 'update'
+			type = request.data.type
+			id = request.data.id
+			targetState = request.data.targetState
+			target = $('li.message.' + type + '[data-args=' + id + ']')
+			target.removeClass('is-stared')
+			for state in targetState
+				target.addClass(state)

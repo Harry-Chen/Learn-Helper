@@ -45,7 +45,6 @@
 
   init = function() {
     args = window.getURLParamters(window.location.href.replace(/#*$/, ''));
-    console.log(args);
     detailLoader(args.type, args.id, false);
     return $('.action-refresh').click(function(e) {
       e.preventDefault();
@@ -54,6 +53,9 @@
   };
 
   update = function() {
+    $('.loading').show();
+    $('.noti-wrap').hide();
+    $('.ddl-wrap').hide();
     return detailLoader(args.type, args.id, true);
   };
 

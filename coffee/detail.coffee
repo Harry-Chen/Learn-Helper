@@ -36,12 +36,14 @@ detailLoader = (type, id, force) ->
 	)
 init = ->
 	args = window.getURLParamters(window.location.href.replace(/#*$/, ''))
-	console.log args
 	detailLoader(args.type, args.id, false)
 	$('.action-refresh').click (e)->
 		e.preventDefault()
 		update()
 update = ->
+	$('.loading').show()
+	$('.noti-wrap').hide()
+	$('.ddl-wrap').hide()
 	detailLoader(args.type, args.id, true)
 $ ->
 	$('.noti-wrap').hide()
