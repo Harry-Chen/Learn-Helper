@@ -297,6 +297,5 @@ $ ->
 			targetState = request.data.targetState
 			target = $('li.message.' + type + '[data-args=' + id + ']')
 			target.removeClass('is-stared')
-			for state in targetState
-				target.addClass(state)
+			target.addClass 'is-' + targetState
 		return false

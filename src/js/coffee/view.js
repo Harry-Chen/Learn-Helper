@@ -432,17 +432,14 @@
       }
     });
     return chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
-      var id, state, target, targetState, type, _i, _len;
+      var id, target, targetState, type;
       if (request.type === 'update') {
         type = request.data.type;
         id = request.data.id;
         targetState = request.data.targetState;
         target = $('li.message.' + type + '[data-args=' + id + ']');
         target.removeClass('is-stared');
-        for (_i = 0, _len = targetState.length; _i < _len; _i++) {
-          state = targetState[_i];
-          target.addClass(state);
-        }
+        target.addClass('is-' + targetState);
       }
       return false;
     });

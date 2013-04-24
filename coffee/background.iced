@@ -83,7 +83,6 @@ net_digDetail = (type, id, force, callback) ->
 				href = URL_CONST['deadline_detail'] + '?id=' + id + '&course_id=' + list[id].courseId
 				await $.get href, defer data
 				detail = parser.parseFromString data, 'text/html'
-				console.log detail
 				# add base_url to all link
 				for item in detail.querySelectorAll 'a[target="_top"]'
 					item.href = URL_CONST.base_URL + item.getAttribute('href')
@@ -554,7 +553,6 @@ chrome.runtime.onMessage.addListener (feeds, sender, sendResponse) ->
 			flashResult sendResponse
 		return true
 	else if feeds.op is 'subState'
-		console.log 'received SubState'
 		d = feeds.data
 		db_setState d.type, d.id, d.targetState, ->
 			#ask view to update

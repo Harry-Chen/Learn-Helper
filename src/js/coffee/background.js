@@ -195,7 +195,6 @@
                   })(function() {
                     var _i, _len, _ref;
                     detail = parser.parseFromString(data, 'text/html');
-                    console.log(detail);
                     _ref = detail.querySelectorAll('a[target="_top"]');
                     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
                       item = _ref[_i];
@@ -405,7 +404,7 @@
             return oldList = arguments[0];
           };
         })(),
-        lineno: 233
+        lineno: 232
       }));
       __iced_deferrals._fulfill();
     })(function() {
@@ -434,7 +433,7 @@
             return list = arguments[0];
           };
         })(),
-        lineno: 242
+        lineno: 241
       }));
       __iced_deferrals._fulfill();
     })(function() {
@@ -461,7 +460,7 @@
             return list = arguments[0];
           };
         })(),
-        lineno: 248
+        lineno: 247
       }));
       __iced_deferrals._fulfill();
     })(function() {
@@ -495,7 +494,7 @@
             return list = arguments[0];
           };
         })(),
-        lineno: 258
+        lineno: 257
       }));
       __iced_deferrals._fulfill();
     })(function() {
@@ -856,7 +855,7 @@
               return TC = arguments[0];
             };
           })(),
-          lineno: 528
+          lineno: 527
         }));
       }
       __iced_deferrals._fulfill();
@@ -887,7 +886,7 @@
               return TC = arguments[0];
             };
           })(),
-          lineno: 534
+          lineno: 533
         }));
       }
       __iced_deferrals._fulfill();
@@ -926,7 +925,6 @@
       });
       return true;
     } else if (feeds.op === 'subState') {
-      console.log('received SubState');
       d = feeds.data;
       db_setState(d.type, d.id, d.targetState, function() {
         return chrome.tabs.sendMessage(state.tabId, {
