@@ -925,6 +925,16 @@
         return flashResult(sendResponse);
       });
       return true;
+    } else if (feeds.op === 'subState') {
+      console.log('received SubState');
+      d = feeds.data;
+      db_setState(d.type, d.id, d.targetState, function() {
+        return chrome.tabs.sendMessage(state.tabId, {
+          type: 'update',
+          data: d
+        });
+      });
+      return false;
     }
   });
 

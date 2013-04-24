@@ -432,20 +432,19 @@
       }
     });
     return chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
-      var id, state, target, targetState, type, _i, _len, _results;
+      var id, state, target, targetState, type, _i, _len;
       if (request.type === 'update') {
         type = request.data.type;
         id = request.data.id;
         targetState = request.data.targetState;
         target = $('li.message.' + type + '[data-args=' + id + ']');
         target.removeClass('is-stared');
-        _results = [];
         for (_i = 0, _len = targetState.length; _i < _len; _i++) {
           state = targetState[_i];
-          _results.push(target.addClass(state));
+          target.addClass(state);
         }
-        return _results;
       }
+      return false;
     });
   });
 

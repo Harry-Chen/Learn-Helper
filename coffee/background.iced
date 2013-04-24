@@ -553,11 +553,16 @@ chrome.runtime.onMessage.addListener (feeds, sender, sendResponse) ->
 		db_setState d.type, d.id, d.targetState, ->
 			flashResult sendResponse
 		return true
-	#else if feed.op is 'subState'
-	#	d = feeds.data
-	#	db_setState d.type, d.id, d.targetState, ->
-	#		ch
-	#	return false
+	else if feeds.op is 'subState'
+		console.log 'received SubState'
+		d = feeds.data
+		db_setState d.type, d.id, d.targetState, ->
+			#ask view to update
+			#TODO something wrong still!
+			chrome.tabs.sendMessage state.tabId,
+				type : 'update'
+				data : d
+		return false
 
 chrome.runtime.onMessage.addListener (feeds, sender, sendResponse) ->
 	if feeds.op is 'clear'

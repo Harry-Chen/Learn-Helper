@@ -1,3 +1,5 @@
+easyStateList = ['readed', 'stared']
+globalStateFlag = 0
 args = new Object()
 detailLoader = (type, id, force) ->
 	if type is 'file'
@@ -35,7 +37,12 @@ detailLoader = (type, id, force) ->
 				$('.attach').html(d.detail.attach)
 			$('.loading').hide()
 			if d.state is 'stared'
-				$('.action-star').addClass('stared')
+				$('.action-star').addClass('is-stared')
+				globalStateFlag = 1
+			else
+				$('.action-star').addClass('is-readed')
+				globalStateFlag = 0
+
 	)
 init = ->
 	args = window.getURLParamters(window.location.href.replace(/#*$/, ''))
@@ -43,18 +50,27 @@ init = ->
 	$('.action-refresh').click (e)->
 		e.preventDefault()
 		update()
+	$('.action-star').click (e)->
+		e.preventDefault()
+		starClick()
 update = ->
 	$('.loading').show()
 	$('.noti-wrap').hide()
 	$('.ddl-wrap').hide()
 	detailLoader(args.type, args.id, true)
-	#star = ->
-	#	chrome.extension.sendMessage(
-	#		op : 'subState'
-	#		data :
-	#			type : type
-	#			id : id
-	#			targetState : target_state
+	return
+starClick = ->
+	$('.action-star').removeClass('is-' + easyStateList[globalStateFlag])
+	globalStateFlag = 1 - globalStateFlag
+	chrome.extension.sendMessage(
+		op : 'subState'
+		data :
+			type : args.type
+			id : args.id
+			targetState : easyStateList[globalStateFlag]
+	)
+	$('.action-star').addClass('is-' + easyStateList[globalStateFlag])
+	return
 $ ->
 	$('.noti-wrap').hide()
 	$('.ddl-wrap').hide()

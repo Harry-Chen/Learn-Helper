@@ -299,3 +299,4 @@ $ ->
 			target.removeClass('is-stared')
 			for state in targetState
 				target.addClass(state)
+		return false
