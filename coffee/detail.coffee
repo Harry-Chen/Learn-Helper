@@ -14,20 +14,23 @@ detailLoader = (type, id, force) ->
 			if response.type is 'notification'
 				$('.noti-wrap').show()
 				$('.title').text(d.detail.title)
+				# use try to filter <script>
 				try
 					$('.content').html(d.detail.content)
-				catch e
-					a = 1
 				$('.date').text(new Date(d.day).Format("yyyy-MM-dd"))
 				$('.courseName').text(d.courseName)
 				$('.author').text(d.author)
 			else if response.type is 'deadline'
 				$('.ddl-wrap').show()
 				$('.title').text(d.detail.title)
-				$('.content').html(d.detail.content)
+				# use try to filter <script>
+				try
+					$('.content').html(d.detail.content)
 				$('.date').text(new Date(d.end).Format("yyyy-MM-dd"))
 				$('.courseName').text(d.courseName)
-				$('.uploadText').html(d.detail.uploadText)
+				# use try to filter <script>
+				try
+					$('.uploadText').html(d.detail.uploadText)
 				$('.uploadAttach').html(d.detail.uploadAttach)
 				$('.attach').html(d.detail.attach)
 			$('.loading').hide()
@@ -45,6 +48,13 @@ update = ->
 	$('.noti-wrap').hide()
 	$('.ddl-wrap').hide()
 	detailLoader(args.type, args.id, true)
+	#star = ->
+	#	chrome.extension.sendMessage(
+	#		op : 'subState'
+	#		data :
+	#			type : type
+	#			id : id
+	#			targetState : target_state
 $ ->
 	$('.noti-wrap').hide()
 	$('.ddl-wrap').hide()

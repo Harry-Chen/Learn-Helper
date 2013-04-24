@@ -553,6 +553,12 @@ chrome.runtime.onMessage.addListener (feeds, sender, sendResponse) ->
 		db_setState d.type, d.id, d.targetState, ->
 			flashResult sendResponse
 		return true
+	#else if feed.op is 'subState'
+	#	d = feeds.data
+	#	db_setState d.type, d.id, d.targetState, ->
+	#		ch
+	#	return false
+
 chrome.runtime.onMessage.addListener (feeds, sender, sendResponse) ->
 	if feeds.op is 'clear'
 		clearCache sendResponse

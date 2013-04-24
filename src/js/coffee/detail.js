@@ -14,7 +14,7 @@
         id: id
       }
     }, function(response) {
-      var a, d;
+      var d;
       d = response.data;
       $('body').addClass(response.type);
       if (response.type === 'notification') {
@@ -22,19 +22,21 @@
         $('.title').text(d.detail.title);
         try {
           $('.content').html(d.detail.content);
-        } catch (e) {
-          a = 1;
-        }
+        } catch (_error) {}
         $('.date').text(new Date(d.day).Format("yyyy-MM-dd"));
         $('.courseName').text(d.courseName);
         $('.author').text(d.author);
       } else if (response.type === 'deadline') {
         $('.ddl-wrap').show();
         $('.title').text(d.detail.title);
-        $('.content').html(d.detail.content);
+        try {
+          $('.content').html(d.detail.content);
+        } catch (_error) {}
         $('.date').text(new Date(d.end).Format("yyyy-MM-dd"));
         $('.courseName').text(d.courseName);
-        $('.uploadText').html(d.detail.uploadText);
+        try {
+          $('.uploadText').html(d.detail.uploadText);
+        } catch (_error) {}
         $('.uploadAttach').html(d.detail.uploadAttach);
         $('.attach').html(d.detail.attach);
       }
