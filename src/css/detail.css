@@ -83,7 +83,7 @@ body, pre {
   line-height: 50px;
   transition: color 0.2s linear;
 }
-.action a.active {
+.action a.is-stared {
   color: #DF7CEC;
 }
 
