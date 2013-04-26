@@ -1,6 +1,6 @@
 {
 	"name" : "Learn helper",
-	"version":"2.3",
+	"version":"3.0",
 	"manifest_version" : 2,
 	"description":"漂亮的网络学堂，离线缓存数据，修复网络学堂在Chrome下的排版问题",
 	"content_scripts":[

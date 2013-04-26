@@ -18,7 +18,7 @@
         id: id
       }
     }, function(response) {
-      var d;
+      var d, preTarget;
       d = response.data;
       $('body').addClass(response.type);
       if (response.type === 'notification') {
@@ -27,6 +27,10 @@
         try {
           $('.content').html(d.detail.content);
         } catch (_error) {}
+        preTarget = $('.content');
+        if (!preTarget.html().match(/<[a-zA-Z]+[^>]*>/)) {
+          preTarget.wrapInner('<pre style="width:700px;"/>');
+        }
         $('.date').text(new Date(d.day).Format("yyyy-MM-dd"));
         $('.courseName').text(d.courseName);
         $('.author').text(d.author);
@@ -45,6 +49,7 @@
         $('.attach').html(d.detail.attach);
       }
       $('.loading').hide();
+      $('.action-refresh').removeClass('icon-spin');
       if (d.state === 'stared') {
         $('.action-star').addClass('is-stared');
         return globalStateFlag = 1;
@@ -69,6 +74,7 @@
   };
 
   update = function() {
+    $('.action-refresh').addClass('icon-spin');
     $('.loading').show();
     $('.noti-wrap').hide();
     $('.ddl-wrap').hide();
@@ -90,6 +96,7 @@
   };
 
   $(function() {
+    $('.action-refresh').addClass('icon-spin');
     $('.noti-wrap').hide();
     $('.ddl-wrap').hide();
     return init();

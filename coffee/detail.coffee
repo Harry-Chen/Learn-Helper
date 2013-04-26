@@ -19,6 +19,9 @@ detailLoader = (type, id, force) ->
 				# use try to filter <script>
 				try
 					$('.content').html(d.detail.content)
+				preTarget = $('.content')
+				if not preTarget.html().match(/<[a-zA-Z]+[^>]*>/)
+					preTarget.wrapInner('<pre style="width:700px;"/>')
 				$('.date').text(new Date(d.day).Format("yyyy-MM-dd"))
 				$('.courseName').text(d.courseName)
 				$('.author').text(d.author)
@@ -36,6 +39,7 @@ detailLoader = (type, id, force) ->
 				$('.uploadAttach').html(d.detail.uploadAttach)
 				$('.attach').html(d.detail.attach)
 			$('.loading').hide()
+			$('.action-refresh').removeClass('icon-spin')
 			if d.state is 'stared'
 				$('.action-star').addClass('is-stared')
 				globalStateFlag = 1
@@ -54,6 +58,7 @@ init = ->
 		e.preventDefault()
 		starClick()
 update = ->
+	$('.action-refresh').addClass('icon-spin')
 	$('.loading').show()
 	$('.noti-wrap').hide()
 	$('.ddl-wrap').hide()
@@ -72,6 +77,7 @@ starClick = ->
 	$('.action-star').addClass('is-' + easyStateList[globalStateFlag])
 	return
 $ ->
+	$('.action-refresh').addClass('icon-spin')
 	$('.noti-wrap').hide()
 	$('.ddl-wrap').hide()
 	init()

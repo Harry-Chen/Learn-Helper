@@ -3,7 +3,7 @@ html {
 }
 body, pre {
 	font: 16px / 1.5 "微软雅黑", Helvetica, Serif;
-  color: #444;
+  color: #222;
 }
 .page-wrap, .title-wrap {
 	min-width: 400px;
@@ -110,4 +110,7 @@ hr {
   border: none;
   border-bottom: 1px solid #DDD;
 
+}
+.help{
+  font-size: 10px;
 }

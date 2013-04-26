@@ -73,7 +73,8 @@ net_digDetail = (type, id, force, callback) ->
 		net_login ->
 			if type is 'notification'
 				href = 'http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/'+ list[id].href
-				await $.get href, defer data
+				await $.get(href, defer data).fail ->
+					errorHandler 'netFail'
 				detail = parser.parseFromString data, 'text/html'
 				table = detail.querySelectorAll '#table_box .tr_l2'
 				list[id].detail =
@@ -81,7 +82,8 @@ net_digDetail = (type, id, force, callback) ->
 					content : table[1].innerHTML
 			else if type is 'deadline'
 				href = URL_CONST['deadline_detail'] + '?id=' + id + '&course_id=' + list[id].courseId
-				await $.get href, defer data
+				await $.get(href, defer data).fail ->
+					errorHandler 'netFail'
 				detail = parser.parseFromString data, 'text/html'
 				# add base_url to all link
 				for item in detail.querySelectorAll 'a[target="_top"]'
