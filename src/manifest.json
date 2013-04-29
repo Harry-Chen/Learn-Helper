@@ -1,6 +1,6 @@
 {
 	"name" : "Learn helper",
-	"version":"3.0",
+	"version":"3.0.1",
 	"minimum_chrome_version" : "20.0.1130.1",
 	"manifest_version" : 2,
 	"description":"漂亮的网络学堂，离线缓存数据，修复网络学堂在Chrome下的排版问题",
