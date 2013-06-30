@@ -13,8 +13,7 @@
 (function(DOMParser) {
 	"use strict";
 
-	var
-	  DOMParser_proto = DOMParser.prototype
+	var DOMParser_proto = DOMParser.prototype
 	, real_parseFromString = DOMParser_proto.parseFromString
 	;
 
