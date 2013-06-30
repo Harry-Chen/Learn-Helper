@@ -528,6 +528,7 @@ clearCache = (sendResponse) ->
 		for name in CONST.listTemp
 			db_set 'cache_' + name, {}, defer TC
 	localStorage.removeItem('updateTime')
+	localStorage.removeItem('course_list')
 	sendResponse()
 readAll = (sendResponse) ->
 	await
