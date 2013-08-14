@@ -485,6 +485,11 @@ updateJudge = (keyName, op) ->
 		return false
 	else if op is 'set'
 		localStorage.setItem(keyName, now)
+	else if op is 'history'
+		lastTime = localStorage.getItem(keyName, null)
+		if lastTime
+			return true
+		return false
 
 load = (force, sendResponse) ->
 	readyCounter = 0
@@ -534,7 +539,8 @@ readAll = (sendResponse) ->
 	await
 		for name in CONST.featureName
 			db_setAllReaded(name, defer TC)
-	flashResult sendResponse
+	flashResult () ->
+		sendResponse({})
 #INTERFACE
 window.processCourseList = processCourseList
 db_fixOldMess()
@@ -547,13 +553,15 @@ chrome.runtime.onMessage.addListener (feeds, sender, sendResponse) ->
 				state.tabId = tab.id
 chrome.runtime.onMessage.addListener (feeds, sender, sendResponse) ->
 	if feeds.op is 'load'
+		recalculate()
 		load(false, sendResponse)
 		return true
 chrome.runtime.onMessage.addListener (feeds, sender, sendResponse) ->
 	if feeds.op is 'state'
 		d = feeds.data
 		db_setState d.type, d.id, d.targetState, ->
-			flashResult sendResponse
+			flashResult () ->
+				sendResponse({})
 		return true
 	else if feeds.op is 'subState'
 		d = feeds.data
@@ -587,12 +595,12 @@ chrome.runtime.onMessage.addListener (feeds, sender, sendResponse) ->
 			)
 		return true
 
-flashResult = (sendResponse)->
+flashResult = (callback)->
 	readyCounter = 0
 	bc = ()->
 		readyCounter++
 		if readyCounter is (CONST.featureName.length + 1)
-			sendResponse({})
+			callback && callback()
 			return
 	prepareCollectList('backcall', bc)
 	for type in CONST.featureName
@@ -602,3 +610,7 @@ flashResult = (sendResponse)->
 			prepareCollectList('setter')
 			bc
 		)
+recalculate = () ->
+	if updateJudge 'updateTime', 'history'
+		console.log 'recalculate'
+		flashResult()
