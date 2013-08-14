@@ -13,8 +13,8 @@
         eHide.style.display = 'none';
 		
         var e = document.querySelector('#table_box:nth-child(2)');
-        //e.style.position = "relative";
-        //e.style.top = "-25px";
+        e.style.position = "relative";
+        e.style.top = "25px";
         e.style.borderTop = 'none';
         injectScript();
     } else if (href.match(/bbs\/talk_list_student\.jsp/)) {
@@ -22,8 +22,8 @@
         e.style.borderTop = "none";
 
         e = document.querySelector('#info_1 tr:nth-child(4) table:nth-child(2)');
-        // e.style.position = "relative";
-        // e.style.top = "-25px";
+        e.style.position = "relative";
+        e.style.top = "-5px";
 
         e = e.querySelectorAll(".textTD");
         for (var i = 0; i < e.length; i++) {
