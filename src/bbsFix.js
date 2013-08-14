@@ -5,6 +5,7 @@ $(function(){
 			$this.wrapInner('<pre style="width:700px;max-height:' + $this.height() + 'px;overflow:auto"/>');
 		}
 	});
+	/*
 	$('textarea[name="post_detail"], textarea[name="post_question_detail"]').replaceWith(function(){
 		console.log(this);
 		id = this.id;
@@ -27,4 +28,5 @@ $(function(){
 		});
 		return target
 	});
+	*/
 });
