@@ -10,5 +10,10 @@
 	  "grunt-contrib-watch": "~0.2.0",
 	  "grunt-crx" : "~0.2.0",
 	  "grunt": "~0.4.1"
+  },
+  "repository" :
+  {
+	  "type" : "git",
+	  "url" : "https://github.com/xxr3376/Learn-Project"
   }
 }

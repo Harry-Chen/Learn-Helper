@@ -564,7 +564,6 @@ chrome.runtime.onMessage.addListener (feeds, sender, sendResponse) ->
 				type : 'update'
 				data : d
 		return false
-
 chrome.runtime.onMessage.addListener (feeds, sender, sendResponse) ->
 	if feeds.op is 'clear'
 		clearCache sendResponse
