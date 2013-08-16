@@ -246,6 +246,8 @@ guiInit = ->
 	$('#net-error-modal').modal
 		title: '<i class="icon-warning-sign"></i> 网络错误',
 		closable : false
+	$('#new-term-modal').modal
+		title: '<i class="icon-code-fork"></i> 切换学期'
 	$('#option-clear-cache').click(clearCache)
 	$('#option-set-all-read').click(setAllReaded)
 	$('#option-force-reload-all').click(forceReload)
@@ -258,7 +260,18 @@ guiInit = ->
 		location.reload()
 	$('#net-error-offline-btn').click ->
 		$('#net-error-modal').modal('hide')
-		loadData()
+	$('#new-term-switch-btn').click ->
+		$('#new-term-modal').modal 'hide'
+		chrome.extension.sendMessage(
+			op : 'new_term'
+			(response) ->
+				loadData()
+		)
+	$('#new-term-cancel-btn').click ->
+		$('#new-term-modal').modal 'hide'
+	$('#new-term-force').click ->
+		$('#new-term-modal').modal 'hide'
+		chrome.extension.sendMessage({op: 'force_term'})
 
 # Message
 loadData = ->
@@ -283,6 +296,10 @@ $ ->
 		if request.op is 'progress'
 			$folder = $ '.pane-folder'
 			setLoading request.data, $folder
+		else if request.op is 'newTerm'
+			$('#lastTerm').text request.data.lastTerm
+			$('#currentTerm').text request.data.currentTerm
+			$('#new-term-modal').modal 'show'
 	#ErrorHandler
 	chrome.extension.onMessage.addListener (request, sender, sendResponse)->
 		if request.type is 'error'
@@ -290,6 +307,7 @@ $ ->
 				$('#net-error-modal').modal('show')
 			else if request.data is 'noToken'
 				$('#token-modal').modal({ closable: true }).modal('show')
+		return false
 	chrome.extension.onMessage.addListener (request, sender, sendResponse) ->
 		if request.type is 'update'
 			type = request.data.type

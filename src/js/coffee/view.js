@@ -387,6 +387,9 @@
       title: '<i class="icon-warning-sign"></i> 网络错误',
       closable: false
     });
+    $('#new-term-modal').modal({
+      title: '<i class="icon-code-fork"></i> 切换学期'
+    });
     $('#option-clear-cache').click(clearCache);
     $('#option-set-all-read').click(setAllReaded);
     $('#option-force-reload-all').click(forceReload);
@@ -402,9 +405,25 @@
     $('#net-error-reload-btn').click(function() {
       return location.reload();
     });
-    return $('#net-error-offline-btn').click(function() {
-      $('#net-error-modal').modal('hide');
-      return loadData();
+    $('#net-error-offline-btn').click(function() {
+      return $('#net-error-modal').modal('hide');
+    });
+    $('#new-term-switch-btn').click(function() {
+      $('#new-term-modal').modal('hide');
+      return chrome.extension.sendMessage({
+        op: 'new_term'
+      }, function(response) {
+        return loadData();
+      });
+    });
+    $('#new-term-cancel-btn').click(function() {
+      return $('#new-term-modal').modal('hide');
+    });
+    return $('#new-term-force').click(function() {
+      $('#new-term-modal').modal('hide');
+      return chrome.extension.sendMessage({
+        op: 'force_term'
+      });
     });
   };
 
@@ -437,18 +456,23 @@
       if (request.op === 'progress') {
         $folder = $('.pane-folder');
         return setLoading(request.data, $folder);
+      } else if (request.op === 'newTerm') {
+        $('#lastTerm').text(request.data.lastTerm);
+        $('#currentTerm').text(request.data.currentTerm);
+        return $('#new-term-modal').modal('show');
       }
     });
     chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
       if (request.type === 'error') {
         if (request.data === 'netFail') {
-          return $('#net-error-modal').modal('show');
+          $('#net-error-modal').modal('show');
         } else if (request.data === 'noToken') {
-          return $('#token-modal').modal({
+          $('#token-modal').modal({
             closable: true
           }).modal('show');
         }
       }
+      return false;
     });
     return chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
       var id, target, targetState, type;

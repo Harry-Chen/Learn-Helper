@@ -196,6 +196,9 @@ db_fixOldMess = ->
 		localStorage.removeItem 'notification_list'
 		localStorage.removeItem 'file_list'
 		version_control('set', 3)
+	if version_control 'check', 4
+		localStorage.setItem 'currentTerm', '未记录'
+		version_control 'set', 4
 # version is a unsigned int
 # op = check, return whether need version update
 # op = set, set version.
@@ -211,14 +214,26 @@ version_control = (op, version)->
 
 db_updateCourseList = (courseList, callback) ->
 	db_courseList = []
+	termCounter = {}
 	for i in [0...courseList.length]
 		id = getURLParamters(courseList[i].getAttribute('href')).course_id
 		name = $.trim courseList[i].innerText
+		term = ($.trim name.match(/\(([^)]*)\)$/)[1])
 		name = name.match(/^(.*)\s*\([^(]*\)\s*\([^(]*\)$/)[1]
+		termCounter[term] = ~~termCounter[term] + 1
 		db_courseList.push
 			'id' : id
 			'name' : name
 	localStorage.setItem 'course_list', JSON.stringify(db_courseList)
+	currentTerm = ""
+	currentCount = 0
+	for term of termCounter
+		count = termCounter[term]
+		if count > currentCount
+			currentTerm = term
+			currentCount = count
+	if currentTerm
+		localStorage.setItem 'currentTerm', currentTerm
 	if callback
 		callback db_courseList
 
@@ -356,7 +371,7 @@ processCourseList = (update, callback, progressCallback) ->
 	progressCallback && progressCallback 'courseList', 1
 	callback courseList
 # traverse Course in course_list and save data to list
-traverseCourse =(type, successCallback, progressCallback, collectCallback, finishCallback)->
+traverseCourse =(type, successCallback, progressCallback, collectCallback, finishCallback, forceUpdate)->
 	lists = {}
 	unChecked = 0
 	totalWorker = 0
@@ -364,7 +379,7 @@ traverseCourse =(type, successCallback, progressCallback, collectCallback, finis
 	parser = new DOMParser()
 	if not linkPrefix
 		successCallback lists
-	processCourseList(false, (courseList)->
+	processCourseList(forceUpdate, (courseList)->
 		courseList = filterCourse courseList, type
 		unChecked = courseList.length
 		totalWorker = unChecked
@@ -515,6 +530,7 @@ load = (force, sendResponse) ->
 					progressLoader
 					prepareCollectList('setter')
 					bc
+					force
 				)
 		return
 	else #no need to update
@@ -534,7 +550,8 @@ clearCache = (sendResponse) ->
 			db_set 'cache_' + name, {}, defer TC
 	localStorage.removeItem('updateTime')
 	localStorage.removeItem('course_list')
-	sendResponse()
+	localStorage.removeItem('currentTerm')
+	sendResponse && sendResponse()
 readAll = (sendResponse) ->
 	await
 		for name in CONST.featureName
@@ -554,6 +571,7 @@ chrome.runtime.onMessage.addListener (feeds, sender, sendResponse) ->
 chrome.runtime.onMessage.addListener (feeds, sender, sendResponse) ->
 	if feeds.op is 'load'
 		recalculate()
+		checkNewTerm()
 		load(false, sendResponse)
 		return true
 chrome.runtime.onMessage.addListener (feeds, sender, sendResponse) ->
@@ -610,7 +628,37 @@ flashResult = (callback)->
 			prepareCollectList('setter')
 			bc
 		)
-recalculate = () ->
+recalculate = ->
 	if updateJudge 'updateTime', 'history'
 		console.log 'recalculate'
 		flashResult()
+checkNewTerm = ->
+	lastTerm = localStorage.getItem 'currentTerm', null
+	if lastTerm
+		$.get(
+			URL_CONST['course']
+			(data) ->
+				courseDocument = parser.parseFromString data, 'text/html'
+				currentTerm = ($.trim (courseDocument.querySelector '.active_on').innerText)
+				if lastTerm != currentTerm
+					nextTermCallback lastTerm, currentTerm
+		)
+termHolder =
+	lastTerm : ""
+	currentTerm : ""
+nextTermCallback = (lastTerm, currentTerm) ->
+	termHolder.lastTerm = lastTerm
+	termHolder.currentTerm = currentTerm
+	chrome.extension.sendMessage(
+		op : 'newTerm'
+		data : termHolder
+	)
+chrome.runtime.onMessage.addListener (feeds, sender, sendResponse) ->
+	if feeds.op is 'new_term'
+		clearCache()
+		localStorage.setItem 'currentTerm', termHolder.currentTerm
+		load(true, sendResponse)
+		return true
+	if feeds.op is 'force_term'
+		localStorage.setItem 'currentTerm', termHolder.currentTerm
+		return false
