@@ -1,5 +1,5 @@
 {
-	"name" : "Learn helper",
+	"name" : "Learn Helper",
 	"version":"3.1",
 	"minimum_chrome_version" : "22",
 	"manifest_version" : 2,
@@ -39,9 +39,7 @@
 	},
 	"browser_action": {
 		"default_icon": "icons/19.png",
-		"default_title": "Learn Helper",
-		"default_popup" : "popup.html"
+		"default_title": "Learn Helper"
 	},
-	"web_accessible_resources":["learn.inject.js"],
-	"update_url" : "http://thudev.sinaapp.com/learn/update.php"
+	"web_accessible_resources":["learn.inject.js"]
 }

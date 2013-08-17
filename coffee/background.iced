@@ -562,12 +562,12 @@ readAll = (sendResponse) ->
 window.processCourseList = processCourseList
 db_fixOldMess()
 
-chrome.runtime.onMessage.addListener (feeds, sender, sendResponse) ->
-	if feeds.op is 'popup'
-		chrome.tabs.create
-			'url' : feeds.url
-			(tab) ->
-				state.tabId = tab.id
+chrome.browserAction.onClicked.addListener ->
+	chrome.tabs.create
+		'url' : 'index.html'
+		(tab) ->
+			state.tabId = tab.id
+
 chrome.runtime.onMessage.addListener (feeds, sender, sendResponse) ->
 	if feeds.op is 'load'
 		recalculate()

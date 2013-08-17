@@ -973,14 +973,12 @@
 
   db_fixOldMess();
 
-  chrome.runtime.onMessage.addListener(function(feeds, sender, sendResponse) {
-    if (feeds.op === 'popup') {
-      return chrome.tabs.create({
-        'url': feeds.url
-      }, function(tab) {
-        return state.tabId = tab.id;
-      });
-    }
+  chrome.browserAction.onClicked.addListener(function() {
+    return chrome.tabs.create({
+      'url': 'index.html'
+    }, function(tab) {
+      return state.tabId = tab.id;
+    });
   });
 
   chrome.runtime.onMessage.addListener(function(feeds, sender, sendResponse) {
