@@ -355,7 +355,11 @@
       version_control('set', 3);
     }
     if (version_control('check', 4)) {
-      localStorage.setItem('currentTerm', '未记录');
+      if (localStorage.getItem('ran_before', false)) {
+        localStorage.setItem('currentTerm', '未记录');
+      } else {
+        localStorage.setItem('ran_before', true);
+      }
       return version_control('set', 4);
     }
   };
@@ -436,7 +440,7 @@
             return oldList = arguments[0];
           };
         })(),
-        lineno: 247
+        lineno: 250
       }));
       __iced_deferrals._fulfill();
     })(function() {
@@ -469,7 +473,7 @@
             return list = arguments[0];
           };
         })(),
-        lineno: 256
+        lineno: 259
       }));
       __iced_deferrals._fulfill();
     })(function() {
@@ -498,7 +502,7 @@
             return list = arguments[0];
           };
         })(),
-        lineno: 262
+        lineno: 265
       }));
       __iced_deferrals._fulfill();
     })(function() {
@@ -534,7 +538,7 @@
             return list = arguments[0];
           };
         })(),
-        lineno: 272
+        lineno: 275
       }));
       __iced_deferrals._fulfill();
     })(function() {
@@ -921,7 +925,7 @@
               return TC = arguments[0];
             };
           })(),
-          lineno: 548
+          lineno: 551
         }));
       }
       __iced_deferrals._fulfill();
@@ -954,7 +958,7 @@
               return TC = arguments[0];
             };
           })(),
-          lineno: 556
+          lineno: 559
         }));
       }
       __iced_deferrals._fulfill();

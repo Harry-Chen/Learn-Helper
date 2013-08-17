@@ -196,7 +196,10 @@ db_fixOldMess = ->
 		localStorage.removeItem 'file_list'
 		version_control('set', 3)
 	if version_control 'check', 4
-		localStorage.setItem 'currentTerm', '未记录'
+		if localStorage.getItem 'ran_before', false
+			localStorage.setItem 'currentTerm', '未记录'
+		else
+			localStorage.setItem 'ran_before', true
 		version_control 'set', 4
 # version is a unsigned int
 # op = check, return whether need version update
