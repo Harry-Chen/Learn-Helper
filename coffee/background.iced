@@ -1,13 +1,12 @@
 parser = new DOMParser()
 #getURLParamters = window.getURLParamters
 errorEnum = ['noToken', 'netFail']
-state=
-	tabId : null
 
 errorHandler = (type) ->
-	chrome.tabs.sendMessage state.tabId,
+	chrome.extension.sendMessage(
 		type : 'error'
 		data : type
+	)
 	progressLoader('end')
 	
 
@@ -565,9 +564,6 @@ db_fixOldMess()
 chrome.browserAction.onClicked.addListener ->
 	chrome.tabs.create
 		'url' : 'index.html'
-		(tab) ->
-			state.tabId = tab.id
-
 chrome.runtime.onMessage.addListener (feeds, sender, sendResponse) ->
 	if feeds.op is 'load'
 		recalculate()
@@ -586,9 +582,10 @@ chrome.runtime.onMessage.addListener (feeds, sender, sendResponse) ->
 		db_setState d.type, d.id, d.targetState, ->
 			#ask view to update
 			#TODO something wrong still!
-			chrome.tabs.sendMessage state.tabId,
+			chrome.extension.sendMessage(
 				type : 'update'
 				data : d
+			)
 		return false
 chrome.runtime.onMessage.addListener (feeds, sender, sendResponse) ->
 	if feeds.op is 'clear'
