@@ -25,6 +25,12 @@
 			],
 			"js" : ["js/jquery-1.9.1.min.js", "bbsFix.js"],
 			"all_frames" : true
+		},
+		{
+			"matches" : [
+				"*://thudev.sinaapp.com/learn/*"
+			],
+			"js" : ["installation.js"]
 		}
 
 	],
