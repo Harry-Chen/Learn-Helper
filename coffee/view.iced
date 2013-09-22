@@ -201,8 +201,6 @@ forceReload = ->
 	chrome.extension.sendMessage(
 		op:'forcereload'
 		(response) ->
-			for name in CONST.listTemp
-				gui_updateNormalList(name)
 			if response.op is 'ready'
 				loadData()
 	)

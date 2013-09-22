@@ -511,6 +511,8 @@ updateJudge = (keyName, op) ->
 load = (force, sendResponse) ->
 	readyCounter = 0
 	netSync = 0
+	for type in CONST.listTemp
+		db_set 'cache_' + name, {}
 	bc = ()->
 		readyCounter++
 		if readyCounter is (CONST.featureName.length + 1)

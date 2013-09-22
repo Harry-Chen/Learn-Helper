@@ -317,12 +317,6 @@
     return chrome.extension.sendMessage({
       op: 'forcereload'
     }, function(response) {
-      var name, _i, _len, _ref;
-      _ref = CONST.listTemp;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        name = _ref[_i];
-        gui_updateNormalList(name);
-      }
       if (response.op === 'ready') {
         return loadData();
       }

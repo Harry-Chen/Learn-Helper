@@ -857,9 +857,14 @@
   };
 
   load = function(force, sendResponse) {
-    var bc, netSync, readyCounter, type, _i, _len, _ref, _results;
+    var bc, netSync, readyCounter, type, _i, _j, _len, _len1, _ref, _ref1, _results;
     readyCounter = 0;
     netSync = 0;
+    _ref = CONST.listTemp;
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      type = _ref[_i];
+      db_set('cache_' + name, {});
+    }
     bc = function() {
       readyCounter++;
       if (readyCounter === (CONST.featureName.length + 1)) {
@@ -876,23 +881,23 @@
       netSync = 1;
       progressLoader('clear');
       net_login(function() {
-        var type, _i, _len, _ref, _results;
+        var _j, _len1, _ref1, _results;
         progressLoader('login', 1);
         prepareCollectList('backcall', bc);
-        _ref = CONST.featureName;
+        _ref1 = CONST.featureName;
         _results = [];
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          type = _ref[_i];
+        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+          type = _ref1[_j];
           _results.push(traverseCourse(type, prepareNormalList, progressLoader, prepareCollectList('setter'), bc, force));
         }
         return _results;
       });
     } else {
       prepareCollectList('backcall', bc);
-      _ref = CONST.featureName;
+      _ref1 = CONST.featureName;
       _results = [];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        type = _ref[_i];
+      for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+        type = _ref1[_j];
         _results.push(db_getList(type, prepareNormalList, prepareCollectList('setter'), bc));
       }
       return _results;
@@ -925,7 +930,7 @@
               return TC = arguments[0];
             };
           })(),
-          lineno: 551
+          lineno: 553
         }));
       }
       __iced_deferrals._fulfill();
@@ -958,7 +963,7 @@
               return TC = arguments[0];
             };
           })(),
-          lineno: 559
+          lineno: 561
         }));
       }
       __iced_deferrals._fulfill();
