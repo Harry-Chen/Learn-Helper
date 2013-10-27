@@ -1,0 +1,116 @@
+html {
+  background: #ECECEC;
+}
+body, pre {
+	font: 16px / 1.5 "微软雅黑", Helvetica, Serif;
+  color: #222;
+}
+.page-wrap, .title-wrap {
+	min-width: 400px;
+}
+.page-wrap {
+	max-width: 700px;
+  margin: 0 auto;
+}
+.title-wrap {
+	text-align: center;
+  padding: 10px 20px;
+  box-sizing: border-box;
+
+  /*
+  text-shadow: 0 -1px 0 rgba(0,0,0,0.6);
+	border-top: 1px solid rgba(0,0,0,0.2);
+	border-bottom: 1px solid rgba(0,0,0,0.8);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+  background: linear-gradient(transparent, rgba(0,0,0,0.3)), #193D88;
+  color: rgba(255,255,255,0.9);
+  */
+  /*
+  background: #1B36A2;
+  color: #FFF;
+  */
+}
+
+
+.title {
+  margin: 0;
+  padding: 0;
+	font-size: 24px;
+  font-weight: normal;
+  margin-top: 5px;
+}
+
+.toolbar{
+	padding: 10px;
+	color: #AAA;
+  /*
+  border-bottom: 1px solid #FFF;
+  box-shadow: inset 0 -1px 0 #CCC;
+  */
+  border-bottom: 1px solid #CCC;
+}
+
+.courseName {
+  line-height: 30px;
+	font-size: 16px;
+}
+
+.author, .date {
+  line-height: 20px;
+	font-size: 12px;
+}
+.author::before {
+	content: "- 发布者: ";
+}
+.deadline .date::before {
+	content: "截止时间: ";
+}
+.description {
+	float: left;
+}
+
+.toolbar { overflow: hidden; }
+.toolbar ul { padding : 0; margin: 0; list-style: none; }
+.toolbar li { display: inline-block; padding: 0 5px; margin: 0 2px; }
+
+.action {
+	float: right;
+}
+
+.action a {
+  color: #BBB;
+  text-decoration: none;
+  line-height: 50px;
+  transition: color 0.2s linear;
+}
+.action a.is-stared {
+  color: #DF7CEC;
+}
+
+.action a:hover {
+  color: #666;
+}
+
+.deadline .author {
+  display: none;
+}
+
+.content, .misc-content {
+  padding: 0 20px;
+}
+
+.misc-content {
+  color: #AAA;
+}
+
+a {
+  color: #444;
+}
+hr {
+  border: none;
+  border-bottom: 1px solid #DDD;
+
+}
+.help{
+  font-size: 10px;
+}

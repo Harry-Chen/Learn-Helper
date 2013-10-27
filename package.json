@@ -1,19 +1,30 @@
 {
-  "name": "Learn-Helper-Extension",
-  "version": "2.3.0",
+  "name": "Learn_Helper",
+  "version": "3.2.3",
   "author" : {
 	  "name" : "xxr3376"
   },
   "main" : "Gruntfile.js",
   "devDependencies": {
-	  "iced-coffee-script": "~1.4.0",
-	  "grunt-contrib-watch": "~0.2.0",
-	  "grunt-crx" : "~0.2.0",
-	  "grunt": "~0.4.1"
+    "iced-coffee-script": "~1.4.0",
+    "grunt": "~0.4.1",
+    "grunt-iced-coffee": "~0.7.0-a",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-uglify": "0.2.2",
+    "stylus": "~0.37.0",
+    "grunt-contrib-stylus": "~0.8.0",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-contrib-watch": "~0.5.2"
   },
   "repository" :
   {
 	  "type" : "git",
 	  "url" : "https://github.com/xxr3376/Learn-Project"
-  }
+  },
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ]
 }

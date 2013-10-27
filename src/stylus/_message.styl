@@ -1,0 +1,175 @@
+$pane-message-width = 350px
+.pane-message
+  absolute top left 210px
+  bottom 0
+  width $pane-message-width
+  overflow-x hidden
+  overflow-y auto
+  border-right 1px solid #CCC
+  background #F6F6F6
+
+  .category-heading
+    color #666
+    font-size 0.8rem
+    padding 8px 0
+    text-align center
+    border none
+    border-bottom 1px solid
+
+    if $theme-flat
+      background #EEE
+      border-color #DDD
+    else
+      background linear-gradient(#E6E6E6, #DDD)
+      box-shadow inset 0 1px 0 #EEE
+      border-color #CCC
+      text-shadow 0 1px 0 #F3F3F3
+
+  .message-list
+    list-style none
+    margin 0
+    padding 0
+
+  .message
+    border-bottom 1px solid #EEE
+    box-sizing border-box
+    min-height 80px
+    padding 10px 10px 30px 10px
+    position relative
+    overflow hidden
+    color #666
+    font-size 0.8rem
+
+    a
+      color $brand-blue
+      text-decoration none
+
+      &:hover,
+      &:focus
+        color darken($brand-blue, 30%)
+
+
+    .title::before
+      width 0.6rem
+      height @width
+      margin-right 8px
+      display inline-block
+      box-sizing border-box 
+      vertical-align top
+      margin-top 0.5rem
+      border-radius 50%
+
+    &.is-important
+      background #FFC
+
+    &.is-unread .title::before
+      content ""
+      if $theme-flat
+        background $brand-blue
+      else
+        background linear-gradient($brand-blue, darken($brand-blue, 10%))
+        box-shadow inset 0 1px 1px lighten($brand-blue, 40%)
+        border 1px solid darken($brand-blue, 15%)
+
+    &.is-stared .title::before
+      content ""
+      $yellow = #F00
+      if $theme-flat
+        background $yellow
+      else
+        background linear-gradient($yellow, darken($yellow, 10%))
+        box-shadow inset 0 1px 1px lighten($yellow, 40%)
+        border 1px solid darken($yellow, 15%)
+
+    .title
+      display block
+      color $brand-blue
+      text-decoration none
+      font-size 1rem
+      margin-bottom 5px
+      overflow ellipsis
+
+      &:hover,
+      &:focus
+        color darken($brand-blue, 30%)
+
+    .toolbar
+      font-size 0.7rem
+      overflow ellipsis
+      color #999
+      text-decoration none
+      absolute bottom 5px left 10px
+      right 10px
+
+      .course-name
+        max-width 100px
+        float right
+        color #999
+
+      a
+        display inline-block
+        max-width 60px
+        overflow ellipsis
+
+        &::before
+          content " - "
+
+        &:first-child,
+        &.course-name
+          &::before
+            content none
+
+    tag($tag-color, $dark-text=false)
+      if $dark-text
+        color mix(#000, $tag-color, 80%)
+      else
+        color mix(#FFF, $tag-color, 80%)
+
+      if $theme-flat
+        background $tag-color
+      else
+        background linear-gradient($tag-color, darken($tag-color, 10%))
+        box-shadow inset 0 1px 0px lighten($tag-color, 20%)
+        if $dark-text
+          text-shadow 0 1px 0px lighten($tag-color, 20%)
+        else
+          text-shadow 0 -1px 0px darken($tag-color, 20%)
+        border 1px solid darken($tag-color, 20%)
+
+    .tag
+      font-size 0.7rem
+      padding 0 5px
+      border-radius 3px
+      vertical-align middle
+
+      tag($brand-blue)
+
+      &.theme-red
+        tag(#E00)
+
+      &.theme-magenta
+        tag(#E91981)
+
+      &.theme-yellow
+        tag(#EE0, true)
+
+      &.theme-orange
+        tag(#E60)
+
+      &.theme-green
+        tag(#4A4)
+
+      &.theme-purple
+        tag(#7E08BE)
+
+      &.theme-white
+        tag(#EEE, true)
+
+      &.theme-black
+        tag(#666)
+
+  .message-loading
+    text-align center
+    padding 10px
+    color #999
+

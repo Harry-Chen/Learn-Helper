@@ -1,0 +1,55 @@
+body, button{
+	font-family: "微软雅黑";
+}
+#title{
+	font-size : 40px;
+	margin :20px 0 40px;
+	text-align: center;
+}
+
+
+.exbtn{
+	height:40px;
+}
+#other{
+	margin-top:30px;
+}
+.ui-progressbar .ui-progressbar-value {
+   	background-image: url(pbar-ani.gif);
+	background-repeat:repeat;
+	height:10px;
+}
+#course_table{
+	width:100%;
+}
+tr,th,td
+{
+	border: 0px solid #66CCFF;
+	text-align:center;
+}
+
+#container {
+	width: 700px;
+	margin: 0 auto;
+}
+
+.exbtn{
+	width:100%;
+	border:none;
+	color:white;
+}
+.checked0{
+	color:green !important;
+}
+.checked1{
+	color:red !important;
+}
+#copyright{
+	margin: 10px;
+	text-align:center;
+	font-size:10px;
+	color:gray;
+}
+#copyright a{
+	color:gray;
+}

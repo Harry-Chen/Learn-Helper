@@ -1,72 +1,102 @@
 module.exports = (grunt) ->
-  'use strict'
-  grunt.loadNpmTasks 'grunt-crx'
-  ############
-  # iced-coffee-script
+	'use strict'
+	#############
+	# plugins
+	grunt.loadNpmTasks 'grunt-contrib-clean'
+	grunt.loadNpmTasks 'grunt-contrib-concat'
+	grunt.loadNpmTasks 'grunt-contrib-uglify'
+	grunt.loadNpmTasks 'grunt-contrib-stylus'
+	grunt.loadNpmTasks 'grunt-contrib-copy'
+	grunt.loadNpmTasks 'grunt-contrib-watch'
+	grunt.loadNpmTasks 'grunt-iced-coffee'
 
-  grunt.registerMultiTask 'iced', 'Compile IcedCoffeeScript files into JavaScript', ->
-    path = require('path')
-    options = @options(
-      bare: false
-      separator: grunt.util.linefeed
-    )
-    grunt.fail.warn 'Experimental destination wildcards are no longer supported. please refer to README.'   if options.basePath or options.flatten
-    grunt.verbose.writeflags options, 'Options'
-    @files.forEach (f) ->
-      output = f.src.filter((filepath) ->
-        if grunt.file.exists(filepath)
-          true
-        else
-          grunt.log.warn 'Source file \'' + filepath + '\' not found.'
-          false
-      ).map((filepath) ->
-        compileCoffee filepath, options
-      ).join(grunt.util.normalizelf(options.separator))
-      if output.length < 1
-        grunt.log.warn 'Destination not written because compiled files were empty.'
-      else
-        grunt.file.write f.dest, output
-        grunt.log.writeln 'File ' + f.dest + ' created.'
+	grunt.registerMultiTask 'template', ->
+		for file in @files
+		  src=file.src[0]
+		  dest=file.dest
+		  cont=grunt.template.process grunt.file.read(src, encoding: 'utf-8')
+		  cont=cont.replace(/\r\n/g, '\n')
+		  grunt.file.write(dest, cont, encoding: 'utf-8')
 
-  compileCoffee = (srcFile, options) ->
-    options = grunt.util._.extend filename: srcFile, options
-    srcCode = grunt.file.read srcFile
-    try
-      return require('iced-coffee-script').compile srcCode, options
-    catch e
-      grunt.log.error e
-      grunt.fail.warn 'CoffeeScript failed to compile.'
+	############
+	# main
+	grunt.initConfig
+		pkg: grunt.file.readJSON 'package.json'
+		template:
+			manifest:
+				files: [
+					{src: 'src/manifest.json', dest: 'build/manifest.json' }
+				]
+		stylus:
+			all:
+				options:
+					urlfunc: 'embedurl'
+					compress: false
+					"include css": true
+				files: [
+					{
+						expand: true
+						cwd: 'src/stylus/'
+						src: ['**/*.styl', '!**/_*.styl']
+						dest: 'build/css/'
+						ext: '.css'
+					}
+				]
+		coffee:
+			compile:
+				options:
+					runtime: 'inline'
+				files: [
+					{
+						expand: true
+						cwd: 'src/iced/'
+						src: ['**/*.iced', '**/*.coffee']
+						dest: 'build/js/'
+						ext: '.js'
+					}
+				]
+		copy:
+			asset:
+				files: [
+					{
+						expand: true
+						cwd: 'src/asset/'
+						src: '**/*'
+						dest: 'build/'
+					},
+					{
+						expand: true
+						cwd: 'src/html/'
+						src: '**/*'
+						dest: 'build/'
+					}
+				]
+		watch:
+			options:
+				spawn: false
+			asset:
+				files: ['src/asset/**/*', 'src/html/**/*']
+				tasks: ['copy:asset']
+			coffee:
+				files: ['src/iced/**/*']
+				tasks: ['coffee']
+			css:
+				files: ['src/stylus/**/*']
+				tasks: ['stylus']
 
+		clean:
+			files: ['build', 'tmp', 'dist']
 
-  ############
-  # main config
-
-  grunt.initConfig
-    pkg: grunt.file.readJSON('package.json'),
-    crx:
-      myPublicPackage:
-        src : "src/"
-        dest : "dist/"
-        privateKey : "learn.pem"
-        filename: "learn-helper-<%= manifest.version %>.crx"
-    iced:
-      all:
-        options:
-          runtime: 'inline'
-        files: [
-          {
-            expand: true
-            src: ['coffee/*.iced', 'coffee/*.coffee']
-            dest: 'src/js/'
-            ext: '.js'
-          }
-        ]
-
-  grunt.registerTask 'default', [ 'iced:all']
-  grunt.registerTask('pack',  ->
-    done = this.async()
-    exec = require('child_process').exec
-    pack = exec('"CHROME_EXE" --pack-extension='+__dirname+'src --pack-extension-key='+__dirname+'learn.pem', done)
-    pack.stdout.pipe(process.stdout)
-    pack.stderr.pipe(process.stderr)
-  )
+	grunt.registerTask 'manifest', [
+		'template:manifest'
+	]
+	grunt.registerTask 'default', [
+		'stylus'
+		'coffee:compile'
+		'copy:asset'
+		'manifest'
+	]
+	grunt.registerTask 'dev', [
+		'default'
+		'watch'
+	]
