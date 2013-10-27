@@ -16,25 +16,28 @@ window.URL_CONST =
 	'base_URL' : 'http://learn.tsinghua.edu.cn'
 window.CONST =
 	version : window.getManifest().version
-	featureName : [ 'deadline', 'notification', 'file']
+	featureName : [ 'deadline', 'notification', 'file', 'discuss']
 	collectNumber : 20
 	collectEvalLimit : 7
 	GUIListName :
+		discuss : '#recent-discuss'
 		deadline : '#nearby-deadline'
 		notification : '#category-heading'
 		file  : '#file-heading'
 		collect : '#js-new'
-	listTemp : ['collect', 'deadline', 'notification', 'file']
+	listTemp : ['collect', 'deadline', 'notification', 'file', 'discuss']
 	panelTran :
 		collect : 'main-page'
 		deadline : 'deadline-page'
 		notification : 'notification-page'
 		file : 'file-page'
+		discuss : 'discuss-page'
 	cacheListName :
 		courseList : 'course_list'
 		deadline : 'deadline_list'
 		notification : 'notification_list'
 		file : 'file_list'
+		discuss : 'discuss_list'
 	ignoreListName :
 		deadline : 'ignore_list_deadline'
 		notification : 'ignore_list_notification'

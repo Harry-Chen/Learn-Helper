@@ -8,7 +8,7 @@ errorHandler = (type) ->
 		data : type
 	)
 	progressLoader('end')
-	
+
 
 net_vaildToken = (username, password, sendResponse) ->
 	if not username or not password
@@ -286,7 +286,10 @@ mergeList = (newList, oldList) ->
 	for key, value of oldList
 		if newList[key]
 			temp[key] = newList[key]
-			temp[key].state = value.state
+			if value.type is 't' and value.state isnt 'stared' and value.reply_num < newList[key].reply_num
+				temp[key].state = 'unread'
+			else
+				temp[key].state = value.state
 			# save detail for cache
 			temp[key].detail = value.detail
 	for key, value of newList
@@ -313,7 +316,7 @@ evaluation = (type, entry) ->
 			e += CONST.evalFlag.SUBMIT
 		if dueDays is 0
 			e += CONST.evalFlag.HOMEWORK_TODAY
-	else if (type is 'notification') or (type is 'file')
+	else if (type is 'notification') or (type is 'file') or (type is 'discuss')
 		dueDays = Math.floor((new Date(entry.day) - today) / (60 * 60 * 1000 * 24))
 		e -= dueDays
 	entry['eval'] = e
@@ -333,7 +336,7 @@ filterCourse = (list, type)	->
 	return list
 
 progressLoader = do () ->
-	progress = [0, 0, 0, 0, 0]
+	progress = [0, 0, 0, 0, 0, 0]
 	totalPart = 2 + CONST.featureName.length
 	trans =
 		login : 0
@@ -341,6 +344,7 @@ progressLoader = do () ->
 		deadline : 2
 		notification : 3
 		file : 4
+		discuss: 5
 	sendProgress = (p) ->
 		chrome.extension.sendMessage(
 			op : 'progress'
@@ -348,7 +352,7 @@ progressLoader = do () ->
 		)
 	return (type, p) ->
 		if type is 'clear'
-			progress = [0, 0, 0, 0, 0]
+			progress = [0, 0, 0, 0, 0, 0]
 			sendProgress 0
 		if type is 'end'
 			sendProgress 1
@@ -358,7 +362,7 @@ progressLoader = do () ->
 			for i in progress
 				sum += i
 			sendProgress sum / totalPart
-		
+
 processCourseList = (update, callback, progressCallback) ->
 #update list when var update = true or no cache, callback function called with a list.
 	courseList = localStorage.course_list
@@ -437,6 +441,21 @@ traverseCourse =(type, successCallback, progressCallback, collectCallback, finis
 									day: new Date($.trim(attr[4].innerText))
 									href: $.trim($(attr[1]).find("a").attr('href'))
 									explanation : $.trim(attr[2].innerText)
+									state: 'unread'
+							else if type is 'discuss'
+								title = $(attr[0].querySelector('a'))
+								id = getURLParamters(title.attr('href')).id
+								author = ($ attr[1]).text()
+								reply_num = parseInt(($ attr[2]).text().match(/^(\d+)\//)[1])
+								lists[id] =
+									type : 't' #talk
+									id : id
+									courseId: courseId
+									courseName: courseName
+									name: ($.trim title.text())
+									time: new Date($.trim(attr[3].innerText))
+									author: author
+									reply_num: reply_num
 									state: 'unread'
 						unChecked--
 						progressCallback and progressCallback(type, 1 - unChecked / totalWorker)

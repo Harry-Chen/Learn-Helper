@@ -561,7 +561,11 @@
       value = oldList[key];
       if (newList[key]) {
         temp[key] = newList[key];
-        temp[key].state = value.state;
+        if (value.type === 't' && value.state !== 'stared' && value.reply_num < newList[key].reply_num) {
+          temp[key].state = 'unread';
+        } else {
+          temp[key].state = value.state;
+        }
         temp[key].detail = value.detail;
       }
     }
@@ -599,7 +603,7 @@
       if (dueDays === 0) {
         e += CONST.evalFlag.HOMEWORK_TODAY;
       }
-    } else if ((type === 'notification') || (type === 'file')) {
+    } else if ((type === 'notification') || (type === 'file') || (type === 'discuss')) {
       dueDays = Math.floor((new Date(entry.day) - today) / (60 * 60 * 1000 * 24));
       e -= dueDays;
     }
@@ -628,14 +632,15 @@
 
   progressLoader = (function() {
     var progress, sendProgress, totalPart, trans;
-    progress = [0, 0, 0, 0, 0];
+    progress = [0, 0, 0, 0, 0, 0];
     totalPart = 2 + CONST.featureName.length;
     trans = {
       login: 0,
       courseList: 1,
       deadline: 2,
       notification: 3,
-      file: 4
+      file: 4,
+      discuss: 5
     };
     sendProgress = function(p) {
       return chrome.extension.sendMessage({
@@ -646,7 +651,7 @@
     return function(type, p) {
       var i, sum, _i, _len;
       if (type === 'clear') {
-        progress = [0, 0, 0, 0, 0];
+        progress = [0, 0, 0, 0, 0, 0];
         sendProgress(0);
       }
       if (type === 'end') {
@@ -705,7 +710,7 @@
           return $.get(linkPrefix, {
             course_id: courseId
           }, function(data) {
-            var attr, homeworkDocument, homeworkList, id, j, title, _j, _ref1;
+            var attr, author, homeworkDocument, homeworkList, id, j, reply_num, title, _j, _ref1;
             homeworkDocument = parser.parseFromString(data, 'text/html');
             homeworkList = homeworkDocument.querySelectorAll('#table_box .tr1, #table_box .tr2');
             for (j = _j = 0, _ref1 = homeworkList.length; 0 <= _ref1 ? _j < _ref1 : _j > _ref1; j = 0 <= _ref1 ? ++_j : --_j) {
@@ -751,6 +756,22 @@
                   day: new Date($.trim(attr[4].innerText)),
                   href: $.trim($(attr[1]).find("a").attr('href')),
                   explanation: $.trim(attr[2].innerText),
+                  state: 'unread'
+                };
+              } else if (type === 'discuss') {
+                title = $(attr[0].querySelector('a'));
+                id = getURLParamters(title.attr('href')).id;
+                author = ($(attr[1])).text();
+                reply_num = parseInt(($(attr[2])).text().match(/^(\d+)\//)[1]);
+                lists[id] = {
+                  type: 't',
+                  id: id,
+                  courseId: courseId,
+                  courseName: courseName,
+                  name: $.trim(title.text()),
+                  time: new Date($.trim(attr[3].innerText)),
+                  author: author,
+                  reply_num: reply_num,
                   state: 'unread'
                 };
               }
@@ -930,7 +951,7 @@
               return TC = arguments[0];
             };
           })(),
-          lineno: 553
+          lineno: 572
         }));
       }
       __iced_deferrals._fulfill();
@@ -963,7 +984,7 @@
               return TC = arguments[0];
             };
           })(),
-          lineno: 561
+          lineno: 580
         }));
       }
       __iced_deferrals._fulfill();
