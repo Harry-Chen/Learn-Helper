@@ -43,6 +43,7 @@ window.CONST =
 		deadline : 'ignore_list_deadline'
 		notification : 'ignore_list_notification'
 		file : 'ignore_list_file'
+		discuss : 'ignore_list_discuss'
 	changeState :
 		unread :
 			read : 'readed'
