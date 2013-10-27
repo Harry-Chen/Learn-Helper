@@ -13,6 +13,7 @@
     'deadline': 'https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_brw.jsp',
     'mentor': 'https://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/getbbsid_student.jsp',
     'discuss': 'https://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/gettalkid_student.jsp',
+    'discuss_detail': 'http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/talk_reply_student.jsp',
     'course_page': 'https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/course_locate.jsp',
     'deadline_detail': 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_detail.jsp',
     'deadline_submit': 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_submit.jsp',

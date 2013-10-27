@@ -94,6 +94,18 @@ gui_main_createNewLine = (data) ->
 		line += '<a class="set-readed" href="#" data-args="read">设为已读</a>'
 		line += '<a class="course-name" target="content-frame" href="' + URL_CONST['notification'] + '?course_id=' + data.courseId + '">' + data.courseName + '</a>'
 		line += '</div>'
+	else if data.type is 't' # DISCUSS
+		line += 'discuss '
+		line += 'is-' + data.state + ' '
+		line += '" data-args=' + id + '> '
+		line += '<a class="title" target="content-frame" data-args="read" href="'+ URL_CONST['discuss_detail'] + '?id=' + data.id + '&course_id=' + data.courseId + '" + 
+			" title="' + data.name + '"><span class="tag theme-white"><i class="icon-question-sign"></i></span> ' + data.name + '</a></td>'
+		line += '<span class="description">' + new Date(data.day).Format("yyyy-MM-dd") + '</span>'
+		line += '<div class="toolbar">'
+		line += '<a class="add-star" href="#" data-args="star">置顶</a>'
+		line += '<a class="set-readed" href="#" data-args="read">设为已读</a>'
+		line += '<a class="course-name" target="content-frame" href="' + URL_CONST['discuss'] + '?course_id=' + data.courseId + '">' + data.courseName + '</a>'
+		line += '</div>'
 	line += '</li>'
 	return line
 db_get = (key, defaultValue, callback) ->
@@ -133,7 +145,7 @@ gui_updateNormalList = (type) ->
 onItemClick= (op, node) ->
 	id = node.getAttribute('data-args')
 	cur_state = node.className.match(/is-(\w*)/)[1]
-	type = node.className.match(/deadline|notification|file/)[0]
+	type = node.className.match(/deadline|notification|file|discuss/)[0]
 	target_state = CONST.changeState[cur_state][op]
 	if target_state is cur_state
 		return

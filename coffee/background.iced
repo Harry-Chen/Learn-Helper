@@ -453,7 +453,7 @@ traverseCourse =(type, successCallback, progressCallback, collectCallback, finis
 									courseId: courseId
 									courseName: courseName
 									name: ($.trim title.text())
-									time: new Date($.trim(attr[3].innerText))
+									day: new Date($.trim(attr[3].innerText))
 									author: author
 									reply_num: reply_num
 									state: 'unread'
