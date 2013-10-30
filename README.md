@@ -33,6 +33,9 @@ Use `grunt dev` to watch changes in `src/`
 
 ## Revision History
 
+** v3.3.1 **
+* FIX discusstion reply bug
+
 ** v3.3.0 **
 * ADD discusstion collection
 * FIX icon error
