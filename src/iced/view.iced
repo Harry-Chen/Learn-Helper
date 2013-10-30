@@ -98,7 +98,7 @@ gui_main_createNewLine = (data) ->
 		line += 'discuss '
 		line += 'is-' + data.state + ' '
 		line += '" data-args=' + id + '> '
-		line += '<a class="title" target="content-frame" data-args="read" href="'+ URL_CONST['discuss_detail'] + '?id=' + data.id + '&course_id=' + data.courseId + '" + 
+		line += '<a class="title" target="content-frame" data-args="read" href="'+ URL_CONST['discuss_detail'] + '?default_cate_id=1&id=' + data.id + '&course_id=' + data.courseId + '" +
 			" title="' + data.name + '"><span class="tag theme-white"><i class="icon-question-sign"></i></span> ' + data.name + '</a></td>'
 		line += '<span class="description">' + new Date(data.day).Format("yyyy-MM-dd") + '</span>'
 		line += '<div class="toolbar">'
