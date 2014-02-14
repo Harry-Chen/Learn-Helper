@@ -8,7 +8,7 @@ module.exports = (grunt) ->
 	grunt.loadNpmTasks 'grunt-contrib-stylus'
 	grunt.loadNpmTasks 'grunt-contrib-copy'
 	grunt.loadNpmTasks 'grunt-contrib-watch'
-	grunt.loadNpmTasks 'grunt-iced-coffee'
+	grunt.loadNpmTasks 'grunt-contrib-coffee'
 
 	grunt.registerMultiTask 'template', ->
 		for file in @files
@@ -25,7 +25,7 @@ module.exports = (grunt) ->
 		template:
 			manifest:
 				files: [
-					{src: 'src/manifest.json', dest: 'build/manifest.json' }
+					{src: 'src/manifest.json', dest: 'dev/manifest.json' }
 				]
 		stylus:
 			all:
@@ -38,20 +38,18 @@ module.exports = (grunt) ->
 						expand: true
 						cwd: 'src/stylus/'
 						src: ['**/*.styl', '!**/_*.styl']
-						dest: 'build/css/'
+						dest: 'dev/css/'
 						ext: '.css'
 					}
 				]
 		coffee:
 			compile:
-				options:
-					runtime: 'inline'
 				files: [
 					{
 						expand: true
-						cwd: 'src/iced/'
-						src: ['**/*.iced', '**/*.coffee']
-						dest: 'build/js/'
+						cwd: 'src/coffee/'
+						src: ['**/*.coffee']
+						dest: 'dev/js/'
 						ext: '.js'
 					}
 				]
@@ -62,14 +60,20 @@ module.exports = (grunt) ->
 						expand: true
 						cwd: 'src/asset/'
 						src: '**/*'
-						dest: 'build/'
+						dest: 'dev/'
 					},
 					{
 						expand: true
 						cwd: 'src/html/'
 						src: '**/*'
-						dest: 'build/'
-					}
+						dest: 'dev/'
+					},
+          {
+            expand: true
+            cwd: 'vendor/'
+            src: '**/*'
+            dest: 'dev/js/vendor/'
+          }
 				]
 		watch:
 			options:
@@ -78,25 +82,25 @@ module.exports = (grunt) ->
 				files: ['src/asset/**/*', 'src/html/**/*']
 				tasks: ['copy:asset']
 			coffee:
-				files: ['src/iced/**/*']
+				files: ['src/coffee/**/*']
 				tasks: ['coffee']
 			css:
 				files: ['src/stylus/**/*']
 				tasks: ['stylus']
 
 		clean:
-			files: ['build', 'tmp', 'dist']
+			files: ['dev', 'tmp', 'dist']
 
 	grunt.registerTask 'manifest', [
 		'template:manifest'
 	]
-	grunt.registerTask 'default', [
+	grunt.registerTask 'debug', [
 		'stylus'
 		'coffee:compile'
 		'copy:asset'
 		'manifest'
 	]
 	grunt.registerTask 'dev', [
-		'default'
+		'debug'
 		'watch'
 	]
