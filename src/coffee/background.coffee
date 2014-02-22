@@ -16,11 +16,11 @@ require ['helper-api', 'q', 'history-event'],
       (request, sender, sendResponse) ->
         if request.type is 'func'
           func = api[request.func]
+          console.log request.func, request.args
           args = request.args
           promise = Q (func.apply api, args)
           promise.done(
             (result) ->
-              console.log 'done'
               sendResponse err: null, ret: result
               return
             (error) ->

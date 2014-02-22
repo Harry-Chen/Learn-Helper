@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Learn Helper</title>
+		<link rel="stylesheet" href="css/main.css" />
+		<script src="js/html-domparser.js"></script>
+		<script src="js/jquery-1.9.1.min.js"></script>
+		<script src="js/modal.js"></script>
+		<script src="js/loading.js"></script>
+		<script src="js/menu.js"></script>
+		<script src="js/utils.js"></script>
+		<script language="javascript" type="text/javascript" src="js/const.js"> </script>
+		<script src="js/sjcl.js"></script>
+		<script language="javascript" type="text/javascript" src="js/view.js"> </script>
+	</head>
+	<body>
+		<div class="pane-folder">
+			<ul class="folder-list">
+				<li class="folder-heading">
+				<i class="icon-pushpin"></i> 通知汇总
+				</li>
+				<li class="folder">
+				<a href="#" id="switch-main-page">
+					<i class="icon-home"></i> 主页
+				</a>
+				</li>
+				<li class="folder" id="switch-deadline-page">
+				<a href="#">
+					<i class="icon-pencil"></i> 所有作业
+					<span class="unread-count" id="unread-deadline">-</span>
+				</a>
+				</li>
+				<li class="folder" id="switch-notification-page">
+				<a href="#">
+					<i class="icon-bullhorn"></i> 所有通知
+					<span class="unread-count" id="unread-notification">-</span>
+				</a>
+				</li>
+				<li class="folder" id="switch-file-page">
+				<a href="#">
+					<i class="icon-download-alt"></i> 所有文件
+					<span class="unread-count" id="unread-file">-</span>
+				</a>
+				</li>
+				<li class="folder" id="switch-discuss-page">
+				<a href="#">
+					<i class="icon-question-sign"></i> 所有讨论
+					<span class="unread-count" id="unread-discuss">-</span>
+				</a>
+				</li>
+			</ul>
+
+
+			<ul id="course-list" class="folder-list">
+				<li class="folder-heading">
+				<i class="icon-inbox"></i>
+				本学期课程
+				</li>
+			</ul>
+
+			<ul class="folder-list">
+				<li class="folder-heading">
+				<i class="icon-wrench"></i> 设置
+				</li>
+				<li class="folder"><a href="exception.html" target="content-frame"><i class="icon-cog"></i> 添加忽略项</a></li>
+				<li class="folder"><a href="#" id="option-set-all-read"><i class="icon-envelope-alt"></i> 将全部设为已读</a></li>
+				<li class="folder"><a href="#" id="option-force-reload-all"><i class="icon-refresh"></i> 强制刷新</a></li>
+				<li class="folder"><a href="#" id="option-change-token"><i class="icon-user"></i> 更换用户名密码</a></li>
+				<li class="folder">
+				<a href="#"><i class="icon-cogs"></i> 其他设置</a>
+				<ul class="subfolder">
+					<li><a href="#" id="option-clear-cache"><i class="icon-trash"></i> 新学期清空缓存</a></li>
+				</ul>
+
+				</li>
+			</ul>
+		</div>
+
+		<div class="pane-message">
+			<div id="main-page">
+				<div class="category-heading">新鲜事</div>
+				<ol id="js-new" class="message-list">
+					<li class="message-loading">Loading...</li>
+				</ol>
+			</div>
+
+			<div id="deadline-page">
+				<div class="category-heading">全部作业</div>
+				<ol id="nearby-deadline" class="message-list">
+					<li class="message-loading">Loading...</li>
+				</ol>
+			</div>
+
+			<div id="notification-page">
+				<div class="category-heading">全部通知</div>
+				<ol id="category-heading" class="message-list">
+					<li class="message-loading">Loading...</li>
+				</ol>
+			</div>
+			<div id="file-page">
+				<div class="category-heading">全部文件</div>
+				<ol id="file-heading" class="message-list">
+					<li class="message-loading">Loading...</li>
+				</ol>
+			</div>
+			<div id="discuss-page">
+				<div class="category-heading">全部讨论</div>
+				<ol id="recent-discuss" class="message-list">
+					<li class="message-loading">Loading...</li>
+				</ol>
+			</div>
+
+
+		</div>
+		<div class="pane-content">
+			<iframe src="welcome.html" name="content-frame" frameborder="0" width="100%" height="100%" style="display:block"></iframe>
+		</div>
+
+		<div id="token-modal">
+			<form class="form-styled" id="token-form">
+				请使用登陆网络学堂时的用户名和密码登陆
+				<div class="field">
+					<input id="token-username" type="text" placeholder="用户名" />
+				</div>
+				<div class="field">
+					<input id="token-password" type="password" placeholder="密码" />
+				</div>
+				<div class="field">
+					<input id="token-submit" type="submit" class="btn" value="登录" />
+				</div>
+				<!--
+				<div class="field">
+					<input id="token-remove" type="submit" class="btn red" value="删除全部存储信息！" />
+				</div>
+				-->
+			</form>
+		</div>
+		<div id="msg-modal">
+			<div id="msg-text">
+
+			</div>
+			<div class="field">
+				<input id="msg-ok" type="submit" class="btn" value="知道了" />
+			</div>
+		</div>
+		<div id="net-error-modal" style="text-align:center;">
+			网络似乎出了一点小问题~你有两个选择：
+			<br /><br />
+			<button id="net-error-reload-btn" class="btn">刷新页面 </button>
+			<button id="net-error-offline-btn" class="btn">离线使用 </button>
+		</div>
+		<div id="new-term-modal" style="text-align:center;">
+			当前使用的学期是
+			<span class="red" id="lastTerm"></span>，<br />
+			检测到当前学期为
+			<span class="red" id="currentTerm"></span>
+			，是否切换？
+			<br /><br />
+			<button id="new-term-switch-btn" class="btn">切换到新学期</button>
+			<button id="new-term-cancel-btn" class="btn">下次再说</button>
+			<br />
+			<a id="new-term-force">当前课程正确，不再提醒</a>
+		</div>
+	</body>
+</html>
+

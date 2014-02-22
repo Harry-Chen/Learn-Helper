@@ -1,0 +1,93 @@
+<li class="message {{info.type}}" ng-class="{
+'is-unread': info.state=='new',
+'is-readed': info.state=='old',
+'is-stared': info.state=='stared',
+'is-submitted': info.submitState
+}"
+>
+<div ng-if="info.type == 'homework'">
+	<a class="title" ng-click="read()" title="{{info.name}}"
+		href="subframe.html?type=homework&id={{info.id}}"
+		target="content-frame"
+		>
+		<span class="tag" ng-class="{
+			'theme-black': info.ttl < 0,
+			'theme-green': info.submitState,
+			'theme-red': info.ttl >= 0 && info.ttl < 3,
+			'theme-orange': info.ttl < 5 && info.ttl >= 3
+			}"><i ng-if="!info.submitState" class="icon-pencil"></i><i ng-if="info.submitState"class="icon-check"></i>{{info.ttl>0 ? info.ttl: ''}}</span>
+		 {{info.name}}
+	</a>
+
+	<span class="description">
+		{{info.submitDate | date:"yyyy-MM-dd"}} - {{ {true: '已经提交', false: '尚未提交'}[info.submitState]}}
+	</span>
+	<div class="toolbar">
+		<a class="handin-link"
+		href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_submit.jsp?id={{info.id}}&course_id={{info.courseId}}"
+		target="content-frame">
+			提交链接</a>
+		<a class="add-star" ng-click="top()">置顶</a>
+		<a class="review-link" ng-if="info.commentState"
+			href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_view.jsp?id={{info.id}}&course_id={{info.courseId}}"
+			target="content-frame"> 查看批阅 </a>
+		<a class="review-link none" ng-if="!info.commentState">尚未批阅</a>
+		<!--
+		<a class="attachment-file" href="#">
+			<i class="icon-paper-clip"></i>
+		</a>
+		-->
+		<a class="course-name" target="content-frame" href="http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_brw.jsp?course_id={{info.courseId}}">{{info.courseName}}</a>
+	</div>
+</div>
+
+<div ng-if="info.type=='notification'">
+	<a class="title" ng-click="read()" title="{{info.name}}"
+		href="subframe.html?type=notification&id={{info.id}}"
+		target="content-frame">
+		<span class="tag theme-purple"><i class="icon-bullhorn"></i></span>
+		{{info.name}}
+	</a>
+	<span class="description">
+		{{info.date | date:"yyyy-MM-dd"}} - {{info.author}}
+	</span>
+	<div class="toolbar">
+		<a class="add-star" ng-click="top()">置顶</a>
+		<a class="set-readed" ng-click="read()">设为已读</a>
+		<a class="course-name" target="content-frame" href="https://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/getnoteid_student.jsp?course_id={{info.courseId}}">{{info.courseName}}</a>
+	</div>
+</div>
+<div ng-if="info.type=='discuss'">
+	<a class="title" ng-click="read()" title="{{info.name}}"
+		href="http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/talk_reply_student.jsp?default_cate_id=1&id={{info.id}}&course_id={{info.courseId}}"
+		target="content-frame">
+		<span class="tag theme-white"><i class="icon-question-sign"></i></span>
+		{{info.name}}
+	</a>
+	<span class="description">
+		{{info.date | date:"yyyy-MM-dd"}} - {{info.author}}
+	</span>
+	<div class="toolbar">
+		<a class="add-star" ng-click="top()">置顶</a>
+		<a class="set-readed" ng-click="read()">设为已读</a>
+		<a class="course-name" target="content-frame" href="https://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/gettalkid_student.jsp?course_id={{info.courseId}}">{{info.courseName}}</a>
+	</div>
+</div>
+<div ng-if="info.type=='file'">
+	<a class="title" ng-click="read()" title="{{info.name}}"
+		href="https://learn.tsinghua.edu.cn/{{info.href}}"
+		target="_blank"
+		>
+		<span class="tag theme-magenta"><i class="icon-download-alt"></i></span>
+		{{info.name}}
+	</a>
+	<span class="description">
+		{{info.date | date:"yyyy-MM-dd"}} - {{info.explanation}}
+	</span>
+	<div class="toolbar">
+		<a class="add-star" ng-click="top()">置顶</a>
+		<a class="set-readed" ng-click="read()">设为已读</a>
+		<a class="course-name" target="content-frame" href="https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/download.jsp?course_id={{info.courseId}}">{{info.courseName}}</a>
+	</div>
+</div>
+</li>

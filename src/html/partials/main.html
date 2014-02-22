@@ -1,0 +1,21 @@
+<ng-include src="'partials/left-banner.html'"> </ng-include>
+<ng-include src="'partials/item-list.html'"> </ng-include>
+<div class="pane-content">
+	<iframe src="welcome.html" name="content-frame" frameborder="0" width="100%" height="100%" style="display:block"></iframe>
+</div>
+
+
+<modal-dialog icon="'icon-signin'" title="'登陆'" show='showModal' width='500px'>
+<form class="form-styled" id="token-form">
+	请使用登陆网络学堂时的用户名和密码登陆
+	<div class="field">
+		<input id="token-username" type="text" placeholder="用户名">
+	</div>
+	<div class="field">
+		<input id="token-password" type="password" placeholder="密码">
+	</div>
+	<div class="field">
+		<input id="token-submit" type="submit" class="btn" value="登录">
+	</div>
+</form>
+</modal-dialog>

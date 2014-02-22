@@ -21,5 +21,5 @@ define ['q'], (Q) ->
       tmp = {}
       tmp[key] = defaultValue
       chrome.storage.local.get tmp, (result) ->
-        defer.resolve result
+        defer.resolve result[key]
       return defer.promise

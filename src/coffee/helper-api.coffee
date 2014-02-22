@@ -48,6 +48,11 @@ define ['api', 'q', 'util/storage-adapter', 'history-event', 'sync-setting'],
         @courseList.set newList
         return newList
 
+      clearCache: ->
+        @courseList.set []
+        @cache.set {}
+        HistoryEvent.forget 'updatelist'
+        return
       setCourseFilter: (course_id, feature, status) ->
         exist = @courseList.get()
         for course in exist
@@ -59,6 +64,7 @@ define ['api', 'q', 'util/storage-adapter', 'history-event', 'sync-setting'],
         # TODO 可添加每天更新一次课程列表
         exist = @courseList.get()
         if force or (SyncSetting.load 'no-cache-course-list') or exist.length == 0
+          console.log 'courselist from cache'
           promise = (@api.getCourseList true)
             .then( (list) =>
               list = list[0...10]
@@ -66,8 +72,51 @@ define ['api', 'q', 'util/storage-adapter', 'history-event', 'sync-setting'],
             )
           return promise
         else
+          console.log 'courselist from network'
           return Q(exist)
+      preProcess4GUI: (list) =>
+        courseList = @courseList.get()
+        nameMap = {}
+        for course in courseList
+          nameMap[course.id] = course.name
+        state_priority =
+          old: 0
+          'new': 500
+          stared: 10000
+        now = Date.now()
+        result = []
+        for key, item of list
+          item.courseName = nameMap[item.courseId]
+          val = state_priority[item.state]
+          switch item.type
+            when 'homework'
+              ttl = item.ttl = Math.floor((item.submitDate - now) / 86400000)
+              switch
+                when ttl == 0
+                  val += 1000 # today's homework should be very important
+                when ttl < 0 then val -= 1000 # expire
+                else
+                  val += 1000 / ttl
+              if item.submitState
+                val -= 1000
+            else
+              history = Math.floor((now - item.date) / 86400000)
+              val += 50 - history * 2
+          item.value = val
+          result.push item
+        return result
+      getItems: (force) ->
+        console.log force
+        promise = null
+        if (HistoryEvent.indate 'updatelist', 6000) and not force
+          promise = Q(@cache.get())
+          console.log 'load from cache'
+        else
+          promise = @refreshAll()
+          console.log 'load from network'
+        promise = promise.then @preProcess4GUI
 
+        return promise
       refreshAll: ->
         defer = Q.defer()
         (@getCourseList true)
@@ -132,8 +181,9 @@ define ['api', 'q', 'util/storage-adapter', 'history-event', 'sync-setting'],
                     tmp.state = 'new'
             newList[key] = tmp
         @cache.set newList
+        HistoryEvent.happen 'updatelist'
         return newList
-      vaildState: ['new', 'old', 'started']
+      vaildState: ['new', 'old', 'stared']
       setState: (type, id, state) ->
         if state not in @vaildState
           return
@@ -147,6 +197,7 @@ define ['api', 'q', 'util/storage-adapter', 'history-event', 'sync-setting'],
           if item.state == 'new'
             item.state = 'old'
         @cache.set list
+        return
       getDetail: (type, id, force) ->
         list = @cache.get()
         key = "#{type}-#{id}"

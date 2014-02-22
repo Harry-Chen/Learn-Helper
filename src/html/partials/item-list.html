@@ -1,0 +1,11 @@
+<div class="pane-message">
+	<div id="main-page">
+		<div class="category-heading">新鲜事</div>
+		<ol id="js-new" class="message-list">
+			<li ng-if="!done" class="message-loading">Loading...</li>
+			<div ng-if="done">
+				<lh-item info="item" ng-repeat="item in items | orderBy:'value':true"> </lh-item>
+			</div>
+		</ol>
+	</div>
+</div>

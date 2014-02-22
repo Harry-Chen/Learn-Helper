@@ -86,3 +86,5 @@ Use `grunt dev` to watch changes in `src/`
 ** v2.0.0 **
 * evernote-like UI
 * collect Homework and Announcement
+
+Thx for https://github.com/StarterSquad/startersquad.github.com/blob

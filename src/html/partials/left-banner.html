@@ -1,0 +1,72 @@
+<div class="pane-folder">
+	<ul class="folder-list">
+		<li class="folder-heading">
+		<i class="icon-pushpin"></i> 通知汇总
+		</li>
+		<li class="folder">
+		<a href="#" id="switch-main-page">
+			<i class="icon-home"></i> 主页
+		</a>
+		</li>
+	</ul>
+	<ul id="course-list" class="folder-list">
+		<li class="folder-heading">
+		<i class="icon-inbox"></i> 本学期课程
+		</li>
+		<li class="folder" ng-repeat="course in courses">
+			<a ng-click="menuClick(course)">
+				<i class="icon-book"></i>
+				{{course.name}}
+			</a>
+			<ul class="subfolder" ng-show="course.show">
+				<li>
+				<a target="content-frame" href="https://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/getnoteid_student.jsp?course_id={{course.id}}">
+					<i class="icon-bullhorn"></i> 课程公告
+				</a>
+				</li>
+				<li>
+				<a target="content-frame" href="https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/course_info.jsp?course_id={{course.id}}">
+					<i class="icon-info-sign"></i> 课程信息
+				</a>
+				</li>
+				<li>
+				<a target="content-frame" href="https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/download.jsp?course_id={{course.id}}">
+					<i class="icon-download-alt"></i> 课程文件
+				</a>
+				</li>
+				<li>
+				<a target="content-frame" href="https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/ware_list.jsp?course_id={{course.id}}">
+					<i class="icon-cloud"></i> 教学资源
+				</a>
+				</li>
+				<li>
+				<a target="content-frame" href="https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_brw.jsp?course_id={{course.id}}">
+					<i class="icon-pencil"> </i> 课程作业
+				</a>
+				</li>
+				<li>
+				<a target="content-frame" href="https://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/getbbsid_student.jsp?course_id={{course.id}}">
+					<i class="icon-question-sign"></i> 课程答疑</a>
+				</li>
+				<li>
+				<a target="content-frame" href="https://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/gettalkid_student.jsp?course_id={{course.id}}">
+					<i class="icon-comments"></i> 课程讨论</a></li>
+				<li>
+				<a target="_blank" href="https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/course_locate.jsp?course_id={{course.id}}">
+					<i class="icon-external-link"></i> 在新窗口中打开
+				</a>
+				</li>
+			</ul>
+		</li>
+	</ul>
+	<ul class="folder-list">
+		<li class="folder-heading">
+		<i class="icon-wrench"></i> 设置
+		</li>
+		<li class="folder"><a href="exception.html" target="content-frame"><i class="icon-cog"></i> 添加忽略项</a></li>
+		<li class="folder"><a ng-click="readAll()" id="option-set-all-read"><i class="icon-envelope-alt"></i> 将全部设为已读</a></li>
+		<li class="folder"><a ng-click="reload()" id="option-force-reload-all"><i class="icon-refresh"></i> 强制刷新</a></li>
+		<li class="folder"><a href="#" id="option-change-token"><i class="icon-user"></i> 更换用户名密码</a></li>
+		<li class="folder"> <a ng-click="clearAll()" id="option-clear-cache"><i class="icon-trash"></i> 新学期清空缓存</a> </li>
+	</ul>
+</div>

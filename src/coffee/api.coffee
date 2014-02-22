@@ -71,7 +71,7 @@ define ['url-const', 'q', 'util/network-adapter', 'history-event'], (URLConst, Q
             name: attr[0].innerText.trim()
             date: Date.parse attr[1].innerText.trim()
             submitDate: Date.parse attr[2].innerText.trim()
-            submitState: attr[3].innerText.trim()
+            submitState: attr[3].innerText.trim() == '已经提交'
             commentState: !((attr[5].querySelector '#lookinfo').disabled)
         when 'notification'
           href = (attr[1].querySelector 'a').getAttribute 'href'
