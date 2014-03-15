@@ -32,13 +32,20 @@ define [
       $scope.clearAll = ->
         $scope.done = false
         (LHAPI 'clearCache').then( ->
-            (LHAPI 'getItems', false)
+          (LHAPI 'getItems', false)
               .then( (items) ->
                 $scope.done = true
                 $scope.items = items
-            )
           )
+        )
         return
+      $scope.token = {}
+      $scope.setToken = ->
+        $scope.token['loading'] = true
+        t = $scope.token
+        (LHAPI 'changeToken', t.username, t.password)
+          .then
+        console.log $scope.token
 
       ###
       (LHAPI 'getCourseList', false)

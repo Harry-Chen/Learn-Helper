@@ -15,8 +15,9 @@ define [
 
   app.directive('lhItem', ['LHAPI', (LHAPI) ->
     return {
+      require: 'ngModel'
       scope:
-        info: "="
+        info: "=ngModel"
       restrict: 'E'
       templateUrl: 'partials/item.html'
       replace: true

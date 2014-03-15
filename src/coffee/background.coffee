@@ -3,7 +3,7 @@ require ['helper-api', 'q', 'history-event'],
     console.log "background start at: #{new Date()}"
     HistoryEvent.forget 'login'
     # TODO INIT SyncSetting
-    api = window.api = new API 'xxr10', 'ug920801'
+    api = window.api = new API()
 
     progressHandler = (progress) ->
       chrome.extension.sendMessage(

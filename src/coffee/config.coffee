@@ -8,9 +8,12 @@ require.config(
     angular: 'vendor/angular/angular'
     'angular-route': 'vendor/angular/angular-route'
     domReady: 'vendor/domReady'
+    sjcl: 'vendor/sjcl.min'
   shim:
     angular:
       exports: 'angular'
     'angular-route':
       deps: ['angular']
+    sjcl:
+      exports: 'sjcl'
 )

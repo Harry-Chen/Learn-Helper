@@ -1,5 +1,5 @@
-define ['api', 'q', 'util/storage-adapter', 'history-event', 'sync-setting'],
-  (API, Q, Storage, HistoryEvent, SyncSetting) ->
+define ['api', 'q', 'util/storage-adapter', 'history-event', 'sync-setting', 'sjcl'],
+  (API, Q, Storage, HistoryEvent, SyncSetting, Sjcl) ->
     class MemCache
       constructor: (storageKey, defaultValue) ->
         @key = "memcache_#{storageKey}"
@@ -28,10 +28,28 @@ define ['api', 'q', 'util/storage-adapter', 'history-event', 'sync-setting'],
       'file'
     ]
     class HelperAPI
-      constructor: (username, password) ->
-        @api = new API username, password
+      constructor: ->
+        username = SyncSetting.get 'su'
+        encrypt_password = SyncSetting.get 'sp'
+        @hasToken = false
+        if username and password
+          password = Sjcl.decrypt "LPddsdjreujdlxcivdsdf", encrypt_password
+          @api = new API username, password
+          @hasToken = true
         @courseList = new MemCache 'courseList', []
         @cache = new MemCache 'itemList', {}
+
+      changeToken: (username, password) ->
+        defer = Q.defer()
+        tmp = new API username, password
+        tmp._login().then(
+          ->
+            @api = tmp
+            #TODO save the token
+            defer.resolve()
+          (err) ->
+            defer.reject err
+        )
 
       _mergeCourseList: (newList) ->
         # accept new course list and return merged list
