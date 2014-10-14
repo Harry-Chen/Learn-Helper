@@ -375,6 +375,10 @@
     termCounter = {};
     for (i = _i = 0, _ref = courseList.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
       id = getURLParamters(courseList[i].getAttribute('href')).course_id;
+      if (id==undefined)
+      {
+        continue;
+      }
       name = $.trim(courseList[i].innerText);
       term = $.trim(name.match(/\(([^)]*)\)$/)[1]);
       name = name.match(/^(.*)\s*\([^(]*\)\s*\([^(]*\)$/)[1];
