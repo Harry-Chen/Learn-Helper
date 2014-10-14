@@ -201,6 +201,17 @@ db_fixOldMess = ->
 		else
 			localStorage.setItem 'ran_before', true
 		version_control 'set', 4
+
+	if version_control 'check', 5
+    courseList = localStorage.getItem 'course_list', null
+    if courseList
+      courseList = JSON.parse(courseList)
+      newList = []
+      for course in courseList
+        if course.id != undefined
+          newList.push course
+      courseList = localStorage.setItem 'course_list', JSON.stringify(newList)
+		version_control 'set', 5
 # version is a unsigned int
 # op = check, return whether need version update
 # op = set, set version.
@@ -219,6 +230,8 @@ db_updateCourseList = (courseList, callback) ->
 	termCounter = {}
 	for i in [0...courseList.length]
 		id = getURLParamters(courseList[i].getAttribute('href')).course_id
+		if not id
+			continue
 		name = $.trim courseList[i].innerText
 		term = ($.trim name.match(/\(([^)]*)\)$/)[1])
 		name = name.match(/^(.*)\s*\([^(]*\)\s*\([^(]*\)$/)[1]
