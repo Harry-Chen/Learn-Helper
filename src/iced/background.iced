@@ -29,11 +29,17 @@ net_vaildToken = (username, password, sendResponse) ->
                 )
                 return
             else
-                if db_getUsername isnt username
-                    chrome.storage.local.clear()
-                    localStorage.clear()
-                db_saveToken(username, password)
-                sendResponse(op : 'savedToken')
+                $.post(
+                    URL_CONST['new_login'],
+                    'i_user' : username
+                    'i_pass' : password
+                    (data) ->
+                        if db_getUsername isnt username
+                            chrome.storage.local.clear()
+                            localStorage.clear()
+                        db_saveToken(username, password)
+                        sendResponse(op : 'savedToken')
+                    )
         ).fail ->
             sendResponse(
                 op : 'failToken'
@@ -51,9 +57,16 @@ net_login = (successCall, force) ->
             'userid' : username
             'userpass' : password
             (data) ->
-                updateJudge 'loginTime', 'set'
-                localStorage.setItem('lastLogin', new Date())
-                successCall && window.setTimeout successCall, 800
+                $.post(
+                    URL_CONST['new_login'],
+                    'i_user' : username
+                    'i_pass' : password
+                    (data) ->
+                        updateJudge 'loginTime', 'set'
+                        localStorage.setItem('lastLogin', new Date())
+                        successCall && window.setTimeout successCall, 800
+                    ).fail ->
+                        errorHandler 'netFail'
             ).fail ->
                 errorHandler 'netFail'
     else
@@ -71,23 +84,14 @@ net_digDetail = (type, id, force, callback) ->
         console.log 'from network'
         net_login ->
             if type is 'notification'
-                if list[id].courseId.search('-') != -1
-                    href = 'http://learn.cic.tsinghua.edu.cn/b/myCourse/notice/studDetail/' + list[id].id
-                    await $.get(href, defer data).fail ->
-                        errorHandler 'netFail'
-                    data = JSON.parse data
-                    list[id].detail = 
-                        title : data.title
-                        content : data.detail
-                else
-                    href = 'http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/'+ list[id].href
-                    await $.get(href, defer data).fail ->
-                        errorHandler 'netFail'
-                    detail = parser.parseFromString data, 'text/html'
-                    table = detail.querySelectorAll '#table_box .tr_l2'
-                    list[id].detail =
-                        title : $.trim table[0].innerText
-                        content : table[1].innerHTML
+                href = 'http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/'+ list[id].href
+                await $.get(href, defer data).fail ->
+                    errorHandler 'netFail'
+                detail = parser.parseFromString data, 'text/html'
+                table = detail.querySelectorAll '#table_box .tr_l2'
+                list[id].detail =
+                    title : $.trim table[0].innerText
+                    content : table[1].innerHTML
             else if type is 'deadline'
                 href = URL_CONST['deadline_detail'] + '?id=' + id + '&course_id=' + list[id].courseId
                 await $.get(href, defer data).fail ->
@@ -250,7 +254,6 @@ db_updateCourseList = (courseList, callback) ->
             db_courseList.push
                 'id' : id
                 'name' : name
-                'version' : 2
         else
             id = getURLParamters(courseList[i].getAttribute('href')).course_id
             if not id
@@ -262,7 +265,6 @@ db_updateCourseList = (courseList, callback) ->
             db_courseList.push
                 'id' : id
                 'name' : name
-                'version' : 1
     localStorage.setItem 'course_list', JSON.stringify(db_courseList)
     currentTerm = ""
     currentCount = 0
@@ -433,7 +435,7 @@ traverseCourse =(type, successCallback, progressCallback, collectCallback, finis
             do (i) ->
                 courseId = courseList[i]['id']
                 courseName = courseList[i]['name']
-                if courseList[i].version is 2
+                if courseId.search('-') isnt -1 # new learn
                     link = newLinkPrefix + courseId
                     if type != 'notification'
                         link += '/0'
@@ -445,23 +447,47 @@ traverseCourse =(type, successCallback, progressCallback, collectCallback, finis
                         (data) ->
                             if type is 'deadline'
                                 for item in data.resultList
-                                    title = item.title
-                                    id = getURLParamters(title).id
+                                    title = item.courseHomeworkInfo.title
+                                    id = parseInt item.courseHomeworkRecord.homewkId
+                                    if item.courseHomeworkRecord.status == '0'
+                                        submit_state = "尚未提交"
+                                    else
+                                        submit_state = "已经提交"
+                                        
+                                    if result.courseHomeworkRecord.homewkDetail is null
+                                        text = ''
+                                    else
+                                        text = result.courseHomeworkRecord.homewkDetail
+                                    if result.courseHomeworkRecord.resourcesMappingByHomewkAffix is null
+                                        filename = "&nbsp;↵↵         无相关文件↵  	↵			"
+                                    else
+                                        filename = result.courseHomeworkRecord.resourcesMappingByHomewkAffix.fileName
+                                        
+                                    detail = 
+                                        attach: "&nbsp;↵↵         无相关文件↵  	↵			"
+                                        content: item.courseHomeworkInfo.detail
+                                        title: item.courseHomeworkInfo.title
+                                        uploadAttach: filename
+                                        uploadText: text
                                     lists[id] =
                                         type: 'd'
                                         courseId: courseId
                                         courseName: courseName
                                         name: ($.trim title)
-                                        start: new Date($.trim(attr[1].innerText))
-                                        end: new Date($.trim(attr[2].innerText) + ' 23:59:59')
-                                        submit_state: $.trim(attr[3].innerText)
+                                        start: new Date(item.courseHomeworkInfo.regDate)
+                                        end: new Date(item.courseHomeworkInfo.endDate)
+                                        submit_state: submit_state
                                         state : 'unread'
                                         id : id
-                                        resultState : !((attr[5].querySelector('#lookinfo')).disabled)
+                                        detail: detail
+                                        resultState : parseInt item.courseHomeworkRecord.status > 1
                             else if type is 'notification'
                                 for item in data.paginationList.recordList
                                     title = item.title
                                     id = item.id
+                                    detail = 
+                                        title: ($.trim title)
+                                        content: item.detail
                                     lists[id] =
                                         type: 'n'
                                         id : id
@@ -470,6 +496,7 @@ traverseCourse =(type, successCallback, progressCallback, collectCallback, finis
                                         name: ($.trim title)
                                         href: ''
                                         day: new Date(item.regDate)
+                                        detail: detail
                                         author: item.owner
                                         state: 'unread'
                             else if type is 'file'
@@ -481,7 +508,10 @@ traverseCourse =(type, successCallback, progressCallback, collectCallback, finis
                                     break
                                 for item in data.courseCoursewareList
                                     title = item.title
-                                    id = item.id
+                                    id = item.resourcesMappingByFileId.fileId
+                                    detail = item.detail
+                                    if detail is null
+                                        detail = ''
                                     lists[id] =
                                         type : 'f'
                                         id : id
@@ -490,7 +520,7 @@ traverseCourse =(type, successCallback, progressCallback, collectCallback, finis
                                         name : ($.trim title)
                                         day: new Date(item.resourcesMappingByFileId.regDate)
                                         href: ''
-                                        explanation : item.detail
+                                        explanation : detail
                                         state: 'unread'
                             else if type is 'discuss'
                                 for item in data.recordList

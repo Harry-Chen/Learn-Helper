@@ -15,11 +15,21 @@ window.URL_CONST =
     'deadline_submit' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_submit.jsp' #作业提交
     'deadline_review' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_view.jsp' #作业批阅
     'base_URL' : 'http://learn.tsinghua.edu.cn'
+    'new_login' : 'https://id.tsinghua.edu.cn/do/off/ui/auth/login/post/fa8077873a7a80b1cd6b185d5a796617/0?/j_spring_security_thauth_roaming_entry' #login
     'new_course' : 'http://learn.cic.tsinghua.edu.cn/f/student/courselist'  #current courses
+    'new_course_info' : 'http://learn.cic.tsinghua.edu.cn/f/student/courseinfo/'
+    'new_course_file' : 'http://learn.cic.tsinghua.edu.cn/f/student/courseware/'
+    'new_course_homework' : 'http://learn.cic.tsinghua.edu.cn/f/student/homework/'
+    'new_group_learning' : 'http://learn.cic.tsinghua.edu.cn/f/student/groupLearning/'
+    'new_forum' : 'http://learn.cic.tsinghua.edu.cn/f/student/forum/'
+    'new_course_page': 'http://learn.cic.tsinghua.edu.cn/f/student/coursehome/'
     'new_notification' : 'http://learn.cic.tsinghua.edu.cn/b/myCourse/notice/list/' #notification
     'new_deadline' : 'http://learn.cic.tsinghua.edu.cn/b/myCourse/homework/list4Student/' #homework
+    'new_deadline_submit' : 'http://learn.cic.tsinghua.edu.cn/f/student/homework/hw_detail/'
+    'new_deadline_review' : 'http://learn.cic.tsinghua.edu.cn/f/student/homework/hw_result/'
     'new_file' : 'http://learn.cic.tsinghua.edu.cn/b/myCourse/tree/getCoursewareTreeData/' #file
     'new_discuss' : 'http://learn.cic.tsinghua.edu.cn/b/topic/list/1/' #discuss
+    'new_discuss_detail' : 'http://learn.cic.tsinghua.edu.cn/f/student/forum/courseReplyList/'
     'new_base_URL' : 'http://learn.cic.tsinghua.edu.cn'
 window.CONST =
     version : window.getManifest().version
