@@ -454,14 +454,14 @@ traverseCourse =(type, successCallback, progressCallback, collectCallback, finis
                                     else
                                         submit_state = "已经提交"
                                         
-                                    if result.courseHomeworkRecord.homewkDetail is null
+                                    if item.courseHomeworkRecord.homewkDetail is null
                                         text = ''
                                     else
-                                        text = result.courseHomeworkRecord.homewkDetail
-                                    if result.courseHomeworkRecord.resourcesMappingByHomewkAffix is null
+                                        text = item.courseHomeworkRecord.homewkDetail
+                                    if item.courseHomeworkRecord.resourcesMappingByHomewkAffix is null
                                         filename = "&nbsp;↵↵         无相关文件↵  	↵			"
                                     else
-                                        filename = result.courseHomeworkRecord.resourcesMappingByHomewkAffix.fileName
+                                        filename = item.courseHomeworkRecord.resourcesMappingByHomewkAffix.fileName
                                         
                                     detail = 
                                         attach: "&nbsp;↵↵         无相关文件↵  	↵			"
@@ -500,28 +500,24 @@ traverseCourse =(type, successCallback, progressCallback, collectCallback, finis
                                         author: item.owner
                                         state: 'unread'
                             else if type is 'file'
-                                for key, val of data.resultList
-                                    data = val
-                                    break
-                                for key, val of data.childMapData
-                                    data = val
-                                    break
-                                for item in data.courseCoursewareList
-                                    title = item.title
-                                    id = item.resourcesMappingByFileId.fileId
-                                    detail = item.detail
-                                    if detail is null
-                                        detail = ''
-                                    lists[id] =
-                                        type : 'f'
-                                        id : id
-                                        courseId : courseId
-                                        courseName : courseName
-                                        name : ($.trim title)
-                                        day: new Date(item.resourcesMappingByFileId.regDate)
-                                        href: ''
-                                        explanation : detail
-                                        state: 'unread'
+                                for keyNode, node of data.resultList
+                                    for keyCategory, category of node.childMapData
+                                        for item in category.courseCoursewareList
+                                            title = node.nodeName + '/' + category.courseOutlines.title + '/' + item.title
+                                            id = item.resourcesMappingByFileId.fileId
+                                            detail = item.detail
+                                            if detail is null
+                                                detail = ''
+                                            lists[id] =
+                                                type : 'f'
+                                                id : id
+                                                courseId : courseId
+                                                courseName : courseName
+                                                name : ($.trim title)
+                                                day: new Date(item.resourcesMappingByFileId.regDate)
+                                                href: ''
+                                                explanation : detail
+                                                state: 'unread'
                             else if type is 'discuss'
                                 for item in data.recordList
                                     title = item.title
