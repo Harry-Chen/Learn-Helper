@@ -37,7 +37,12 @@
 	"background" : {
 		"scripts" : ["js/jquery-1.9.1.min.js", "js/utils.js", "js/sjcl.js", "js/html-domparser.js", "js/const.js", "js/background.js"]
 	},
-	"permissions" : ["storage", "*://learn.tsinghua.edu.cn/*", "tabs", "*://thudev.sinaapp.com/*"],
+	"permissions" : ["storage",
+                     "*://learn.tsinghua.edu.cn/*",
+                     "*://learn.cic.tsinghua.edu.cn/*",
+                     "*://id.tsinghua.edu.cn/*",
+                     "tabs",
+                     "*://thudev.sinaapp.com/*"],
 	"icons": {
 		"16" : "icons/16.png",
 		"48" : "icons/48.png",
