@@ -214,6 +214,7 @@ db_fixOldMess = ->
         else
             localStorage.setItem 'ran_before', true
         version_control 'set', 4
+
     if version_control 'check', 5
         courseList = localStorage.getItem 'course_list', null
         if courseList
@@ -224,6 +225,10 @@ db_fixOldMess = ->
                     newList.push course
             courseList = localStorage.setItem 'course_list', JSON.stringify(newList)
             version_control 'set', 5
+
+    if version_control 'check', 6
+      localStorage.setItem 'next_force_update', true
+      version_control 'set', 6
 # version is a unsigned int
 # op = check, return whether need version update
 # op = set, set version.
@@ -737,9 +742,11 @@ chrome.browserAction.onClicked.addListener ->
         'url' : 'index.html'
 chrome.runtime.onMessage.addListener (feeds, sender, sendResponse) ->
     if feeds.op is 'load'
+        force = localStorage.getItem 'next_force_update', false
         recalculate()
         checkNewTerm()
-        load(false, sendResponse)
+        load(force, sendResponse)
+        localStorage.setItem 'next_force_update', false
         return true
 chrome.runtime.onMessage.addListener (feeds, sender, sendResponse) ->
     if feeds.op is 'state'
