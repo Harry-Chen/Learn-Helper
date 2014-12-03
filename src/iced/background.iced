@@ -464,12 +464,12 @@ traverseCourse =(type, successCallback, progressCallback, collectCallback, finis
                                     else
                                         text = item.courseHomeworkRecord.homewkDetail
                                     if item.courseHomeworkRecord.resourcesMappingByHomewkAffix is null
-                                        filename = "&nbsp;↵↵         无相关文件↵  	↵			"
+                                        filename = "&nbsp;↵↵         无相关文件↵    ↵     "
                                     else
                                         filename = item.courseHomeworkRecord.resourcesMappingByHomewkAffix.fileName
                                         
                                     detail = 
-                                        attach: "&nbsp;↵↵         无相关文件↵  	↵			"
+                                        attach: "&nbsp;↵↵         无相关文件↵   ↵     "
                                         content: item.courseHomeworkInfo.detail
                                         title: item.courseHomeworkInfo.title
                                         uploadAttach: filename
@@ -814,9 +814,11 @@ checkNewTerm = ->
             URL_CONST['course']
             (data) ->
                 courseDocument = parser.parseFromString data, 'text/html'
-                currentTerm = ($.trim (courseDocument.querySelector '.active_on').innerText)
-                if lastTerm != currentTerm
-                    nextTermCallback lastTerm, currentTerm
+                currentTermDom = courseDocument.querySelector '.active_on'
+                if currentTermDom
+                    currentTerm = $.trim currentTermDom.innerText
+                    if lastTerm != currentTerm
+                        nextTermCallback lastTerm, currentTerm
         )
 termHolder =
     lastTerm : ""
