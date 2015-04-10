@@ -6,7 +6,7 @@
   },
   "main" : "Gruntfile.js",
   "devDependencies": {
-    "iced-coffee-script": "~1.4.0",
+    "iced-coffee-script": "~1.4.0-a",
     "grunt": "~0.4.1",
     "grunt-iced-coffee": "~0.7.0-a",
     "grunt-contrib-clean": "~0.5.0",
