@@ -15,7 +15,7 @@ window.URL_CONST =
     'deadline_submit' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_submit.jsp' #作业提交
     'deadline_review' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_view.jsp' #作业批阅
     'base_URL' : 'http://learn.tsinghua.edu.cn'
-    'new_login' : 'https://id.tsinghua.edu.cn/do/off/ui/auth/login/post/fa8077873a7a80b1cd6b185d5a796617/0?/j_spring_security_thauth_roaming_entry' #login
+    'new_login' : 'http://id.tsinghua.edu.cn/do/off/ui/auth/login/post/fa8077873a7a80b1cd6b185d5a796617/0?/j_spring_security_thauth_roaming_entry' #login
     'new_course' : 'http://learn.cic.tsinghua.edu.cn/f/student/courselist'  #current courses
     'new_course_info' : 'http://learn.cic.tsinghua.edu.cn/f/student/courseinfo/'
     'new_course_file' : 'http://learn.cic.tsinghua.edu.cn/f/student/courseware/'

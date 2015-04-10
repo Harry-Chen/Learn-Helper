@@ -598,7 +598,10 @@ traverseCourse =(type, successCallback, progressCallback, collectCallback, finis
                                     title = $(attr[0].querySelector('a'))
                                     id = getURLParamters(title.attr('href')).id
                                     author = ($ attr[1]).text()
-                                    reply_num = parseInt(($ attr[2]).text().match(/^(\d+)\//)[1])
+                                    if ($ attr[2]).text().match(/^(\d+)\//) != null
+                                        reply_num = parseInt(($ attr[2]).text().match(/^(\d+)\//)[1])
+                                    else
+                                        reply_num = 0
                                     lists[id] =
                                         type : 't' #talk
                                         id : id
