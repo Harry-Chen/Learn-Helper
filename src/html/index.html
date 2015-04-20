@@ -78,7 +78,7 @@
 			</ul>
 		</div>
 
-		<div class="pane-message">
+		<div class="pane-message" id="pane-message">
 			<div id="main-page">
 				<div class="category-heading">新鲜事</div>
 				<ol id="js-new" class="message-list">
@@ -111,10 +111,14 @@
 					<li class="message-loading">Loading...</li>
 				</ol>
 			</div>
-
-
 		</div>
-		<div class="pane-content">
+
+		<div class="pane-content" id="pane-content">
+		<div style="position:fixed">
+			<button id ="collapse-button" type="button" class="btn btn-primary">
+		   		<i class="icon-exchange"></i>
+			</button>
+		</div>
 			<iframe src="welcome.html" name="content-frame" frameborder="0" width="100%" height="100%" style="display:block"></iframe>
 		</div>
 

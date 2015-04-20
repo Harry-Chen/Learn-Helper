@@ -16,4 +16,23 @@ $(function() {
     }
   });
 
+  $('#collapse-button').click(function(){
+    $('.pane-message').toggle("fast");
+    $('.pane-folder').toggle("fast");
+    if ($('.pane-content').css("left")=="0px"){
+      $('.pane-content').animate({left:'561px'});
+    } 
+    else{
+      $('.pane-content').animate({left:'0px'});
+    };
+  });
+
+  $('#collapse-button').mouseover(function(){
+      $('#collapse-button').css("opacity",1);
+  });
+
+  $('#collapse-button').mouseleave(function(){
+      $('#collapse-button').delay(1500).animate({opacity:'0.3'});
+  });
+
 });
