@@ -2,7 +2,7 @@ html {
   background: #ECECEC;
 }
 body, pre {
-	font: 16px / 1.5 "微软雅黑", Helvetica, Serif;
+  font: 16px / 1.5 Helvetica, "Microsoft Yahei", "Hiragino Sans GB", sans;
   color: #222;
 }
 .page-wrap, .title-wrap {
