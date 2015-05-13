@@ -2,7 +2,7 @@ html {
   background: url('../image/creampaper.png');
 }
 body {
-	font: 16px / 1.5 "微软雅黑", Helvetica, Serif;
+  font: 16px / 1.5 Helvetica, "Microsoft Yahei", "Hiragino Sans GB", sans;
 }
 
 ul {
