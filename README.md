@@ -1,5 +1,7 @@
 # Learn Helper
 
+This project currently is unmaintained, I'm looking for maintainers...
+
 a chrome extension for Web Learning Website.
 
 ## Features
