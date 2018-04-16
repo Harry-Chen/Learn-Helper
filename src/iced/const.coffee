@@ -10,7 +10,7 @@ window.URL_CONST =
     'mentor' : 'https://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/getbbsid_student.jsp'        #课程答疑
     'discuss' : 'https://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/gettalkid_student.jsp'        #课程讨论
     'discuss_detail' : 'http://learn.tsinghua.edu.cn/MultiLanguage/public/bbs/talk_reply_student.jsp'
-    'course_page' : 'https://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/course_locate.jsp'        #课程页面
+    'course_page' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/course_locate.jsp'        #课程页面
     'deadline_detail' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_detail.jsp' #作业详细
     'deadline_submit' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_submit.jsp' #作业提交
     'deadline_review' : 'http://learn.tsinghua.edu.cn/MultiLanguage/lesson/student/hom_wk_view.jsp' #作业批阅
