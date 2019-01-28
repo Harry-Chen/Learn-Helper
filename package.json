@@ -1,30 +1,40 @@
 {
   "name": "Learn_Helper",
-  "version": "3.5.3",
-  "author" : {
-	  "name" : "xxr3376"
+  "version": "2019.1.1",
+  "author": "xxr3376 & Harry Chen",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xxr3376/Learn-Project"
   },
-  "main" : "Gruntfile.js",
+  "scripts": {
+    "build": "webpack --config webpack.prod.js",
+    "dev": "webpack --config webpack.dev.js",
+    "watch": "webpack -w --config webpack.dev.js",
+    "lint": "tslint 'src/**/*.{ts, tsx}'"
+  },
   "devDependencies": {
-    "iced-coffee-script": "~1.4.0-a",
-    "grunt": "~0.4.1",
-    "grunt-iced-coffee": "~0.7.0-a",
-    "grunt-contrib-clean": "~0.5.0",
-    "grunt-contrib-concat": "~0.3.0",
-    "grunt-contrib-uglify": "0.2.2",
-    "stylus": "~0.37.0",
-    "grunt-contrib-stylus": "~0.8.0",
-    "grunt-contrib-copy": "~0.4.1",
-    "grunt-contrib-watch": "~0.5.2"
+    "@types/react-redux": "^7.0.1",
+    "@types/chrome": "^0.0.78",
+    "@types/react": "^16.0.40",
+    "@types/react-dom": "^16.0.4",
+    "css-loader": "^2.1.0",
+    "node-sass": "^4.7.2",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "ts-loader": "^5.3.3",
+    "tslint": "^5.0.0",
+    "tslint-config-airbnb": "^5.11.1",
+    "tslint-react": "^3.6.0",
+    "typescript": "^3.0.2",
+    "webpack": "^4.1.1",
+    "webpack-cli": "^3.1.1",
+    "webpack-merge": "^4.1.4"
   },
-  "repository" :
-  {
-	  "type" : "git",
-	  "url" : "https://github.com/xxr3376/Learn-Project"
-  },
-  "licenses": [
-    {
-      "type": "MIT"
-    }
-  ]
+  "dependencies": {
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-redux": "^6.0.0",
+    "redux": "^4.0.1"
+  }
 }
