@@ -1,12 +1,25 @@
 const path = require("path");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+
+const htmlPlugin = new HtmlWebpackPlugin({
+  template: "./src/index.html",
+  filename: "./index.html"
+});
+
 
 module.exports = {
   entry: {
-    background: path.join(__dirname, "src/background.ts")
+    index: "./src/index.tsx",
+    background: "./src/background.tsx"
   },
   output: {
-    path: path.join(__dirname, "dist/js"),
+    path: path.resolve("./dist"),
     filename: "[name].js"
+  },
+  plugins: [htmlPlugin],
+  devServer: {
+    contentBase: './dist'
   },
   module: {
     rules: [
@@ -17,18 +30,8 @@ module.exports = {
       },
       {
         exclude: /node_modules/,
-        test: /\.scss$/,
-        use: [
-          {
-            loader: "style-loader" // Creates style nodes from JS strings
-          },
-          {
-            loader: "css-loader" // Translates CSS into CommonJS
-          },
-          {
-            loader: "sass-loader" // Compiles Sass to CSS
-          }
-        ]
+        test: /\.css$/,
+        use: [ 'style-loader', 'css-loader' ]
       }
     ]
   },
