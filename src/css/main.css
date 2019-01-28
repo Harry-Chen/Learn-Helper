@@ -1,0 +1,34 @@
+.pane-folder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 210px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    /*background: #25222a;*/
+    -webkit-transition: padding-bottom 0.2s linear;
+    transition: padding-bottom 0.2s linear;
+}
+
+.pane-message {
+    position: absolute;
+    top: 0;
+    left: 210px;
+    bottom: 0;
+    width: 350px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border-right: 1px solid #ccc;
+    background: #f6f6f6;
+}
+
+.pane-content {
+    position: absolute;
+    top: 0;
+    left: 561px;
+    bottom: 0;
+    right: 0;
+    overflow: hidden;
+}
+
