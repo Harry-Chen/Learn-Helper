@@ -1,39 +1,49 @@
 # Learn Helper
 
-This project currently is unmaintained, I'm looking for maintainers...
+A chrome extension for Web Learning Website.
 
-a chrome extension for Web Learning Website.
+## Authors & Maintainers
+
+* [xxr3376](https://github.com/xxr3376)
+* [Harry-Chen](https://github.com/Harry-Chen)
 
 ## Features
-* provide a evernote-like UI
+
+* provide a Evernote-like UI
 * collect all data of Web Learning
 	* Homework
 	* Announcement
 	* File
 	* Discussion
 * provide new message reminder and highlight messages
-* provide a `Priority Inbox` like gmail
-* provide a off-line mode, cache all message that you have already readed
+* provide a `Priority Inbox` like Gmail
+* provide a off-line mode, cache all message that you have already read
 
 ## Install (Chrome Plugin)
+
 Use chrome store link: https://chrome.google.com/webstore/detail/learn-helper/mdehapphdlihjjgkhmoiknmnhcjpjall
 
 If you can't open the link above for some reason, you can try this link: http://thudev.sinaapp.com/learn
 
 ## Build
-Learn Helper is built using [Grunt][]
-```
+
+Learn Helper is built using npm
+```bash
 npm install
-grunt
+npm run dev # for develop
+npm run build # for release
 ```
 
-Chrome plugin is in `build/` (unpacked)
+Chrome plugin is in `dist/` (unpacked)
 
-Use `grunt dev` to watch changes in `src/`
-
-[Grunt]: http://gruntjs.com/
+Use `npm run watch` to watch changes in `src/`
 
 ## Revision History
+
+**v4.0.0**
+* Rewrite use React + Redux
+* ADD support for learn2018
+* REMOVE support for all other versions
 
 **v3.3.1**
 * FIX discusstion reply bug
