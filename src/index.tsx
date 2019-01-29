@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Iframe from 'react-iframe'
+import { Divider } from '@material-ui/core';
 
 import './css/main.css';
 import NumberedList from './components/NumberedList';
-import { Divider } from '@material-ui/core';
 import ExpandableList from './components/ExpandableList';
-import {COURSE_FUNC_LIST, SETTINGS_FUNC_LIST, SUMMARY_FUNC_LIST} from './utils/SideBarItems';
+import { COURSE_FUNC_LIST, SETTINGS_FUNC_LIST, SUMMARY_FUNC_LIST } from './utils/SideBarItems';
 
 const TEST_COURSE_LIST = [
   {
@@ -43,7 +44,11 @@ const App = () => {
           />
         </div>
         <div className="pane-message" id="pane-message"/>
-        <div className="pane-content" id="pane-content"/>
+        <div className="pane-content" id="pane-content">
+          <Iframe
+              url="welcome.html"
+          />
+        </div>
       </div>);
 };
 

@@ -1,3 +1,5 @@
 .idea
-dist/js
+dist/index.html
+dist/*.js
 node_modules
+legacy
