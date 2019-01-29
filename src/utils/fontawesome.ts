@@ -18,6 +18,7 @@ const ICON_TO_USE = [
   fa.faTrash,
   fa.faInfoCircle,
   fa.faExternalLinkAlt,
+  fa.faExchangeAlt,
 ];
 
 ICON_TO_USE.map(i => library.add(i));

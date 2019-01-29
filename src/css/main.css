@@ -1,3 +1,4 @@
+
 .pane-folder {
     position: absolute;
     top: 0;
@@ -6,9 +7,9 @@
     width: 270px;
     overflow-x: hidden;
     overflow-y: auto;
+    opacity: 1;
     /*background: #25222a;*/
-    -webkit-transition: padding-bottom 0.2s linear;
-    transition: padding-bottom 0.2s linear;
+    transition: opacity 0.3s linear;
 }
 
 .pane-message {
@@ -21,6 +22,12 @@
     overflow-y: auto;
     border-right: 1px solid #ccc;
     background: #f6f6f6;
+    opacity: 1;
+    transition: opacity 0.3s linear;
+}
+
+.pane-hidden {
+    opacity: 0;
 }
 
 .pane-content {
@@ -30,5 +37,9 @@
     bottom: 0;
     right: 0;
     overflow: hidden;
+    transition: left 0.3s linear;
 }
 
+.pane-content-fullscreen {
+    left: 0;
+}
