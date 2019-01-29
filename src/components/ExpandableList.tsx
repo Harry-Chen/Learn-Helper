@@ -13,22 +13,21 @@ import { Collapse } from '@material-ui/core';
 import { ExpandLess, ExpandMore } from '@material-ui/icons';
 
 const useStyles = theme => ({
-  root: {
+  course_list_item: {
     width: '100%',
     maxWidth: 360,
   },
-  title: {
+  list_title: {
     'margin-left': '10px',
   },
-  icon: {
+  func_list: {
+    'padding-left': '10px',
+  },
+  list_icon: {
     width: '18px',
     height: '18px',
   },
-  nested: {
-    paddingLeft: '10px',
-  },
 });
-
 
 class ExpandableList extends React.Component<any, any> {
 
@@ -45,12 +44,12 @@ class ExpandableList extends React.Component<any, any> {
 
     return (
         <List
-            className={classes.root}
+            className={classes.course_list_item}
             component="nav"
             subheader={
               <ListSubheader component="div">
                 <FontAwesomeIcon icon={icon}/>
-                <span className={classes.title}>{name}</span>
+                <span className={classes.list_title}>{name}</span>
               </ListSubheader>
             }
         >
@@ -59,7 +58,7 @@ class ExpandableList extends React.Component<any, any> {
             items.map(i => (
                 <div key={i.name}>
                   <ListItem button={true} onClick={() => this.handleClick(i.name)}>
-                    <ListItemIcon className={classes.icon}>
+                    <ListItemIcon className={classes.list_icon}>
                       <FontAwesomeIcon icon={i.icon}/>
                     </ListItemIcon>
                     <ListItemText primary={i.name}/>
@@ -67,17 +66,17 @@ class ExpandableList extends React.Component<any, any> {
                   </ListItem>
                   <Collapse in={this.state[i.name]} timeout="auto" unmountOnExit={true}>
                     <List
-                        className={classes.root}
+                        className={classes.func_list}
                         // component="div"
                         disablePadding={true}
                     >
                       {
                         subitems.map(s => (
-                            <ListItem button={true} className={classes.nested} key={s.name}>
-                              <ListItemIcon className={classes.icon}>
+                            <ListItem button={true} key={s.name}>
+                              <ListItemIcon className={classes.list_icon}>
                                 <FontAwesomeIcon icon={s.icon}/>
                               </ListItemIcon>
-                              <ListItemText primary={s.title}/>
+                              <ListItemText primary={s.name}/>
                             </ListItem>
                         ))
                       }

@@ -13,14 +13,14 @@ import '../utils/fontawesome.ts';
 import ListNumber from './ListNumber';
 
 const useStyles = _ => ({
-  root: {
+  numbered_list: {
     width: '100%',
     maxWidth: 360,
   },
-  title: {
+  list_title: {
     'margin-left': '10px',
   },
-  icon: {
+  list_icon: {
     width: '18px',
     height: '18px',
   },
@@ -28,25 +28,25 @@ const useStyles = _ => ({
 
 function NumberedList(props) {
 
-  const { classes, name, icon, items } = props;
+  const { classes, name, icon, items, numbers } = props;
 
   return (
       <List
-          className={classes.root}
+          className={classes.numbered_list}
           component="nav"
           subheader={<ListSubheader component="div">
             <FontAwesomeIcon icon={icon}/>
-            <span className={classes.title}>{name}</span>
+            <span className={classes.list_title}>{name}</span>
           </ListSubheader>}
       >
         {
           items.map(i => (
               <ListItem button={true} key={i.name}>
-                <ListItemIcon className={classes.icon}>
+                <ListItemIcon className={classes.list_icon}>
                   <FontAwesomeIcon icon={i.icon}/>
                 </ListItemIcon>
-                <ListItemText primary={i.title}/>
-                <ListNumber number={i.number}/>
+                <ListItemText primary={i.name}/>
+                <ListNumber number={numbers[i.name]}/>
               </ListItem>
           ))
         }
@@ -61,8 +61,8 @@ NumberedList.propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     icon: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
   })).isRequired,
+  numbers: PropTypes.object.isRequired,
 };
 
 export default withStyles(useStyles)(NumberedList);
