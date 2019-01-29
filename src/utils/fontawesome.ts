@@ -1,17 +1,23 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
 import * as fa from '@fortawesome/free-solid-svg-icons';
 
-library.add(fa.faThumbtack);
-library.add(fa.faHome);
-library.add(fa.faPencilAlt);
-library.add(fa.faBullhorn);
-library.add(fa.faDownload);
-library.add(fa.faQuestion);
-library.add(fa.faInbox);
-library.add(fa.faWrench);
-library.add(fa.faCog);
-library.add(fa.faCogs);
-library.add(fa.faEnvelope);
-library.add(fa.faSync);
-library.add(fa.faUser);
-library.add(fa.faTrash);
+const ICON_TO_USE = [
+  fa.faThumbtack,
+  fa.faHome,
+  fa.faPencilAlt,
+  fa.faBullhorn,
+  fa.faDownload,
+  fa.faQuestion,
+  fa.faInbox,
+  fa.faWrench,
+  fa.faCog,
+  fa.faCogs,
+  fa.faEnvelope,
+  fa.faSync,
+  fa.faUser,
+  fa.faTrash,
+  fa.faInfoCircle,
+  fa.faExternalLinkAlt,
+];
+
+ICON_TO_USE.map(i => library.add(i));

@@ -3,7 +3,7 @@
     top: 0;
     left: 0;
     bottom: 0;
-    width: 210px;
+    width: 270px;
     overflow-x: hidden;
     overflow-y: auto;
     /*background: #25222a;*/
@@ -14,7 +14,7 @@
 .pane-message {
     position: absolute;
     top: 0;
-    left: 210px;
+    left: 270px;
     bottom: 0;
     width: 350px;
     overflow-x: hidden;
@@ -26,7 +26,7 @@
 .pane-content {
     position: absolute;
     top: 0;
-    left: 561px;
+    left: 621px;
     bottom: 0;
     right: 0;
     overflow: hidden;
