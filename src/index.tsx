@@ -2,14 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Iframe from 'react-iframe';
 import classnames from 'classnames';
-import { Divider } from '@material-ui/core';
+import Divider from '@material-ui/core/Divider';
 
-import './css/index.css';
 import NumberedList from './components/NumberedList';
 import ExpandableList from './components/ExpandableList';
-import { COURSE_FUNC_LIST, SETTINGS_FUNC_LIST, SUMMARY_FUNC_LIST } from './constants/SideBarItems';
 import ToggleButton from './components/ToggleButton';
 import CardList from './components/CardList';
+import { COURSE_FUNC_LIST, SETTINGS_FUNC_LIST, SUMMARY_FUNC_LIST } from './constants/SideBarItems';
+
+import './css/index.css';
 
 const TEST_COURSE_LIST = [
   {

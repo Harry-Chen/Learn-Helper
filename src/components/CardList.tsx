@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import List from '@material-ui/core/List';
 import ListSubheader from '@material-ui/core/ListSubheader';
-
 import withStyles from '@material-ui/styles/withStyles';
+
 import '../constants/FontAwesomeLibrary.ts';
 
 const useStyles = _ => ({

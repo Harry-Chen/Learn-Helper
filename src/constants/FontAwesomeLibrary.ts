@@ -19,6 +19,8 @@ const ICON_TO_USE = [
   fa.faInfoCircle,
   fa.faExternalLinkAlt,
   fa.faExchangeAlt,
+  fa.faAngleDown,
+  fa.faAngleUp,
 ];
 
 ICON_TO_USE.map(i => library.add(i));

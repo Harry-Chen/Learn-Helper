@@ -1,13 +1,13 @@
 import React from 'react';
 
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
-
 import withStyles from '@material-ui/styles/withStyles';
+
 import '../constants/FontAwesomeLibrary.ts';
 import ListNumber from './ListNumber';
 import { INumberedListData } from '../types/SideBar';
