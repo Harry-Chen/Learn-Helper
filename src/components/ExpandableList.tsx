@@ -1,16 +1,15 @@
 import React from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Collapse from '@material-ui/core/Collapse';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
-
 import withStyles from '@material-ui/styles/withStyles';
+
 import '../constants/FontAwesomeLibrary.ts';
-import { Collapse } from '@material-ui/core';
-import { ExpandLess, ExpandMore } from '@material-ui/icons';
 import { IExpandableListData } from '../types/SideBar';
 
 const useStyles = theme => ({
@@ -65,7 +64,7 @@ class ExpandableList extends React.Component<IExpandableListData, {
                       <FontAwesomeIcon icon={i.icon}/>
                     </ListItemIcon>
                     <ListItemText primary={i.name}/>
-                    {this.state.opened[i.name] ? <ExpandLess/> : <ExpandMore/>}
+                    <FontAwesomeIcon icon={this.state.opened[i.name] ? 'angle-up' : 'angle-down'}/>
                   </ListItem>
                   <Collapse in={this.state.opened[i.name]} timeout="auto" unmountOnExit={true}>
                     <List
