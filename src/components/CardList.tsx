@@ -6,7 +6,7 @@ import List from '@material-ui/core/List';
 import ListSubheader from '@material-ui/core/ListSubheader';
 
 import withStyles from '@material-ui/styles/withStyles';
-import '../utils/fontawesome.ts';
+import '../constants/FontAwesomeLibrary.ts';
 
 const useStyles = _ => ({
   numbered_list: {

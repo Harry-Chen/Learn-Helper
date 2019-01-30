@@ -7,7 +7,7 @@ import { Divider } from '@material-ui/core';
 import './css/index.css';
 import NumberedList from './components/NumberedList';
 import ExpandableList from './components/ExpandableList';
-import { COURSE_FUNC_LIST, SETTINGS_FUNC_LIST, SUMMARY_FUNC_LIST } from './utils/SideBarItems';
+import { COURSE_FUNC_LIST, SETTINGS_FUNC_LIST, SUMMARY_FUNC_LIST } from './constants/SideBarItems';
 import ToggleButton from './components/ToggleButton';
 import CardList from './components/CardList';
 
