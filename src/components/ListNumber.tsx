@@ -1,4 +1,4 @@
-import withStyles from "@material-ui/styles/withStyles";
+import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 
 const numberStyle = _ => ({
@@ -11,12 +11,18 @@ const numberStyle = _ => ({
   },
 });
 
-function ListNumber(props) {
-  const { classes, number } = props;
-  if (number !== undefined) {
-    return (<span className={classes.root}>{number}</span>);
+class ListNumber extends React.Component<{
+  classes?: any;
+  number: number | undefined;
+}, null> {
+
+  public render() {
+    const { classes, number } = this.props;
+    if (number !== undefined) {
+      return (<span className={classes.root}>{number}</span>);
+    }
+    return null;
   }
-  return null;
 }
 
-export default withStyles(numberStyle)(ListNumber)
+export default withStyles(numberStyle)(ListNumber);

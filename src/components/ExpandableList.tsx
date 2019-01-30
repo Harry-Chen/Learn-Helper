@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -11,6 +11,7 @@ import withStyles from '@material-ui/styles/withStyles';
 import '../utils/fontawesome.ts';
 import { Collapse } from '@material-ui/core';
 import { ExpandLess, ExpandMore } from '@material-ui/icons';
+import { IExpandableListData } from '../types/SideBar';
 
 const useStyles = theme => ({
   course_list_item: {
@@ -29,13 +30,15 @@ const useStyles = theme => ({
   },
 });
 
-class ExpandableList extends React.Component<any, any> {
+class ExpandableList extends React.Component<IExpandableListData, {
+  opened: object;
+}> {
 
-  public state = {};
+  state = { opened: {} };
 
   constructor(props) {
     super(props);
-    props.items.map(i => this.state[i.name] = false);
+    props.items.map(i => this.state.opened[i.name] = false);
   }
 
   render() {
@@ -62,9 +65,9 @@ class ExpandableList extends React.Component<any, any> {
                       <FontAwesomeIcon icon={i.icon}/>
                     </ListItemIcon>
                     <ListItemText primary={i.name}/>
-                    {this.state[i.name] ? <ExpandLess/> : <ExpandMore/>}
+                    {this.state.opened[i.name] ? <ExpandLess/> : <ExpandMore/>}
                   </ListItem>
-                  <Collapse in={this.state[i.name]} timeout="auto" unmountOnExit={true}>
+                  <Collapse in={this.state.opened[i.name]} timeout="auto" unmountOnExit={true}>
                     <List
                         className={classes.func_list}
                         // component="div"
@@ -90,7 +93,9 @@ class ExpandableList extends React.Component<any, any> {
   }
 
   private handleClick = (name) => {
-    this.setState({ [name]: !this.state[name] });
+    this.setState({
+      opened: { ...this.state.opened, [name]: !this.state.opened[name] },
+    });
   }
 
 }

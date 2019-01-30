@@ -1,13 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Iframe from 'react-iframe'
+import Iframe from 'react-iframe';
+import classnames from 'classnames';
 import { Divider } from '@material-ui/core';
 
-import './css/main.css';
+import './css/index.css';
 import NumberedList from './components/NumberedList';
 import ExpandableList from './components/ExpandableList';
 import { COURSE_FUNC_LIST, SETTINGS_FUNC_LIST, SUMMARY_FUNC_LIST } from './utils/SideBarItems';
 import ToggleButton from './components/ToggleButton';
+import CardList from './components/CardList';
 
 const TEST_COURSE_LIST = [
   {
@@ -30,19 +32,11 @@ class App extends React.Component<any, any> {
 
   public render() {
 
-    const folderClass = ['pane-folder'];
-    const messageClass = ['pane-message'];
-    const contentClass = ['pane-content'];
-
-    if (this.state.paneHidden) {
-      folderClass.push('pane-hidden');
-      messageClass.push('pane-hidden');
-      contentClass.push('pane-content-fullscreen');
-    }
-
     return (
         <div>
-          <div className={folderClass.join(' ')}>
+          <div
+              className={classnames('pane-folder', { 'pane-hidden': this.state.paneHidden })}
+          >
             <NumberedList
                 name="通知汇总"
                 icon="thumbtack"
@@ -64,8 +58,17 @@ class App extends React.Component<any, any> {
                 numbers={{}}
             />
           </div>
-          <div className={messageClass.join(' ')} id="pane-message"/>
-          <div className={contentClass.join(' ')} id="pane-content">
+          <div
+              className={classnames('pane-message', { 'pane-hidden': this.state.paneHidden })}
+              id="pane-message">
+            <CardList
+                title="Test"
+                items={[]}
+            />
+          </div>
+          <div
+              className={classnames('pane-content', { 'pane-fullscreen': this.state.paneHidden })}
+          >
             <ToggleButton
                 handler={this.toggleButtonHandler}
             />

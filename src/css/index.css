@@ -40,6 +40,6 @@
     transition: left 0.3s linear;
 }
 
-.pane-content-fullscreen {
+.pane-fullscreen {
     left: 0;
 }
