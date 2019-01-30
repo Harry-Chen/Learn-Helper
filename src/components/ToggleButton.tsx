@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,22 +11,22 @@ const styles = theme => ({
   },
 });
 
-function ToggleButton(props) {
+class ToggleButton extends React.Component<{
+  classes?: any;
+  handler?: (e: any) => any
+}, null> {
 
-  const { classes, handler } = props;
+  public render() {
+    const { classes, handler } = this.props;
 
-  return (
-      <div>
-        <Fab color="primary" aria-label="Toggle" className={classes.fab} onClick={handler}>
-          <FontAwesomeIcon icon="exchange-alt"/>
-        </Fab>
-      </div>
-  );
+    return (
+        <div>
+          <Fab color="primary" aria-label="Toggle" className={classes.fab} onClick={handler}>
+            <FontAwesomeIcon icon="exchange-alt"/>
+          </Fab>
+        </div>
+    );
+  }
 }
-
-ToggleButton.propTypes = {
-  classes: PropTypes.object.isRequired,
-  handler: PropTypes.func,
-};
 
 export default withStyles(styles)(ToggleButton);
