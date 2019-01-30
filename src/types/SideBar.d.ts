@@ -5,8 +5,11 @@ interface IMenuItem {
   icon: IconName;
 }
 
-interface IMenuData extends IMenuItem {
+interface IComponent {
   classes?: any;
+}
+
+interface IMenuData extends IMenuItem, IComponent {
   items: IMenuItem[];
 }
 
@@ -18,4 +21,9 @@ interface INumberedListData extends IMenuData {
   numbers: object;
 }
 
-export { IExpandableListData, INumberedListData };
+interface ICardListData extends IComponent {
+  title: string;
+  items: object[];
+}
+
+export { IExpandableListData, INumberedListData, ICardListData };

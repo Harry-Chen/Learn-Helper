@@ -1,11 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import List from '@material-ui/core/List';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import withStyles from '@material-ui/styles/withStyles';
 
 import '../constants/FontAwesomeLibrary.ts';
+import { ICardListData } from '../types/SideBar';
 
 const useStyles = _ => ({
   numbered_list: {
@@ -21,32 +21,29 @@ const useStyles = _ => ({
   },
 });
 
-function CardList(props) {
+class CardList extends React.Component<ICardListData, any> {
 
-  const { classes, title, items } = props;
+  public render() {
+    const { classes, title, items } = this.props;
 
-  return (
-      <List
-          className={classes.numbered_list}
-          component="nav"
-          subheader={<ListSubheader component="div">
-            <span className={classes.list_title}>{title}</span>
-          </ListSubheader>}
-      >
-        {
-          items.map(i => (
-              {i}
-          ))
-        }
-      </List>
-  );
+    return (
+        <List
+            className={classes.numbered_list}
+            component="nav"
+            subheader={<ListSubheader component="div">
+              <span className={classes.list_title}>{title}</span>
+            </ListSubheader>}
+        >
+          {
+            items.map(i => (
+                {i}
+            ))
+          }
+        </List>
+    );
+
+  }
 
 }
-
-CardList.propTypes = {
-  classes: PropTypes.object.isRequired,
-  title: PropTypes.string.isRequired,
-  items: PropTypes.array.isRequired,
-};
 
 export default withStyles(useStyles)(CardList);
