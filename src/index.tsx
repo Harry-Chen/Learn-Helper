@@ -8,19 +8,10 @@ import NumberedList from './components/NumberedList';
 import ExpandableList from './components/ExpandableList';
 import ToggleButton from './components/ToggleButton';
 import CardList from './components/CardList';
-import { COURSE_FUNC_LIST, SETTINGS_FUNC_LIST, SUMMARY_FUNC_LIST } from './constants/SideBarItems';
+import * as SideBar from './constants/SideBarItems';
+import * as PlaceHolder from './constants/PlaceHolder';
 
-import './css/index.css';
-
-const TEST_COURSE_LIST = [
-  {
-    icon: 'home',
-    name: '测试',
-  },  {
-    icon: 'home',
-    name: '测试2',
-  },
-];
+import styles from './css/index.css';
 
 class App extends React.Component<any, any> {
 
@@ -36,31 +27,31 @@ class App extends React.Component<any, any> {
     return (
         <div>
           <div
-              className={classnames('pane-folder', { 'pane-hidden': this.state.paneHidden })}
+              className={classnames(styles.paneFolder, { [styles.paneHidden]: this.state.paneHidden })}
           >
             <NumberedList
                 name="通知汇总"
                 icon="thumbtack"
-                items={SUMMARY_FUNC_LIST}
+                items={SideBar.SUMMARY_FUNC_LIST}
                 numbers={{}}
             />
             <Divider/>
             <ExpandableList
                 name="本学期课程"
                 icon="inbox"
-                items={TEST_COURSE_LIST}
-                subitems={COURSE_FUNC_LIST}
+                items={PlaceHolder.TEST_COURSE_LIST}
+                subitems={SideBar.COURSE_FUNC_LIST}
             />
             <Divider/>
             <NumberedList
                 name="设置"
                 icon="wrench"
-                items={SETTINGS_FUNC_LIST}
+                items={SideBar.SETTINGS_FUNC_LIST}
                 numbers={{}}
             />
           </div>
           <div
-              className={classnames('pane-message', { 'pane-hidden': this.state.paneHidden })}
+              className={classnames(styles.paneMessage, { [styles.paneHidden]: this.state.paneHidden })}
               id="pane-message">
             <CardList
                 title="Test"
@@ -68,7 +59,7 @@ class App extends React.Component<any, any> {
             />
           </div>
           <div
-              className={classnames('pane-content', { 'pane-fullscreen': this.state.paneHidden })}
+              className={classnames(styles.paneContent, { [styles.paneFullscreen]: this.state.paneHidden })}
           >
             <ToggleButton
                 handler={this.toggleButtonHandler}
