@@ -7,6 +7,15 @@ const htmlPlugin = new HtmlWebpackPlugin({
   filename: "./index.html"
 });
 
+const typingsForCssModulesLoaderConf = {
+  loader: 'typings-for-css-modules-loader',
+  options: {
+    modules: true,
+    namedExport: true,
+    camelCase: true,
+    sass: true
+  }
+};
 
 module.exports = {
   entry: {
@@ -31,7 +40,7 @@ module.exports = {
       {
         exclude: /node_modules/,
         test: /\.css$/,
-        use: [ 'style-loader', 'css-loader' ]
+        use: [ 'style-loader', typingsForCssModulesLoaderConf ]
       }
     ]
   },

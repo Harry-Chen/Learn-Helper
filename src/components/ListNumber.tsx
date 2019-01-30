@@ -1,15 +1,6 @@
-import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 
-const numberStyle = _ => ({
-  root: {
-    'border-radius': '3px',
-    background: '#1a181d',
-    color: '#eeeeee',
-    padding: '0 5px',
-    'box-shadow': 'inset 0 1px 2px #0f0e11',
-  },
-});
+import styles from '../css/sidebar.css';
 
 class ListNumber extends React.Component<{
   classes?: any;
@@ -17,12 +8,12 @@ class ListNumber extends React.Component<{
 }, null> {
 
   public render() {
-    const { classes, number } = this.props;
+    const { number } = this.props;
     if (number !== undefined) {
-      return (<span className={classes.root}>{number}</span>);
+      return (<span className={styles.list_number}>{number}</span>);
     }
     return null;
   }
 }
 
-export default withStyles(numberStyle)(ListNumber);
+export default ListNumber;

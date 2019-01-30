@@ -1,17 +1,8 @@
 import React from 'react';
-import withStyles from '@material-ui/styles/withStyles';
 import Fab from '@material-ui/core/Fab';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const styles = theme => ({
-  fab: {
-    height: 0,
-    width: 0,
-    position: 'fixed' as 'fixed',
-    margin: '5px',
-    'z-index': '1000',
-  },
-});
+import styles from '../css/sidebar.css';
 
 class ToggleButton extends React.Component<{
   classes?: any;
@@ -19,10 +10,10 @@ class ToggleButton extends React.Component<{
 }, null> {
 
   public render() {
-    const { classes, handler } = this.props;
+    const { handler } = this.props;
 
     return (
-        <div className={classes.fab} >
+        <div className={styles.toggle_button} >
           <Fab color="primary" aria-label="Toggle" onClick={handler}>
             <FontAwesomeIcon icon="exchange-alt"/>
           </Fab>
@@ -31,4 +22,4 @@ class ToggleButton extends React.Component<{
   }
 }
 
-export default withStyles(styles)(ToggleButton);
+export default ToggleButton;

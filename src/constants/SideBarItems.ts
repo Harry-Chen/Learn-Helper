@@ -1,5 +1,6 @@
+import { IMenuItem, IMenuItemEnum } from '../types/SideBar';
 
-const COURSE_FUNC = {
+const COURSE_FUNC: IMenuItemEnum = {
   COURSE_NOTIFICATION: {
     icon: 'bullhorn',
     name: '课程公告',
@@ -26,7 +27,7 @@ const COURSE_FUNC = {
   },
 };
 
-const COURSE_FUNC_LIST = [
+export const COURSE_FUNC_LIST: IMenuItem[] = [
   COURSE_FUNC.COURSE_NOTIFICATION,
   COURSE_FUNC.COURSE_INFORMATION,
   COURSE_FUNC.COURSE_FILES,
@@ -35,7 +36,7 @@ const COURSE_FUNC_LIST = [
   COURSE_FUNC.COURSE_HOMEPAGE,
 ];
 
-const SUMMARY_FUNC = {
+const SUMMARY_FUNC: IMenuItemEnum = {
   SUMMARY_HOMEPAGE: {
     icon: 'home',
     name: '主页',
@@ -58,7 +59,7 @@ const SUMMARY_FUNC = {
   },
 };
 
-const SUMMARY_FUNC_LIST = [
+export const SUMMARY_FUNC_LIST: IMenuItem[] = [
   SUMMARY_FUNC.SUMMARY_HOMEPAGE,
   SUMMARY_FUNC.SUMMARY_HOMEWORK,
   SUMMARY_FUNC.SUMMARY_NOTIFICATIONS,
@@ -66,7 +67,7 @@ const SUMMARY_FUNC_LIST = [
   SUMMARY_FUNC.SUMMARY_DISCUSSIONS,
 ];
 
-const SETTINGS_FUNC = {
+const SETTINGS_FUNC: IMenuItemEnum = {
   SETTINGS_IGNORE: {
     icon: 'cog',
     name: '管理忽略项',
@@ -89,12 +90,10 @@ const SETTINGS_FUNC = {
   },
 };
 
-const SETTINGS_FUNC_LIST = [
+export const SETTINGS_FUNC_LIST: IMenuItem[] = [
   SETTINGS_FUNC.SETTINGS_IGNORE,
   SETTINGS_FUNC.SETTINGS_MARK_READ,
   SETTINGS_FUNC.SETTINGS_REFRESH,
   SETTINGS_FUNC.SETTINGS_CHANGE_USER,
   SETTINGS_FUNC.SETTINGS_CLEAR_CACHE,
 ];
-
-export { COURSE_FUNC_LIST, SUMMARY_FUNC_LIST, SETTINGS_FUNC_LIST };
