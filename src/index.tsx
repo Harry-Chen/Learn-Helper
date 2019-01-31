@@ -55,7 +55,7 @@ class App extends React.Component<any, any> {
               id="pane-message">
             <CardList
                 title="Test"
-                items={[]}
+                items={PlaceHolder.TEST_CARD_INFO_LIST}
             />
           </div>
           <div
