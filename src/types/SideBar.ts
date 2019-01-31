@@ -3,6 +3,7 @@ import { IconName } from '@fortawesome/fontawesome-common-types';
 export interface IMenuItem {
   name: string;
   icon: IconName;
+  type?: CardType;
 }
 
 export interface IMenuItemEnum {
@@ -31,10 +32,10 @@ export interface ICardListData extends IComponent {
 }
 
 export enum CardType {
-  HOMEWORK = 'homework',
-  NOTIFICATION = 'notification',
-  DISCUSSION = 'discussion',
-  FILE = 'file',
+  HOMEWORK = 'HOMEWORK',
+  NOTIFICATION = 'NOTIFICATION',
+  DISCUSSION = 'DISCUSSION',
+  FILE = 'FILE',
 }
 
 interface ICardDataBase extends IComponent {

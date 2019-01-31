@@ -33,7 +33,7 @@ class App extends React.Component<any, any> {
                 name="通知汇总"
                 icon="thumbtack"
                 items={SideBar.SUMMARY_FUNC_LIST}
-                numbers={{}}
+                numbers={PlaceHolder.TEST_NUMBER_LIST}
             />
             <Divider/>
             <ExpandableList
@@ -47,7 +47,7 @@ class App extends React.Component<any, any> {
                 name="设置"
                 icon="wrench"
                 items={SideBar.SETTINGS_FUNC_LIST}
-                numbers={{}}
+                numbers={[]}
             />
           </div>
           <div

@@ -15,9 +15,8 @@ class CardList extends React.Component<ICardListData, null> {
 
     return (
         <List
-            className={styles.card_list_header}
             component="nav"
-            subheader={<ListSubheader component="div">
+            subheader={<ListSubheader component="div" className={styles.card_list_header}>
               <span className={styles.card_list_header_text}>{title}</span>
             </ListSubheader>}
         >

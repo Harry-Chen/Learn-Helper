@@ -2,6 +2,13 @@ import { IconName } from '@fortawesome/fontawesome-common-types';
 
 import { CardData, CardType } from '../types/SideBar';
 
+export const TEST_NUMBER_LIST = {
+  [CardType.NOTIFICATION]: 100,
+  [CardType.DISCUSSION]: 5,
+  [CardType.HOMEWORK]: 20,
+  [CardType.FILE]: 3,
+};
+
 export const TEST_COURSE_LIST = [
   {
     icon: 'home' as IconName,
@@ -9,7 +16,7 @@ export const TEST_COURSE_LIST = [
   },  {
     icon: 'home' as IconName,
     name: '测试2',
-},
+  },
 ];
 
 export const TEST_CARD_INFO_LIST: CardData[] = [
@@ -17,15 +24,15 @@ export const TEST_CARD_INFO_LIST: CardData[] = [
     type: CardType.FILE,
     date: new Date(1998, 0, 29),
     course: '23导论',
-    title: '我很的很菜',
+    title: '我真的很菜',
     hasRead: false,
     hasStarred: true,
     link: 'about.html?1',
   },
   {
     type: CardType.HOMEWORK,
-    date: new Date(1926, 7, 17),
-    title: '背诵《赴戍登程口占示家人》',
+    date: new Date(2019, 1, 1),
+    title: '朗读并背诵《赴戍登程口占示家人》',
     course: '膜蛤原理',
     hasRead: false,
     hasStarred: false,

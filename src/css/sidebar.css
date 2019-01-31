@@ -15,9 +15,7 @@
 
 .card_list_header {
     width: 100%;
-    height: 15px;
     text-align: center;
-    background: rgb(183, 183, 183);
 }
 
 .card_list_header_text {
@@ -28,18 +26,120 @@
     padding-left: 10px;
 }
 
-.list_number {
-    border-radius: 3px;
-    background: #1a181d;
-    color: #eeeeee;
-    padding: 0 5px;
-    box-shadow: inset 0 1px 2px #0f0e11;
-}
-
 .toggle_button {
     height: 0;
     width: 0;
     position: fixed;
     margin: 5px;
     z-index: 1000;
+}
+
+.detail_card {
+    margin: 5px;
+}
+
+.card_func_icon {
+    width: 20px;
+    height: 20px;
+    background-color: #fff0 !important;
+    color: inherit !important;
+}
+
+.card_first_line {
+    width: 100%;
+    white-space: nowrap;
+    alignment: center;
+}
+
+.card_func_chip {
+    display: inline-block;
+    horiz-align: left;
+    vertical-align: top;
+}
+
+.card_chip_text {
+    min-width: 26px;
+    text-align: center;
+}
+
+.card_title {
+    max-width: 230px;
+    vertical-align: middle;
+    display: inline-block;
+    margin-left: 8px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.card_second_line {
+    margin-top: 10px;
+    font-size: 0.8em;
+    color: #777777;
+}
+
+.card_status {
+    float: left;
+    text-align: left;
+}
+
+.card_course {
+    float: right;
+    text-align: right;
+    max-width: 80px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.chip_FILE {
+    color: #fad1e5 !important;
+    text-shadow: 0 -1px 0px #bc1267;
+    background-color: #e91981 !important;
+}
+
+.chip_DISCUSSION {
+    color: #e5cdf2 !important;
+    background-color: #7e08be !important;
+    text-shadow: 0 -1px 0px #650698;
+}
+
+.chip_NOTIFICATION {
+    composes: chip_DISCUSSION
+}
+
+.chip_HOMEWORK_FAR {
+    color: #d2e7ff !important;
+    text-shadow: 0 -1px 0px #006be7;
+    background-color: #28f !important;
+}
+
+.chip_HOMEWORK_NEAR {
+    color: #2f2f00 !important;
+    text-shadow: 0 1px 0px #ffff25;
+    background-color: #ee0;
+}
+
+.chip_HOMEWORK_CLOSE {
+    color: #d9eed9 !important;
+    background-color: #e60 !important;
+    text-shadow: 0 -1px 0px #be5200;
+}
+
+.chip_HOMEWORK_URGENT {
+    color: #fbcccc !important;
+    text-shadow: 0 -1px 0px #be0000;
+    background-color: #e00 !important;
+}
+
+.chip_HOMEWORK_SUBMITTED {
+    color: #d9eed9 !important;
+    background-color: #4a4 !important;
+    text-shadow: 0 -1px 0px #368836;
+}
+
+.chip_HOMEWORK_DUE {
+    color: #e0e0e0 !important;
+    background-color: #666 !important;
+    text-shadow: 0 -1px 0px #525252;
 }

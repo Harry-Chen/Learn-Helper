@@ -1,8 +1,34 @@
-import { IMenuItem, IMenuItemEnum } from '../types/SideBar';
+import { IconName } from '@fortawesome/fontawesome-common-types';
+
+import { CardType, IMenuItem, IMenuItemEnum } from '../types/SideBar';
+
+export const COURSE_MAIN_FUNC_LIST: {
+  [key: string]: {
+    icon: IconName;
+    name: string;
+  };
+} = {
+  NOTIFICATION: {
+    icon: 'bullhorn',
+    name: '通知',
+  },
+  FILE: {
+    icon: 'download',
+    name: '文件',
+  },
+  HOMEWORK: {
+    icon: 'pencil-alt',
+    name: '作业',
+  },
+  DISCUSSION: {
+    icon: 'question',
+    name: '讨论',
+  },
+};
 
 const COURSE_FUNC: IMenuItemEnum = {
   COURSE_NOTIFICATION: {
-    icon: 'bullhorn',
+    icon: COURSE_MAIN_FUNC_LIST.NOTIFICATION.icon,
     name: '课程公告',
   },
   COURSE_INFORMATION: {
@@ -10,15 +36,15 @@ const COURSE_FUNC: IMenuItemEnum = {
     name: '课程信息',
   },
   COURSE_FILES: {
-    icon: 'download',
+    icon: COURSE_MAIN_FUNC_LIST.FILE.icon,
     name: '课程文件',
   },
   COURSE_HOMEWORK: {
-    icon: 'pencil-alt',
+    icon: COURSE_MAIN_FUNC_LIST.HOMEWORK.icon,
     name: '课程作业',
   },
   COURSE_DISCUSSION: {
-    icon: 'question',
+    icon: COURSE_MAIN_FUNC_LIST.DISCUSSION.icon,
     name: '课程讨论',
   },
   COURSE_HOMEPAGE: {
@@ -42,20 +68,24 @@ const SUMMARY_FUNC: IMenuItemEnum = {
     name: '主页',
   },
   SUMMARY_HOMEWORK: {
-    icon: 'pencil-alt',
+    icon: COURSE_MAIN_FUNC_LIST.HOMEWORK.icon,
     name: '所有作业',
+    type: CardType.HOMEWORK,
   },
   SUMMARY_NOTIFICATIONS: {
-    icon: 'bullhorn',
+    icon: COURSE_MAIN_FUNC_LIST.NOTIFICATION.icon,
     name: '所有通知',
+    type: CardType.NOTIFICATION,
   },
   SUMMARY_FILES: {
-    icon: 'download',
+    icon: COURSE_MAIN_FUNC_LIST.FILE.icon,
     name: '所有文件',
+    type: CardType.FILE,
   },
   SUMMARY_DISCUSSIONS: {
-    icon: 'question',
+    icon: COURSE_MAIN_FUNC_LIST.DISCUSSION.icon,
     name: '所有讨论',
+    type: CardType.DISCUSSION,
   },
 };
 
