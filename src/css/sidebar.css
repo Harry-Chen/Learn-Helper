@@ -1,14 +1,26 @@
 
-.numbered_list .course_list {
+.numbered_list, .course_list {
     width: 100%;
-    max-width: 360px;
+}
+
+.sidebar_list_item {
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+}
+
+.course_list_item_text {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .list_title {
     margin-left: 10px;
 }
 
-.list_icon {
+.list_item_icon {
     width: 18px;
     height: 18px;
 }
@@ -23,7 +35,7 @@
 }
 
 .subfunc_list {
-    padding-left: 10px;
+    margin-left: 10px !important;
 }
 
 .toggle_button {
@@ -47,14 +59,12 @@
 
 .card_first_line {
     width: 100%;
-    white-space: nowrap;
-    alignment: center;
+    display: flex;
+    align-items: center;
 }
 
 .card_func_chip {
-    display: inline-block;
-    horiz-align: left;
-    vertical-align: top;
+    float: left;
 }
 
 .card_chip_text {
@@ -63,9 +73,7 @@
 }
 
 .card_title {
-    max-width: 230px;
-    vertical-align: middle;
-    display: inline-block;
+    flex: 1;
     margin-left: 8px;
     overflow: hidden;
     white-space: nowrap;
@@ -73,7 +81,8 @@
 }
 
 .card_second_line {
-    margin-top: 10px;
+    margin-top: 8px;
+    margin-bottom: -8px;
     font-size: 0.8em;
     color: #777777;
 }
@@ -92,20 +101,33 @@
     text-overflow: ellipsis;
 }
 
+.card_action_line {
+    margin: -8px 4px -4px 4px !important;
+    display: inline-block;
+    width: 100%;
+}
+
+.card_action_button {
+    padding: 12px !important;
+    width: 6px !important;
+    height: 6px !important;
+    font-size: 1.0em !important;
+}
+
+.card_starred {
+    color: #eeee00 !important;
+}
+
 .chip_FILE {
     color: #fad1e5 !important;
     text-shadow: 0 -1px 0px #bc1267;
     background-color: #e91981 !important;
 }
 
-.chip_DISCUSSION {
+.chip_DISCUSSION, .chip_NOTIFICATION {
     color: #e5cdf2 !important;
     background-color: #7e08be !important;
     text-shadow: 0 -1px 0px #650698;
-}
-
-.chip_NOTIFICATION {
-    composes: chip_DISCUSSION
 }
 
 .chip_HOMEWORK_FAR {

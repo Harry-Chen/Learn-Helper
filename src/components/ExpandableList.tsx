@@ -11,6 +11,7 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import styles from '../css/sidebar.css';
 import '../constants/FontAwesomeLibrary.ts';
 import { IExpandableListData } from '../types/SideBar';
+import { COURSE_ICON } from '../constants/SideBarItems';
 
 class ExpandableList extends React.Component<IExpandableListData, {
   opened: {
@@ -18,51 +19,60 @@ class ExpandableList extends React.Component<IExpandableListData, {
   };
 }> {
 
-  state = { opened: {} };
+  public state = { opened: {} };
 
   constructor(props) {
     super(props);
-    props.items.map(i => this.state.opened[i.name] = false);
+    this.closeAllItems();
   }
 
   render() {
 
-    const { name, icon, items, subitems } = this.props;
+    const { name, icon, courses, functions } = this.props;
 
     return (
         <List
             className={styles.course_list}
             component="nav"
-            subheader={
-              <ListSubheader component="div">
+            subheader={<ListSubheader component="div" disableSticky={true}>
                 <FontAwesomeIcon icon={icon}/>
                 <span className={styles.list_title}>{name}</span>
-              </ListSubheader>
-            }
+              </ListSubheader>}
         >
 
           {
-            items.map(i => (
-                <div key={i.name}>
-                  <ListItem button={true} onClick={() => this.handleClick(i.name)}>
-                    <ListItemIcon className={styles.list_icon}>
-                      <FontAwesomeIcon icon={i.icon}/>
+            courses.map(i => (
+                <div key={i}>
+                  <ListItem
+                      className={styles.sidebar_list_item}
+                      button={true}
+                      onClick={() => this.handleClick(i)}
+                  >
+                    <ListItemIcon className={styles.list_item_icon}>
+                      <FontAwesomeIcon icon={COURSE_ICON}/>
                     </ListItemIcon>
-                    <ListItemText primary={i.name}/>
-                    <FontAwesomeIcon icon={this.state.opened[i.name] ? 'angle-up' : 'angle-down'}/>
+                    <ListItemText primary={i} className={styles.course_list_item_text}/>
+                    <FontAwesomeIcon icon={this.state.opened[i] ? 'angle-up' : 'angle-down'}/>
                   </ListItem>
-                  <Collapse in={this.state.opened[i.name]} timeout="auto" unmountOnExit={true}>
+                  <Collapse in={this.state.opened[i]} timeout="auto" unmountOnExit={true}>
                     <List
                         className={styles.subfunc_list}
                         disablePadding={true}
                     >
                       {
-                        subitems.map(s => (
-                            <ListItem button={true} key={s.name}>
-                              <ListItemIcon className={styles.list_icon}>
+                        functions.map(s => (
+                            <ListItem
+                                className={styles.sidebar_list_item}
+                                button={true}
+                                key={s.name}
+                            >
+                              <ListItemIcon className={styles.list_item_icon}>
                                 <FontAwesomeIcon icon={s.icon}/>
                               </ListItemIcon>
-                              <ListItemText primary={s.name}/>
+                              <ListItemText
+                                  primary={s.name}
+                                  className={styles.course_list_item_text}
+                              />
                             </ListItem>
                         ))
                       }
@@ -75,9 +85,15 @@ class ExpandableList extends React.Component<IExpandableListData, {
     );
   }
 
+  private closeAllItems = () => {
+    this.props.courses.map(i => this.state.opened[i] = false);
+  }
+
   private handleClick = (name) => {
+    const nextState = !this.state.opened[name];
+    this.closeAllItems();
     this.setState({
-      opened: { ...this.state.opened, [name]: !this.state.opened[name] },
+      opened: { ...this.state.opened, [name]: nextState },
     });
   }
 

@@ -18,8 +18,11 @@ export interface IMenuData extends IMenuItem, IComponent {
   items: IMenuItem[];
 }
 
-export interface IExpandableListData extends IMenuData {
-  subitems: IMenuItem[];
+export type CourseInfo = string;
+
+export interface IExpandableListData extends IMenuItem, IComponent {
+  courses: CourseInfo[];
+  functions: IMenuItem[];
 }
 
 export interface INumberedListData extends IMenuData {
@@ -50,7 +53,8 @@ interface ICardDataBase extends IComponent {
 
 export interface IHomeworkCardData extends ICardDataBase {
   type: CardType.HOMEWORK;
-  hasSubmitted?: boolean;
+  hasSubmitted: boolean;
+  submitLink: string;
   fileLink?: string;
   grade?: string;
 }
