@@ -11,6 +11,9 @@
 .course_list_item_text {
     padding-left: 0 !important;
     padding-right: 0 !important;
+}
+
+.course_list_item_text>span {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
