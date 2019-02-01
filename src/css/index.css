@@ -50,3 +50,20 @@
     left: 0;
     width: 100%;
 }
+
+.snack_bar_error {
+    background-color: #d32f2f !important;
+}
+
+.snack_bar_success {
+    background-color: #43a047 !important;
+}
+
+.snack_bar_notification {
+    background-color: #1976d2 !important;
+}
+
+.snack_bar_text {
+    display: flex;
+    align-items: center;
+}
