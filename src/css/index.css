@@ -17,7 +17,7 @@
     top: 0;
     left: 270px;
     bottom: 0;
-    width: 350px;
+    width: 400px;
     overflow-x: hidden;
     overflow-y: auto;
     border-right: 1px solid #ccc;
@@ -33,7 +33,7 @@
 .pane-content {
     position: absolute;
     top: 0;
-    left: 621px;
+    left: 671px;
     bottom: 0;
     right: 0;
     overflow: hidden;

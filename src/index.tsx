@@ -27,7 +27,9 @@ class App extends React.Component<any, any> {
     return (
         <div>
           <div
-              className={classnames(styles.paneFolder, { [styles.paneHidden]: this.state.paneHidden })}
+              className={
+                classnames(styles.paneFolder, { [styles.paneHidden]: this.state.paneHidden })
+              }
           >
             <NumberedList
                 name="通知汇总"
@@ -51,15 +53,19 @@ class App extends React.Component<any, any> {
             />
           </div>
           <div
-              className={classnames(styles.paneMessage, { [styles.paneHidden]: this.state.paneHidden })}
-              id="pane-message">
+              className={
+                classnames(styles.paneMessage, { [styles.paneHidden]: this.state.paneHidden })
+              }
+          >
             <CardList
                 title="主页"
                 items={PlaceHolder.TEST_CARD_INFO_LIST}
             />
           </div>
           <div
-              className={classnames(styles.paneContent, { [styles.paneFullscreen]: this.state.paneHidden })}
+              className={
+                classnames(styles.paneContent, { [styles.paneFullscreen]: this.state.paneHidden })
+              }
           >
             <ToggleButton
                 handler={this.toggleButtonHandler}
