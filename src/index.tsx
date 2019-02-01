@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Iframe from 'react-iframe';
 import classnames from 'classnames';
 import Divider from '@material-ui/core/Divider';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 import NumberedList from './components/NumberedList';
 import ExpandableList from './components/ExpandableList';
@@ -13,13 +14,17 @@ import * as PlaceHolder from './constants/PlaceHolder';
 
 import styles from './css/index.css';
 
-class App extends React.Component<any, any> {
+const initialState = {
+  paneHidden: false,
+  loading: false,
+  loadProgress: 0,
+};
+
+class App extends React.Component<{}, typeof initialState> {
 
   constructor(prop) {
     super(prop);
-    this.state = {
-      paneHidden: false,
-    };
+    this.state = initialState;
   }
 
   public render() {
@@ -72,6 +77,13 @@ class App extends React.Component<any, any> {
             />
             <Iframe
                 url="welcome.html"
+            />
+          </div>
+          <div className={styles.progress_area}>
+            <LinearProgress
+                variant="determinate"
+                value={this.state.loadProgress}
+                hidden={!this.state.loading}
             />
           </div>
         </div>);
