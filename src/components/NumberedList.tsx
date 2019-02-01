@@ -25,15 +25,19 @@ class NumberedList extends React.Component<INumberedListData, null> {
         <List
             className={styles.numbered_list}
             component="nav"
-            subheader={<ListSubheader component="div">
+            subheader={<ListSubheader component="div" disableSticky={true}>
               <FontAwesomeIcon icon={icon}/>
               <span className={styles.list_title}>{name}</span>
             </ListSubheader>}
         >
           {
             items.map(i => (
-                <ListItem button={true} key={i.name}>
-                  <ListItemIcon className={styles.list_icon}>
+                <ListItem
+                    className={styles.sidebar_list_item}
+                    button={true}
+                    key={i.name}
+                >
+                  <ListItemIcon className={styles.list_item_icon}>
                     <FontAwesomeIcon icon={i.icon}/>
                   </ListItemIcon>
                   <Badge

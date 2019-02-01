@@ -39,8 +39,8 @@ class App extends React.Component<any, any> {
             <ExpandableList
                 name="本学期课程"
                 icon="inbox"
-                items={PlaceHolder.TEST_COURSE_LIST}
-                subitems={SideBar.COURSE_FUNC_LIST}
+                courses={PlaceHolder.TEST_COURSE_LIST}
+                functions={SideBar.COURSE_FUNC_LIST}
             />
             <Divider/>
             <NumberedList
@@ -54,7 +54,7 @@ class App extends React.Component<any, any> {
               className={classnames(styles.paneMessage, { [styles.paneHidden]: this.state.paneHidden })}
               id="pane-message">
             <CardList
-                title="Test"
+                title="主页"
                 items={PlaceHolder.TEST_CARD_INFO_LIST}
             />
           </div>

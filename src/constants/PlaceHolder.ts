@@ -1,5 +1,3 @@
-import { IconName } from '@fortawesome/fontawesome-common-types';
-
 import { CardData, CardType } from '../types/SideBar';
 
 export const TEST_NUMBER_LIST = {
@@ -9,15 +7,7 @@ export const TEST_NUMBER_LIST = {
   [CardType.FILE]: 3,
 };
 
-export const TEST_COURSE_LIST = [
-  {
-    icon: 'home' as IconName,
-    name: '测试',
-  },  {
-    icon: 'home' as IconName,
-    name: '测试2',
-  },
-];
+export const TEST_COURSE_LIST = ['测试', '我的名字超级超级超级超级超级超级长'];
 
 export const TEST_CARD_INFO_LIST: CardData[] = [
   {
@@ -40,6 +30,7 @@ export const TEST_CARD_INFO_LIST: CardData[] = [
     hasSubmitted: false,
     grade: '100',
     fileLink: 'changelog.html',
+    submitLink: 'changelog.html',
   },
   {
     type: CardType.DISCUSSION,
