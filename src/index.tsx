@@ -12,17 +12,18 @@ import NumberedList from './components/NumberedList';
 import ExpandableList from './components/ExpandableList';
 import ToggleButton from './components/ToggleButton';
 import CardList from './components/CardList';
-import { LoginDialog } from './components/Dialogs';
+import { LoginDialog } from './components/LoginDialog';
 import * as SideBar from './constants/SideBarItems';
 import * as PlaceHolder from './constants/PlaceHolder';
 import { SnackbarType } from './types/Dialogs';
 
 import styles from './css/index.css';
+import { NetworkErrorDialog } from './components/NetworkErrorDialog';
 
 const initialState = {
   paneHidden: false,
-  loading: false,
-  loadProgress: 0,
+  loading: true,
+  loadProgress: 75,
   showSnackBar: false,
   snackbarContent: '',
   snackbarType: SnackbarType.ERROR,
@@ -99,6 +100,12 @@ class App extends React.Component<{}, typeof initialState> {
               loginHandler={this.doLogin}
               snackbarHandler={this.setSnackbar}
           />
+          <NetworkErrorDialog
+              shouldOpen={true}
+              snackbarHandler={this.setSnackbar}
+              refreshHandler={this.doRefresh}
+              offlineHandler={this.enterOfflineMode}
+          />
           <Snackbar
               anchorOrigin={{
                 vertical: 'bottom',
@@ -147,6 +154,14 @@ class App extends React.Component<{}, typeof initialState> {
     return new Promise(resolve =>
         setTimeout(() => resolve(true), 1000)
     ) as Promise<boolean>;
+  }
+
+  private doRefresh = () => {
+    console.log('Will refresh');
+  }
+
+  private enterOfflineMode = () => {
+    this.setState({ loading: false });
   }
 
 }

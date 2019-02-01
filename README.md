@@ -34,14 +34,15 @@ npm run dev # for develop
 npm run build # for release
 ```
 
-Chrome plugin is in `dist/` (unpacked)
+You may need to run build commands more than once to get the correct output.
+The compiled Chrome plugin is in `dist/` (unpacked).
 
-Use `npm run watch` to watch changes in `src/`
+Use `npm run start` to watch changes in `src/` and start Webpack Dev Server.
 
 ## Revision History
 
 **v4.0.0**
-* Rewrite use React + Redux
+* Rewrite use React (with Material-UI) + Redux
 * ADD support for learn2018
 * REMOVE support for all other versions
 
