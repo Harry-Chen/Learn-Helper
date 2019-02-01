@@ -1,16 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import Iframe from 'react-iframe';
 import classnames from 'classnames';
 import Divider from '@material-ui/core/Divider';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
 
 import NumberedList from './components/NumberedList';
 import ExpandableList from './components/ExpandableList';
 import ToggleButton from './components/ToggleButton';
 import CardList from './components/CardList';
+import { LoginDialog } from './components/Dialogs';
 import * as SideBar from './constants/SideBarItems';
 import * as PlaceHolder from './constants/PlaceHolder';
+import { SnackbarType } from './types/Dialogs';
 
 import styles from './css/index.css';
 
@@ -18,6 +23,9 @@ const initialState = {
   paneHidden: false,
   loading: false,
   loadProgress: 0,
+  showSnackBar: false,
+  snackbarContent: '',
+  snackbarType: SnackbarType.ERROR,
 };
 
 class App extends React.Component<{}, typeof initialState> {
@@ -86,11 +94,59 @@ class App extends React.Component<{}, typeof initialState> {
                 hidden={!this.state.loading}
             />
           </div>
+          <LoginDialog
+              shouldOpen={true}
+              loginHandler={this.doLogin}
+              snackbarHandler={this.setSnackbar}
+          />
+          <Snackbar
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center',
+              }}
+              open={this.state.showSnackBar}
+              autoHideDuration={1000}
+              onClose={() => { this.setState({ showSnackBar: false }); }}
+          >
+            <SnackbarContent
+                className={this.snackbarClass(this.state.snackbarType)}
+                message={
+                  <span id="client-snackbar" className={styles.snack_bar_text}>
+                    {this.state.snackbarContent}
+                  </span>
+                }
+            />
+          </Snackbar>
         </div>);
   }
 
   private toggleButtonHandler = () => {
     this.setState({ paneHidden: !this.state.paneHidden });
+  };
+
+  private snackbarClass = (type: SnackbarType) => {
+    switch (type) {
+      case SnackbarType.ERROR:
+        return styles.snack_bar_error;
+      case SnackbarType.NOTIFICATION:
+        return styles.snack_bar_notification;
+      case SnackbarType.SUCCESS:
+        return styles.snack_bar_success;
+    }
+  }
+
+  private setSnackbar = (message: string, type: SnackbarType) => {
+    this.setState({
+      showSnackBar: true,
+      snackbarContent: message,
+      snackbarType: type,
+    });
+  }
+
+  private doLogin = async (username: string, password: string, save: boolean) => {
+    return new Promise(resolve =>
+        setTimeout(() => resolve(true), 1000)
+    ) as Promise<boolean>;
   }
 
 }
