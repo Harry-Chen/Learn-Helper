@@ -43,3 +43,10 @@
 .pane-fullscreen {
     left: 0;
 }
+
+.progress_area {
+    position: fixed;
+    top: -2px;
+    left: 0;
+    width: 100%;
+}

@@ -4,7 +4,8 @@
 }
 
 .sidebar_list_item {
-    padding-top: 13px !important;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
 }
 
 .course_list_item_text {
@@ -44,7 +45,7 @@
     height: 0;
     width: 0;
     position: fixed;
-    margin: 5px;
+    margin: 8px;
     z-index: 1000;
 }
 
@@ -80,7 +81,7 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    font-size: larger;
+    /*font-size: larger;*/
 }
 
 .card_second_line {
