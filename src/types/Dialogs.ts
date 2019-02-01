@@ -15,3 +15,8 @@ export interface ICommonDialogProps {
 export interface ILoginDialogProps extends ICommonDialogProps {
   loginHandler: (username: string, password: string, save: boolean) => Promise<boolean>;
 }
+
+export interface INetworkErrorDialogProps extends ICommonDialogProps {
+  refreshHandler: () => any;
+  offlineHandler: () => any;
+}
