@@ -1,4 +1,3 @@
-
 export enum SnackbarType {
   ERROR = 'snack_bar_error',
   SUCCESS = 'snack_bar_success',

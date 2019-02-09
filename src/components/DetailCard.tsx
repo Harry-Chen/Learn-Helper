@@ -1,4 +1,4 @@
-import React, {ReactNode} from 'react';
+import React, { ReactNode } from 'react';
 import classnames from 'classnames';
 
 import Card from '@material-ui/core/Card';
@@ -16,33 +16,30 @@ import { CardData, CardType } from '../types/SideBar';
 
 import styles from '../css/sidebar.css';
 
-class DetailCard extends React.Component<{
-  card: CardData;
-}, null> {
-
+class DetailCard extends React.Component<
+  {
+    card: CardData;
+  },
+  null
+> {
   public render(): React.ReactNode {
-
     const { card } = this.props;
 
     return (
-        <Card className={styles.detail_card}>
-          <CardContent>
-            <div className={styles.card_first_line}>
+      <Card className={styles.detail_card}>
+        <CardContent>
+          <div className={styles.card_first_line}>
             {this.iconArea()}
             <span className={styles.card_title}>{card.title}</span>
-            </div>
+          </div>
 
-            <div className={styles.card_second_line}>
-              <span className={styles.card_status}>
-                {this.genStatusText()}
-              </span>
-              <span className={styles.card_course}>
-                {card.course}
-              </span>
-            </div>
-          </CardContent>
-          {this.actionArea()}
-        </Card>
+          <div className={styles.card_second_line}>
+            <span className={styles.card_status}>{this.genStatusText()}</span>
+            <span className={styles.card_course}>{card.course}</span>
+          </div>
+        </CardContent>
+        {this.actionArea()}
+      </Card>
     );
   }
 
@@ -60,12 +57,13 @@ class DetailCard extends React.Component<{
   }
 
   private iconArea() {
-
     const { card } = this.props;
 
-    const icon = (<Avatar className={styles.card_func_icon}>
-      <FontAwesomeIcon icon={COURSE_MAIN_FUNC_LIST[card.type].icon}/>
-    </Avatar>);
+    const icon = (
+      <Avatar className={styles.card_func_icon}>
+        <FontAwesomeIcon icon={COURSE_MAIN_FUNC_LIST[card.type].icon} />
+      </Avatar>
+    );
 
     let label: string;
     let className: string;
@@ -98,39 +96,38 @@ class DetailCard extends React.Component<{
       className = `chip_${card.type}`;
     }
 
-    return <Badge
-        variant="dot"
-        color="secondary"
-        invisible={card.hasRead}
-    >
-      <Chip
+    return (
+      <Badge variant="dot" color="secondary" invisible={card.hasRead}>
+        <Chip
           avatar={icon}
           label={<span className={styles.card_chip_text}>{label}</span>}
           className={classnames(styles[className], styles.card_func_chip)}
-      />
-    </Badge>;
+        />
+      </Badge>
+    );
   }
 
   private actionArea() {
     const { card } = this.props;
 
-    const starButton = (<Tooltip title={card.hasStarred ? '取消星标' : '加星标' }>
-      <IconButton
-        color="primary"
-        className={
-          classnames(styles.card_action_button, { [styles.card_starred] : card.hasStarred })
-        }
-        component="div">
-      <FontAwesomeIcon icon="star"/>
-      </IconButton>
-      </Tooltip>);
+    const starButton = (
+      <Tooltip title={card.hasStarred ? '取消星标' : '加星标'}>
+        <IconButton
+          color="primary"
+          className={classnames(styles.card_action_button, { [styles.card_starred]: card.hasStarred })}
+          component="div"
+        >
+          <FontAwesomeIcon icon="star" />
+        </IconButton>
+      </Tooltip>
+    );
 
     const markReadButton = card.hasRead ? null : (
-        <Tooltip title="标记为已读">
-          <IconButton color="primary" className={styles.card_action_button} component="div">
-          <FontAwesomeIcon icon="check"/>
+      <Tooltip title="标记为已读">
+        <IconButton color="primary" className={styles.card_action_button} component="div">
+          <FontAwesomeIcon icon="check" />
         </IconButton>
-        </Tooltip>
+      </Tooltip>
     );
 
     let submitButton: ReactNode = null;
@@ -138,29 +135,31 @@ class DetailCard extends React.Component<{
 
     if (card.type === CardType.HOMEWORK) {
       submitButton = (
-          <Tooltip title="提交作业">
+        <Tooltip title="提交作业">
           <IconButton color="primary" className={styles.card_action_button} component="div">
-            <FontAwesomeIcon icon="upload"/>
+            <FontAwesomeIcon icon="upload" />
           </IconButton>
-          </Tooltip>
+        </Tooltip>
       );
       if (card.fileLink !== undefined) {
         fileButton = (
-            <Tooltip title="下载作业附件">
+          <Tooltip title="下载作业附件">
             <IconButton color="primary" className={styles.card_action_button} component="div">
-              <FontAwesomeIcon icon="paperclip"/>
+              <FontAwesomeIcon icon="paperclip" />
             </IconButton>
-            </Tooltip>
+          </Tooltip>
         );
       }
     }
 
-    const action = (<CardActions className={styles.card_action_line}>
-      {starButton}
-      {markReadButton}
-      {submitButton}
-      {fileButton}
-    </CardActions>);
+    const action = (
+      <CardActions className={styles.card_action_line}>
+        {starButton}
+        {markReadButton}
+        {submitButton}
+        {fileButton}
+      </CardActions>
+    );
 
     return action;
   }

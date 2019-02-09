@@ -17,7 +17,6 @@ const initialState = {
 };
 
 export class LoginDialog extends React.Component<ILoginDialogProps, typeof initialState> {
-
   public state = initialState;
 
   private username: string = '';
@@ -30,16 +29,17 @@ export class LoginDialog extends React.Component<ILoginDialogProps, typeof initi
   }
 
   public render(): React.ReactNode {
-
-    return (<Dialog open={this.state.open}>
-      <DialogTitle>登录网络学堂</DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          请输入您的学号/用户名和密码以登录到网络学堂。<br/>
-          请注意，本插件默认不会保存您的凭据；每次打开新的学堂助手时，您都需要重新输入。
-          如果您打开保存功能，则凭据<b>会被保存在本地</b>。
-        </DialogContentText>
-        <TextField
+    return (
+      <Dialog open={this.state.open}>
+        <DialogTitle>登录网络学堂</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            请输入您的学号/用户名和密码以登录到网络学堂。
+            <br />
+            请注意，本插件默认不会保存您的凭据；每次打开新的学堂助手时，您都需要重新输入。 如果您打开保存功能，则凭据
+            <b>会被保存在本地</b>。
+          </DialogContentText>
+          <TextField
             autoFocus={true}
             margin="dense"
             id="username"
@@ -47,10 +47,12 @@ export class LoginDialog extends React.Component<ILoginDialogProps, typeof initi
             type="text"
             required={true}
             multiline={false}
-            onChange={(e) => { this.username = e.target.value; }}
-        />
-        <br/>
-        <TextField
+            onChange={e => {
+              this.username = e.target.value;
+            }}
+          />
+          <br />
+          <TextField
             autoFocus={true}
             margin="dense"
             id="password"
@@ -58,26 +60,25 @@ export class LoginDialog extends React.Component<ILoginDialogProps, typeof initi
             type="password"
             required={true}
             multiline={false}
-            onChange={(e) => { this.password = e.target.value; }}
-        />
-        <br/>
-        <Checkbox
+            onChange={e => {
+              this.password = e.target.value;
+            }}
+          />
+          <br />
+          <Checkbox
             id="saveCredential"
-            onChange={(e) => { this.save = e.target.checked; }}
-        />
-        保存凭据以自动登录
-      </DialogContent>
-      <DialogActions>
-        <Button
-            color="primary"
-            disabled={!this.state.submitEnabled}
-            onClick={this.onLoginClicked}
-            type="submit"
-        >
-          确定
-        </Button>
-      </DialogActions>
-    </Dialog>
+            onChange={e => {
+              this.save = e.target.checked;
+            }}
+          />
+          保存凭据以自动登录
+        </DialogContent>
+        <DialogActions>
+          <Button color="primary" disabled={!this.state.submitEnabled} onClick={this.onLoginClicked} type="submit">
+            确定
+          </Button>
+        </DialogActions>
+      </Dialog>
     );
   }
 
@@ -87,17 +88,14 @@ export class LoginDialog extends React.Component<ILoginDialogProps, typeof initi
 
   private onLoginClicked = () => {
     this.setState({ submitEnabled: false });
-    this.props.loginHandler(this.username, this.password, this.save)
-        .then((res) => {
-          this.setState({ submitEnabled: true });
-          if (res) {
-            this.setOpen(false);
-            this.props.snackbarHandler('登录成功', SnackbarType.SUCCESS);
-          } else {
-            this.props.snackbarHandler('登录失败', SnackbarType.ERROR);
-          }
-        });
-
-  }
-
+    this.props.loginHandler(this.username, this.password, this.save).then(res => {
+      this.setState({ submitEnabled: true });
+      if (res) {
+        this.setOpen(false);
+        this.props.snackbarHandler('登录成功', SnackbarType.SUCCESS);
+      } else {
+        this.props.snackbarHandler('登录失败', SnackbarType.ERROR);
+      }
+    });
+  };
 }

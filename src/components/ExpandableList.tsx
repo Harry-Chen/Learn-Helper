@@ -13,12 +13,14 @@ import '../constants/FontAwesomeLibrary.ts';
 import { IExpandableListData } from '../types/SideBar';
 import { COURSE_ICON } from '../constants/SideBarItems';
 
-class ExpandableList extends React.Component<IExpandableListData, {
-  opened: {
-    [key: string]: boolean;
-  };
-}> {
-
+class ExpandableList extends React.Component<
+  IExpandableListData,
+  {
+    opened: {
+      [key: string]: boolean;
+    };
+  }
+> {
   public state = { opened: {} };
 
   constructor(props) {
@@ -27,76 +29,57 @@ class ExpandableList extends React.Component<IExpandableListData, {
   }
 
   render() {
-
     const { name, icon, courses, functions } = this.props;
 
     return (
-        <List
-            className={styles.course_list}
-            component="nav"
-            subheader={<ListSubheader component="div" disableSticky={true}>
-                <FontAwesomeIcon icon={icon}/>
-                <span className={styles.list_title}>{name}</span>
-              </ListSubheader>}
-        >
-
-          {
-            courses.map(i => (
-                <div key={i}>
-                  <ListItem
-                      className={styles.sidebar_list_item}
-                      button={true}
-                      onClick={() => this.handleClick(i)}
-                  >
+      <List
+        className={styles.course_list}
+        component="nav"
+        subheader={
+          <ListSubheader component="div" disableSticky={true}>
+            <FontAwesomeIcon icon={icon} />
+            <span className={styles.list_title}>{name}</span>
+          </ListSubheader>
+        }
+      >
+        {courses.map(i => (
+          <div key={i}>
+            <ListItem className={styles.sidebar_list_item} button={true} onClick={() => this.handleClick(i)}>
+              <ListItemIcon className={styles.list_item_icon}>
+                <FontAwesomeIcon icon={COURSE_ICON} />
+              </ListItemIcon>
+              <ListItemText primary={i} className={styles.course_list_item_text} />
+              <FontAwesomeIcon icon={this.state.opened[i] ? 'angle-up' : 'angle-down'} />
+            </ListItem>
+            <Collapse in={this.state.opened[i]} timeout="auto" unmountOnExit={true}>
+              <List className={styles.subfunc_list} disablePadding={true}>
+                {functions.map(s => (
+                  <ListItem className={styles.sidebar_list_item} button={true} key={s.name}>
                     <ListItemIcon className={styles.list_item_icon}>
-                      <FontAwesomeIcon icon={COURSE_ICON}/>
+                      <FontAwesomeIcon icon={s.icon} />
                     </ListItemIcon>
-                    <ListItemText primary={i} className={styles.course_list_item_text}/>
-                    <FontAwesomeIcon icon={this.state.opened[i] ? 'angle-up' : 'angle-down'}/>
+                    <ListItemText primary={s.name} className={styles.course_list_item_text} />
                   </ListItem>
-                  <Collapse in={this.state.opened[i]} timeout="auto" unmountOnExit={true}>
-                    <List
-                        className={styles.subfunc_list}
-                        disablePadding={true}
-                    >
-                      {
-                        functions.map(s => (
-                            <ListItem
-                                className={styles.sidebar_list_item}
-                                button={true}
-                                key={s.name}
-                            >
-                              <ListItemIcon className={styles.list_item_icon}>
-                                <FontAwesomeIcon icon={s.icon}/>
-                              </ListItemIcon>
-                              <ListItemText
-                                  primary={s.name}
-                                  className={styles.course_list_item_text}
-                              />
-                            </ListItem>
-                        ))
-                      }
-                    </List>
-                  </Collapse>
-                </div>
-            ))
-          }
-        </List>
+                ))}
+              </List>
+            </Collapse>
+          </div>
+        ))}
+      </List>
     );
   }
 
   private closeAllItems = () => {
-    this.props.courses.map(i => this.state.opened[i] = false);
-  }
+    this.props.courses.map(i => (this.state.opened[i] = false));
+  };
 
-  private handleClick = (name) => {
+  private handleClick = name => {
     const nextState = !this.state.opened[name];
     this.closeAllItems();
     this.setState({
       opened: { ...this.state.opened, [name]: nextState },
     });
-  }
-
+  };
 }
 
 export default ExpandableList;
