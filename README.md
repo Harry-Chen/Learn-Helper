@@ -30,14 +30,16 @@ If you can't open the link above for some reason, you can try this link: http://
 Learn Helper is built using npm
 ```bash
 npm install
-npm run dev # for develop
-npm run build # for release
+npm run dev-build # for develop build
+npm run dev-watch # for develop build with watching
+npm run format # run prettier
+npm run build # for release build
 ```
 
 You may need to run build commands more than once to get the correct output.
 The compiled Chrome plugin is in `dist/` (unpacked).
 
-Use `npm run start` to watch changes in `src/` and start Webpack Dev Server.
+Use `npm run dev-server` to watch changes in `src/` and start Webpack Dev Server.
 
 ## Revision History
 
