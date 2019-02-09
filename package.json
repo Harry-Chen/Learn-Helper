@@ -10,9 +10,9 @@
   "scripts": {
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\" \"src/**/*.js\"",
     "build": "webpack --config webpack.prod.js",
-    "dev": "webpack --config webpack.dev.js",
-    "watch": "webpack -w --config webpack.dev.js",
-    "start": "webpack-dev-server --config webpack.dev.js --open",
+    "dev-build": "webpack --config webpack.dev.js",
+    "dev-watch": "webpack -w --config webpack.dev.js",
+    "dev-server": "webpack-dev-server --config webpack.dev.js --open",
     "lint": "tslint 'src/**/*.{ts, tsx}'"
   },
   "devDependencies": {
