@@ -13,9 +13,7 @@ const initialState = {
   open: true,
 };
 
-export class NetworkErrorDialog extends React.Component<INetworkErrorDialogProps,
-    typeof initialState> {
-
+export class NetworkErrorDialog extends React.Component<INetworkErrorDialogProps, typeof initialState> {
   public state = initialState;
 
   constructor(prop) {
@@ -24,37 +22,31 @@ export class NetworkErrorDialog extends React.Component<INetworkErrorDialogProps
   }
 
   public render(): React.ReactNode {
-    return (<Dialog open={this.state.open}>
-      <DialogTitle>刷新课程信息失败</DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          哎呀！网络不怎么给力，或者服务器又去思考人生了。
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button
-            color="primary"
-            onClick={this.onRetryClicked}
-        >
-          重试加载
-        </Button>
-        <Button
-            color="primary"
-            onClick={this.onCancelClicked}
-        >
-          离线查看
-        </Button>
-      </DialogActions>
-    </Dialog>);
+    return (
+      <Dialog open={this.state.open}>
+        <DialogTitle>刷新课程信息失败</DialogTitle>
+        <DialogContent>
+          <DialogContentText>哎呀！网络不怎么给力，或者服务器又去思考人生了。</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button color="primary" onClick={this.onRetryClicked}>
+            重试加载
+          </Button>
+          <Button color="primary" onClick={this.onCancelClicked}>
+            离线查看
+          </Button>
+        </DialogActions>
+      </Dialog>
+    );
   }
 
   private onCancelClicked = () => {
     this.setState({ open: false });
     this.props.offlineHandler();
-  }
+  };
 
   private onRetryClicked = () => {
     this.setState({ open: false });
     this.props.refreshHandler();
-  }
+  };
 }

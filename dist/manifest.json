@@ -7,13 +7,16 @@
 	"content_scripts":[
 	],
 	"background" : {
-        "scripts": ["js/background.js"],
+        "scripts": ["index.js"],
         "persistent": false
 	},
-	"permissions" : ["storage",
-	                 "tabs",
-                     "https://learn*.tsinghua.edu.cn/*",
-                     "https://id.tsinghua.edu.cn/*"],
+	"permissions" : [
+		"storage",
+		"tabs",
+		"https://learn.tsinghua.edu.cn/*",
+		"https://learn2018.tsinghua.edu.cn/*",
+		"https://id.tsinghua.edu.cn/*"
+	],
 	"icons": {
 		"16" : "icons/16.png",
 		"48" : "icons/48.png",

@@ -57,10 +57,12 @@ export interface IHomeworkCardData extends ICardDataBase {
   submitLink: string;
   fileLink?: string;
   grade?: string;
+  grader?: string;
 }
 
 export interface INotificationCardData extends ICardDataBase {
   type: CardType.NOTIFICATION;
+  fileLink?: string;
 }
 
 export interface IDiscussionCardData extends ICardDataBase {
@@ -71,7 +73,4 @@ export interface IFileCardData extends ICardDataBase {
   type: CardType.FILE;
 }
 
-export type CardData = IHomeworkCardData
-    | INotificationCardData
-    | IDiscussionCardData
-    | IFileCardData;
+export type CardData = IHomeworkCardData | INotificationCardData | IDiscussionCardData | IFileCardData;
