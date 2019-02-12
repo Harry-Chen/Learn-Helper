@@ -20,7 +20,7 @@ const typingsForCssModulesLoaderConf = {
 module.exports = {
   entry: {
     index: "./src/index.tsx",
-    background: "./src/background.tsx"
+    background: "./src/background.ts"
   },
   output: {
     path: path.resolve("./dist"),
