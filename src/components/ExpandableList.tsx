@@ -9,9 +9,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 
 import styles from '../css/sidebar.css';
-import '../constants/FontAwesomeLibrary.ts';
-import { IExpandableListData } from '../types/SideBar';
-import { COURSE_ICON } from '../constants/SideBarItems';
+import '../constants/fontAwesome.ts';
+import { IExpandableListData } from '../types/sidebar';
+import { COURSE_ICON } from '../constants/function';
 
 class ExpandableList extends React.Component<
   IExpandableListData,

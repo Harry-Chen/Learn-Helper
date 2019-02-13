@@ -56,6 +56,6 @@
     "redux-persist": "^5.10.0",
     "redux-persist-chrome-storage": "^1.0.1",
     "redux-thunk": "^2.3.0",
-    "thu-learn-lib": "^1.0.4"
+    "thu-learn-lib": "^1.0.8"
   }
 }

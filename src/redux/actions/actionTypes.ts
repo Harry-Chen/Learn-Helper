@@ -14,3 +14,11 @@ export enum HelperActionType {
   LOGIN = 'HELPER/login',
   LOGOUT = 'HELPER/logout',
 }
+
+export enum DataActionType {
+  UPDATE_SEMESTER = 'DATA/update_semester',
+  UPDATE_COURSES = 'DATA/update_courses',
+  UPDATE_CONTENT = 'DATA/update_content',
+  TOGGLE_READ_STATE = 'DATA/toggle_read_state',
+  TOGGLE_STAR_STATE = 'DATA/toggle_star_state',
+}

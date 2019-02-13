@@ -14,5 +14,3 @@ export interface ICommonDialogProps {
 export interface ILoginDialogProps extends ICommonDialogProps {
   submitEnabled: boolean;
 }
-
-export type NetworkErrorDialogProps = ICommonDialogProps;

@@ -16,15 +16,15 @@ import ToggleButton from './components/ToggleButton';
 import CardList from './components/CardList';
 import LoginDialog from './components/LoginDialog';
 import NetworkErrorDialog from './components/NetworkErrorDialog';
-import * as SideBar from './constants/SideBarItems';
-import * as PlaceHolder from './constants/PlaceHolder';
-import { SnackbarType } from './types/Dialogs';
+import * as SideBar from './constants/function';
+import * as PlaceHolder from './constants/placeholder';
+import { SnackbarType } from './types/dialogs';
 
 import reduxStore from './redux/store';
 
 import styles from './css/index.css';
 import { IUiStateSlice, STATE_UI } from './redux/reducers';
-import { AppProp } from './types/App';
+import { AppProp } from './types/app';
 import { toggleLoginDialog, togglePane, toggleSnackbar } from './redux/actions/ui';
 import { STORAGE_KEY_PASSWORD, STORAGE_KEY_USERNAME, STORAGE_SALT } from './constants';
 import { decipher } from './utils/crypto';

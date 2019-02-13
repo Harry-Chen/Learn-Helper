@@ -1,6 +1,13 @@
-import { setSnackbar, toggleLoginDialog, toggleLoginSubmit, toggleSnackbar } from './ui';
+import {
+  setProgressBar,
+  setSnackbar,
+  toggleLoginDialog,
+  toggleLoginSubmit,
+  toggleProgressBar,
+  toggleSnackbar,
+} from './ui';
 import { Learn2018Helper } from 'thu-learn-lib/lib';
-import { SnackbarType } from '../../types/Dialogs';
+import { SnackbarType } from '../../types/dialogs';
 import { STORAGE_KEY_PASSWORD, STORAGE_KEY_USERNAME, STORAGE_SALT } from '../../constants';
 import { cipher } from '../../utils/crypto';
 
@@ -46,8 +53,9 @@ export function login(username: string, password: string, save: boolean) {
 }
 
 export function refresh() {
-  console.log('Refreshing');
-  return (dispatch, getState) => {
 
+  return (dispatch, getState) => {
+    dispatch(toggleProgressBar(true));
+    dispatch(setProgressBar(0));
   };
 }

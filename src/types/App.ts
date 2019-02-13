@@ -1,7 +1,7 @@
-import { SnackbarType } from './Dialogs';
+import { SnackbarType } from './dialogs';
 import { Dispatch } from 'redux';
 
-interface IAppState {
+interface IAppProp {
   dispatch: Dispatch<any>;
   showLoadingProgressBar: boolean;
   loadingProgress: number;
@@ -11,4 +11,4 @@ interface IAppState {
   snackbarType: SnackbarType;
 }
 
-export type AppProp = IAppState;
+export type AppProp = IAppProp;

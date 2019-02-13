@@ -4,8 +4,8 @@ import List from '@material-ui/core/List';
 import ListSubheader from '@material-ui/core/ListSubheader';
 
 import styles from '../css/sidebar.css';
-import '../constants/FontAwesomeLibrary.ts';
-import { ICardListData } from '../types/SideBar';
+import '../constants/fontAwesome.ts';
+import { ICardListData } from '../types/sidebar';
 import DetailCard from './DetailCard';
 
 class CardList extends React.Component<ICardListData, null> {

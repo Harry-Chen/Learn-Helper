@@ -10,7 +10,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 
-import { ILoginDialogProps } from '../types/Dialogs';
+import { ILoginDialogProps } from '../types/dialogs';
 
 import { IUiStateSlice, STATE_UI } from '../redux/reducers';
 import { login, refresh } from '../redux/actions/helper';

@@ -1,4 +1,4 @@
-import { SnackbarType } from '../../types/Dialogs';
+import { SnackbarType } from '../../types/dialogs';
 import { UiActionType } from '../actions/actionTypes';
 import { UiAction } from '../actions/ui';
 
@@ -33,7 +33,7 @@ export default function ui(state: UiState = initialState, action: UiAction): UiS
     case UiActionType.PROGRESS_BAR_VISIBILITY:
       return {
         ...state,
-        showLoadingProgressBar: action.showLoadingProgressBar,
+        showLoadingProgressBar: action.state,
       };
     case UiActionType.PROGRESS_BAR_PROGRESS:
       return {
@@ -43,7 +43,7 @@ export default function ui(state: UiState = initialState, action: UiAction): UiS
     case UiActionType.SNACKBAR_VISIBILITY:
       return {
         ...state,
-        showSnackbar: action.showSnackbar,
+        showSnackbar: action.state,
       };
     case UiActionType.SNACKBAR_CONTENT:
       return {
@@ -54,22 +54,22 @@ export default function ui(state: UiState = initialState, action: UiAction): UiS
     case UiActionType.LOGIN_DIALOG_VISIBILITY:
       return {
         ...state,
-        showLoginDialog: action.showLoginDialog,
+        showLoginDialog: action.state,
       };
     case UiActionType.LOGIN_DIALOG_PROGRESS:
       return {
         ...state,
-        inLoginProgress: action.inLoginProgress,
+        inLoginProgress: action.state,
       };
     case UiActionType.NETWORK_ERROR_DIALOG_VISIBILITY:
       return {
         ...state,
-        showNetworkErrorDialog: action.showNetworkErrorDialog,
+        showNetworkErrorDialog: action.state,
       };
     case UiActionType.PANE_VISIBILITY:
       return {
         ...state,
-        paneHidden: action.paneHidden,
+        paneHidden: action.state,
       };
     default:
       return state;
