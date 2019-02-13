@@ -12,6 +12,8 @@ interface IUiState {
   showLoginDialog: boolean;
   inLoginProgress: boolean;
   showNetworkErrorDialog: boolean;
+  showNewSemesterDialog: boolean;
+  ignoreWrongSemester: boolean;
 }
 
 export type UiState = IUiState;
@@ -26,6 +28,8 @@ const initialState: UiState = {
   showLoginDialog: false,
   inLoginProgress: false,
   showNetworkErrorDialog: false,
+  showNewSemesterDialog: false,
+  ignoreWrongSemester: false,
 };
 
 export default function ui(state: UiState = initialState, action: UiAction): UiState {
@@ -70,6 +74,16 @@ export default function ui(state: UiState = initialState, action: UiAction): UiS
       return {
         ...state,
         paneHidden: action.state,
+      };
+    case UiActionType.NEW_SEMESTER_DIALOG_VISIBILITY:
+      return {
+        ...state,
+        showNewSemesterDialog: action.state,
+      };
+    case UiActionType.IGNORE_WRONG_SEMESTER:
+      return {
+        ...state,
+        ignoreWrongSemester: action.state,
       };
     default:
       return state;

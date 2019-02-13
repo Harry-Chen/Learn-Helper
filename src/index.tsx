@@ -29,6 +29,7 @@ import { toggleLoginDialog, togglePane, toggleSnackbar } from './redux/actions/u
 import { STORAGE_KEY_PASSWORD, STORAGE_KEY_USERNAME, STORAGE_SALT } from './constants';
 import { decipher } from './utils/crypto';
 import { login, refresh } from './redux/actions/helper';
+import NewSemesterDialog from './components/NewSemesterDialog';
 
 class AppImpl extends React.Component<AppProp, never> {
   public render() {
@@ -79,6 +80,7 @@ class AppImpl extends React.Component<AppProp, never> {
         </div>
         <LoginDialog />
         <NetworkErrorDialog />
+        <NewSemesterDialog />
         <Snackbar
           anchorOrigin={{
             vertical: 'bottom',

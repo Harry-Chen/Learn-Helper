@@ -67,3 +67,17 @@ export const setProgressBar = (progress: number): UiAction => {
     loadingProgress: progress,
   };
 };
+
+export const toggleNewSemesterDialog = (state: boolean): UiAction => {
+  return {
+    type: UiActionType.NEW_SEMESTER_DIALOG_VISIBILITY,
+    state,
+  };
+};
+
+export const toggleIgnoreWrongSemester = (state: boolean): UiAction => {
+  return {
+    type: UiActionType.IGNORE_WRONG_SEMESTER,
+    state,
+  };
+};

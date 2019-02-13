@@ -4,6 +4,7 @@ import { ContentType, CourseContent, CourseInfo, SemesterInfo } from 'thu-learn-
 interface IDataAction {
   type: DataActionType;
   id: string;
+  insist?: boolean;
   semester?: SemesterInfo;
   courseList?: CourseInfo[];
   content?: CourseContent;
@@ -19,6 +20,13 @@ export function newSemester(semester: SemesterInfo) {
     semester,
   };
 }
+
+export function insistSemester(insist: boolean) {
+  return {
+    type: DataActionType.INSIST_SEMESTER,
+    insist,
+  };
+};
 
 export function updateSemester(semester: SemesterInfo) {
   return {
