@@ -9,8 +9,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 
 import styles from '../css/sidebar.css';
-import '../constants/FontAwesomeLibrary.ts';
-import { INumberedListData } from '../types/SideBar';
+import '../constants/fontAwesome.ts';
+import { INumberedListData } from '../types/sidebar';
 
 class NumberedList extends React.Component<INumberedListData, null> {
   constructor(props) {

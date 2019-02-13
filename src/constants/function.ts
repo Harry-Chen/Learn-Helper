@@ -1,6 +1,6 @@
 import { IconName } from '@fortawesome/fontawesome-common-types';
 
-import { CardType, IMenuItem, IMenuItemEnum } from '../types/SideBar';
+import { CardType, IMenuItem, IMenuItemEnum } from '../types/sidebar';
 
 export const COURSE_MAIN_FUNC_LIST: {
   [key: string]: {

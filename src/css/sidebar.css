@@ -81,13 +81,13 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    /*font-size: larger;*/
+    font-size: larger;
 }
 
 .card_second_line {
     margin-top: 8px;
     margin-bottom: -8px;
-    font-size: 0.8em;
+    font-size: 1.0em;
     color: #777777;
 }
 

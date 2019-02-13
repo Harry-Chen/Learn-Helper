@@ -1,4 +1,4 @@
-import { CardData, CardType } from '../types/SideBar';
+import { CardData, CardType } from '../types/sidebar';
 
 export const TEST_NUMBER_LIST = {
   [CardType.NOTIFICATION]: 100,
