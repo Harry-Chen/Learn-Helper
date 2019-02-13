@@ -7,32 +7,36 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 
-import { INetworkErrorDialogProps } from '../types/Dialogs';
+import { NetworkErrorDialogProps } from '../types/Dialogs';
+import { toggleNetworkErrorDialog } from '../redux/actions/ui';
+import { connect } from 'react-redux';
+import { IUiStateSlice, STATE_UI } from '../redux/reducers';
+import { refresh } from '../redux/actions/helper';
 
-const initialState = {
-  open: true,
-};
 
-export class NetworkErrorDialog extends React.Component<INetworkErrorDialogProps, typeof initialState> {
-  public state = initialState;
-
-  constructor(prop) {
-    super(prop);
-    this.state.open = prop.shouldOpen;
-  }
+class NetworkErrorDialog extends React.Component<NetworkErrorDialogProps> {
 
   public render(): React.ReactNode {
     return (
-      <Dialog open={this.state.open}>
+      <Dialog open={this.props.open}>
         <DialogTitle>刷新课程信息失败</DialogTitle>
         <DialogContent>
           <DialogContentText>哎呀！网络不怎么给力，或者服务器又去思考人生了。</DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button color="primary" onClick={this.onRetryClicked}>
+          <Button
+            color="primary"
+            onClick={() => {
+              this.props.dispatch(toggleNetworkErrorDialog(false));
+              this.props.dispatch(refresh());
+            }}
+          >
             重试加载
           </Button>
-          <Button color="primary" onClick={this.onCancelClicked}>
+          <Button
+            color="primary"
+            onClick={() => { this.props.dispatch(toggleNetworkErrorDialog(false)); }}
+          >
             离线查看
           </Button>
         </DialogActions>
@@ -40,13 +44,12 @@ export class NetworkErrorDialog extends React.Component<INetworkErrorDialogProps
     );
   }
 
-  private onCancelClicked = () => {
-    this.setState({ open: false });
-    this.props.offlineHandler();
-  };
-
-  private onRetryClicked = () => {
-    this.setState({ open: false });
-    this.props.refreshHandler();
-  };
 }
+
+const mapStateToProps = (state: IUiStateSlice): Partial<NetworkErrorDialogProps> => {
+  return {
+    open: state[STATE_UI].showNetworkErrorDialog,
+  };
+};
+
+export default connect(mapStateToProps)(NetworkErrorDialog);

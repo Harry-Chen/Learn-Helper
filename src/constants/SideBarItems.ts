@@ -110,7 +110,7 @@ const SETTINGS_FUNC: IMenuItemEnum = {
   },
   SETTINGS_REFRESH: {
     icon: 'sync',
-    name: '强制刷新',
+    name: '手动刷新',
   },
   SETTINGS_CHANGE_USER: {
     icon: 'user',
