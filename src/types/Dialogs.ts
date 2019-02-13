@@ -1,21 +1,18 @@
+import { Dispatch } from 'redux';
+
 export enum SnackbarType {
   ERROR = 'snack_bar_error',
   SUCCESS = 'snack_bar_success',
   NOTIFICATION = 'snack_bar_notification',
 }
 
-export type SnackbarSetter = (content: string, type: SnackbarType) => any;
-
 export interface ICommonDialogProps {
-  shouldOpen: boolean;
-  snackbarHandler: SnackbarSetter;
+  open: boolean;
+  dispatch: Dispatch<any>;
 }
 
 export interface ILoginDialogProps extends ICommonDialogProps {
-  loginHandler: (username: string, password: string, save: boolean) => Promise<boolean>;
+  submitEnabled: boolean;
 }
 
-export interface INetworkErrorDialogProps extends ICommonDialogProps {
-  refreshHandler: () => any;
-  offlineHandler: () => any;
-}
+export type NetworkErrorDialogProps = ICommonDialogProps;

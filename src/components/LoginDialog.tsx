@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -9,28 +10,24 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 
-import { ILoginDialogProps, SnackbarType } from '../types/Dialogs';
+import { ILoginDialogProps } from '../types/Dialogs';
 
-const initialState = {
-  open: true,
-  submitEnabled: true,
-};
+import { IUiStateSlice, STATE_UI } from '../redux/reducers';
+import { login, refresh } from '../redux/actions/helper';
 
-export class LoginDialog extends React.Component<ILoginDialogProps, typeof initialState> {
-  public state = initialState;
+class LoginDialog extends React.Component<ILoginDialogProps, never> {
 
   private username: string = '';
   private password: string = '';
   private save: boolean = false;
 
-  constructor(prop) {
+  constructor(prop: ILoginDialogProps) {
     super(prop);
-    this.state.open = prop.shouldOpen;
   }
 
   public render(): React.ReactNode {
     return (
-      <Dialog open={this.state.open}>
+      <Dialog open={this.props.open}>
         <DialogTitle>登录网络学堂</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -74,28 +71,30 @@ export class LoginDialog extends React.Component<ILoginDialogProps, typeof initi
           保存凭据以自动登录
         </DialogContent>
         <DialogActions>
-          <Button color="primary" disabled={!this.state.submitEnabled} onClick={this.onLoginClicked} type="submit">
+          <Button
+            color="primary"
+            disabled={!this.props.submitEnabled}
+            onClick={() => {
+              this.props.dispatch<any>(login(this.username, this.password, this.save))
+                .then(() => { this.props.dispatch<any>(refresh()); });
+            }}
+            type="submit"
+          >
             确定
           </Button>
         </DialogActions>
       </Dialog>
     );
-  }
-
-  private setOpen(opened: boolean) {
-    this.setState({ open: opened });
-  }
-
-  private onLoginClicked = () => {
-    this.setState({ submitEnabled: false });
-    this.props.loginHandler(this.username, this.password, this.save).then(res => {
-      this.setState({ submitEnabled: true });
-      if (res) {
-        this.setOpen(false);
-        this.props.snackbarHandler('登录成功', SnackbarType.SUCCESS);
-      } else {
-        this.props.snackbarHandler('登录失败', SnackbarType.ERROR);
-      }
-    });
   };
-}
+
+};
+
+const mapStateToProps = (state: IUiStateSlice): Partial<ILoginDialogProps> => {
+  const uiState = state[STATE_UI];
+  return {
+    open: uiState.showLoginDialog,
+    submitEnabled: !uiState.inLoginProgress,
+  };
+};
+
+export default connect(mapStateToProps)(LoginDialog);
