@@ -114,7 +114,9 @@ class DetailCard extends React.Component<
       <Tooltip title={card.hasStarred ? '取消星标' : '加星标'}>
         <IconButton
           color="primary"
-          className={classnames(styles.card_action_button, { [styles.card_starred]: card.hasStarred })}
+          className={classnames(styles.card_action_button, {
+            [styles.card_starred]: card.hasStarred,
+          })}
           component="div"
         >
           <FontAwesomeIcon icon="star" />

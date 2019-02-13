@@ -14,7 +14,6 @@ import { IUiStateSlice, STATE_UI } from '../redux/reducers';
 import { refresh } from '../redux/actions/helper';
 
 class NetworkErrorDialog extends React.Component<ICommonDialogProps> {
-
   public render(): React.ReactNode {
     return (
       <Dialog open={this.props.open}>
@@ -34,7 +33,9 @@ class NetworkErrorDialog extends React.Component<ICommonDialogProps> {
           </Button>
           <Button
             color="primary"
-            onClick={() => { this.props.dispatch(toggleNetworkErrorDialog(false)); }}
+            onClick={() => {
+              this.props.dispatch(toggleNetworkErrorDialog(false));
+            }}
           >
             离线查看
           </Button>
@@ -42,7 +43,6 @@ class NetworkErrorDialog extends React.Component<ICommonDialogProps> {
       </Dialog>
     );
   }
-
 }
 
 const mapStateToProps = (state: IUiStateSlice): Partial<ICommonDialogProps> => {

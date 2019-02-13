@@ -20,9 +20,9 @@ export type FileInfo = File & ICardData;
 export type DiscussionInfo = Discussion & ICardData;
 export type QuestionInfo = Question & ICardData;
 
-export type ContentInfo = NotificationInfo
+export type ContentInfo =
+  | NotificationInfo
   | HomeworkInfo
   | FileInfo
   | DiscussionInfo
-  | QuestionInfo
-  ;
+  | QuestionInfo;

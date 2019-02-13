@@ -1,4 +1,3 @@
-
 export enum UiActionType {
   PROGRESS_BAR_VISIBILITY = 'UI/progress_bar_visibility',
   PROGRESS_BAR_PROGRESS = 'UI/progress_bar_progress',
@@ -16,6 +15,7 @@ export enum HelperActionType {
 }
 
 export enum DataActionType {
+  NEW_SEMESTER = 'DATA/new_semester',
   UPDATE_SEMESTER = 'DATA/update_semester',
   UPDATE_COURSES = 'DATA/update_courses',
   UPDATE_CONTENT = 'DATA/update_content',

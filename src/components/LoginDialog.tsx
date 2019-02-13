@@ -16,7 +16,6 @@ import { IUiStateSlice, STATE_UI } from '../redux/reducers';
 import { login, refresh } from '../redux/actions/helper';
 
 class LoginDialog extends React.Component<ILoginDialogProps, never> {
-
   private username: string = '';
   private password: string = '';
   private save: boolean = false;
@@ -33,7 +32,8 @@ class LoginDialog extends React.Component<ILoginDialogProps, never> {
           <DialogContentText>
             请输入您的学号/用户名和密码以登录到网络学堂。
             <br />
-            请注意，本插件默认不会保存您的凭据；每次打开新的学堂助手时，您都需要重新输入。 如果您打开保存功能，则凭据
+            请注意，本插件默认不会保存您的凭据；每次打开新的学堂助手时，您都需要重新输入。
+            如果您打开保存功能，则凭据
             <b>会被保存在本地</b>。
           </DialogContentText>
           <TextField
@@ -75,8 +75,9 @@ class LoginDialog extends React.Component<ILoginDialogProps, never> {
             color="primary"
             disabled={!this.props.submitEnabled}
             onClick={() => {
-              this.props.dispatch<any>(login(this.username, this.password, this.save))
-                .then(() => { this.props.dispatch<any>(refresh()); });
+              this.props.dispatch<any>(login(this.username, this.password, this.save)).then(() => {
+                this.props.dispatch<any>(refresh());
+              });
             }}
             type="submit"
           >
@@ -85,9 +86,8 @@ class LoginDialog extends React.Component<ILoginDialogProps, never> {
         </DialogActions>
       </Dialog>
     );
-  };
-
-};
+  }
+}
 
 const mapStateToProps = (state: IUiStateSlice): Partial<ILoginDialogProps> => {
   const uiState = state[STATE_UI];
