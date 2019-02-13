@@ -27,6 +27,8 @@ interface IDataState {
   questionList: Map<string, QuestionInfo>;
 }
 
+export type DataState = IDataState;
+
 const semesterPlaceholder: SemesterInfo = {
   id: '',
   startDate: new Date(),
@@ -47,10 +49,12 @@ const initialState: IDataState = {
   questionList: new Map(),
 };
 
-function update <T extends ContentInfo>(oldMap: Map<string, T>, contentType: ContentType,
-                                        fetched: CourseContent, courseMap: Map<string, CourseInfo>):
-  Map<string, T> {
-
+function update<T extends ContentInfo>(
+  oldMap: Map<string, T>,
+  contentType: ContentType,
+  fetched: CourseContent,
+  courseMap: Map<string, CourseInfo>,
+): Map<string, T> {
   const result = new Map<string, ContentInfo>();
 
   const dateKey = {
@@ -89,28 +93,38 @@ function update <T extends ContentInfo>(oldMap: Map<string, T>, contentType: Con
 
   // the upcast is necessary
   return result as Map<string, T>;
-
 }
 
-function toggle <T extends ContentInfo>(oldMap: Map<string, T>,
-                                        id: string, key: string, status: boolean): Map<string, T> {
+function toggle<T extends ContentInfo>(
+  oldMap: Map<string, T>,
+  id: string,
+  key: string,
+  status: boolean,
+): Map<string, T> {
   const oldContent = oldMap.get(id);
   oldContent[key] = status;
   oldMap.set(id, oldContent);
   return oldMap;
 }
 
-export default function data(state: IDataState, action: DataAction): IDataState {
-
+export default function data(state: IDataState = initialState, action: DataAction): IDataState {
   const stateKey = `${action.contentType}List`;
 
   switch (action.type) {
+    case DataActionType.NEW_SEMESTER:
+      // save the new semester for querying user
+      return {
+        ...state,
+        fetchedSemester: action.semester,
+      };
+
     case DataActionType.UPDATE_SEMESTER:
       // switch to new semester, remove all content
       return {
         ...initialState,
         semester: action.semester,
       };
+
     case DataActionType.UPDATE_COURSES:
       // update course list
       // any content that belongs to removed courses will be removed in following steps
@@ -122,21 +136,25 @@ export default function data(state: IDataState, action: DataAction): IDataState 
         ...state,
         courseMap,
       };
+
     case DataActionType.UPDATE_CONTENT:
       return {
         ...state,
         [stateKey]: update(state[stateKey], action.contentType, action.content, state.courseMap),
       };
+
     case DataActionType.TOGGLE_READ_STATE:
       return {
         ...state,
         [stateKey]: toggle(state[stateKey], action.id, 'hasRead', action.state),
       };
+
     case DataActionType.TOGGLE_STAR_STATE:
       return {
         ...state,
         [stateKey]: toggle(state[stateKey], action.id, 'starred', action.state),
       };
+
     default:
       return state;
   }

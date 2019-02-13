@@ -31,11 +31,12 @@ import { decipher } from './utils/crypto';
 import { login, refresh } from './redux/actions/helper';
 
 class AppImpl extends React.Component<AppProp, never> {
-
   public render() {
     return (
       <div>
-        <div className={classnames(styles.paneFolder, { [styles.paneHidden]: this.props.paneHidden })}>
+        <div
+          className={classnames(styles.paneFolder, { [styles.paneHidden]: this.props.paneHidden })}
+        >
           <NumberedList
             name="通知汇总"
             icon="thumbtack"
@@ -55,13 +56,18 @@ class AppImpl extends React.Component<AppProp, never> {
         <div
           className={classnames(styles.paneMessage, { [styles.paneHidden]: this.props.paneHidden })}
         >
-          <CardList
-            title="主页"
-            items={PlaceHolder.TEST_CARD_INFO_LIST}
-          />
+          <CardList title="主页" items={PlaceHolder.TEST_CARD_INFO_LIST} />
         </div>
-        <div className={classnames(styles.paneContent, { [styles.paneFullscreen]: this.props.paneHidden })}>
-          <ToggleButton handler={() => { store.dispatch(togglePane(!this.props.paneHidden)); }} />
+        <div
+          className={classnames(styles.paneContent, {
+            [styles.paneFullscreen]: this.props.paneHidden,
+          })}
+        >
+          <ToggleButton
+            handler={() => {
+              store.dispatch(togglePane(!this.props.paneHidden));
+            }}
+          />
           <Iframe url="welcome.html" />
         </div>
         <div className={styles.progress_area}>
@@ -71,8 +77,8 @@ class AppImpl extends React.Component<AppProp, never> {
             hidden={!this.props.showLoadingProgressBar}
           />
         </div>
-        <LoginDialog/>
-        <NetworkErrorDialog/>
+        <LoginDialog />
+        <NetworkErrorDialog />
         <Snackbar
           anchorOrigin={{
             vertical: 'bottom',
@@ -107,8 +113,7 @@ class AppImpl extends React.Component<AppProp, never> {
         return styles.snack_bar_success;
     }
   };
-
-};
+}
 
 const mapStateToProps = (state: IUiStateSlice): Partial<AppProp> => {
   return state[STATE_UI];
@@ -120,27 +125,24 @@ const { store, persistor } = reduxStore();
 
 ReactDOM.render(
   <Provider store={store}>
-    <PersistGate
-      loading={null}
-      persistor={persistor}
-    >
+    <PersistGate loading={null} persistor={persistor}>
       <App />
     </PersistGate>
   </Provider>,
   document.querySelector('#index'),
 );
 
-chrome.storage.local.get([STORAGE_KEY_USERNAME, STORAGE_KEY_PASSWORD],
-  (res) => {
-    let username = res[STORAGE_KEY_USERNAME];
-    let password = res[STORAGE_KEY_PASSWORD];
-    if (username !== undefined && password !== undefined) {
-      const decipherImpl = decipher(STORAGE_SALT);
-      username = decipherImpl(username);
-      password = decipherImpl(password);
-      store.dispatch<any>(login(username, password, false))
-        .then(() => { store.dispatch<any>(refresh()); });
-    } else {
-      store.dispatch(toggleLoginDialog(true));
-    }
-  });
+chrome.storage.local.get([STORAGE_KEY_USERNAME, STORAGE_KEY_PASSWORD], res => {
+  let username = res[STORAGE_KEY_USERNAME];
+  let password = res[STORAGE_KEY_PASSWORD];
+  if (username !== undefined && password !== undefined) {
+    const decipherImpl = decipher(STORAGE_SALT);
+    username = decipherImpl(username);
+    password = decipherImpl(password);
+    store.dispatch<any>(login(username, password, false)).then(() => {
+      store.dispatch<any>(refresh());
+    });
+  } else {
+    store.dispatch(toggleLoginDialog(true));
+  }
+});

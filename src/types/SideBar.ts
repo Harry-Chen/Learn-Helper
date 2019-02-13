@@ -73,4 +73,8 @@ export interface IFileCardData extends ICardDataBase {
   type: CardType.FILE;
 }
 
-export type CardData = IHomeworkCardData | INotificationCardData | IDiscussionCardData | IFileCardData;
+export type CardData =
+  | IHomeworkCardData
+  | INotificationCardData
+  | IDiscussionCardData
+  | IFileCardData;

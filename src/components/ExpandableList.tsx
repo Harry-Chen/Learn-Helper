@@ -44,7 +44,11 @@ class ExpandableList extends React.Component<
       >
         {courses.map(i => (
           <div key={i}>
-            <ListItem className={styles.sidebar_list_item} button={true} onClick={() => this.handleClick(i)}>
+            <ListItem
+              className={styles.sidebar_list_item}
+              button={true}
+              onClick={() => this.handleClick(i)}
+            >
               <ListItemIcon className={styles.list_item_icon}>
                 <FontAwesomeIcon icon={COURSE_ICON} />
               </ListItemIcon>

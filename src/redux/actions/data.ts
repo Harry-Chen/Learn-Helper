@@ -1,10 +1,5 @@
 import { DataActionType } from './actionTypes';
-import {
-  ContentType,
-  CourseContent,
-  CourseInfo,
-  SemesterInfo,
-} from 'thu-learn-lib/lib/types';
+import { ContentType, CourseContent, CourseInfo, SemesterInfo } from 'thu-learn-lib/lib/types';
 
 interface IDataAction {
   type: DataActionType;
@@ -18,19 +13,26 @@ interface IDataAction {
 
 export type DataAction = IDataAction;
 
-export function updateSemester(s: SemesterInfo) {
+export function newSemester(semester: SemesterInfo) {
+  return {
+    type: DataActionType.NEW_SEMESTER,
+    semester,
+  };
+}
+
+export function updateSemester(semester: SemesterInfo) {
   return {
     type: DataActionType.UPDATE_SEMESTER,
-    semester: s,
+    semester,
   };
-};
+}
 
-export function updateCourses(c: CourseInfo[]) {
+export function updateCourses(courseList: CourseInfo[]) {
   return {
     type: DataActionType.UPDATE_COURSES,
-    courseList: c,
+    courseList,
   };
-};
+}
 
 export function updateNotification(content: CourseContent) {
   return {
@@ -38,7 +40,7 @@ export function updateNotification(content: CourseContent) {
     content,
     contentType: ContentType.NOTIFICATION,
   };
-};
+}
 
 export function updateFile(content: CourseContent) {
   return {
@@ -46,7 +48,7 @@ export function updateFile(content: CourseContent) {
     content,
     contentType: ContentType.FILE,
   };
-};
+}
 
 export function updateHomework(content: CourseContent) {
   return {
@@ -54,7 +56,7 @@ export function updateHomework(content: CourseContent) {
     content,
     contentType: ContentType.HOMEWORK,
   };
-};
+}
 
 export function updateDiscussion(content: CourseContent) {
   return {
@@ -62,7 +64,7 @@ export function updateDiscussion(content: CourseContent) {
     content,
     contentType: ContentType.DISCUSSION,
   };
-};
+}
 
 export function updateQuestion(content: CourseContent) {
   return {
@@ -70,7 +72,7 @@ export function updateQuestion(content: CourseContent) {
     content,
     contentType: ContentType.NOTIFICATION,
   };
-};
+}
 
 export function toggleReadState(id: string, status: boolean, contentType: ContentType) {
   return {
@@ -79,7 +81,7 @@ export function toggleReadState(id: string, status: boolean, contentType: Conten
     status,
     contentType,
   };
-};
+}
 
 export function toggleStarState(id: string, status: boolean, contentType: ContentType) {
   return {
@@ -88,4 +90,4 @@ export function toggleStarState(id: string, status: boolean, contentType: Conten
     status,
     contentType,
   };
-};
+}
