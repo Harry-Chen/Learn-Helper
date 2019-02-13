@@ -1,4 +1,5 @@
 import { Dispatch } from 'redux';
+import { SemesterInfo } from 'thu-learn-lib/lib/types';
 
 export enum SnackbarType {
   ERROR = 'snack_bar_error',
@@ -13,4 +14,9 @@ export interface ICommonDialogProps {
 
 export interface ILoginDialogProps extends ICommonDialogProps {
   submitEnabled: boolean;
+}
+
+export interface INewSemesterDialogProps extends ICommonDialogProps {
+  currentSemester: SemesterInfo;
+  newSemester: SemesterInfo;
 }

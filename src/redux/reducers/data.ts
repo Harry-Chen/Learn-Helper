@@ -15,16 +15,18 @@ import {
 } from '../../types/data';
 import { DataAction } from '../actions/data';
 import { DataActionType } from '../actions/actionTypes';
+import { Map } from 'immutable';
 
 interface IDataState {
   semester: SemesterInfo;
   fetchedSemester: SemesterInfo;
+  insistSemester: boolean;
   courseMap: Map<string, CourseInfo>;
-  notificationList: Map<string, NotificationInfo>;
-  fileList: Map<string, FileInfo>;
-  homeworkList: Map<string, HomeworkInfo>;
-  discussionList: Map<string, DiscussionInfo>;
-  questionList: Map<string, QuestionInfo>;
+  notificationMap: Map<string, NotificationInfo>;
+  fileMap: Map<string, FileInfo>;
+  homeworkMap: Map<string, HomeworkInfo>;
+  discussionMap: Map<string, DiscussionInfo>;
+  questionMap: Map<string, QuestionInfo>;
 }
 
 export type DataState = IDataState;
@@ -41,12 +43,13 @@ const semesterPlaceholder: SemesterInfo = {
 const initialState: IDataState = {
   semester: semesterPlaceholder,
   fetchedSemester: semesterPlaceholder,
-  courseMap: new Map(),
-  notificationList: new Map(),
-  fileList: new Map(),
-  homeworkList: new Map(),
-  discussionList: new Map(),
-  questionList: new Map(),
+  insistSemester: false,
+  courseMap: Map(),
+  notificationMap: Map(),
+  fileMap: Map(),
+  homeworkMap: Map(),
+  discussionMap: Map(),
+  questionMap: Map(),
 };
 
 function update<T extends ContentInfo>(
@@ -55,7 +58,7 @@ function update<T extends ContentInfo>(
   fetched: CourseContent,
   courseMap: Map<string, CourseInfo>,
 ): Map<string, T> {
-  const result = new Map<string, ContentInfo>();
+  let result = Map<string, ContentInfo>();
 
   const dateKey = {
     [ContentType.NOTIFICATION]: 'publishTime',
@@ -87,7 +90,7 @@ function update<T extends ContentInfo>(
         hasRead: !updated,
         starred: oldContent === undefined ? false : oldContent.starred,
       };
-      result.set(c.id, newContent);
+      result = result.set(c.id, newContent);
     }
   }
 
@@ -103,12 +106,11 @@ function toggle<T extends ContentInfo>(
 ): Map<string, T> {
   const oldContent = oldMap.get(id);
   oldContent[key] = status;
-  oldMap.set(id, oldContent);
-  return oldMap;
+  return oldMap.set(id, oldContent);
 }
 
 export default function data(state: IDataState = initialState, action: DataAction): IDataState {
-  const stateKey = `${action.contentType}List`;
+  const stateKey = `${action.contentType}Map`;
 
   switch (action.type) {
     case DataActionType.NEW_SEMESTER:
@@ -116,6 +118,12 @@ export default function data(state: IDataState = initialState, action: DataActio
       return {
         ...state,
         fetchedSemester: action.semester,
+      };
+
+    case DataActionType.INSIST_SEMESTER:
+      return {
+        ...state,
+        insistSemester: action.insist,
       };
 
     case DataActionType.UPDATE_SEMESTER:
@@ -128,9 +136,9 @@ export default function data(state: IDataState = initialState, action: DataActio
     case DataActionType.UPDATE_COURSES:
       // update course list
       // any content that belongs to removed courses will be removed in following steps
-      const courseMap = new Map<string, CourseInfo>();
+      let courseMap = Map<string, CourseInfo>();
       for (const c of action.courseList) {
-        courseMap.set(c.id, c);
+        courseMap = courseMap.set(c.id, c);
       }
       return {
         ...state,

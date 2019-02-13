@@ -33,7 +33,7 @@ module.exports = {
   module: {
     rules: [
       {
-        exclude: /node_modules/,
+        exclude: [/node_modules/, /.*pubsuffix.js/],
         test: /\.tsx?$/,
         use: "ts-loader"
       },

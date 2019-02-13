@@ -4,6 +4,7 @@ import {
   toggleLoginDialog,
   toggleLoginSubmit,
   toggleNetworkErrorDialog,
+  toggleNewSemesterDialog,
   toggleProgressBar,
   toggleSnackbar,
 } from './ui';
@@ -11,7 +12,7 @@ import { Learn2018Helper } from 'thu-learn-lib/lib';
 import { SnackbarType } from '../../types/dialogs';
 import { STORAGE_KEY_PASSWORD, STORAGE_KEY_USERNAME, STORAGE_SALT } from '../../constants';
 import { cipher } from '../../utils/crypto';
-import { STATE_DATA, STATE_HELPER } from '../reducers';
+import { STATE_DATA, STATE_HELPER, STATE_UI } from '../reducers';
 import { HelperState } from '../reducers/helper';
 import { DataState } from '../reducers/data';
 import {
@@ -21,10 +22,11 @@ import {
   updateFile,
   updateHomework,
   updateNotification,
-  updateQuestion,
+  updateQuestion, updateSemester,
 } from './data';
 import { getCourseIdListForContent } from '../selectors';
-import { ContentType } from 'thu-learn-lib/lib/types';
+import { ContentType, SemesterType } from 'thu-learn-lib/lib/types';
+import { UiState } from '../reducers/ui';
 
 export function login(username: string, password: string, save: boolean) {
   const loginFail = dispatch => {
@@ -71,9 +73,20 @@ export function refresh() {
 
     try {
       const s = await helper.getCurrentSemester();
-      if (s.id !== (getState()[STATE_DATA] as DataState).semester.id) {
+
+      // user required to ignore semester problem
+      const data = (getState()[STATE_DATA] as DataState);
+      const ui = (getState()[STATE_UI] as UiState);
+      const ignoreSemester = data.insistSemester || ui.ignoreWrongSemester;
+
+      // if (data.semester.type === SemesterType.UNKNOWN) {
+      //   // no semester info yet
+      //   dispatch(updateSemester(s));
+      // } else
+      if (s.id !== data.semester.id && !ignoreSemester) {
+        // stored semester differ with fetched one
         dispatch(newSemester(s));
-        // TODO dispatch new semester dialog
+        dispatch(toggleNewSemesterDialog(true));
         return;
       }
 

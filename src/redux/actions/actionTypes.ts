@@ -1,3 +1,4 @@
+
 export enum UiActionType {
   PROGRESS_BAR_VISIBILITY = 'UI/progress_bar_visibility',
   PROGRESS_BAR_PROGRESS = 'UI/progress_bar_progress',
@@ -7,6 +8,8 @@ export enum UiActionType {
   LOGIN_DIALOG_PROGRESS = 'UI/login_dialog_progress',
   NETWORK_ERROR_DIALOG_VISIBILITY = 'UI/network_error_dialog_visibility',
   PANE_VISIBILITY = 'UI/pane_visibility',
+  NEW_SEMESTER_DIALOG_VISIBILITY = 'UI/new_semester_dialog_visibility',
+  IGNORE_WRONG_SEMESTER = 'UI/ignore_wrong_semester',
 }
 
 export enum HelperActionType {
@@ -16,6 +19,7 @@ export enum HelperActionType {
 
 export enum DataActionType {
   NEW_SEMESTER = 'DATA/new_semester',
+  INSIST_SEMESTER = 'DATA/insist_semester',
   UPDATE_SEMESTER = 'DATA/update_semester',
   UPDATE_COURSES = 'DATA/update_courses',
   UPDATE_CONTENT = 'DATA/update_content',
