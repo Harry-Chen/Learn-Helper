@@ -26,6 +26,7 @@ import { faPaperclip } from '@fortawesome/free-solid-svg-icons/faPaperclip';
 import { faBook } from '@fortawesome/free-solid-svg-icons/faBook';
 import { faChalkboardTeacher } from '@fortawesome/free-solid-svg-icons/faChalkboardTeacher';
 import { faClipboardCheck } from '@fortawesome/free-solid-svg-icons/faClipboardCheck';
+import { faClipboard } from '@fortawesome/free-solid-svg-icons/faClipboard';
 
 const ICON_TO_USE = [
   faThumbtack,
@@ -54,6 +55,7 @@ const ICON_TO_USE = [
   faBook,
   faChalkboardTeacher,
   faClipboardCheck,
+  faClipboard,
 ];
 
 ICON_TO_USE.map(i => library.add(i));

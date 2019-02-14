@@ -19,6 +19,7 @@ import { connect } from 'react-redux';
 import { ContentType } from 'thu-learn-lib/lib/types';
 import { formatDate } from '../utils/format';
 import { DiscussionInfo, FileInfo, HomeworkInfo, NotificationInfo } from '../types/data';
+import { toggleReadState, toggleStarState } from '../redux/actions/data';
 
 class DetailCard extends React.Component<CardProps, never> {
   public render(): React.ReactNode {
@@ -146,16 +147,22 @@ class DetailCard extends React.Component<CardProps, never> {
             [styles.card_starred]: content.starred,
           })}
           component="div"
+          onClick={() => { dispatch(toggleStarState(content.id, !content.starred, content.type)); }}
         >
           <FontAwesomeIcon icon="star" />
         </IconButton>
       </Tooltip>
     );
 
-    const markReadButton = content.hasRead ? null : (
-      <Tooltip title="标记为已读">
-        <IconButton color="primary" className={styles.card_action_button} component="div">
-          <FontAwesomeIcon icon="clipboard-check" />
+    const markReadButton = (
+      <Tooltip title={content.hasRead ? '标记为未读' : '标记为已读'}>
+        <IconButton
+          color="primary"
+          className={styles.card_action_button}
+          component="div"
+          onClick={() => { dispatch(toggleReadState(content.id, !content.hasRead, content.type)); }}
+        >
+          <FontAwesomeIcon icon={content.hasRead ? 'clipboard' : 'clipboard-check'} />
         </IconButton>
       </Tooltip>
     );

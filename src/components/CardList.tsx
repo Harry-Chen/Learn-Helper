@@ -32,34 +32,49 @@ class CardList extends React.Component<CardListProps, null> {
       </List>
     );
   }
-}
+};
+
+let oldType: ContentType;
+let oldCourse: CourseInfo;
+let oldCardList: ContentInfo[];
 
 const generateCardList = (data: DataState, type?: ContentType, course?: CourseInfo):
   ContentInfo[] => {
 
   const cardList: ContentInfo[] = [];
 
-  // filter type and course
-  for (const k of Object.keys(data)) {
-    if (k.startsWith('course') ||!k.endsWith('Map')) continue;
-    if (type === undefined || k.startsWith(type)) {
-      const source = data[k] as Map<string, ContentInfo>;
-      for (const item of source.values()) {
-        if (course === undefined || item.courseId === course.id) {
-          cardList.push(item);
+  if (type === oldType && course === oldCourse && oldCardList !== undefined) {
+    // filter not changed, use sorted sequence last time
+    for (const l of oldCardList) {
+      cardList.push(data[`${l.type}Map`].get(l.id));
+    }
+  } else {
+    // filter changed, generate data from scratch
+    // filter type and course
+    for (const k of Object.keys(data)) {
+      if (k.startsWith('course') || !k.endsWith('Map')) continue;
+      if (type === undefined || k.startsWith(type)) {
+        const source = data[k] as Map<string, ContentInfo>;
+        for (const item of source.values()) {
+          if (course === undefined || item.courseId === course.id) {
+            cardList.push(item);
+          }
         }
       }
     }
+
+    cardList.sort((a, b) => {
+      if (a.starred && !b.starred) return -1;
+      if (!a.starred && b.starred) return 1;
+      if (!a.hasRead && b.hasRead) return -1;
+      if (a.hasRead && !b.hasRead) return 1;
+      return b.date.getTime() - a.date.getTime();
+    });
   }
 
-  cardList.sort((a, b) => {
-    if (a.starred && !b.starred) return -1;
-    if (!a.starred && b.starred) return 1;
-    if (a.hasRead && !b.hasRead) return -1;
-    if (!a.hasRead && b.hasRead) return 1;
-    return b.date.getTime() - a.date.getTime();
-  });
-
+  oldType = type;
+  oldCourse = course;
+  oldCardList = cardList;
   // limit length to 100 to avoid too bad performance
   return cardList.slice(0, 100);
 };
