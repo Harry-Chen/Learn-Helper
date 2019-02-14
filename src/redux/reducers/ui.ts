@@ -1,6 +1,7 @@
 import { SnackbarType } from '../../types/dialogs';
 import { UiActionType } from '../actions/actionTypes';
 import { UiAction } from '../actions/ui';
+import { ContentType, CourseInfo } from 'thu-learn-lib/lib/types';
 
 interface IUiState {
   showLoadingProgressBar: boolean;
@@ -15,7 +16,10 @@ interface IUiState {
   showNewSemesterDialog: boolean;
   ignoreWrongSemester: boolean;
   showLogoutDialog: boolean;
-  showClearDataDialog;
+  showClearDataDialog: boolean;
+  cardTypeFilter?: ContentType;
+  cardCourseFilter?: CourseInfo;
+  cardListTitle: string;
 }
 
 export type UiState = IUiState;
@@ -34,6 +38,9 @@ const initialState: UiState = {
   ignoreWrongSemester: false,
   showLogoutDialog: false,
   showClearDataDialog: false,
+  cardTypeFilter: undefined,
+  cardCourseFilter: undefined,
+  cardListTitle: '主页',
 };
 
 export default function ui(state: UiState = initialState, action: UiAction): UiState {
@@ -98,6 +105,17 @@ export default function ui(state: UiState = initialState, action: UiAction): UiS
       return {
         ...state,
         showLogoutDialog: action.state,
+      };
+    case UiActionType.CARD_FILTER:
+      return {
+        ...state,
+        cardTypeFilter: action.cardType,
+        cardCourseFilter: action.cardCourse,
+      };
+    case UiActionType.CARD_LIST_TITLE:
+      return {
+        ...state,
+        cardListTitle: action.title,
       };
     default:
       return state;

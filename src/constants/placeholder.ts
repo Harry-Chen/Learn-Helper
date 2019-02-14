@@ -1,14 +1,5 @@
 import { CardData, CardType } from '../types/sidebar';
 
-export const TEST_NUMBER_LIST = {
-  [CardType.NOTIFICATION]: 100,
-  [CardType.DISCUSSION]: 5,
-  [CardType.HOMEWORK]: 20,
-  [CardType.FILE]: 3,
-};
-
-export const TEST_COURSE_LIST = ['测试', '我的名字超级超级超级超级超级超级长'];
-
 export const TEST_CARD_INFO_LIST: CardData[] = [
   {
     type: CardType.FILE,

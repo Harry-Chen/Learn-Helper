@@ -12,6 +12,8 @@ export enum UiActionType {
   IGNORE_WRONG_SEMESTER = 'UI/ignore_wrong_semester',
   TOGGLE_LOGOUT_DIALOG = 'UI/toggle_logout_dialog',
   TOGGLE_CLEAR_DATA_DIALOG = 'UI/toggle_clear_data_dialog',
+  CARD_FILTER = 'UI/card_filter',
+  CARD_LIST_TITLE = 'UI/card_list_title',
 }
 
 export enum HelperActionType {

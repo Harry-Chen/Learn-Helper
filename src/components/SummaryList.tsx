@@ -17,11 +17,12 @@ import { DataState } from '../redux/reducers/data';
 import { COURSE_MAIN_FUNC_LIST, SUMMARY_FUNC_LIST } from '../constants/function';
 import { ContentInfo } from '../types/data';
 import { HelperState } from '../redux/reducers/helper';
+import { setCardFilter, setCardListTitle } from '../redux/actions/ui';
 
 class SummaryList extends React.Component<SummaryListProps, null> {
 
   render() {
-    const { numbers } = this.props;
+    const { numbers, dispatch } = this.props;
 
     return (
       <List
@@ -34,17 +35,25 @@ class SummaryList extends React.Component<SummaryListProps, null> {
           </ListSubheader>
         }
       >
-        {SUMMARY_FUNC_LIST.map(i => (
-          <ListItem className={styles.sidebar_list_item} button={true} key={i.name}>
+        {SUMMARY_FUNC_LIST.map(func => (
+          <ListItem
+            className={styles.sidebar_list_item}
+            button={true}
+            key={func.name}
+            onClick={() => {
+              dispatch(setCardFilter(func.type));
+              dispatch(setCardListTitle(func.name));
+            }}
+          >
             <ListItemIcon className={styles.list_item_icon}>
-              <FontAwesomeIcon icon={i.icon} />
+              <FontAwesomeIcon icon={func.icon} />
             </ListItemIcon>
             <Badge
-              badgeContent={numbers[i.type]}
+              badgeContent={numbers[func.type]}
               color="primary"
-              invisible={i.type === undefined || numbers[i.type] === undefined}
+              invisible={func.type === undefined || numbers[func.type] === undefined}
             >
-              <ListItemText primary={i.name} />
+              <ListItemText primary={func.name} />
             </Badge>
           </ListItem>
         ))}
