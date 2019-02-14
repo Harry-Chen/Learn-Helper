@@ -25,11 +25,15 @@ import reduxStore from './redux/store';
 import styles from './css/index.css';
 import { IUiStateSlice, STATE_UI } from './redux/reducers';
 import { AppProp } from './types/app';
-import { toggleLoginDialog, togglePane, toggleSnackbar } from './redux/actions/ui';
-import { STORAGE_KEY_PASSWORD, STORAGE_KEY_USERNAME, STORAGE_SALT } from './constants';
-import { decipher } from './utils/crypto';
+import {
+  toggleLoginDialog, toggleLoginDialogProgress,
+  toggleNetworkErrorDialog,
+  togglePane,
+  toggleSnackbar,
+} from './redux/actions/ui';
 import { login, refresh } from './redux/actions/helper';
 import NewSemesterDialog from './components/NewSemesterDialog';
+import { getStoredCredential } from './utils/storage';
 
 class AppImpl extends React.Component<AppProp, never> {
   public render() {
@@ -134,17 +138,16 @@ ReactDOM.render(
   document.querySelector('#index'),
 );
 
-chrome.storage.local.get([STORAGE_KEY_USERNAME, STORAGE_KEY_PASSWORD], res => {
-  let username = res[STORAGE_KEY_USERNAME];
-  let password = res[STORAGE_KEY_PASSWORD];
-  if (username !== undefined && password !== undefined) {
-    const decipherImpl = decipher(STORAGE_SALT);
-    username = decipherImpl(username);
-    password = decipherImpl(password);
-    store.dispatch<any>(login(username, password, false)).then(() => {
-      store.dispatch<any>(refresh());
-    });
-  } else {
-    store.dispatch(toggleLoginDialog(true));
-  }
-});
+getStoredCredential()
+  .then(res => {
+    if (res === null) {
+      store.dispatch(toggleLoginDialog(true));
+    } else {
+      store.dispatch<any>(login(res.username, res.password, false))
+        .then(() => { store.dispatch<any>(refresh()); })
+        .catch(() => {
+          store.dispatch(toggleLoginDialogProgress(false));
+          store.dispatch(toggleNetworkErrorDialog(true));
+        });
+    }
+  });

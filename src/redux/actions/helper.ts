@@ -2,7 +2,7 @@ import {
   setProgressBar,
   setSnackbar,
   toggleLoginDialog,
-  toggleLoginSubmit,
+  toggleLoginDialogProgress,
   toggleNetworkErrorDialog,
   toggleNewSemesterDialog,
   toggleProgressBar,
@@ -27,41 +27,53 @@ import {
 import { getCourseIdListForContent } from '../selectors';
 import { ContentType, SemesterType } from 'thu-learn-lib/lib/types';
 import { UiState } from '../reducers/ui';
+import { HelperActionType } from './actionTypes';
+import { getStoredCredential, setChromeStorageAsync } from '../../utils/storage';
 
 export function login(username: string, password: string, save: boolean) {
-  const loginFail = dispatch => {
-    // show login dialog (if not shown) and failure notice
+
+  return async (dispatch, getState) => {
+    dispatch(toggleLoginDialogProgress(true));
+    const helper = getState().helper.helper as Learn2018Helper;
+    const res = await helper.login(username, password);
+    // login failed
+    if (!res) return Promise.reject();
+    // login succeeded
+    // hide login dialog (if shown), show success notice
+    dispatch(toggleSnackbar(true));
+    dispatch(setSnackbar('登录成功', SnackbarType.SUCCESS));
+    dispatch(toggleLoginDialog(false));
+    // save salted user credential if asked
+    if (save) {
+      const cipherImpl = cipher(STORAGE_SALT);
+      await setChromeStorageAsync('local', {
+        [STORAGE_KEY_USERNAME]: cipherImpl(username),
+        [STORAGE_KEY_PASSWORD]: cipherImpl(password),
+      });
+    }
+    dispatch(loggedIn());
+    return Promise.resolve();
+  };
+}
+
+export function loginFail() {
+  return (dispatch) => {
     dispatch(toggleLoginDialog(true));
-    dispatch(toggleLoginSubmit(true));
+    dispatch(toggleLoginDialogProgress(false));
     dispatch(toggleSnackbar(true));
     dispatch(setSnackbar('登录失败', SnackbarType.ERROR));
   };
+}
 
-  return async (dispatch, getState) => {
-    dispatch(toggleLoginSubmit(false));
-    const helper = getState().helper.helper as Learn2018Helper;
-    try {
-      const res = await helper.login(username, password);
-      if (res) {
-        // hide login dialog (if shown), show success notice
-        dispatch(toggleSnackbar(true));
-        dispatch(setSnackbar('登录成功', SnackbarType.SUCCESS));
-        dispatch(toggleLoginDialog(false));
-        if (save) {
-          const cipherImpl = cipher(STORAGE_SALT);
-          chrome.storage.local.set({
-            [STORAGE_KEY_USERNAME]: cipherImpl(username),
-            [STORAGE_KEY_PASSWORD]: cipherImpl(password),
-          });
-        }
-        return Promise.resolve();
-      } else {
-        return Promise.reject();
-      }
-    } catch (e) {
-      loginFail(dispatch);
-      return Promise.reject();
-    }
+export function loggedIn() {
+  return {
+    type: HelperActionType.LOGIN,
+  };
+}
+
+export function loggedOut() {
+  return {
+    type: HelperActionType.LOGOUT,
   };
 }
 
@@ -69,9 +81,20 @@ export function refresh() {
   return async (dispatch, getState) => {
     dispatch(toggleProgressBar(true));
     dispatch(setProgressBar(0));
-    const helper = (getState()[STATE_HELPER] as HelperState).helper as Learn2018Helper;
+    const helperState = (getState()[STATE_HELPER] as HelperState);
+    const helper = helperState.helper as Learn2018Helper;
 
     try {
+      // refresh() dispatched before logged in
+      // which can only occur when logging in with saved credentials but failed
+      // mainly due to network disconnection, or that the user has changed his password
+      // so we can try login again
+      if (!helperState.loggedIn) {
+        const credential = await getStoredCredential();
+        const loginResult = await helper.login(credential.username, credential.password);
+        if (loginResult) return Promise.reject();
+        dispatch(loggedIn());
+      }
       const s = await helper.getCurrentSemester();
 
       // user required to ignore semester problem
@@ -79,11 +102,10 @@ export function refresh() {
       const ui = (getState()[STATE_UI] as UiState);
       const ignoreSemester = data.insistSemester || ui.ignoreWrongSemester;
 
-      // if (data.semester.type === SemesterType.UNKNOWN) {
-      //   // no semester info yet
-      //   dispatch(updateSemester(s));
-      // } else
-      if (s.id !== data.semester.id && !ignoreSemester) {
+      if (data.semester.type === SemesterType.UNKNOWN) {
+        // no semester info yet
+        dispatch(updateSemester(s));
+      } else if (s.id !== data.semester.id && !ignoreSemester) {
         // stored semester differ with fetched one
         dispatch(newSemester(s));
         dispatch(toggleNewSemesterDialog(true));

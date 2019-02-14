@@ -9,11 +9,13 @@ import Checkbox from '@material-ui/core/Checkbox';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 import { ILoginDialogProps } from '../types/dialogs';
 
 import { IUiStateSlice, STATE_UI } from '../redux/reducers';
-import { login, refresh } from '../redux/actions/helper';
+import { login, loginFail, refresh } from '../redux/actions/helper';
 
 class LoginDialog extends React.Component<ILoginDialogProps, never> {
   private username: string = '';
@@ -71,13 +73,18 @@ class LoginDialog extends React.Component<ILoginDialogProps, never> {
           保存凭据以自动登录
         </DialogContent>
         <DialogActions>
+          <CircularProgress
+            size={30}
+            variant={'indeterminate'}
+            hidden={!this.props.inLoginProgress}
+          />
           <Button
             color="primary"
-            disabled={!this.props.submitEnabled}
+            disabled={this.props.inLoginProgress}
             onClick={() => {
-              this.props.dispatch<any>(login(this.username, this.password, this.save)).then(() => {
-                this.props.dispatch<any>(refresh());
-              });
+              this.props.dispatch<any>(login(this.username, this.password, this.save))
+                .then(() => { this.props.dispatch<any>(refresh()); })
+                .catch(() => { this.props.dispatch<any>(loginFail()); });
             }}
             type="submit"
           >
@@ -93,7 +100,7 @@ const mapStateToProps = (state: IUiStateSlice): Partial<ILoginDialogProps> => {
   const uiState = state[STATE_UI];
   return {
     open: uiState.showLoginDialog,
-    submitEnabled: !uiState.inLoginProgress,
+    inLoginProgress: uiState.inLoginProgress,
   };
 };
 
