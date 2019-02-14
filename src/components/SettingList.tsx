@@ -42,7 +42,7 @@ class SettingList extends React.Component<SettingListProps, null> {
             <ListItemIcon className={styles.list_item_icon}>
               <FontAwesomeIcon icon={i.icon} />
             </ListItemIcon>
-              <ListItemText primary={i.name} />
+              <ListItemText primary={i.name} className={styles.settings_list_item_text} />
           </ListItem>
         ))
             }

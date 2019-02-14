@@ -78,7 +78,7 @@ export function updateQuestion(content: CourseContent) {
   return {
     type: DataActionType.UPDATE_CONTENT,
     content,
-    contentType: ContentType.NOTIFICATION,
+    contentType: ContentType.QUESTION,
   };
 }
 

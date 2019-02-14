@@ -11,9 +11,9 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import styles from '../css/sidebar.css';
 import '../constants/fontAwesome.ts';
 import { IExpandableListData } from '../types/sidebar';
-import { COURSE_ICON } from '../constants/function';
+import { COURSE_FUNC_LIST, COURSE_ICON } from '../constants/function';
 
-class ExpandableList extends React.Component<
+class CourseList extends React.Component<
   IExpandableListData,
   {
     opened: {
@@ -29,7 +29,7 @@ class ExpandableList extends React.Component<
   }
 
   render() {
-    const { name, icon, courses, functions } = this.props;
+    const { name, icon, courses } = this.props;
 
     return (
       <List
@@ -57,14 +57,16 @@ class ExpandableList extends React.Component<
             </ListItem>
             <Collapse in={this.state.opened[i]} timeout="auto" unmountOnExit={true}>
               <List className={styles.subfunc_list} disablePadding={true}>
-                {functions.map(s => (
-                  <ListItem className={styles.sidebar_list_item} button={true} key={s.name}>
+                {
+                  COURSE_FUNC_LIST.map(func => (
+                  <ListItem className={styles.sidebar_list_item} button={true} key={func.name}>
                     <ListItemIcon className={styles.list_item_icon}>
-                      <FontAwesomeIcon icon={s.icon} />
+                      <FontAwesomeIcon icon={func.icon} />
                     </ListItemIcon>
-                    <ListItemText primary={s.name} className={styles.course_list_item_text} />
+                    <ListItemText primary={func.name} className={styles.course_list_item_text} />
                   </ListItem>
-                ))}
+                ))
+                    }
               </List>
             </Collapse>
           </div>
@@ -86,4 +88,4 @@ class ExpandableList extends React.Component<
   };
 }
 
-export default ExpandableList;
+export default CourseList;

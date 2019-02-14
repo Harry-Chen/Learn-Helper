@@ -11,7 +11,7 @@ import { ICommonDialogProps } from '../../types/dialogs';
 import { toggleLoginDialog, toggleNetworkErrorDialog } from '../../redux/actions/ui';
 import { connect } from 'react-redux';
 import { IUiStateSlice, STATE_UI } from '../../redux/reducers';
-import { refresh } from '../../redux/actions/helper';
+import { loggedIn, refresh } from '../../redux/actions/helper';
 
 class NetworkErrorDialog extends React.Component<ICommonDialogProps> {
   public render(): React.ReactNode {
@@ -41,6 +41,7 @@ class NetworkErrorDialog extends React.Component<ICommonDialogProps> {
             color="primary"
             onClick={() => {
               this.props.dispatch(toggleNetworkErrorDialog(false));
+              this.props.dispatch(loggedIn());
             }}
           >
             离线查看

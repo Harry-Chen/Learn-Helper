@@ -12,7 +12,7 @@ import SnackbarContent from '@material-ui/core/SnackbarContent';
 
 import SummaryList from './components/SummaryList';
 import SettingList from './components/SettingList';
-import ExpandableList from './components/ExpandableList';
+import CourseList from './components/CourseList';
 import ToggleButton from './components/ToggleButton';
 import CardList from './components/CardList';
 import * as SideBar from './constants/function';
@@ -32,9 +32,8 @@ import styles from './css/index.css';
 import { IUiStateSlice, STATE_UI } from './redux/reducers';
 import { AppProp } from './types/app';
 import {
-  toggleLoginDialog, toggleLoginDialogProgress,
+  toggleLoginDialog,
   toggleNetworkErrorDialog,
-  togglePane,
   toggleSnackbar,
 } from './redux/actions/ui';
 import { login, refresh } from './redux/actions/helper';
@@ -47,18 +46,12 @@ class AppImpl extends React.Component<AppProp, never> {
         <div
           className={classnames(styles.paneFolder, { [styles.paneHidden]: this.props.paneHidden })}
         >
-          <SummaryList
-            name="通知汇总"
-            icon="thumbtack"
-            items={SideBar.SUMMARY_FUNC_LIST}
-            numbers={PlaceHolder.TEST_NUMBER_LIST}
-          />
+          <SummaryList/>
           <Divider />
-          <ExpandableList
+          <CourseList
             name="本学期课程"
             icon="inbox"
             courses={PlaceHolder.TEST_COURSE_LIST}
-            functions={SideBar.COURSE_FUNC_LIST}
           />
           <Divider />
           <SettingList />
@@ -73,11 +66,7 @@ class AppImpl extends React.Component<AppProp, never> {
             [styles.paneFullscreen]: this.props.paneHidden,
           })}
         >
-          <ToggleButton
-            handler={() => {
-              store.dispatch(togglePane(!this.props.paneHidden));
-            }}
-          />
+          <ToggleButton/>
           <Iframe url="welcome.html" />
         </div>
         <div className={styles.progress_area}>
@@ -155,7 +144,7 @@ getStoredCredential()
       store.dispatch<any>(login(res.username, res.password, false))
         .then(() => { store.dispatch<any>(refresh()); })
         .catch(() => {
-          store.dispatch(toggleLoginDialogProgress(false));
+          store.dispatch(toggleLoginDialog(false));
           store.dispatch(toggleNetworkErrorDialog(true));
         });
     }
