@@ -18,7 +18,7 @@ export const toggleLoginDialog = (state: boolean): UiAction => {
   };
 };
 
-export const toggleLoginSubmit = (state: boolean): UiAction => {
+export const toggleLoginDialogProgress = (state: boolean): UiAction => {
   return {
     type: UiActionType.LOGIN_DIALOG_PROGRESS,
     state,
