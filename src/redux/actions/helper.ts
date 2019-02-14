@@ -159,7 +159,7 @@ export function refresh() {
       await new Promise((resolve, reject) => {
         setTimeout(() => {
           resolve();
-        }, 300);
+        }, 1000);
       });
     } catch (e) {
       dispatch(toggleNetworkErrorDialog(true));

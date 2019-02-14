@@ -1,6 +1,8 @@
 import { IconName } from '@fortawesome/fontawesome-common-types';
 
 import { CardType, IMenuItem, IMenuItemEnum } from '../types/sidebar';
+import { Dispatch } from 'redux';
+import { loggedOut, refresh } from '../redux/actions/helper';
 
 export const COURSE_MAIN_FUNC_LIST: {
   [key: string]: {
@@ -103,22 +105,40 @@ const SETTINGS_FUNC: IMenuItemEnum = {
   SETTINGS_IGNORE: {
     icon: 'cog',
     name: '管理忽略项',
+    handler: (dispatch: Dispatch<any>) => {
+      // dispatch();
+      // show manage page
+    },
   },
   SETTINGS_MARK_READ: {
     icon: 'envelope',
     name: '全部标为已读',
+    handler: (dispatch: Dispatch<any>) => {
+
+    },
   },
   SETTINGS_REFRESH: {
     icon: 'sync',
     name: '手动刷新',
+    handler: (dispatch: Dispatch<any>) => {
+      dispatch(refresh());
+    },
   },
   SETTINGS_CHANGE_USER: {
     icon: 'user',
     name: '退出登录',
+    handler: (dispatch: Dispatch<any>) => {
+      // show a confirm dialog
+      dispatch(loggedOut());
+      // dispatch()
+    },
   },
   SETTINGS_CLEAR_CACHE: {
     icon: 'trash',
     name: '清空缓存',
+    handler: (dispatch: Dispatch<any>) => {
+
+    },
   },
 };
 

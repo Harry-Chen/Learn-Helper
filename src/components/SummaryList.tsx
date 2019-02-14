@@ -12,7 +12,7 @@ import styles from '../css/sidebar.css';
 import '../constants/fontAwesome.ts';
 import { INumberedListData } from '../types/sidebar';
 
-class NumberedList extends React.Component<INumberedListData, null> {
+class SummaryList extends React.Component<INumberedListData, null> {
   constructor(props) {
     super(props);
   }
@@ -50,4 +50,4 @@ class NumberedList extends React.Component<INumberedListData, null> {
   }
 }
 
-export default NumberedList;
+export default SummaryList;

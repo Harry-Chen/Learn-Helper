@@ -14,6 +14,8 @@ interface IUiState {
   showNetworkErrorDialog: boolean;
   showNewSemesterDialog: boolean;
   ignoreWrongSemester: boolean;
+  showLogoutDialog: boolean;
+  showClearDataDialog;
 }
 
 export type UiState = IUiState;
@@ -30,6 +32,8 @@ const initialState: UiState = {
   showNetworkErrorDialog: false,
   showNewSemesterDialog: false,
   ignoreWrongSemester: false,
+  showLogoutDialog: false,
+  showClearDataDialog: false,
 };
 
 export default function ui(state: UiState = initialState, action: UiAction): UiState {
@@ -84,6 +88,16 @@ export default function ui(state: UiState = initialState, action: UiAction): UiS
       return {
         ...state,
         ignoreWrongSemester: action.state,
+      };
+    case UiActionType.TOGGLE_CLEAR_DATA_DIALOG:
+      return {
+        ...state,
+        showClearDataDialog: action.state,
+      };
+    case UiActionType.TOGGLE_LOGOUT_DIALOG:
+      return {
+        ...state,
+        showLogoutDialog: action.state,
       };
     default:
       return state;

@@ -18,7 +18,7 @@ export function setChromeStorageAsync(area: ChromeStorageArea, args: object): Pr
 
 export async function getStoredCredential() {
   const res = await getChromeStorageAsync('local',
-    [STORAGE_KEY_USERNAME, STORAGE_KEY_PASSWORD]);
+                                          [STORAGE_KEY_USERNAME, STORAGE_KEY_PASSWORD]);
   const username = res[STORAGE_KEY_USERNAME];
   const password = res[STORAGE_KEY_PASSWORD];
   if (username !== undefined && password !== undefined) {
@@ -27,8 +27,7 @@ export async function getStoredCredential() {
       username: decipherImpl(username),
       password: decipherImpl(password),
     };
-  } else {
-    return null;
   }
+  return null;
 
 }

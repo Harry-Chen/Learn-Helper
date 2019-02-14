@@ -75,6 +75,20 @@ export const toggleNewSemesterDialog = (state: boolean): UiAction => {
   };
 };
 
+export const toggleLogoutDialog = (state: boolean): UiAction => {
+  return {
+    type: UiActionType.TOGGLE_LOGOUT_DIALOG,
+    state,
+  };
+};
+
+export const toggleClearDataDialog = (state: boolean): UiAction => {
+  return {
+    type: UiActionType.TOGGLE_CLEAR_DATA_DIALOG,
+    state,
+  };
+};
+
 export const toggleIgnoreWrongSemester = (state: boolean): UiAction => {
   return {
     type: UiActionType.IGNORE_WRONG_SEMESTER,

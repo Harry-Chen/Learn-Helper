@@ -10,7 +10,7 @@ import logger from 'redux-logger';
 import reducers, { STATE_HELPER, STATE_UI } from './reducers';
 import { STORAGE_KEY_REDUX } from '../constants';
 
-// Create a ChromeStorage instance using the chrome runtime and the Sync StorageArea.
+// Create a ChromeStorage instance using the chrome runtime and the local StorageArea.
 const storage = createChromeStorage(window.chrome, 'local');
 
 const config: PersistConfig = {

@@ -7,15 +7,15 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 
-import { INewSemesterDialogProps } from '../types/dialogs';
-import { toggleIgnoreWrongSemester, toggleNewSemesterDialog } from '../redux/actions/ui';
+import { INewSemesterDialogProps } from '../../types/dialogs';
+import { toggleIgnoreWrongSemester, toggleNewSemesterDialog } from '../../redux/actions/ui';
 import { connect } from 'react-redux';
-import { IUiStateSlice, STATE_DATA, STATE_UI } from '../redux/reducers';
-import { formatSemester } from '../utils/format';
-import { insistSemester, updateSemester } from '../redux/actions/data';
-import { refresh } from '../redux/actions/helper';
-import { DataState } from '../redux/reducers/data';
-import { UiState } from '../redux/reducers/ui';
+import { IUiStateSlice, STATE_DATA, STATE_UI } from '../../redux/reducers';
+import { formatSemester } from '../../utils/format';
+import { insistSemester, updateSemester } from '../../redux/actions/data';
+import { refresh } from '../../redux/actions/helper';
+import { DataState } from '../../redux/reducers/data';
+import { UiState } from '../../redux/reducers/ui';
 
 class NewSemesterDialog extends React.Component<INewSemesterDialogProps> {
   public render(): React.ReactNode {
