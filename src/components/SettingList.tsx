@@ -11,7 +11,7 @@ import styles from '../css/sidebar.css';
 import '../constants/fontAwesome.ts';
 import { SettingListProps } from '../types/sidebar';
 import { connect } from 'react-redux';
-import * as SideBar from '../constants/function';
+import { SETTINGS_FUNC_LIST } from '../constants/function';
 
 class SettingList extends React.Component<SettingListProps, null> {
   constructor(props) {
@@ -32,7 +32,7 @@ class SettingList extends React.Component<SettingListProps, null> {
         }
       >
         {
-          SideBar.SETTINGS_FUNC_LIST.map(i => (
+          SETTINGS_FUNC_LIST.map(i => (
           <ListItem
             className={styles.sidebar_list_item}
             button={true}
