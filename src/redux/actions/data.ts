@@ -82,6 +82,12 @@ export function updateQuestion(content: CourseContent) {
   };
 }
 
+export function updateFinished() {
+  return {
+    type: DataActionType.UPDATE_FINISHED,
+  };
+}
+
 export function markAllRead() {
   return {
     type: DataActionType.MARK_ALL_READ,

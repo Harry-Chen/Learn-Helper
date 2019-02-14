@@ -18,9 +18,11 @@ import {
   updateCourses,
   updateDiscussion,
   updateFile,
+  updateFinished,
   updateHomework,
   updateNotification,
-  updateQuestion, updateSemester,
+  updateQuestion,
+  updateSemester,
 } from './data';
 import { getCourseIdListForContent } from '../selectors';
 import { ContentType, SemesterType } from 'thu-learn-lib/lib/types';
@@ -69,6 +71,19 @@ export function loggedIn() {
 export function loggedOut() {
   return {
     type: HelperActionType.LOGOUT,
+  };
+}
+
+// avoid too frequent refresh (15 min)
+export function refreshIfNeeded() {
+  return (dispatch, getState) => {
+    const data = getState()[STATE_DATA] as DataState;
+    if (new Date().getTime() - data.lastUpdateTime.getTime() > 15 * 60 * 1000) {
+      dispatch(refresh());
+    } else {
+      dispatch(toggleSnackbar(true));
+      dispatch(setSnackbar('距离上次刷新不足15分钟', SnackbarType.NOTIFICATION));
+    }
   };
 }
 
@@ -147,6 +162,7 @@ export function refresh() {
       );
       dispatch(updateQuestion(res));
       dispatch(setProgressBar(100));
+      dispatch(updateFinished());
       dispatch(toggleSnackbar(true));
       dispatch(setSnackbar('更新成功！', SnackbarType.SUCCESS));
 

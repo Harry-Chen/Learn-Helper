@@ -27,6 +27,7 @@ interface IDataState {
   homeworkMap: Map<string, HomeworkInfo>;
   discussionMap: Map<string, DiscussionInfo>;
   questionMap: Map<string, QuestionInfo>;
+  lastUpdateTime: Date;
 }
 
 export type DataState = IDataState;
@@ -50,6 +51,7 @@ const initialState: IDataState = {
   homeworkMap: Map(),
   discussionMap: Map(),
   questionMap: Map(),
+  lastUpdateTime: new Date(0),
 };
 
 function update<T extends ContentInfo>(
@@ -163,6 +165,12 @@ export default function data(state: IDataState = initialState, action: DataActio
       return {
         ...state,
         [stateKey]: update(state[stateKey], action.contentType, action.content, state.courseMap),
+      };
+
+    case DataActionType.UPDATE_FINISHED:
+      return {
+        ...state,
+        lastUpdateTime: new Date(),
       };
 
     case DataActionType.MARK_ALL_READ:
