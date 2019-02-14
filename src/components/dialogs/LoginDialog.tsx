@@ -12,10 +12,10 @@ import Dialog from '@material-ui/core/Dialog';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 
-import { ILoginDialogProps } from '../types/dialogs';
+import { ILoginDialogProps } from '../../types/dialogs';
 
-import { IUiStateSlice, STATE_UI } from '../redux/reducers';
-import { login, loginFail, refresh } from '../redux/actions/helper';
+import { IUiStateSlice, STATE_UI } from '../../redux/reducers';
+import { login, loginFail, refresh } from '../../redux/actions/helper';
 
 class LoginDialog extends React.Component<ILoginDialogProps, never> {
   private username: string = '';
@@ -73,11 +73,13 @@ class LoginDialog extends React.Component<ILoginDialogProps, never> {
           保存凭据以自动登录
         </DialogContent>
         <DialogActions>
-          <CircularProgress
-            size={30}
-            variant={'indeterminate'}
-            hidden={!this.props.inLoginProgress}
-          />
+          {
+            this.props.inLoginProgress ?
+            <CircularProgress
+              size={30}
+              variant={'indeterminate'}
+            /> : null
+          }
           <Button
             color="primary"
             disabled={this.props.inLoginProgress}

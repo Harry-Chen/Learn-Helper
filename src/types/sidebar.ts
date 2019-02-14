@@ -1,9 +1,11 @@
 import { IconName } from '@fortawesome/fontawesome-common-types';
+import { Dispatch } from 'redux';
 
 export interface IMenuItem {
   name: string;
   icon: IconName;
   type?: CardType;
+  handler?: (any) => any;
 }
 
 export interface IMenuItemEnum {
@@ -28,6 +30,12 @@ export interface IExpandableListData extends IMenuItem, IComponent {
 export interface INumberedListData extends IMenuData {
   numbers: object;
 }
+
+interface IDispatchableComponentProps {
+  dispatch: Dispatch<any>;
+}
+
+export type SettingListProps = IDispatchableComponentProps;
 
 export interface ICardListData extends IComponent {
   title: string;

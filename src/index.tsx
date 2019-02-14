@@ -10,14 +10,20 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 
-import NumberedList from './components/NumberedList';
+import SummaryList from './components/SummaryList';
+import SettingList from './components/SettingList';
 import ExpandableList from './components/ExpandableList';
 import ToggleButton from './components/ToggleButton';
 import CardList from './components/CardList';
-import LoginDialog from './components/LoginDialog';
-import NetworkErrorDialog from './components/NetworkErrorDialog';
 import * as SideBar from './constants/function';
 import * as PlaceHolder from './constants/placeholder';
+import {
+  LoginDialog,
+  LogoutDialog,
+  NetworkErrorDialog,
+  NewSemesterDialog,
+  ClearDataDialog,
+} from './components/dialogs';
 import { SnackbarType } from './types/dialogs';
 
 import reduxStore from './redux/store';
@@ -32,7 +38,6 @@ import {
   toggleSnackbar,
 } from './redux/actions/ui';
 import { login, refresh } from './redux/actions/helper';
-import NewSemesterDialog from './components/NewSemesterDialog';
 import { getStoredCredential } from './utils/storage';
 
 class AppImpl extends React.Component<AppProp, never> {
@@ -42,7 +47,7 @@ class AppImpl extends React.Component<AppProp, never> {
         <div
           className={classnames(styles.paneFolder, { [styles.paneHidden]: this.props.paneHidden })}
         >
-          <NumberedList
+          <SummaryList
             name="通知汇总"
             icon="thumbtack"
             items={SideBar.SUMMARY_FUNC_LIST}
@@ -56,7 +61,7 @@ class AppImpl extends React.Component<AppProp, never> {
             functions={SideBar.COURSE_FUNC_LIST}
           />
           <Divider />
-          <NumberedList name="设置" icon="wrench" items={SideBar.SETTINGS_FUNC_LIST} numbers={[]} />
+          <SettingList />
         </div>
         <div
           className={classnames(styles.paneMessage, { [styles.paneHidden]: this.props.paneHidden })}
@@ -82,9 +87,13 @@ class AppImpl extends React.Component<AppProp, never> {
             hidden={!this.props.showLoadingProgressBar}
           />
         </div>
+
         <LoginDialog />
         <NetworkErrorDialog />
         <NewSemesterDialog />
+        <ClearDataDialog />
+        <LogoutDialog />
+
         <Snackbar
           anchorOrigin={{
             vertical: 'bottom',

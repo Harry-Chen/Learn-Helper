@@ -99,3 +99,9 @@ export function toggleStarState(id: string, status: boolean, contentType: Conten
     contentType,
   };
 }
+
+export function clearAllData() {
+  return {
+    type: DataActionType.CLEAR_DATA,
+  };
+}

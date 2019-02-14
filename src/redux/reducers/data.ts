@@ -163,6 +163,9 @@ export default function data(state: IDataState = initialState, action: DataActio
         [stateKey]: toggle(state[stateKey], action.id, 'starred', action.state),
       };
 
+    case DataActionType.CLEAR_DATA:
+      return initialState;
+
     default:
       return state;
   }

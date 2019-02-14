@@ -10,6 +10,8 @@ export enum UiActionType {
   PANE_VISIBILITY = 'UI/pane_visibility',
   NEW_SEMESTER_DIALOG_VISIBILITY = 'UI/new_semester_dialog_visibility',
   IGNORE_WRONG_SEMESTER = 'UI/ignore_wrong_semester',
+  TOGGLE_LOGOUT_DIALOG = 'UI/toggle_logout_dialog',
+  TOGGLE_CLEAR_DATA_DIALOG = 'UI/toggle_clear_data_dialog',
 }
 
 export enum HelperActionType {
@@ -25,4 +27,5 @@ export enum DataActionType {
   UPDATE_CONTENT = 'DATA/update_content',
   TOGGLE_READ_STATE = 'DATA/toggle_read_state',
   TOGGLE_STAR_STATE = 'DATA/toggle_star_state',
+  CLEAR_DATA = 'DATA/clear_data',
 }

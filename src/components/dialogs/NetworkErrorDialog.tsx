@@ -7,11 +7,11 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 
-import { ICommonDialogProps } from '../types/dialogs';
-import { toggleLoginDialog, toggleNetworkErrorDialog } from '../redux/actions/ui';
+import { ICommonDialogProps } from '../../types/dialogs';
+import { toggleLoginDialog, toggleNetworkErrorDialog } from '../../redux/actions/ui';
 import { connect } from 'react-redux';
-import { IUiStateSlice, STATE_UI } from '../redux/reducers';
-import { refresh } from '../redux/actions/helper';
+import { IUiStateSlice, STATE_UI } from '../../redux/reducers';
+import { refresh } from '../../redux/actions/helper';
 
 class NetworkErrorDialog extends React.Component<ICommonDialogProps> {
   public render(): React.ReactNode {
