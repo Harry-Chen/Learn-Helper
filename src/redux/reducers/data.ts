@@ -85,6 +85,7 @@ function update<T extends ContentInfo>(
       const newContent: ContentInfo = {
         ...c,
         courseId,
+        type: contentType,
         courseName: courseMap.get(courseId).name,
         date: newDate,
         hasRead: !updated,

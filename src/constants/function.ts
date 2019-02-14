@@ -6,34 +6,34 @@ import { refresh } from '../redux/actions/helper';
 import { toggleClearDataDialog, toggleLogoutDialog } from '../redux/actions/ui';
 import { ContentType } from 'thu-learn-lib/lib/types';
 
-export const COURSE_MAIN_FUNC_LIST: {
+export const COURSE_MAIN_FUNC: {
   [key: string]: {
     icon: IconName;
     name: string;
     type: ContentType;
   };
 } = {
-  NOTIFICATION: {
+  [ContentType.NOTIFICATION]: {
     icon: 'bullhorn',
     name: '通知',
     type: ContentType.NOTIFICATION,
   },
-  FILE: {
+  [ContentType.FILE]: {
     icon: 'download',
     name: '文件',
     type: ContentType.FILE,
   },
-  HOMEWORK: {
+  [ContentType.HOMEWORK]: {
     icon: 'pencil-alt',
     name: '作业',
     type: ContentType.HOMEWORK,
   },
-  DISCUSSION: {
+  [ContentType.DISCUSSION]: {
     icon: 'question',
     name: '讨论',
     type: ContentType.DISCUSSION,
   },
-  QUESTION: {
+  [ContentType.QUESTION]: {
     icon: 'chalkboard-teacher',
     name: '答疑',
     type: ContentType.QUESTION,
@@ -44,7 +44,7 @@ export const COURSE_ICON: IconName = 'book';
 
 export const COURSE_FUNC: IMenuItemEnum = {
   COURSE_NOTIFICATION: {
-    icon: COURSE_MAIN_FUNC_LIST.NOTIFICATION.icon,
+    icon: COURSE_MAIN_FUNC[ContentType.NOTIFICATION].icon,
     name: '课程公告',
     type: ContentType.NOTIFICATION,
   },
@@ -53,22 +53,22 @@ export const COURSE_FUNC: IMenuItemEnum = {
     name: '课程综合',
   },
   COURSE_FILES: {
-    icon: COURSE_MAIN_FUNC_LIST.FILE.icon,
+    icon: COURSE_MAIN_FUNC[ContentType.FILE].icon,
     name: '课程文件',
     type: ContentType.FILE,
   },
   COURSE_HOMEWORK: {
-    icon: COURSE_MAIN_FUNC_LIST.HOMEWORK.icon,
+    icon: COURSE_MAIN_FUNC[ContentType.HOMEWORK].icon,
     name: '课程作业',
     type: ContentType.HOMEWORK,
   },
   COURSE_DISCUSSION: {
-    icon: COURSE_MAIN_FUNC_LIST.DISCUSSION.icon,
+    icon: COURSE_MAIN_FUNC[ContentType.DISCUSSION].icon,
     name: '课程讨论',
     type: ContentType.DISCUSSION,
   },
   COURSE_QUESTION: {
-    icon: COURSE_MAIN_FUNC_LIST.QUESTION.icon,
+    icon: COURSE_MAIN_FUNC[ContentType.QUESTION].icon,
     name: '课程答疑',
     type: ContentType.QUESTION,
   },
@@ -93,27 +93,27 @@ const SUMMARY_FUNC: IMenuItemEnum = {
     name: '主页',
   },
   SUMMARY_HOMEWORK: {
-    icon: COURSE_MAIN_FUNC_LIST.HOMEWORK.icon,
+    icon: COURSE_MAIN_FUNC[ContentType.HOMEWORK].icon,
     name: '所有作业',
     type: ContentType.HOMEWORK,
   },
   SUMMARY_NOTIFICATIONS: {
-    icon: COURSE_MAIN_FUNC_LIST.NOTIFICATION.icon,
+    icon: COURSE_MAIN_FUNC[ContentType.NOTIFICATION].icon,
     name: '所有通知',
     type: ContentType.NOTIFICATION,
   },
   SUMMARY_FILES: {
-    icon: COURSE_MAIN_FUNC_LIST.FILE.icon,
+    icon: COURSE_MAIN_FUNC[ContentType.FILE].icon,
     name: '所有文件',
     type: ContentType.FILE,
   },
   SUMMARY_DISCUSSIONS: {
-    icon: COURSE_MAIN_FUNC_LIST.DISCUSSION.icon,
+    icon: COURSE_MAIN_FUNC[ContentType.DISCUSSION].icon,
     name: '所有讨论',
     type: ContentType.DISCUSSION,
   },
   SUMMARY_QUESTIONS: {
-    icon: COURSE_MAIN_FUNC_LIST.QUESTION.icon,
+    icon: COURSE_MAIN_FUNC[ContentType.QUESTION].icon,
     name: '所有答疑',
     type: ContentType.QUESTION,
   },

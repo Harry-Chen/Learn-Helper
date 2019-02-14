@@ -11,31 +11,30 @@ import Avatar from '@material-ui/core/Avatar';
 import Tooltip from '@material-ui/core/Tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { COURSE_MAIN_FUNC_LIST } from '../constants/function';
-import { CardData, CardType } from '../types/sidebar';
+import { COURSE_MAIN_FUNC } from '../constants/function';
+import { CardProps } from '../types/sidebar';
 
 import styles from '../css/sidebar.css';
+import { connect } from 'react-redux';
+import { ContentType } from 'thu-learn-lib/lib/types';
+import { formatDate } from '../utils/format';
+import { DiscussionInfo, FileInfo, HomeworkInfo, NotificationInfo } from '../types/data';
 
-class DetailCard extends React.Component<
-  {
-    card: CardData;
-  },
-  null
-> {
+class DetailCard extends React.Component<CardProps, never> {
   public render(): React.ReactNode {
-    const { card } = this.props;
+    const { content, dispatch } = this.props;
 
     return (
       <Card className={styles.detail_card}>
         <CardContent>
           <div className={styles.card_first_line}>
             {this.iconArea()}
-            <span className={styles.card_title}>{card.title}</span>
+            <span className={styles.card_title}>{content.title}</span>
           </div>
 
           <div className={styles.card_second_line}>
             <span className={styles.card_status}>{this.genStatusText()}</span>
-            <span className={styles.card_course}>{card.course}</span>
+            <span className={styles.card_course}>{content.courseName}</span>
           </div>
         </CardContent>
         {this.actionArea()}
@@ -44,60 +43,89 @@ class DetailCard extends React.Component<
   }
 
   private genStatusText() {
-    const { card } = this.props;
-    const date = `${card.date.getFullYear()}-${card.date.getMonth() + 1}-${card.date.getDay()}`;
+    const { content } = this.props;
 
-    if (card.type === CardType.HOMEWORK) {
-      const submitted = card.hasSubmitted ? '已提交' : '未提交';
-      const grade = card.grade === undefined ? '未批阅' : `成绩：${card.grade}`;
-      return `${date} - ${submitted} - ${grade}`;
+    let suffix = '';
+
+    if (content.type === ContentType.HOMEWORK) {
+      const homework = content as HomeworkInfo;
+      const submitted = homework.submitted ? '已提交' : '未提交';
+      const grade = homework.grade === undefined ?
+        '未批阅' : `成绩：${homework.grade} · 批阅者：${homework.graderName}`;
+      suffix = ` · ${submitted} · ${grade}`;
+    } else if (content.type === ContentType.NOTIFICATION || content.type === ContentType.FILE) {
+      const notification = content as NotificationInfo;
+      if (notification.markedImportant) {
+        suffix += ' · 重要';
+      }
+      if (content.type === ContentType.NOTIFICATION) {
+        suffix += ` · 发布者：${notification.publisher}`;
+      } else if (content.type === ContentType.FILE) {
+        const file = content as FileInfo;
+        if (file.description.trim() !== '') {
+          suffix += ` · ${file.description.trim()}`;
+        }
+      }
+    } else if (content.type === ContentType.DISCUSSION || content.type === ContentType.QUESTION) {
+      const discussion = content as DiscussionInfo;
+      suffix = ` · 回复数：${discussion.replyCount} · 最后回复：${discussion.lastReplierName}`;
     }
 
-    return `${date}`;
+    return `${formatDate(content.date)}${suffix}`;
   }
 
   private iconArea() {
-    const { card } = this.props;
+    const { content } = this.props;
+
+    let iconName = COURSE_MAIN_FUNC[content.type].icon;
+
+    if (content.type === ContentType.HOMEWORK) {
+      const homework = content as HomeworkInfo;
+      if (homework.submitted) iconName = 'check';
+    }
 
     const icon = (
       <Avatar className={styles.card_func_icon}>
-        <FontAwesomeIcon icon={COURSE_MAIN_FUNC_LIST[card.type].icon} />
+        <FontAwesomeIcon icon={iconName} />
       </Avatar>
     );
 
     let label: string;
     let className: string;
-    if (card.type === CardType.HOMEWORK) {
-      const timeDiff = Math.abs(card.date.getTime() - new Date().getTime());
-      const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    if (content.type === ContentType.HOMEWORK) {
+      const homework = content as HomeworkInfo;
+      const timeDiff = homework.date.getTime() - new Date().getTime();
+      const diffDays = Math.floor(timeDiff / (1000 * 3600 * 24));
       if (diffDays > 99) {
         label = '99+';
+      } else if (diffDays < 0) {
+        label = COURSE_MAIN_FUNC[content.type].name;
       } else {
         label = String(diffDays);
       }
 
       let urgency: string;
-      if (card.hasSubmitted) {
-        urgency = 'SUBMITTED';
+      if (diffDays >=0 && homework.submitted) {
+        urgency = 'submitted';
       } else if (diffDays > 10) {
-        urgency = 'FAR';
+        urgency = 'far';
       } else if (diffDays > 5) {
-        urgency = 'NEAR';
+        urgency = 'near';
       } else if (diffDays > 3) {
-        urgency = 'CLOSE';
+        urgency = 'close';
       } else if (diffDays >= 0) {
-        urgency = 'URGENT';
+        urgency = 'urgent';
       } else {
-        urgency = 'DUE';
+        urgency = 'due';
       }
-      className = `chip_HOMEWORK_${urgency}`;
+      className = `chip_${content.type}_${urgency}`;
     } else {
-      label = COURSE_MAIN_FUNC_LIST[card.type].name;
-      className = `chip_${card.type}`;
+      label = COURSE_MAIN_FUNC[content.type].name;
+      className = `chip_${content.type}`;
     }
 
     return (
-      <Badge variant="dot" color="secondary" invisible={card.hasRead}>
+      <Badge variant="dot" color="secondary" invisible={content.hasRead}>
         <Chip
           avatar={icon}
           label={<span className={styles.card_chip_text}>{label}</span>}
@@ -108,14 +136,14 @@ class DetailCard extends React.Component<
   }
 
   private actionArea() {
-    const { card } = this.props;
+    const { content, dispatch } = this.props;
 
     const starButton = (
-      <Tooltip title={card.hasStarred ? '取消星标' : '加星标'}>
+      <Tooltip title={content.starred ? '取消星标' : '加星标'}>
         <IconButton
           color="primary"
           className={classnames(styles.card_action_button, {
-            [styles.card_starred]: card.hasStarred,
+            [styles.card_starred]: content.starred,
           })}
           component="div"
         >
@@ -124,34 +152,40 @@ class DetailCard extends React.Component<
       </Tooltip>
     );
 
-    const markReadButton = card.hasRead ? null : (
+    const markReadButton = content.hasRead ? null : (
       <Tooltip title="标记为已读">
         <IconButton color="primary" className={styles.card_action_button} component="div">
-          <FontAwesomeIcon icon="check" />
+          <FontAwesomeIcon icon="clipboard-check" />
         </IconButton>
       </Tooltip>
     );
 
     let submitButton: ReactNode = null;
-    let fileButton: ReactNode = null;
+    let attachmentButton: ReactNode = null;
 
-    if (card.type === CardType.HOMEWORK) {
+    if (content.type === ContentType.HOMEWORK) {
+      const homework = content as HomeworkInfo;
       submitButton = (
         <Tooltip title="提交作业">
-          <IconButton color="primary" className={styles.card_action_button} component="div">
+          <IconButton
+            color="primary"
+            className={styles.card_action_button}
+            component="div"
+          >
             <FontAwesomeIcon icon="upload" />
           </IconButton>
         </Tooltip>
       );
-      if (card.fileLink !== undefined) {
-        fileButton = (
-          <Tooltip title="下载作业附件">
-            <IconButton color="primary" className={styles.card_action_button} component="div">
-              <FontAwesomeIcon icon="paperclip" />
-            </IconButton>
-          </Tooltip>
-        );
-      }
+    }
+
+    if ((content as any).attachmentUrl !== undefined) {
+      attachmentButton = (
+        <Tooltip title={`附件：${(content as any).attachmentName}`}>
+          <IconButton color="primary" className={styles.card_action_button} component="div">
+            <FontAwesomeIcon icon="paperclip" />
+          </IconButton>
+        </Tooltip>
+      );
     }
 
     const action = (
@@ -159,7 +193,7 @@ class DetailCard extends React.Component<
         {starButton}
         {markReadButton}
         {submitButton}
-        {fileButton}
+        {attachmentButton}
       </CardActions>
     );
 
@@ -167,4 +201,4 @@ class DetailCard extends React.Component<
   }
 }
 
-export default DetailCard;
+export default connect()(DetailCard);

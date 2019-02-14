@@ -12,10 +12,11 @@ import styles from '../css/sidebar.css';
 import '../constants/fontAwesome.ts';
 import { CourseListProps } from '../types/sidebar';
 import { COURSE_FUNC, COURSE_FUNC_LIST, COURSE_ICON } from '../constants/function';
-import { STATE_DATA } from '../redux/reducers';
+import { STATE_DATA, STATE_HELPER } from '../redux/reducers';
 import { DataState } from '../redux/reducers/data';
 import { connect } from 'react-redux';
 import { setCardFilter, setCardListTitle } from '../redux/actions/ui';
+import { HelperState } from '../redux/reducers/helper';
 
 class CourseList extends React.Component<
   CourseListProps,
@@ -107,6 +108,11 @@ class CourseList extends React.Component<
 };
 
 const mapStateToProps = (state): CourseListProps => {
+  if (!(state[STATE_HELPER] as HelperState).loggedIn) {
+    return {
+      courses: [],
+    };
+  }
   const courseMap = (state[STATE_DATA] as DataState).courseMap;
   return {
     courses: [...courseMap.values()],
