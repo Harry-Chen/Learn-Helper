@@ -78,15 +78,10 @@ class AppImpl extends React.Component<AppProp, never> {
         <LogoutDialog />
 
         <Snackbar
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-          }}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center', }}
           open={this.props.showSnackbar}
           autoHideDuration={3000}
-          onClose={() => {
-            store.dispatch(toggleSnackbar(false));
-          }}
+          onClose={() => { store.dispatch(toggleSnackbar(false)); }}
         >
           <SnackbarContent
             className={this.snackbarClass(this.props.snackbarType)}
@@ -110,7 +105,7 @@ class AppImpl extends React.Component<AppProp, never> {
       case SnackbarType.SUCCESS:
         return styles.snack_bar_success;
     }
-  };
+  }
 }
 
 const mapStateToProps = (state: IUiStateSlice): Partial<AppProp> => {

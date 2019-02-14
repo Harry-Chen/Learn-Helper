@@ -107,9 +107,12 @@ function toggle<T extends ContentInfo>(
   key: string,
   status: boolean,
 ): Map<string, T> {
-  const oldContent = oldMap.get(id);
-  oldContent[key] = status;
-  return oldMap.set(id, oldContent);
+  return oldMap.update(id, c => {
+    return {
+      ...c,
+      [key]: status,
+    };
+  });
 }
 
 function markAllRead<T extends ContentInfo>(oldMap: Map<string, T>): Map<string, T> {

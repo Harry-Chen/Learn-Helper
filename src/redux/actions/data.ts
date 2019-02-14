@@ -94,20 +94,20 @@ export function markAllRead() {
   };
 };
 
-export function toggleReadState(id: string, status: boolean, contentType: ContentType) {
+export function toggleReadState(id: string, state: boolean, contentType: ContentType) {
   return {
     type: DataActionType.TOGGLE_READ_STATE,
     id,
-    status,
+    state,
     contentType,
   };
 }
 
-export function toggleStarState(id: string, status: boolean, contentType: ContentType) {
+export function toggleStarState(id: string, state: boolean, contentType: ContentType) {
   return {
     type: DataActionType.TOGGLE_STAR_STATE,
     id,
-    status,
+    state,
     contentType,
   };
 }
