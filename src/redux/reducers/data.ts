@@ -77,7 +77,7 @@ function update<T extends ContentInfo>(
       const newDate = c[dateKey[contentType]];
       let updated = true;
       if (oldContent !== undefined) {
-        if (newDate === oldContent[dateKey[contentType]]) {
+        if (newDate.getTime() === oldContent[dateKey[contentType]].getTime()) {
           updated = false;
         }
       }
@@ -88,7 +88,7 @@ function update<T extends ContentInfo>(
         type: contentType,
         courseName: courseMap.get(courseId).name,
         date: newDate,
-        hasRead: !updated,
+        hasRead: oldContent === undefined ? false : !updated && oldContent.hasRead,
         starred: oldContent === undefined ? false : oldContent.starred,
       };
       result = result.set(c.id, newContent);
@@ -108,6 +108,19 @@ function toggle<T extends ContentInfo>(
   const oldContent = oldMap.get(id);
   oldContent[key] = status;
   return oldMap.set(id, oldContent);
+}
+
+function markAllRead<T extends ContentInfo>(oldMap: Map<string, T>): Map<string, T> {
+  let map = oldMap;
+  for (const k of oldMap.keys()) {
+    map = map.update(k, c => {
+      return {
+        ...c,
+        hasRead: true,
+      };
+    });
+  }
+  return map;
 }
 
 export default function data(state: IDataState = initialState, action: DataAction): IDataState {
@@ -150,6 +163,16 @@ export default function data(state: IDataState = initialState, action: DataActio
       return {
         ...state,
         [stateKey]: update(state[stateKey], action.contentType, action.content, state.courseMap),
+      };
+
+    case DataActionType.MARK_ALL_READ:
+      return {
+        ...state,
+        notificationMap: markAllRead(state.notificationMap),
+        fileMap: markAllRead(state.fileMap),
+        homeworkMap: markAllRead(state.homeworkMap),
+        discussionMap: markAllRead(state.discussionMap),
+        questionMap: markAllRead(state.questionMap),
       };
 
     case DataActionType.TOGGLE_READ_STATE:

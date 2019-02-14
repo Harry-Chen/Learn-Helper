@@ -27,6 +27,7 @@ export enum DataActionType {
   UPDATE_SEMESTER = 'DATA/update_semester',
   UPDATE_COURSES = 'DATA/update_courses',
   UPDATE_CONTENT = 'DATA/update_content',
+  MARK_ALL_READ = 'DATA/mark_all_read',
   TOGGLE_READ_STATE = 'DATA/toggle_read_state',
   TOGGLE_STAR_STATE = 'DATA/toggle_star_state',
   CLEAR_DATA = 'DATA/clear_data',

@@ -82,6 +82,12 @@ export function updateQuestion(content: CourseContent) {
   };
 }
 
+export function markAllRead() {
+  return {
+    type: DataActionType.MARK_ALL_READ,
+  };
+};
+
 export function toggleReadState(id: string, status: boolean, contentType: ContentType) {
   return {
     type: DataActionType.TOGGLE_READ_STATE,

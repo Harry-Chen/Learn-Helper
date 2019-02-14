@@ -5,6 +5,7 @@ import { Dispatch } from 'redux';
 import { refresh } from '../redux/actions/helper';
 import { toggleClearDataDialog, toggleLogoutDialog } from '../redux/actions/ui';
 import { ContentType } from 'thu-learn-lib/lib/types';
+import { markAllRead } from '../redux/actions/data';
 
 export const COURSE_MAIN_FUNC: {
   [key: string]: {
@@ -141,7 +142,7 @@ const SETTINGS_FUNC: IMenuItemEnum = {
     icon: 'envelope',
     name: '全部标为已读',
     handler: (dispatch: Dispatch<any>) => {
-
+      dispatch(markAllRead());
     },
   },
   SETTINGS_REFRESH: {
