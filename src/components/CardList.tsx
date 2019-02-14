@@ -32,38 +32,52 @@ class CardList extends React.Component<CardListProps, null> {
       </List>
     );
   }
-};
+}
 
 let oldType: ContentType;
 let oldCourse: CourseInfo;
-let oldCardList: ContentInfo[];
+let allContent: ContentInfo[];
+let oldCards: ContentInfo[];
+let lastRegenerateTime: Date;
 
-const generateCardList = (data: DataState, type?: ContentType, course?: CourseInfo):
+const generateCardList = (data: DataState, lastUpdateTime: Date,
+                          type?: ContentType, course?: CourseInfo):
   ContentInfo[] => {
 
-  const cardList: ContentInfo[] = [];
+  const filteredCards: ContentInfo[] = [];
 
-  if (type === oldType && course === oldCourse && oldCardList !== undefined) {
-    // filter not changed, use sorted sequence last time
-    for (const l of oldCardList) {
-      cardList.push(data[`${l.type}Map`].get(l.id));
+  if (type === oldType && course === oldCourse
+    && oldCards !== undefined && lastRegenerateTime === lastUpdateTime) {
+    // filter and data not changed, use filtered & sorted sequence
+    for (const l of oldCards) {
+      filteredCards.push(data[`${l.type}Map`].get(l.id));
     }
-  } else {
-    // filter changed, generate data from scratch
-    // filter type and course
-    for (const k of Object.keys(data)) {
-      if (k.startsWith('course') || !k.endsWith('Map')) continue;
-      if (type === undefined || k.startsWith(type)) {
+  } else { // filter or data changed
+
+    if (lastUpdateTime !== lastRegenerateTime) {
+      // data updated from network, generate data from scratch
+      allContent = [];
+      for (const k of Object.keys(data)) {
+        if (k.startsWith('course') || !k.endsWith('Map')) continue;
         const source = data[k] as Map<string, ContentInfo>;
         for (const item of source.values()) {
-          if (course === undefined || item.courseId === course.id) {
-            cardList.push(item);
-          }
+          allContent.push(item);
+        }
+      }
+      lastRegenerateTime = lastUpdateTime;
+    }
+
+    // filter the latest data by id
+    for (const l of allContent) {
+      if (type === undefined || l.type === type) {
+        if (course === undefined || l.courseId === course.id) {
+          filteredCards.push(data[`${l.type}Map`].get(l.id));
         }
       }
     }
 
-    cardList.sort((a, b) => {
+    // sort by starred, hasRead and time
+    filteredCards.sort((a, b) => {
       if (a.starred && !b.starred) return -1;
       if (!a.starred && b.starred) return 1;
       if (!a.hasRead && b.hasRead) return -1;
@@ -74,9 +88,9 @@ const generateCardList = (data: DataState, type?: ContentType, course?: CourseIn
 
   oldType = type;
   oldCourse = course;
-  oldCardList = cardList;
+  oldCards = filteredCards;
   // limit length to 100 to avoid too bad performance
-  return cardList.slice(0, 100);
+  return filteredCards.slice(0, 100);
 };
 
 const mapStateToProps = (state): CardListProps => {
@@ -84,7 +98,8 @@ const mapStateToProps = (state): CardListProps => {
   const ui = (state[STATE_UI] as UiState);
   const loggedIn = (state[STATE_HELPER] as HelperState).loggedIn;
   return {
-    contents: loggedIn ? generateCardList(data, ui.cardTypeFilter, ui.cardCourseFilter) : [],
+    contents: loggedIn ? generateCardList(data, data.lastUpdateTime,
+      ui.cardTypeFilter, ui.cardCourseFilter) : [],
     title: ui.cardListTitle,
   };
 };
