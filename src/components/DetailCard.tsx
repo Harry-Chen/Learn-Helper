@@ -11,7 +11,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Tooltip from '@material-ui/core/Tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { COURSE_MAIN_FUNC } from '../constants/function';
+import { COURSE_MAIN_FUNC } from '../constants/ui';
 import { CardProps } from '../types/sidebar';
 
 import styles from '../css/sidebar.css';
