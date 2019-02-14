@@ -18,7 +18,6 @@ import {
   updateCourses,
   updateDiscussion,
   updateFile,
-  updateFinished,
   updateHomework,
   updateNotification,
   updateQuestion,
@@ -162,7 +161,6 @@ export function refresh() {
       );
       dispatch(updateQuestion(res));
       dispatch(setProgressBar(100));
-      dispatch(updateFinished());
       dispatch(toggleSnackbar(true));
       dispatch(setSnackbar('更新成功！', SnackbarType.SUCCESS));
 

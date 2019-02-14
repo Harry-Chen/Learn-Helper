@@ -168,11 +168,6 @@ export default function data(state: IDataState = initialState, action: DataActio
       return {
         ...state,
         [stateKey]: update(state[stateKey], action.contentType, action.content, state.courseMap),
-      };
-
-    case DataActionType.UPDATE_FINISHED:
-      return {
-        ...state,
         lastUpdateTime: new Date(),
       };
 
