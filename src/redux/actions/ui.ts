@@ -1,5 +1,6 @@
 import { UiActionType } from './actionTypes';
 import { SnackbarType } from '../../types/dialogs';
+import { ContentType, CourseInfo } from 'thu-learn-lib/lib/types';
 
 interface IUiAction {
   type: UiActionType;
@@ -7,6 +8,9 @@ interface IUiAction {
   snackbarContent?: string;
   snackbarType?: SnackbarType;
   loadingProgress?: number;
+  cardType?: ContentType;
+  cardCourse?: CourseInfo;
+  title?: string;
 }
 
 export type UiAction = IUiAction;
@@ -93,5 +97,20 @@ export const toggleIgnoreWrongSemester = (state: boolean): UiAction => {
   return {
     type: UiActionType.IGNORE_WRONG_SEMESTER,
     state,
+  };
+};
+
+export const setCardFilter = (cardType?: ContentType, cardCourse?: CourseInfo): UiAction => {
+  return {
+    type: UiActionType.CARD_FILTER,
+    cardType,
+    cardCourse,
+  };
+};
+
+export const setCardListTitle = (title: string): UiAction => {
+  return {
+    type: UiActionType.CARD_LIST_TITLE,
+    title,
   };
 };

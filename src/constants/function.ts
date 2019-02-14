@@ -42,15 +42,15 @@ export const COURSE_MAIN_FUNC_LIST: {
 
 export const COURSE_ICON: IconName = 'book';
 
-const COURSE_FUNC: IMenuItemEnum = {
+export const COURSE_FUNC: IMenuItemEnum = {
   COURSE_NOTIFICATION: {
     icon: COURSE_MAIN_FUNC_LIST.NOTIFICATION.icon,
     name: '课程公告',
     type: ContentType.NOTIFICATION,
   },
-  COURSE_INFORMATION: {
+  COURSE_SUMMARY: {
     icon: 'info-circle',
-    name: '课程信息',
+    name: '课程综合',
   },
   COURSE_FILES: {
     icon: COURSE_MAIN_FUNC_LIST.FILE.icon,
@@ -79,8 +79,8 @@ const COURSE_FUNC: IMenuItemEnum = {
 };
 
 export const COURSE_FUNC_LIST: IMenuItem[] = [
+  COURSE_FUNC.COURSE_SUMMARY,
   COURSE_FUNC.COURSE_NOTIFICATION,
-  // COURSE_FUNC.COURSE_INFORMATION,
   COURSE_FUNC.COURSE_FILES,
   COURSE_FUNC.COURSE_HOMEWORK,
   COURSE_FUNC.COURSE_DISCUSSION,

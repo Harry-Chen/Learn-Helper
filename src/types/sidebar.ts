@@ -1,6 +1,6 @@
 import { IconName } from '@fortawesome/fontawesome-common-types';
 import { Dispatch } from 'redux';
-import { ContentType } from 'thu-learn-lib/lib/types';
+import { ContentType, CourseInfo } from 'thu-learn-lib/lib/types';
 
 export interface IMenuItem {
   name: string;
@@ -21,12 +21,6 @@ export interface IMenuData extends IMenuItem, IComponent {
   items: IMenuItem[];
 }
 
-export type CourseInfo = string;
-
-export interface IExpandableListData extends IMenuItem, IComponent {
-  courses: CourseInfo[];
-}
-
 interface IDispatchableComponentProps {
   dispatch?: Dispatch<any>;
 }
@@ -37,9 +31,15 @@ interface ISummaryListProps extends IDispatchableComponentProps {
   };
 }
 
+interface ICourseListProps extends IDispatchableComponentProps {
+  courses: CourseInfo[];
+}
+
 export type SummaryListProps = ISummaryListProps;
 
 export type SettingListProps = IDispatchableComponentProps;
+
+export type CourseListProps = ICourseListProps;
 
 export interface ICardListData extends IComponent {
   title: string;

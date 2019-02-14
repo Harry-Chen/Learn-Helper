@@ -15,7 +15,6 @@ import SettingList from './components/SettingList';
 import CourseList from './components/CourseList';
 import ToggleButton from './components/ToggleButton';
 import CardList from './components/CardList';
-import * as SideBar from './constants/function';
 import * as PlaceHolder from './constants/placeholder';
 import {
   LoginDialog,
@@ -48,11 +47,7 @@ class AppImpl extends React.Component<AppProp, never> {
         >
           <SummaryList/>
           <Divider />
-          <CourseList
-            name="本学期课程"
-            icon="inbox"
-            courses={PlaceHolder.TEST_COURSE_LIST}
-          />
+          <CourseList/>
           <Divider />
           <SettingList />
         </div>

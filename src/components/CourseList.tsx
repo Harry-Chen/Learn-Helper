@@ -10,11 +10,15 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 
 import styles from '../css/sidebar.css';
 import '../constants/fontAwesome.ts';
-import { IExpandableListData } from '../types/sidebar';
-import { COURSE_FUNC_LIST, COURSE_ICON } from '../constants/function';
+import { CourseListProps } from '../types/sidebar';
+import { COURSE_FUNC, COURSE_FUNC_LIST, COURSE_ICON } from '../constants/function';
+import { STATE_DATA } from '../redux/reducers';
+import { DataState } from '../redux/reducers/data';
+import { connect } from 'react-redux';
+import { setCardFilter, setCardListTitle } from '../redux/actions/ui';
 
 class CourseList extends React.Component<
-  IExpandableListData,
+  CourseListProps,
   {
     opened: {
       [key: string]: boolean;
@@ -29,7 +33,7 @@ class CourseList extends React.Component<
   }
 
   render() {
-    const { name, icon, courses } = this.props;
+    const { courses, dispatch } = this.props;
 
     return (
       <List
@@ -37,29 +41,43 @@ class CourseList extends React.Component<
         component="nav"
         subheader={
           <ListSubheader component="div" disableSticky={true}>
-            <FontAwesomeIcon icon={icon} />
-            <span className={styles.list_title}>{name}</span>
+            <FontAwesomeIcon icon={'inbox'} />
+            <span className={styles.list_title}>本学期课程</span>
           </ListSubheader>
         }
       >
-        {courses.map(i => (
-          <div key={i}>
+        {
+          courses.map(c => (
+          <div key={c.id}>
             <ListItem
               className={styles.sidebar_list_item}
               button={true}
-              onClick={() => this.handleClick(i)}
+              onClick={() => this.handleClick(c.id)}
             >
               <ListItemIcon className={styles.list_item_icon}>
                 <FontAwesomeIcon icon={COURSE_ICON} />
               </ListItemIcon>
-              <ListItemText primary={i} className={styles.course_list_item_text} />
-              <FontAwesomeIcon icon={this.state.opened[i] ? 'angle-up' : 'angle-down'} />
+              <ListItemText primary={c.name} className={styles.course_list_item_text} />
+              <FontAwesomeIcon icon={this.state.opened[c.id] ? 'angle-up' : 'angle-down'} />
             </ListItem>
-            <Collapse in={this.state.opened[i]} timeout="auto" unmountOnExit={true}>
+            <Collapse in={this.state.opened[c.id]} timeout="auto" unmountOnExit={true}>
               <List className={styles.subfunc_list} disablePadding={true}>
                 {
                   COURSE_FUNC_LIST.map(func => (
-                  <ListItem className={styles.sidebar_list_item} button={true} key={func.name}>
+                  <ListItem
+                    className={styles.sidebar_list_item}
+                    button={true}
+                    key={func.name}
+                    onClick={() => {
+                      if (func.name !== COURSE_FUNC.COURSE_HOMEPAGE.name) {
+                        // show cards
+                        dispatch(setCardFilter(func.type, c));
+                        dispatch(setCardListTitle(`${func.name}-${c.name}`));
+                      } else {
+                        // TODO open course homepage
+                      }
+                    }}
+                  >
                     <ListItemIcon className={styles.list_item_icon}>
                       <FontAwesomeIcon icon={func.icon} />
                     </ListItemIcon>
@@ -73,19 +91,26 @@ class CourseList extends React.Component<
         ))}
       </List>
     );
-  }
+  };
 
   private closeAllItems = () => {
-    this.props.courses.map(i => (this.state.opened[i] = false));
+    this.props.courses.map(i => (this.state.opened[i.id] = false));
   };
 
-  private handleClick = name => {
-    const nextState = !this.state.opened[name];
+  private handleClick = id => {
+    const nextState = !this.state.opened[id];
     this.closeAllItems();
     this.setState({
-      opened: { ...this.state.opened, [name]: nextState },
+      opened: { ...this.state.opened, [id]: nextState },
     });
   };
-}
+};
 
-export default CourseList;
+const mapStateToProps = (state): CourseListProps => {
+  const courseMap = (state[STATE_DATA] as DataState).courseMap;
+  return {
+    courses: [...courseMap.values()],
+  };
+};
+
+export default connect(mapStateToProps)(CourseList);
