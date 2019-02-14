@@ -14,7 +14,7 @@ import { SummaryListProps } from '../types/sidebar';
 import { connect } from 'react-redux';
 import { STATE_DATA, STATE_HELPER } from '../redux/reducers';
 import { DataState } from '../redux/reducers/data';
-import { COURSE_MAIN_FUNC_LIST, SUMMARY_FUNC_LIST } from '../constants/function';
+import { COURSE_MAIN_FUNC, SUMMARY_FUNC_LIST } from '../constants/function';
 import { ContentInfo } from '../types/data';
 import { HelperState } from '../redux/reducers/helper';
 import { setCardFilter, setCardListTitle } from '../redux/actions/ui';
@@ -67,8 +67,8 @@ const mapStateToProps = (state): SummaryListProps => {
   if (!helper.loggedIn) return { numbers: {} };
   const data = state[STATE_DATA] as DataState;
   const numbers = {};
-  for (const k of Object.keys(COURSE_MAIN_FUNC_LIST)) {
-    const type = COURSE_MAIN_FUNC_LIST[k].type;
+  for (const k of Object.keys(COURSE_MAIN_FUNC)) {
+    const type = COURSE_MAIN_FUNC[k].type;
     const mapName = `${type}Map`;
     const map = data[mapName] as Map<string, ContentInfo>;
     let count = 0;

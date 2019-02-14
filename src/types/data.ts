@@ -1,4 +1,11 @@
-import { Notification, Homework, File, Discussion, Question } from 'thu-learn-lib/lib/types';
+import {
+  Notification,
+  Homework,
+  File,
+  Discussion,
+  Question,
+  ContentType,
+} from 'thu-learn-lib/lib/types';
 
 interface ICourseRef {
   courseId: string;
@@ -6,6 +13,7 @@ interface ICourseRef {
 }
 
 interface ICardStatus {
+  type: ContentType;
   id: string;
   date: Date;
   hasRead: boolean;

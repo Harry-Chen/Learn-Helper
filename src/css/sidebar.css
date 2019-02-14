@@ -94,12 +94,16 @@
 .card_status {
     float: left;
     text-align: left;
+    max-width: 75%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .card_course {
     float: right;
     text-align: right;
-    max-width: 80px;
+    max-width: 25%;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -122,49 +126,49 @@
     color: #eeee00 !important;
 }
 
-.chip_FILE {
+.chip_file {
     color: #fad1e5 !important;
     text-shadow: 0 -1px 0px #bc1267;
     background-color: #e91981 !important;
 }
 
-.chip_DISCUSSION, .chip_NOTIFICATION {
+.chip_discussion, .chip_notification {
     color: #e5cdf2 !important;
     background-color: #7e08be !important;
     text-shadow: 0 -1px 0px #650698;
 }
 
-.chip_HOMEWORK_FAR {
+.chip_homework_far {
     color: #d2e7ff !important;
     text-shadow: 0 -1px 0px #006be7;
     background-color: #28f !important;
 }
 
-.chip_HOMEWORK_NEAR {
+.chip_homework_near {
     color: #2f2f00 !important;
     text-shadow: 0 1px 0px #ffff25;
     background-color: #ee0;
 }
 
-.chip_HOMEWORK_CLOSE {
+.chip_homework_close {
     color: #d9eed9 !important;
     background-color: #e60 !important;
     text-shadow: 0 -1px 0px #be5200;
 }
 
-.chip_HOMEWORK_URGENT {
+.chip_homework_urgent {
     color: #fbcccc !important;
     text-shadow: 0 -1px 0px #be0000;
     background-color: #e00 !important;
 }
 
-.chip_HOMEWORK_SUBMITTED {
+.chip_homework_submitted {
     color: #d9eed9 !important;
     background-color: #4a4 !important;
     text-shadow: 0 -1px 0px #368836;
 }
 
-.chip_HOMEWORK_DUE {
+.chip_homework_due {
     color: #e0e0e0 !important;
     background-color: #666 !important;
     text-shadow: 0 -1px 0px #525252;

@@ -54,7 +54,7 @@ class AppImpl extends React.Component<AppProp, never> {
         <div
           className={classnames(styles.paneMessage, { [styles.paneHidden]: this.props.paneHidden })}
         >
-          <CardList title="主页" items={PlaceHolder.TEST_CARD_INFO_LIST} />
+          <CardList />
         </div>
         <div
           className={classnames(styles.paneContent, {
