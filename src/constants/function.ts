@@ -1,30 +1,42 @@
 import { IconName } from '@fortawesome/fontawesome-common-types';
 
-import { CardType, IMenuItem, IMenuItemEnum } from '../types/sidebar';
+import { IMenuItem, IMenuItemEnum } from '../types/sidebar';
 import { Dispatch } from 'redux';
-import { loggedOut, refresh } from '../redux/actions/helper';
+import { refresh } from '../redux/actions/helper';
+import { toggleClearDataDialog, toggleLogoutDialog } from '../redux/actions/ui';
+import { ContentType } from 'thu-learn-lib/lib/types';
 
 export const COURSE_MAIN_FUNC_LIST: {
   [key: string]: {
     icon: IconName;
     name: string;
+    type: ContentType;
   };
 } = {
   NOTIFICATION: {
     icon: 'bullhorn',
     name: '通知',
+    type: ContentType.NOTIFICATION,
   },
   FILE: {
     icon: 'download',
     name: '文件',
+    type: ContentType.FILE,
   },
   HOMEWORK: {
     icon: 'pencil-alt',
     name: '作业',
+    type: ContentType.HOMEWORK,
   },
   DISCUSSION: {
     icon: 'question',
     name: '讨论',
+    type: ContentType.DISCUSSION,
+  },
+  QUESTION: {
+    icon: 'chalkboard-teacher',
+    name: '答疑',
+    type: ContentType.QUESTION,
   },
 };
 
@@ -34,6 +46,7 @@ const COURSE_FUNC: IMenuItemEnum = {
   COURSE_NOTIFICATION: {
     icon: COURSE_MAIN_FUNC_LIST.NOTIFICATION.icon,
     name: '课程公告',
+    type: ContentType.NOTIFICATION,
   },
   COURSE_INFORMATION: {
     icon: 'info-circle',
@@ -42,14 +55,22 @@ const COURSE_FUNC: IMenuItemEnum = {
   COURSE_FILES: {
     icon: COURSE_MAIN_FUNC_LIST.FILE.icon,
     name: '课程文件',
+    type: ContentType.FILE,
   },
   COURSE_HOMEWORK: {
     icon: COURSE_MAIN_FUNC_LIST.HOMEWORK.icon,
     name: '课程作业',
+    type: ContentType.HOMEWORK,
   },
   COURSE_DISCUSSION: {
     icon: COURSE_MAIN_FUNC_LIST.DISCUSSION.icon,
     name: '课程讨论',
+    type: ContentType.DISCUSSION,
+  },
+  COURSE_QUESTION: {
+    icon: COURSE_MAIN_FUNC_LIST.QUESTION.icon,
+    name: '课程答疑',
+    type: ContentType.QUESTION,
   },
   COURSE_HOMEPAGE: {
     icon: 'external-link-alt',
@@ -59,7 +80,7 @@ const COURSE_FUNC: IMenuItemEnum = {
 
 export const COURSE_FUNC_LIST: IMenuItem[] = [
   COURSE_FUNC.COURSE_NOTIFICATION,
-  COURSE_FUNC.COURSE_INFORMATION,
+  // COURSE_FUNC.COURSE_INFORMATION,
   COURSE_FUNC.COURSE_FILES,
   COURSE_FUNC.COURSE_HOMEWORK,
   COURSE_FUNC.COURSE_DISCUSSION,
@@ -74,22 +95,27 @@ const SUMMARY_FUNC: IMenuItemEnum = {
   SUMMARY_HOMEWORK: {
     icon: COURSE_MAIN_FUNC_LIST.HOMEWORK.icon,
     name: '所有作业',
-    type: CardType.HOMEWORK,
+    type: ContentType.HOMEWORK,
   },
   SUMMARY_NOTIFICATIONS: {
     icon: COURSE_MAIN_FUNC_LIST.NOTIFICATION.icon,
     name: '所有通知',
-    type: CardType.NOTIFICATION,
+    type: ContentType.NOTIFICATION,
   },
   SUMMARY_FILES: {
     icon: COURSE_MAIN_FUNC_LIST.FILE.icon,
     name: '所有文件',
-    type: CardType.FILE,
+    type: ContentType.FILE,
   },
   SUMMARY_DISCUSSIONS: {
     icon: COURSE_MAIN_FUNC_LIST.DISCUSSION.icon,
     name: '所有讨论',
-    type: CardType.DISCUSSION,
+    type: ContentType.DISCUSSION,
+  },
+  SUMMARY_QUESTIONS: {
+    icon: COURSE_MAIN_FUNC_LIST.QUESTION.icon,
+    name: '所有答疑',
+    type: ContentType.QUESTION,
   },
 };
 
@@ -99,6 +125,7 @@ export const SUMMARY_FUNC_LIST: IMenuItem[] = [
   SUMMARY_FUNC.SUMMARY_NOTIFICATIONS,
   SUMMARY_FUNC.SUMMARY_FILES,
   SUMMARY_FUNC.SUMMARY_DISCUSSIONS,
+  SUMMARY_FUNC.SUMMARY_QUESTIONS,
 ];
 
 const SETTINGS_FUNC: IMenuItemEnum = {
@@ -128,16 +155,14 @@ const SETTINGS_FUNC: IMenuItemEnum = {
     icon: 'user',
     name: '退出登录',
     handler: (dispatch: Dispatch<any>) => {
-      // show a confirm dialog
-      dispatch(loggedOut());
-      // dispatch()
+      dispatch(toggleLogoutDialog(true));
     },
   },
   SETTINGS_CLEAR_CACHE: {
     icon: 'trash',
     name: '清空缓存',
     handler: (dispatch: Dispatch<any>) => {
-
+      dispatch(toggleClearDataDialog(true));
     },
   },
 };

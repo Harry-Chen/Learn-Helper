@@ -10,8 +10,6 @@ import {
 } from './ui';
 import { Learn2018Helper } from 'thu-learn-lib/lib';
 import { SnackbarType } from '../../types/dialogs';
-import { STORAGE_KEY_PASSWORD, STORAGE_KEY_USERNAME, STORAGE_SALT } from '../../constants';
-import { cipher } from '../../utils/crypto';
 import { STATE_DATA, STATE_HELPER, STATE_UI } from '../reducers';
 import { HelperState } from '../reducers/helper';
 import { DataState } from '../reducers/data';
@@ -28,7 +26,7 @@ import { getCourseIdListForContent } from '../selectors';
 import { ContentType, SemesterType } from 'thu-learn-lib/lib/types';
 import { UiState } from '../reducers/ui';
 import { HelperActionType } from './actionTypes';
-import { getStoredCredential, setChromeStorageAsync } from '../../utils/storage';
+import { getStoredCredential, storeCredential } from '../../utils/storage';
 
 export function login(username: string, password: string, save: boolean) {
 
@@ -43,13 +41,10 @@ export function login(username: string, password: string, save: boolean) {
     dispatch(toggleSnackbar(true));
     dispatch(setSnackbar('登录成功', SnackbarType.SUCCESS));
     dispatch(toggleLoginDialog(false));
+    dispatch(toggleLoginDialogProgress(false));
     // save salted user credential if asked
     if (save) {
-      const cipherImpl = cipher(STORAGE_SALT);
-      await setChromeStorageAsync('local', {
-        [STORAGE_KEY_USERNAME]: cipherImpl(username),
-        [STORAGE_KEY_PASSWORD]: cipherImpl(password),
-      });
+      await storeCredential(username, password);
     }
     dispatch(loggedIn());
     return Promise.resolve();

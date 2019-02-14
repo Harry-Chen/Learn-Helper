@@ -11,7 +11,6 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-
 import { ILoginDialogProps } from '../../types/dialogs';
 
 import { IUiStateSlice, STATE_UI } from '../../redux/reducers';
