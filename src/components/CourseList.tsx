@@ -11,7 +11,7 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import styles from '../css/sidebar.css';
 import '../constants/fontAwesome.ts';
 import { CourseListProps } from '../types/sidebar';
-import { COURSE_FUNC, COURSE_FUNC_LIST, COURSE_ICON } from '../constants/function';
+import { COURSE_FUNC, COURSE_FUNC_LIST, COURSE_ICON } from '../constants/ui';
 import { STATE_DATA, STATE_HELPER } from '../redux/reducers';
 import { DataState } from '../redux/reducers/data';
 import { connect } from 'react-redux';

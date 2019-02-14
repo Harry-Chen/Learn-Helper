@@ -11,7 +11,7 @@ import styles from '../css/sidebar.css';
 import '../constants/fontAwesome.ts';
 import { SettingListProps } from '../types/sidebar';
 import { connect } from 'react-redux';
-import { SETTINGS_FUNC_LIST } from '../constants/function';
+import { SETTINGS_FUNC_LIST } from '../constants/ui';
 
 class SettingList extends React.Component<SettingListProps, null> {
   constructor(props) {

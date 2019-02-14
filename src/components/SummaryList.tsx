@@ -14,7 +14,7 @@ import { SummaryListProps } from '../types/sidebar';
 import { connect } from 'react-redux';
 import { STATE_DATA, STATE_HELPER } from '../redux/reducers';
 import { DataState } from '../redux/reducers/data';
-import { COURSE_MAIN_FUNC, SUMMARY_FUNC_LIST } from '../constants/function';
+import { COURSE_MAIN_FUNC, SUMMARY_FUNC_LIST } from '../constants/ui';
 import { ContentInfo } from '../types/data';
 import { HelperState } from '../redux/reducers/helper';
 import { setCardFilter, setCardListTitle } from '../redux/actions/ui';
