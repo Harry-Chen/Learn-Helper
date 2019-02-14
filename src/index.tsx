@@ -15,7 +15,6 @@ import SettingList from './components/SettingList';
 import CourseList from './components/CourseList';
 import ToggleButton from './components/ToggleButton';
 import CardList from './components/CardList';
-import * as PlaceHolder from './constants/placeholder';
 import {
   LoginDialog,
   LogoutDialog,
@@ -35,7 +34,7 @@ import {
   toggleNetworkErrorDialog,
   toggleSnackbar,
 } from './redux/actions/ui';
-import { login, refresh } from './redux/actions/helper';
+import { login, refreshIfNeeded } from './redux/actions/helper';
 import { getStoredCredential } from './utils/storage';
 
 class AppImpl extends React.Component<AppProp, never> {
@@ -84,7 +83,7 @@ class AppImpl extends React.Component<AppProp, never> {
             horizontal: 'center',
           }}
           open={this.props.showSnackbar}
-          autoHideDuration={1000}
+          autoHideDuration={3000}
           onClose={() => {
             store.dispatch(toggleSnackbar(false));
           }}
@@ -137,7 +136,7 @@ getStoredCredential()
       store.dispatch(toggleLoginDialog(true));
     } else {
       store.dispatch<any>(login(res.username, res.password, false))
-        .then(() => { store.dispatch<any>(refresh()); })
+        .then(() => { store.dispatch<any>(refreshIfNeeded()); })
         .catch(() => {
           store.dispatch(toggleLoginDialog(false));
           store.dispatch(toggleNetworkErrorDialog(true));
