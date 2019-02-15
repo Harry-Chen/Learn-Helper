@@ -22,11 +22,15 @@ import { DiscussionInfo, FileInfo, HomeworkInfo, NotificationInfo } from '../typ
 import { toggleReadState, toggleStarState } from '../redux/actions/data';
 
 class DetailCard extends React.Component<CardProps, never> {
+  shouldComponentUpdate(nextProps: CardProps) {
+    return nextProps.content !== this.props.content;
+  }
+
   public render(): React.ReactNode {
-    const { content, dispatch, hidden } = this.props;
+    const { content, dispatch } = this.props;
 
     return (
-      <Card className={classnames(styles.detail_card, { [styles.detail_card_hidden]: hidden })}>
+      <Card className={styles.detail_card}>
         <CardContent>
           <div className={styles.card_first_line}>
             {this.iconArea()}
