@@ -18,7 +18,7 @@ import { connect } from 'react-redux';
 import { setCardFilter, setCardListTitle } from '../redux/actions/ui';
 import { HelperState } from '../redux/reducers/helper';
 
-class CourseList extends React.Component<
+class CourseList extends React.PureComponent<
   CourseListProps,
   {
     opened: {

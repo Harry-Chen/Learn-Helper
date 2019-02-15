@@ -16,7 +16,7 @@ import { UiState } from '../redux/reducers/ui';
 import { HelperState } from '../redux/reducers/helper';
 import { loadMoreCard } from '../redux/actions/ui';
 
-class CardList extends React.Component<CardListProps, null> {
+class CardList extends React.PureComponent<CardListProps, null> {
 
   private readonly scrollRef: React.RefObject<HTMLDivElement>;
 
@@ -170,7 +170,4 @@ const mapDispatchToProps = (dispatch): Partial<CardListProps> => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CardList);
+export default connect(mapStateToProps, mapDispatchToProps)(CardList);

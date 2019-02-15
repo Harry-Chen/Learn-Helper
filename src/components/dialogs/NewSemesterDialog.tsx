@@ -1,14 +1,10 @@
 import React from 'react';
 
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogActions from '@material-ui/core/DialogActions';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-
-import { INewSemesterDialogProps } from '../../types/dialogs';
-import { toggleIgnoreWrongSemester, toggleNewSemesterDialog } from '../../redux/actions/ui';
+import { ICommonDialogProps } from '../../types/dialogs';
+import {
+  toggleIgnoreWrongSemester,
+  toggleNewSemesterDialog,
+} from '../../redux/actions/ui';
 import { connect } from 'react-redux';
 import { IUiStateSlice, STATE_DATA, STATE_UI } from '../../redux/reducers';
 import { formatSemester } from '../../utils/format';
@@ -16,66 +12,54 @@ import { insistSemester, updateSemester } from '../../redux/actions/data';
 import { refresh } from '../../redux/actions/helper';
 import { DataState } from '../../redux/reducers/data';
 import { UiState } from '../../redux/reducers/ui';
+import { Dispatch } from 'redux';
+import CommonDialog from './CommonDialog';
+import { DataActionType } from '../../redux/actions/actionTypes';
 
-class NewSemesterDialog extends React.Component<INewSemesterDialogProps> {
-  public render(): React.ReactNode {
-    return (
-      <Dialog open={this.props.open}>
-        <DialogTitle>检测到新学期</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            当前学期为：{formatSemester(this.props.currentSemester)}
-            <br />
-            当前网络学堂学期为：{formatSemester(this.props.newSemester)}
-            <br />
-            是否要进行学期切换（本学期数据将会被清空，操作不可逆）？
-            <br />
-            如果您选择“不再询问”，则需要手动进行缓存清理。
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            color="primary"
-            onClick={() => {
-              this.props.dispatch(toggleNewSemesterDialog(false));
-              this.props.dispatch(updateSemester(this.props.newSemester));
-              this.props.dispatch(refresh());
-            }}
-          >
-            是
-          </Button>
-          <Button
-            color="primary"
-            onClick={() => {
-              this.props.dispatch(toggleNewSemesterDialog(false));
-              this.props.dispatch(toggleIgnoreWrongSemester(true));
-              this.props.dispatch(refresh());
-            }}
-          >
-            否
-          </Button>
-          <Button
-            color="primary"
-            onClick={() => {
-              this.props.dispatch(toggleNewSemesterDialog(false));
-              this.props.dispatch(insistSemester(true));
-              this.props.dispatch(refresh());
-            }}
-          >
-            不再询问
-          </Button>
-        </DialogActions>
-      </Dialog>
-    );
-  }
-}
+class NewSemesterDialog extends CommonDialog {}
 
-const mapStateToProps = (state: IUiStateSlice): Partial<INewSemesterDialogProps> => {
+const mapStateToProps = (state: IUiStateSlice): Partial<ICommonDialogProps> => {
+  const data = state[STATE_DATA] as DataState;
   return {
     open: (state[STATE_UI] as UiState).showNewSemesterDialog,
-    currentSemester: (state[STATE_DATA] as DataState).semester,
-    newSemester: (state[STATE_DATA] as DataState).fetchedSemester,
+    title: '检测到新学期',
+    content: (
+      <div>
+        当前学期为：{formatSemester(data.semester)}
+        <br />
+        当前网络学堂学期为：{formatSemester(data.fetchedSemester)}
+        <br />
+        是否要进行学期切换（本学期数据将会被清空，操作不可逆）？
+        <br />
+        如果您选择“不再询问”，则需要手动进行缓存清理。
+      </div>
+    ),
+    firstButton: '是',
+    secondButton: '否',
+    thirdButton: '不再询问',
   };
 };
 
-export default connect(mapStateToProps)(NewSemesterDialog);
+const mapDispatchToProps = (dispatch: Dispatch<any>): Partial<ICommonDialogProps> => {
+  return {
+    firstButtonOnClick: () => {
+      dispatch(toggleNewSemesterDialog(false));
+      dispatch((_dispatch, getState) => {
+        _dispatch(updateSemester((getState()[STATE_DATA] as DataState).fetchedSemester));
+      });
+      dispatch(refresh());
+    },
+    secondButtonOnClick: () => {
+      dispatch(toggleNewSemesterDialog(false));
+      dispatch(toggleIgnoreWrongSemester(true));
+      dispatch(refresh());
+    },
+    thirdButtonOnClick: () => {
+      dispatch(toggleNewSemesterDialog(false));
+      dispatch(insistSemester(true));
+      dispatch(refresh());
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewSemesterDialog);

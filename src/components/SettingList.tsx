@@ -13,7 +13,7 @@ import { SettingListProps } from '../types/sidebar';
 import { connect } from 'react-redux';
 import { SETTINGS_FUNC_LIST } from '../constants/ui';
 
-class SettingList extends React.Component<SettingListProps, null> {
+class SettingList extends React.PureComponent<SettingListProps, null> {
   constructor(props) {
     super(props);
   }
