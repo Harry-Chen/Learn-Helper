@@ -32,7 +32,12 @@ interface ICourseListProps extends IDispatchableComponentProps {
   courses: CourseInfo[];
 }
 
-interface ICardListProps extends IDispatchableComponentProps {
+interface ICardFilter {
+  type: ContentType;
+  course: CourseInfo;
+}
+
+interface ICardListProps extends IDispatchableComponentProps, Partial<ICardFilter> {
   contents: ContentInfo[];
   threshold: number;
   title: string;
