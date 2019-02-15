@@ -1,4 +1,5 @@
 import React from 'react';
+import classnames from 'classnames';
 
 import List from '@material-ui/core/List';
 import ListSubheader from '@material-ui/core/ListSubheader';
@@ -15,29 +16,47 @@ import { HelperState } from '../redux/reducers/helper';
 import { ContentInfo } from '../types/data';
 import { ContentType, CourseInfo } from 'thu-learn-lib/lib/types';
 
+import { loadMoreCard } from '../redux/actions/ui';
+
 class CardList extends React.Component<CardListProps, null> {
   public render() {
-    const { contents, visibility, title } = this.props;
+    const { contents, threshold, title, loadMore } = this.props;
+    const filtered = contents.slice(0, threshold);
+
+    const canLoadMore = threshold < contents.length;
 
     return (
-      <List
-        component="nav"
-        subheader={
-          <ListSubheader component="div" className={styles.card_list_header}>
-            <span className={styles.card_list_header_text}>{title}</span>
-          </ListSubheader>
-        }
+      <div
+        className={styles.card_list}
+        onScroll={ev => {
+          if(!canLoadMore) return;
+          const self = ev.target;
+          const bottomline = self.scrollTop + self.clientHeight;
+          if(bottomline + 180 > self.scrollHeight) // 80 px on load more hint
+            loadMore();
+        }}
       >
-        {
-          contents.map(c => (
-          <DetailCard
-            content={c}
-            key={c.id}
-            hidden={!visibility[c.id]}
-          />
-        ))
+        <List
+          className={styles.card_list_inner}
+          component="nav"
+          subheader={
+            <ListSubheader component="div" className={styles.card_list_header}>
+              <span className={styles.card_list_header_text}>{title}</span>
+            </ListSubheader>
           }
-      </List>
+        >
+          {
+            filtered.map(c => <DetailCard
+              key={c.id}
+              content={c}
+            />)
+          }
+
+          { canLoadMore ? <div className={styles.card_list_load_more} onClick={loadMore}>
+            加载更多
+          </div> : null }
+        </List>
+      </div>
     );
   }
 }
@@ -46,24 +65,19 @@ let oldType: ContentType;
 let oldCourse: CourseInfo;
 let allContent: ContentInfo[];
 let oldCards: ContentInfo[];
-let oldVisibility: {};
 let lastRegenerateTime: Date;
 
 const generateCardList = (data: DataState, lastUpdateTime: Date,
                           type?: ContentType, course?: CourseInfo):
   Partial<CardListProps> => {
 
-  const newCards: ContentInfo[] = [];
-  let visibility: {};
+  let newCards: ContentInfo[] = [];
 
   if (type === oldType && course === oldCourse
     && oldCards !== undefined && lastRegenerateTime === lastUpdateTime) {
     // filter and data not changed, use filtered & sorted sequence
     // just fetch the latest state
-    for (const l of oldCards) {
-      newCards.push(data[`${l.type}Map`].get(l.id));
-    }
-    visibility = oldVisibility;
+    newCards = oldCards.map(l => data[`${l.type}Map`].get(l.id));
   } else {
     // filter or data changed, re-calculate visibility and sequence
 
@@ -80,19 +94,13 @@ const generateCardList = (data: DataState, lastUpdateTime: Date,
       lastRegenerateTime = lastUpdateTime;
     }
 
-    // clear visibility
-    visibility = {};
-
     // fetch latest state of data
-    for (const l of allContent) {
-      newCards.push(data[`${l.type}Map`].get(l.id));
-    }
-
-    // calculate visibility
-    for (const l of newCards) {
-      visibility[l.id] = (type === undefined || l.type === type)
-        && (course === undefined || l.courseId === course.id);
-    }
+    newCards = allContent
+      .map(l => data[`${l.type}Map`].get(l.id));
+    if(type !== undefined)
+      newCards = newCards.filter(l => l.type === type);
+    if(course !== undefined)
+      newCards = newCards.filter(l => l.courseId === course.id);
 
     // sort by starred, hasRead and time
     newCards.sort((a, b) => {
@@ -102,16 +110,13 @@ const generateCardList = (data: DataState, lastUpdateTime: Date,
       if (a.hasRead && !b.hasRead) return 1;
       return b.date.getTime() - a.date.getTime();
     });
-
   }
 
   oldType = type;
   oldCourse = course;
   oldCards = newCards;
-  oldVisibility = visibility;
   return {
     contents: newCards,
-    visibility,
   };
 };
 
@@ -123,7 +128,6 @@ const mapStateToProps = (state): Partial<CardListProps> => {
   if (!loggedIn) {
     return {
       contents: [],
-      visibility: {},
       title: '未登录',
     };
   }
@@ -131,8 +135,13 @@ const mapStateToProps = (state): Partial<CardListProps> => {
   return {
     ...generateCardList(data, data.lastUpdateTime, ui.cardTypeFilter, ui.cardCourseFilter),
     title: ui.cardListTitle,
+    threshold: ui.cardVisibilityThreshold,
   };
 
 };
 
-export default connect(mapStateToProps)(CardList);
+const mapDispatchToProps = dispatch => ({
+  loadMore: () => dispatch(loadMoreCard()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CardList);

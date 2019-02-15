@@ -114,3 +114,9 @@ export const setCardListTitle = (title: string): UiAction => {
     title,
   };
 };
+
+export const loadMoreCard = (): UiAction => {
+  return {
+    type: UiActionType.LOAD_MORE_CARD,
+  };
+}
