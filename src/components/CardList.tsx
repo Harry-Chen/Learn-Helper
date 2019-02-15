@@ -23,10 +23,13 @@ class CardList extends React.Component<CardListProps, null> {
     const { contents, threshold, title, loadMore } = this.props;
     const filtered = contents.slice(0, threshold);
 
+    const canLoadMore = threshold < contents.length;
+
     return (
       <div
         className={styles.card_list}
         onScroll={ev => {
+          if(!canLoadMore) return;
           const self = ev.target;
           const bottomline = self.scrollTop + self.clientHeight;
           if(bottomline + 180 > self.scrollHeight) // 80 px on load more hint
@@ -48,9 +51,9 @@ class CardList extends React.Component<CardListProps, null> {
             />)
           }
 
-          <div className={styles.card_list_load_more} onClick={loadMore}>
+          { canLoadMore ? <div className={styles.card_list_load_more} onClick={loadMore}>
             加载更多
-          </div>
+          </div> : null }
         </List>
       </div>
     );
@@ -96,7 +99,7 @@ const generateCardList = (data: DataState, lastUpdateTime: Date,
     if(type !== undefined)
       newCards = newCards.filter(l => l.type === type);
     if(course !== undefined)
-      newCards = newCards.filter(l => l.course === course);
+      newCards = newCards.filter(l => l.courseId === course.id);
 
     // sort by starred, hasRead and time
     newCards.sort((a, b) => {
