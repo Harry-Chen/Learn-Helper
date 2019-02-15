@@ -119,4 +119,4 @@ export const loadMoreCard = (): UiAction => {
   return {
     type: UiActionType.LOAD_MORE_CARD,
   };
-}
+};

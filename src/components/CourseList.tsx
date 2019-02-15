@@ -47,8 +47,7 @@ class CourseList extends React.Component<
           </ListSubheader>
         }
       >
-        {
-          courses.map(c => (
+        {courses.map(c => (
           <div key={c.id}>
             <ListItem
               className={styles.sidebar_list_item}
@@ -63,8 +62,7 @@ class CourseList extends React.Component<
             </ListItem>
             <Collapse in={this.state.opened[c.id]} timeout="auto" unmountOnExit={true}>
               <List className={styles.subfunc_list} disablePadding={true}>
-                {
-                  COURSE_FUNC_LIST.map(func => (
+                {COURSE_FUNC_LIST.map(func => (
                   <ListItem
                     className={styles.sidebar_list_item}
                     button={true}
@@ -84,15 +82,14 @@ class CourseList extends React.Component<
                     </ListItemIcon>
                     <ListItemText primary={func.name} className={styles.course_list_item_text} />
                   </ListItem>
-                ))
-                    }
+                ))}
               </List>
             </Collapse>
           </div>
         ))}
       </List>
     );
-  };
+  }
 
   private closeAllItems = () => {
     this.props.courses.map(i => (this.state.opened[i.id] = false));
@@ -105,7 +102,7 @@ class CourseList extends React.Component<
       opened: { ...this.state.opened, [id]: nextState },
     });
   };
-};
+}
 
 const mapStateToProps = (state): CourseListProps => {
   if (!(state[STATE_HELPER] as HelperState).loggedIn) {

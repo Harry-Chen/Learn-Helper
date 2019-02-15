@@ -29,10 +29,11 @@ class CardList extends React.Component<CardListProps, null> {
       <div
         className={styles.card_list}
         onScroll={ev => {
-          if(!canLoadMore) return;
-          const self = ev.target;
+          if (!canLoadMore) return;
+          const self = ev.target as HTMLElement;
           const bottomline = self.scrollTop + self.clientHeight;
-          if(bottomline + 180 > self.scrollHeight) // 80 px on load more hint
+          if (bottomline + 180 > self.scrollHeight)
+            // 80 px on load more hint
             loadMore();
         }}
       >
@@ -45,16 +46,15 @@ class CardList extends React.Component<CardListProps, null> {
             </ListSubheader>
           }
         >
-          {
-            filtered.map(c => <DetailCard
-              key={c.id}
-              content={c}
-            />)
-          }
+          {filtered.map(c => (
+            <DetailCard key={c.id} content={c} />
+          ))}
 
-          { canLoadMore ? <div className={styles.card_list_load_more} onClick={loadMore}>
-            加载更多
-          </div> : null }
+          {canLoadMore ? (
+            <div className={styles.card_list_load_more} onClick={loadMore}>
+              加载更多
+            </div>
+          ) : null}
         </List>
       </div>
     );
@@ -67,14 +67,20 @@ let allContent: ContentInfo[];
 let oldCards: ContentInfo[];
 let lastRegenerateTime: Date;
 
-const generateCardList = (data: DataState, lastUpdateTime: Date,
-                          type?: ContentType, course?: CourseInfo):
-  Partial<CardListProps> => {
-
+const generateCardList = (
+  data: DataState,
+  lastUpdateTime: Date,
+  type?: ContentType,
+  course?: CourseInfo,
+): Partial<CardListProps> => {
   let newCards: ContentInfo[] = [];
 
-  if (type === oldType && course === oldCourse
-    && oldCards !== undefined && lastRegenerateTime === lastUpdateTime) {
+  if (
+    type === oldType &&
+    course === oldCourse &&
+    oldCards !== undefined &&
+    lastRegenerateTime === lastUpdateTime
+  ) {
     // filter and data not changed, use filtered & sorted sequence
     // just fetch the latest state
     newCards = oldCards.map(l => data[`${l.type}Map`].get(l.id));
@@ -95,12 +101,9 @@ const generateCardList = (data: DataState, lastUpdateTime: Date,
     }
 
     // fetch latest state of data
-    newCards = allContent
-      .map(l => data[`${l.type}Map`].get(l.id));
-    if(type !== undefined)
-      newCards = newCards.filter(l => l.type === type);
-    if(course !== undefined)
-      newCards = newCards.filter(l => l.courseId === course.id);
+    newCards = allContent.map(l => data[`${l.type}Map`].get(l.id));
+    if (type !== undefined) newCards = newCards.filter(l => l.type === type);
+    if (course !== undefined) newCards = newCards.filter(l => l.courseId === course.id);
 
     // sort by starred, hasRead and time
     newCards.sort((a, b) => {
@@ -121,8 +124,8 @@ const generateCardList = (data: DataState, lastUpdateTime: Date,
 };
 
 const mapStateToProps = (state): Partial<CardListProps> => {
-  const data = (state[STATE_DATA] as DataState);
-  const ui = (state[STATE_UI] as UiState);
+  const data = state[STATE_DATA] as DataState;
+  const ui = state[STATE_UI] as UiState;
   const loggedIn = (state[STATE_HELPER] as HelperState).loggedIn;
 
   if (!loggedIn) {
@@ -137,11 +140,17 @@ const mapStateToProps = (state): Partial<CardListProps> => {
     title: ui.cardListTitle,
     threshold: ui.cardVisibilityThreshold,
   };
-
 };
 
-const mapDispatchToProps = dispatch => ({
-  loadMore: () => dispatch(loadMoreCard()),
-});
+const mapDispatchToProps = (dispatch): Partial<CardListProps> => {
+  return {
+    loadMore: () => {
+      dispatch(loadMoreCard());
+    },
+  };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(CardList);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(CardList);

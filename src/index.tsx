@@ -29,11 +29,7 @@ import reduxStore from './redux/store';
 import styles from './css/index.css';
 import { IUiStateSlice, STATE_UI } from './redux/reducers';
 import { AppProp } from './types/app';
-import {
-  toggleLoginDialog,
-  toggleNetworkErrorDialog,
-  toggleSnackbar,
-} from './redux/actions/ui';
+import { toggleLoginDialog, toggleNetworkErrorDialog, toggleSnackbar } from './redux/actions/ui';
 import { login, refreshIfNeeded } from './redux/actions/helper';
 import { getStoredCredential } from './utils/storage';
 
@@ -44,9 +40,9 @@ class AppImpl extends React.Component<AppProp, never> {
         <div
           className={classnames(styles.paneFolder, { [styles.paneHidden]: this.props.paneHidden })}
         >
-          <SummaryList/>
+          <SummaryList />
           <Divider />
-          <CourseList/>
+          <CourseList />
           <Divider />
           <SettingList />
         </div>
@@ -60,7 +56,7 @@ class AppImpl extends React.Component<AppProp, never> {
             [styles.paneFullscreen]: this.props.paneHidden,
           })}
         >
-          <ToggleButton/>
+          <ToggleButton />
           <Iframe url="welcome.html" />
         </div>
         <div className={styles.progress_area}>
@@ -78,10 +74,12 @@ class AppImpl extends React.Component<AppProp, never> {
         <LogoutDialog />
 
         <Snackbar
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'center', }}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
           open={this.props.showSnackbar}
           autoHideDuration={3000}
-          onClose={() => { store.dispatch(toggleSnackbar(false)); }}
+          onClose={() => {
+            store.dispatch(toggleSnackbar(false));
+          }}
         >
           <SnackbarContent
             className={this.snackbarClass(this.props.snackbarType)}
@@ -105,7 +103,7 @@ class AppImpl extends React.Component<AppProp, never> {
       case SnackbarType.SUCCESS:
         return styles.snack_bar_success;
     }
-  }
+  };
 }
 
 const mapStateToProps = (state: IUiStateSlice): Partial<AppProp> => {
@@ -125,16 +123,18 @@ ReactDOM.render(
   document.querySelector('#index'),
 );
 
-getStoredCredential()
-  .then(res => {
-    if (res === null) {
-      store.dispatch(toggleLoginDialog(true));
-    } else {
-      store.dispatch<any>(login(res.username, res.password, false))
-        .then(() => { store.dispatch<any>(refreshIfNeeded()); })
-        .catch(() => {
-          store.dispatch(toggleLoginDialog(false));
-          store.dispatch(toggleNetworkErrorDialog(true));
-        });
-    }
-  });
+getStoredCredential().then(res => {
+  if (res === null) {
+    store.dispatch(toggleLoginDialog(true));
+  } else {
+    store
+      .dispatch<any>(login(res.username, res.password, false))
+      .then(() => {
+        store.dispatch<any>(refreshIfNeeded());
+      })
+      .catch(() => {
+        store.dispatch(toggleLoginDialog(false));
+        store.dispatch(toggleNetworkErrorDialog(true));
+      });
+  }
+});

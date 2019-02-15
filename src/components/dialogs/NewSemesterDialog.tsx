@@ -24,9 +24,12 @@ class NewSemesterDialog extends React.Component<INewSemesterDialogProps> {
         <DialogTitle>检测到新学期</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            当前学期为：{formatSemester(this.props.currentSemester)}<br />
-            当前网络学堂学期为：{formatSemester(this.props.newSemester)}<br />
-            是否要进行学期切换（本学期数据将会被清空，操作不可逆）？<br />
+            当前学期为：{formatSemester(this.props.currentSemester)}
+            <br />
+            当前网络学堂学期为：{formatSemester(this.props.newSemester)}
+            <br />
+            是否要进行学期切换（本学期数据将会被清空，操作不可逆）？
+            <br />
             如果您选择“不再询问”，则需要手动进行缓存清理。
           </DialogContentText>
         </DialogContent>

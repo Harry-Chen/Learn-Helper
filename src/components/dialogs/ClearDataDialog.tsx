@@ -21,9 +21,7 @@ class ClearDataDialog extends React.Component<ICommonDialogProps> {
       <Dialog open={this.props.open}>
         <DialogTitle>清除所有缓存</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            确认要清除吗？所有缓存的数据和已读状态将会被清除。
-          </DialogContentText>
+          <DialogContentText>确认要清除吗？所有缓存的数据和已读状态将会被清除。</DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button

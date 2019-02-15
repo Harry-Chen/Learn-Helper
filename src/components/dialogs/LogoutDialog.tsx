@@ -30,7 +30,7 @@ class LogoutDialog extends React.Component<ICommonDialogProps> {
           <Button
             color="primary"
             onClick={() => {
-              this.props.dispatch(async (_dispatch) => {
+              this.props.dispatch(async _dispatch => {
                 await removeStoredCredential();
                 _dispatch(toggleLogoutDialog(false));
                 _dispatch(loggedOut());
@@ -43,7 +43,7 @@ class LogoutDialog extends React.Component<ICommonDialogProps> {
           <Button
             color="primary"
             onClick={() => {
-              this.props.dispatch(async (_dispatch) => {
+              this.props.dispatch(async _dispatch => {
                 await removeStoredCredential();
                 _dispatch(toggleLogoutDialog(false));
                 _dispatch(loggedOut());

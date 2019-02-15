@@ -55,8 +55,10 @@ class DetailCard extends React.Component<CardProps, never> {
     if (content.type === ContentType.HOMEWORK) {
       const homework = content as HomeworkInfo;
       const submitted = homework.submitted ? '已提交' : '未提交';
-      const grade = homework.grade === undefined ?
-        '未批阅' : `成绩：${homework.grade} · 批阅者：${homework.graderName}`;
+      const grade =
+        homework.grade === undefined
+          ? '未批阅'
+          : `成绩：${homework.grade} · 批阅者：${homework.graderName}`;
       suffix = ` · ${submitted} · ${grade}`;
     } else if (content.type === ContentType.NOTIFICATION || content.type === ContentType.FILE) {
       const notification = content as NotificationInfo;
@@ -110,7 +112,7 @@ class DetailCard extends React.Component<CardProps, never> {
       }
 
       let urgency: string;
-      if (diffDays >=0 && homework.submitted) {
+      if (diffDays >= 0 && homework.submitted) {
         urgency = 'submitted';
       } else if (diffDays > 10) {
         urgency = 'far';
@@ -151,7 +153,9 @@ class DetailCard extends React.Component<CardProps, never> {
             [styles.card_starred]: content.starred,
           })}
           component="div"
-          onClick={() => { dispatch(toggleStarState(content.id, !content.starred, content.type)); }}
+          onClick={() => {
+            dispatch(toggleStarState(content.id, !content.starred, content.type));
+          }}
         >
           <FontAwesomeIcon icon="star" />
         </IconButton>
@@ -164,7 +168,9 @@ class DetailCard extends React.Component<CardProps, never> {
           color="primary"
           className={styles.card_action_button}
           component="div"
-          onClick={() => { dispatch(toggleReadState(content.id, !content.hasRead, content.type)); }}
+          onClick={() => {
+            dispatch(toggleReadState(content.id, !content.hasRead, content.type));
+          }}
         >
           <FontAwesomeIcon icon={content.hasRead ? 'clipboard' : 'clipboard-check'} />
         </IconButton>
@@ -178,11 +184,7 @@ class DetailCard extends React.Component<CardProps, never> {
       const homework = content as HomeworkInfo;
       submitButton = (
         <Tooltip title="提交作业">
-          <IconButton
-            color="primary"
-            className={styles.card_action_button}
-            component="div"
-          >
+          <IconButton color="primary" className={styles.card_action_button} component="div">
             <FontAwesomeIcon icon="upload" />
           </IconButton>
         </Tooltip>

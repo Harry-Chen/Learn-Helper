@@ -1,4 +1,3 @@
-
 const textToChars = text => text.split('').map(c => c.charCodeAt(0));
 
 export const cipher = salt => {
@@ -26,4 +25,3 @@ export const decipher = salt => {
       .map(charCode => String.fromCharCode(charCode))
       .join('');
 };
-

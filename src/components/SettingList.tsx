@@ -19,7 +19,6 @@ class SettingList extends React.Component<SettingListProps, null> {
   }
 
   render() {
-
     return (
       <List
         className={styles.numbered_list}
@@ -31,21 +30,21 @@ class SettingList extends React.Component<SettingListProps, null> {
           </ListSubheader>
         }
       >
-        {
-          SETTINGS_FUNC_LIST.map(i => (
+        {SETTINGS_FUNC_LIST.map(i => (
           <ListItem
             className={styles.sidebar_list_item}
             button={true}
             key={i.name}
-            onClick={() => { i.handler(this.props.dispatch); }}
+            onClick={() => {
+              i.handler(this.props.dispatch);
+            }}
           >
             <ListItemIcon className={styles.list_item_icon}>
               <FontAwesomeIcon icon={i.icon} />
             </ListItemIcon>
-              <ListItemText primary={i.name} className={styles.settings_list_item_text} />
+            <ListItemText primary={i.name} className={styles.settings_list_item_text} />
           </ListItem>
-        ))
-            }
+        ))}
       </List>
     );
   }

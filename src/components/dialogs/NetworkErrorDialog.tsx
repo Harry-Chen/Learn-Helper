@@ -20,10 +20,14 @@ class NetworkErrorDialog extends React.Component<ICommonDialogProps> {
         <DialogTitle>刷新课程信息失败</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            可能原因有：<br />
-            · 网络不太给力<br />
-            · 服务器去思考人生了<br />
-            · 保存的用户凭据不正确（修改过密码）<br />
+            可能原因有：
+            <br />
+            · 网络不太给力
+            <br />
+            · 服务器去思考人生了
+            <br />
+            · 保存的用户凭据不正确（修改过密码）
+            <br />
             您可以选择重试或者放弃加载，或者更换新的凭据。
           </DialogContentText>
         </DialogContent>

@@ -1,4 +1,3 @@
-
 export enum UiActionType {
   PROGRESS_BAR_VISIBILITY = 'UI/progress_bar_visibility',
   PROGRESS_BAR_PROGRESS = 'UI/progress_bar_progress',

@@ -20,7 +20,6 @@ import { HelperState } from '../redux/reducers/helper';
 import { setCardFilter, setCardListTitle } from '../redux/actions/ui';
 
 class SummaryList extends React.Component<SummaryListProps, null> {
-
   render() {
     const { numbers, dispatch } = this.props;
 
@@ -60,7 +59,7 @@ class SummaryList extends React.Component<SummaryListProps, null> {
       </List>
     );
   }
-};
+}
 
 const mapStateToProps = (state): SummaryListProps => {
   const helper = state[STATE_HELPER] as HelperState;
