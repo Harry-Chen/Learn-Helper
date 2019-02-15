@@ -1,4 +1,5 @@
 import React from 'react';
+import classnames from 'classnames';
 
 import List from '@material-ui/core/List';
 import ListSubheader from '@material-ui/core/ListSubheader';
@@ -29,14 +30,13 @@ class CardList extends React.Component<CardListProps, null> {
         }
       >
         {
-          contents.map(c => (
-          <DetailCard
-            content={c}
+          contents.map(c => <div
+            className={classnames({ [styles.detail_card_hidden]: !visibility[c.id] })}
             key={c.id}
-            hidden={!visibility[c.id]}
-          />
-        ))
-          }
+          >
+            <DetailCard content={c} />
+          </div>);
+        }
       </List>
     );
   }
@@ -53,16 +53,14 @@ const generateCardList = (data: DataState, lastUpdateTime: Date,
                           type?: ContentType, course?: CourseInfo):
   Partial<CardListProps> => {
 
-  const newCards: ContentInfo[] = [];
+  let newCards: ContentInfo[] = [];
   let visibility: {};
 
   if (type === oldType && course === oldCourse
     && oldCards !== undefined && lastRegenerateTime === lastUpdateTime) {
     // filter and data not changed, use filtered & sorted sequence
     // just fetch the latest state
-    for (const l of oldCards) {
-      newCards.push(data[`${l.type}Map`].get(l.id));
-    }
+    newCards = oldCards.map(l => data[`${l.type}Map`].get(l.id));
     visibility = oldVisibility;
   } else {
     // filter or data changed, re-calculate visibility and sequence
@@ -84,9 +82,7 @@ const generateCardList = (data: DataState, lastUpdateTime: Date,
     visibility = {};
 
     // fetch latest state of data
-    for (const l of allContent) {
-      newCards.push(data[`${l.type}Map`].get(l.id));
-    }
+    newCards = allContent.map(l => data[`${l.type}Map`].get(l.id));
 
     // calculate visibility
     for (const l of newCards) {
