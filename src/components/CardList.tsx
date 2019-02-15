@@ -19,8 +19,21 @@ import { ContentType, CourseInfo } from 'thu-learn-lib/lib/types';
 import { loadMoreCard } from '../redux/actions/ui';
 
 class CardList extends React.Component<CardListProps, null> {
+  constructor(props) {
+    super(props);
+
+    this.scrollRef = React.createRef();
+  }
+
+  componentDidUpdate({ course, type }) {
+    const courseChanged = course === undefined
+      ? this.props.course !== undefined : course.id !== this.props.course.id;
+    if(courseChanged || type !== this.props.type)
+      this.scrollRef.current.scrollTop = 0;
+  }
+
   public render() {
-    const { contents, threshold, title, loadMore } = this.props;
+    const { contents, threshold, title, loadMore, ...rest } = this.props;
     const filtered = contents.slice(0, threshold);
 
     const canLoadMore = threshold < contents.length;
@@ -36,6 +49,8 @@ class CardList extends React.Component<CardListProps, null> {
             // 80 px on load more hint
             loadMore();
         }}
+        ref={this.scrollRef}
+        { ...rest }
       >
         <List
           className={styles.card_list_inner}
@@ -136,6 +151,8 @@ const mapStateToProps = (state): Partial<CardListProps> => {
   }
 
   return {
+    type: ui.cardTypeFilter,
+    course: ui.cardCourseFilter,
     ...generateCardList(data, data.lastUpdateTime, ui.cardTypeFilter, ui.cardCourseFilter),
     title: ui.cardListTitle,
     threshold: ui.cardVisibilityThreshold,
