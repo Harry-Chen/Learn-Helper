@@ -4,8 +4,12 @@ A chrome extension for Web Learning Website.
 
 ## Authors & Maintainers
 
-* [xxr3376](https://github.com/xxr3376)
 * [Harry-Chen](https://github.com/Harry-Chen)
+  * current maintainer
+  * developer of v4
+* [xxr3376](https://github.com/xxr3376)
+  * original author
+  * developer until v3.3.1
 
 ## Features
 
