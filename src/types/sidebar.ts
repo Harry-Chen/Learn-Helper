@@ -43,6 +43,7 @@ interface ICardListProps extends IDispatchableComponentProps {
 interface ICardProps extends IDispatchableComponentProps {
   content: ContentInfo;
   hidden: boolean;
+  threshold: number;
 }
 
 export type SummaryListProps = ISummaryListProps;

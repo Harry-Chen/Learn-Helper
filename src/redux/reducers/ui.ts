@@ -18,6 +18,7 @@ interface IUiState {
   showLogoutDialog: boolean;
   showClearDataDialog: boolean;
   cardTypeFilter?: ContentType;
+  cardVisibilityThreshold: number;
   cardCourseFilter?: CourseInfo;
   cardListTitle: string;
 }
@@ -39,6 +40,7 @@ const initialState: UiState = {
   showLogoutDialog: false,
   showClearDataDialog: false,
   cardTypeFilter: undefined,
+  cardVisibilityThreshold: 10,
   cardCourseFilter: undefined,
   cardListTitle: '主页',
 };
@@ -111,11 +113,17 @@ export default function ui(state: UiState = initialState, action: UiAction): UiS
         ...state,
         cardTypeFilter: action.cardType,
         cardCourseFilter: action.cardCourse,
+        cardVisibilityThreshold: 10,
       };
     case UiActionType.CARD_LIST_TITLE:
       return {
         ...state,
         cardListTitle: action.title,
+      };
+    case UiActionType.LOAD_MORE_CARD:
+      return {
+        ...state,
+        cardVisibilityThreshold: state.cardVisibilityThreshold + 10,
       };
     default:
       return state;
