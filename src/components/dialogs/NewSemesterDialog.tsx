@@ -14,7 +14,6 @@ import { DataState } from '../../redux/reducers/data';
 import { UiState } from '../../redux/reducers/ui';
 import { Dispatch } from 'redux';
 import CommonDialog from './CommonDialog';
-import { DataActionType } from '../../redux/actions/actionTypes';
 
 class NewSemesterDialog extends CommonDialog {}
 
