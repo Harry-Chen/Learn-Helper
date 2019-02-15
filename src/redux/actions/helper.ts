@@ -17,7 +17,7 @@ import {
   newSemester,
   updateCourses,
   updateDiscussion,
-  updateFile,
+  updateFile, updateFinished,
   updateHomework,
   updateNotification,
   updateQuestion,
@@ -76,11 +76,12 @@ export function loggedOut() {
 export function refreshIfNeeded() {
   return (dispatch, getState) => {
     const data = getState()[STATE_DATA] as DataState;
-    if (new Date().getTime() - data.lastUpdateTime.getTime() > 15 * 60 * 1000) {
-      dispatch(refresh());
-    } else {
+    const justUpdated = new Date().getTime() - data.lastUpdateTime.getTime() > 15 * 60 * 1000;
+    if (data.updateFinished && justUpdated) {
       dispatch(toggleSnackbar(true));
-      dispatch(setSnackbar('距离上次刷新不足15分钟', SnackbarType.NOTIFICATION));
+      dispatch(setSnackbar('距离上次成功刷新不足15分钟', SnackbarType.NOTIFICATION));
+    } else {
+      dispatch(refresh());
     }
   };
 }
@@ -159,6 +160,7 @@ export function refresh() {
         ContentType.QUESTION,
       );
       dispatch(updateQuestion(res));
+      dispatch(updateFinished());
       dispatch(setProgressBar(100));
       dispatch(toggleSnackbar(true));
       dispatch(setSnackbar('更新成功！', SnackbarType.SUCCESS));

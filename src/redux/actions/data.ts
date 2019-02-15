@@ -111,3 +111,9 @@ export function clearAllData() {
     type: DataActionType.CLEAR_DATA,
   };
 }
+
+export function updateFinished() {
+  return {
+    type: DataActionType.UPDATE_FINISHED,
+  };
+}
