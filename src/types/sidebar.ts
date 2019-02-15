@@ -34,16 +34,13 @@ interface ICourseListProps extends IDispatchableComponentProps {
 
 interface ICardListProps extends IDispatchableComponentProps {
   contents: ContentInfo[];
-  visibility: {
-    [key: string]: boolean;
-  };
+  threshold: number;
   title: string;
+  loadMore: () => any;
 }
 
 interface ICardProps extends IDispatchableComponentProps {
   content: ContentInfo;
-  hidden: boolean;
-  threshold: number;
 }
 
 export type SummaryListProps = ISummaryListProps;

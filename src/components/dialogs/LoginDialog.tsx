@@ -72,20 +72,21 @@ class LoginDialog extends React.Component<ILoginDialogProps, never> {
           保存凭据以自动登录
         </DialogContent>
         <DialogActions>
-          {
-            this.props.inLoginProgress ?
-            <CircularProgress
-              size={30}
-              variant={'indeterminate'}
-            /> : null
-          }
+          {this.props.inLoginProgress ? (
+            <CircularProgress size={30} variant={'indeterminate'} />
+          ) : null}
           <Button
             color="primary"
             disabled={this.props.inLoginProgress}
             onClick={() => {
-              this.props.dispatch<any>(login(this.username, this.password, this.save))
-                .then(() => { this.props.dispatch<any>(refresh()); })
-                .catch(() => { this.props.dispatch<any>(loginFail()); });
+              this.props
+                .dispatch<any>(login(this.username, this.password, this.save))
+                .then(() => {
+                  this.props.dispatch<any>(refresh());
+                })
+                .catch(() => {
+                  this.props.dispatch<any>(loginFail());
+                });
             }}
             type="submit"
           >

@@ -26,7 +26,7 @@ export function insistSemester(insist: boolean) {
     type: DataActionType.INSIST_SEMESTER,
     insist,
   };
-};
+}
 
 export function updateSemester(semester: SemesterInfo) {
   return {
@@ -86,7 +86,7 @@ export function markAllRead() {
   return {
     type: DataActionType.MARK_ALL_READ,
   };
-};
+}
 
 export function toggleReadState(id: string, state: boolean, contentType: ContentType) {
   return {

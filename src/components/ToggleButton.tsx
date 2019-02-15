@@ -23,7 +23,9 @@ class ToggleButton extends React.Component<
       <div className={styles.toggle_button}>
         <Fab
           color="primary"
-          onClick={() => { dispatch(togglePane(!this.props.paneHidden)); }}
+          onClick={() => {
+            dispatch(togglePane(!this.props.paneHidden));
+          }}
         >
           <FontAwesomeIcon icon="exchange-alt" />
         </Fab>

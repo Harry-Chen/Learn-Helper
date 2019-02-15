@@ -3,22 +3,26 @@ import { cipher, decipher } from './crypto';
 
 type ChromeStorageArea = 'local' | 'sync' | 'managed';
 
-export function getChromeStorageAsync(area: ChromeStorageArea, args: string[] | object | string[])
-  : Promise<{}> {
-  return new Promise((resolve) => {
+export function getChromeStorageAsync(
+  area: ChromeStorageArea,
+  args: string[] | object | string[],
+): Promise<{}> {
+  return new Promise(resolve => {
     chrome.storage[area].get(args, resolve);
   });
 }
 
 export function setChromeStorageAsync(area: ChromeStorageArea, args: object): Promise<{}> {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     chrome.storage[area].set(args, resolve);
   });
 }
 
-export function removeChromeStorageAsync(area: ChromeStorageArea, args: string | string[])
-  : Promise<{}> {
-  return new Promise((resolve) => {
+export function removeChromeStorageAsync(
+  area: ChromeStorageArea,
+  args: string | string[],
+): Promise<{}> {
+  return new Promise(resolve => {
     chrome.storage[area].remove(args, resolve);
   });
 }
@@ -32,8 +36,7 @@ export async function storeCredential(username: string, password: string) {
 }
 
 export async function getStoredCredential() {
-  const res = await getChromeStorageAsync('local',
-                                          [STORAGE_KEY_USERNAME, STORAGE_KEY_PASSWORD]);
+  const res = await getChromeStorageAsync('local', [STORAGE_KEY_USERNAME, STORAGE_KEY_PASSWORD]);
   const username = res[STORAGE_KEY_USERNAME];
   const password = res[STORAGE_KEY_PASSWORD];
   if (username !== undefined && password !== undefined) {
@@ -44,7 +47,6 @@ export async function getStoredCredential() {
     };
   }
   return null;
-
 }
 
 export async function removeStoredCredential() {

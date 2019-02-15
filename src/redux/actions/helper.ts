@@ -30,7 +30,6 @@ import { HelperActionType } from './actionTypes';
 import { getStoredCredential, storeCredential } from '../../utils/storage';
 
 export function login(username: string, password: string, save: boolean) {
-
   return async (dispatch, getState) => {
     dispatch(toggleLoginDialogProgress(true));
     const helper = getState().helper.helper as Learn2018Helper;
@@ -53,7 +52,7 @@ export function login(username: string, password: string, save: boolean) {
 }
 
 export function loginFail() {
-  return (dispatch) => {
+  return dispatch => {
     dispatch(toggleLoginDialog(true));
     dispatch(toggleLoginDialogProgress(false));
     dispatch(toggleSnackbar(true));
@@ -90,7 +89,7 @@ export function refresh() {
   return async (dispatch, getState) => {
     dispatch(toggleProgressBar(true));
     dispatch(setProgressBar(0));
-    const helperState = (getState()[STATE_HELPER] as HelperState);
+    const helperState = getState()[STATE_HELPER] as HelperState;
     const helper = helperState.helper as Learn2018Helper;
 
     try {
@@ -107,8 +106,8 @@ export function refresh() {
       const s = await helper.getCurrentSemester();
 
       // user required to ignore semester problem
-      const data = (getState()[STATE_DATA] as DataState);
-      const ui = (getState()[STATE_UI] as UiState);
+      const data = getState()[STATE_DATA] as DataState;
+      const ui = getState()[STATE_UI] as UiState;
       const ignoreSemester = data.insistSemester || ui.ignoreWrongSemester;
 
       if (data.semester.type === SemesterType.UNKNOWN) {
