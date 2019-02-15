@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import { SemesterInfo } from 'thu-learn-lib/lib/types';
+import { ReactNode } from 'react';
 
 export enum SnackbarType {
   ERROR = 'snack_bar_error',
@@ -7,16 +7,22 @@ export enum SnackbarType {
   NOTIFICATION = 'snack_bar_notification',
 }
 
+type AnyFunc = (...args: any[]) => any;
+
 export interface ICommonDialogProps {
   open: boolean;
+  title: ReactNode;
+  content: ReactNode;
+  firstButton: ReactNode;
+  firstButtonOnClick: AnyFunc;
+  secondButton?: ReactNode;
+  secondButtonOnClick?: AnyFunc;
+  thirdButton?: ReactNode;
+  thirdButtonOnClick?: AnyFunc;
+}
+
+export interface ILoginDialogProps {
+  open: boolean;
   dispatch: Dispatch<any>;
-}
-
-export interface ILoginDialogProps extends ICommonDialogProps {
   inLoginProgress: boolean;
-}
-
-export interface INewSemesterDialogProps extends ICommonDialogProps {
-  currentSemester: SemesterInfo;
-  newSemester: SemesterInfo;
 }

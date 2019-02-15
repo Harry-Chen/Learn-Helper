@@ -9,7 +9,7 @@ import { IUiStateSlice, STATE_UI } from '../redux/reducers';
 import { AppProp } from '../types/app';
 import { togglePane } from '../redux/actions/ui';
 
-class ToggleButton extends React.Component<
+class ToggleButton extends React.PureComponent<
   {
     paneHidden: boolean;
     dispatch: Dispatch<any>;

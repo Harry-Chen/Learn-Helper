@@ -16,7 +16,7 @@ import { ILoginDialogProps } from '../../types/dialogs';
 import { IUiStateSlice, STATE_UI } from '../../redux/reducers';
 import { login, loginFail, refresh } from '../../redux/actions/helper';
 
-class LoginDialog extends React.Component<ILoginDialogProps, never> {
+class LoginDialog extends React.PureComponent<ILoginDialogProps, never> {
   private username: string = '';
   private password: string = '';
   private save: boolean = false;

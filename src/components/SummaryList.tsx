@@ -19,7 +19,7 @@ import { ContentInfo } from '../types/data';
 import { HelperState } from '../redux/reducers/helper';
 import { setCardFilter, setCardListTitle } from '../redux/actions/ui';
 
-class SummaryList extends React.Component<SummaryListProps, null> {
+class SummaryList extends React.PureComponent<SummaryListProps, null> {
   render() {
     const { numbers, dispatch } = this.props;
 

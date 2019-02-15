@@ -21,7 +21,7 @@ import { formatDate } from '../utils/format';
 import { DiscussionInfo, FileInfo, HomeworkInfo, NotificationInfo } from '../types/data';
 import { toggleReadState, toggleStarState } from '../redux/actions/data';
 
-class DetailCard extends React.Component<CardProps, never> {
+class DetailCard extends React.PureComponent<CardProps, never> {
   shouldComponentUpdate(nextProps: CardProps) {
     return nextProps.content !== this.props.content;
   }
