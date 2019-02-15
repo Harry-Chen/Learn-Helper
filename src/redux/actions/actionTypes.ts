@@ -14,6 +14,7 @@ export enum UiActionType {
   TOGGLE_CLEAR_DATA_DIALOG = 'UI/toggle_clear_data_dialog',
   CARD_FILTER = 'UI/card_filter',
   CARD_LIST_TITLE = 'UI/card_list_title',
+  LOAD_MORE_CARD = 'UI/load_more_card',
 }
 
 export enum HelperActionType {

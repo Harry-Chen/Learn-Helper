@@ -28,6 +28,12 @@
     height: 18px;
 }
 
+.card_list {
+  max-height: 100%;
+  overflow-y: auto;
+  overflow-x: none;
+}
+
 .card_list_header {
     width: 100%;
     text-align: center;
@@ -35,6 +41,23 @@
 
 .card_list_header_text {
     font-size: 20px;
+}
+
+.card_list_load_more {
+  height: 60px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  opacity: .38;
+  transition: opacity .2s ease;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.card_list_load_more:hover {
+  opacity: .7;
 }
 
 .subfunc_list {
