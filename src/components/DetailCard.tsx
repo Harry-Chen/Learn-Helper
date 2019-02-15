@@ -23,10 +23,10 @@ import { toggleReadState, toggleStarState } from '../redux/actions/data';
 
 class DetailCard extends React.Component<CardProps, never> {
   public render(): React.ReactNode {
-    const { content, dispatch } = this.props;
+    const { content, dispatch, hidden } = this.props;
 
     return (
-      <Card className={styles.detail_card}>
+      <Card className={classnames(styles.detail_card, { [styles.detail_card_hidden]: hidden })}>
         <CardContent>
           <div className={styles.card_first_line}>
             {this.iconArea()}

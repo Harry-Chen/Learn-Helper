@@ -53,6 +53,10 @@
     margin: 5px;
 }
 
+.detail_card_hidden {
+    display: none;
+}
+
 .card_func_icon {
     width: 20px;
     height: 20px;

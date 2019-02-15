@@ -17,7 +17,7 @@ import { ContentType, CourseInfo } from 'thu-learn-lib/lib/types';
 
 class CardList extends React.Component<CardListProps, null> {
   public render() {
-    const { contents, title } = this.props;
+    const { contents, visibility, title } = this.props;
 
     return (
       <List
@@ -28,7 +28,15 @@ class CardList extends React.Component<CardListProps, null> {
           </ListSubheader>
         }
       >
-        {contents.map(c => (<DetailCard content={c} key={c.id} />))}
+        {
+          contents.map(c => (
+          <DetailCard
+            content={c}
+            key={c.id}
+            hidden={!visibility[c.id]}
+          />
+        ))
+          }
       </List>
     );
   }
@@ -38,21 +46,26 @@ let oldType: ContentType;
 let oldCourse: CourseInfo;
 let allContent: ContentInfo[];
 let oldCards: ContentInfo[];
+let oldVisibility: {};
 let lastRegenerateTime: Date;
 
 const generateCardList = (data: DataState, lastUpdateTime: Date,
                           type?: ContentType, course?: CourseInfo):
-  ContentInfo[] => {
+  Partial<CardListProps> => {
 
-  const filteredCards: ContentInfo[] = [];
+  const newCards: ContentInfo[] = [];
+  let visibility: {};
 
   if (type === oldType && course === oldCourse
     && oldCards !== undefined && lastRegenerateTime === lastUpdateTime) {
     // filter and data not changed, use filtered & sorted sequence
+    // just fetch the latest state
     for (const l of oldCards) {
-      filteredCards.push(data[`${l.type}Map`].get(l.id));
+      newCards.push(data[`${l.type}Map`].get(l.id));
     }
-  } else { // filter or data changed
+    visibility = oldVisibility;
+  } else {
+    // filter or data changed, re-calculate visibility and sequence
 
     if (lastUpdateTime !== lastRegenerateTime) {
       // data updated from network, generate data from scratch
@@ -67,41 +80,59 @@ const generateCardList = (data: DataState, lastUpdateTime: Date,
       lastRegenerateTime = lastUpdateTime;
     }
 
-    // filter the latest data by id
+    // clear visibility
+    visibility = {};
+
+    // fetch latest state of data
     for (const l of allContent) {
-      if (type === undefined || l.type === type) {
-        if (course === undefined || l.courseId === course.id) {
-          filteredCards.push(data[`${l.type}Map`].get(l.id));
-        }
-      }
+      newCards.push(data[`${l.type}Map`].get(l.id));
+    }
+
+    // calculate visibility
+    for (const l of newCards) {
+      visibility[l.id] = (type === undefined || l.type === type)
+        && (course === undefined || l.courseId === course.id);
     }
 
     // sort by starred, hasRead and time
-    filteredCards.sort((a, b) => {
+    newCards.sort((a, b) => {
       if (a.starred && !b.starred) return -1;
       if (!a.starred && b.starred) return 1;
       if (!a.hasRead && b.hasRead) return -1;
       if (a.hasRead && !b.hasRead) return 1;
       return b.date.getTime() - a.date.getTime();
     });
+
   }
 
   oldType = type;
   oldCourse = course;
-  oldCards = filteredCards;
-  // limit length to 100 to avoid too bad performance
-  return filteredCards.slice(0, 100);
+  oldCards = newCards;
+  oldVisibility = visibility;
+  return {
+    contents: newCards,
+    visibility,
+  };
 };
 
-const mapStateToProps = (state): CardListProps => {
+const mapStateToProps = (state): Partial<CardListProps> => {
   const data = (state[STATE_DATA] as DataState);
   const ui = (state[STATE_UI] as UiState);
   const loggedIn = (state[STATE_HELPER] as HelperState).loggedIn;
+
+  if (!loggedIn) {
+    return {
+      contents: [],
+      visibility: {},
+      title: '未登录',
+    };
+  }
+
   return {
-    contents: loggedIn ? generateCardList(data, data.lastUpdateTime,
-      ui.cardTypeFilter, ui.cardCourseFilter) : [],
+    ...generateCardList(data, data.lastUpdateTime, ui.cardTypeFilter, ui.cardCourseFilter),
     title: ui.cardListTitle,
   };
+
 };
 
 export default connect(mapStateToProps)(CardList);
