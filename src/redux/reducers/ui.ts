@@ -2,6 +2,7 @@ import { SnackbarType } from '../../types/dialogs';
 import { UiActionType } from '../actions/actionTypes';
 import { UiAction } from '../actions/ui';
 import { ContentType, CourseInfo } from 'thu-learn-lib/lib/types';
+import { CARD_BATCH_LOAD_SIZE } from '../../constants';
 
 interface IUiState {
   showLoadingProgressBar: boolean;
@@ -40,7 +41,7 @@ const initialState: UiState = {
   showLogoutDialog: false,
   showClearDataDialog: false,
   cardTypeFilter: undefined,
-  cardVisibilityThreshold: 10,
+  cardVisibilityThreshold: CARD_BATCH_LOAD_SIZE,
   cardCourseFilter: undefined,
   cardListTitle: '主页',
 };
@@ -123,7 +124,7 @@ export default function ui(state: UiState = initialState, action: UiAction): UiS
     case UiActionType.LOAD_MORE_CARD:
       return {
         ...state,
-        cardVisibilityThreshold: state.cardVisibilityThreshold + 10,
+        cardVisibilityThreshold: state.cardVisibilityThreshold + CARD_BATCH_LOAD_SIZE,
       };
     default:
       return state;

@@ -31,11 +31,11 @@
 .card_list {
   max-height: 100%;
   overflow-y: auto;
-  overflow-x: none;
+  overflow-x: hidden;
 }
 
 .card_list_inner {
-  background: white;
+  background: #f6f6f6;
 }
 
 .card_list_header {

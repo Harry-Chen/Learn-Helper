@@ -45,6 +45,7 @@
 }
 
 .progress_area {
+    z-index: 100;
     position: fixed;
     top: -1px;
     left: 0;

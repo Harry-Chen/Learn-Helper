@@ -1,35 +1,34 @@
 import React from 'react';
-import classnames from 'classnames';
+import { connect } from 'react-redux';
+import { ContentType, CourseInfo } from 'thu-learn-lib/lib/types';
 
 import List from '@material-ui/core/List';
 import ListSubheader from '@material-ui/core/ListSubheader';
 
-import styles from '../css/sidebar.css';
-import '../constants/fontAwesome.ts';
 import { CardListProps } from '../types/sidebar';
+import { ContentInfo } from '../types/data';
 import DetailCard from './DetailCard';
-import { connect } from 'react-redux';
+import styles from '../css/sidebar.css';
+
 import { STATE_DATA, STATE_HELPER, STATE_UI } from '../redux/reducers';
 import { DataState } from '../redux/reducers/data';
 import { UiState } from '../redux/reducers/ui';
 import { HelperState } from '../redux/reducers/helper';
-import { ContentInfo } from '../types/data';
-import { ContentType, CourseInfo } from 'thu-learn-lib/lib/types';
-
 import { loadMoreCard } from '../redux/actions/ui';
 
 class CardList extends React.Component<CardListProps, null> {
+
+  private readonly scrollRef: React.RefObject<HTMLDivElement>;
+
   constructor(props) {
     super(props);
-
     this.scrollRef = React.createRef();
   }
 
-  componentDidUpdate({ course, type }) {
-    const courseChanged = course === undefined
-      ? this.props.course !== undefined : course.id !== this.props.course.id;
-    if(courseChanged || type !== this.props.type)
+  componentDidUpdate(prevProps: CardListProps) {
+    if (prevProps.type !== this.props.type || prevProps.course !== this.props.course) {
       this.scrollRef.current.scrollTop = 0;
+    }
   }
 
   public render() {
@@ -41,16 +40,16 @@ class CardList extends React.Component<CardListProps, null> {
     return (
       <div
         className={styles.card_list}
-        onScroll={ev => {
+        onScroll={ ev => {
           if (!canLoadMore) return;
-          const self = ev.target as HTMLElement;
-          const bottomline = self.scrollTop + self.clientHeight;
-          if (bottomline + 180 > self.scrollHeight)
+          const self = ev.target as HTMLDivElement;
+          const bottomLine = self.scrollTop + self.clientHeight;
+          if (bottomLine + 180 > self.scrollHeight)
             // 80 px on load more hint
             loadMore();
         }}
         ref={this.scrollRef}
-        { ...rest }
+        {...rest}
       >
         <List
           className={styles.card_list_inner}
@@ -61,15 +60,19 @@ class CardList extends React.Component<CardListProps, null> {
             </ListSubheader>
           }
         >
-          {filtered.map(c => (
+          {
+            filtered.map(c => (
             <DetailCard key={c.id} content={c} />
-          ))}
+          ))
+            }
 
-          {canLoadMore ? (
+          {
+            canLoadMore ? (
             <div className={styles.card_list_load_more} onClick={loadMore}>
               加载更多
             </div>
-          ) : null}
+          ) : null
+          }
         </List>
       </div>
     );
@@ -146,7 +149,7 @@ const mapStateToProps = (state): Partial<CardListProps> => {
   if (!loggedIn) {
     return {
       contents: [],
-      title: '未登录',
+      title: '加载中...',
     };
   }
 
