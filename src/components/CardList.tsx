@@ -37,6 +37,7 @@ class CardList extends React.Component<CardListProps, null> {
         }}
       >
         <List
+          className={styles.card_list_inner}
           component="nav"
           subheader={
             <ListSubheader component="div" className={styles.card_list_header}>

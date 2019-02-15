@@ -34,6 +34,10 @@
   overflow-x: none;
 }
 
+.card_list_inner {
+  background: white;
+}
+
 .card_list_header {
     width: 100%;
     text-align: center;
