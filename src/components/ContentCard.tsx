@@ -21,7 +21,7 @@ import { formatDate } from '../utils/format';
 import { DiscussionInfo, FileInfo, HomeworkInfo, NotificationInfo } from '../types/data';
 import { toggleReadState, toggleStarState } from '../redux/actions/data';
 
-class DetailCard extends React.PureComponent<CardProps, never> {
+class ContentCard extends React.PureComponent<CardProps, never> {
   public render(): React.ReactNode {
     const { content, dispatch } = this.props;
 
@@ -210,4 +210,4 @@ class DetailCard extends React.PureComponent<CardProps, never> {
   }
 }
 
-export default connect()(DetailCard);
+export default connect()(ContentCard);
