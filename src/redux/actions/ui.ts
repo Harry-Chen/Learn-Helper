@@ -1,6 +1,7 @@
 import { UiActionType } from './actionTypes';
 import { SnackbarType } from '../../types/dialogs';
 import { ContentType, CourseInfo } from 'thu-learn-lib/lib/types';
+import { ContentInfo } from '../../types/data';
 
 interface IUiAction {
   type: UiActionType;
@@ -11,6 +12,8 @@ interface IUiAction {
   cardType?: ContentType;
   cardCourse?: CourseInfo;
   title?: string;
+  url?: string;
+  content?: ContentInfo;
 }
 
 export type UiAction = IUiAction;
@@ -118,5 +121,25 @@ export const setCardListTitle = (title: string): UiAction => {
 export const loadMoreCard = (): UiAction => {
   return {
     type: UiActionType.LOAD_MORE_CARD,
+  };
+};
+
+export const setDetailUrl = (url: string): UiAction => {
+  return {
+    type: UiActionType.SET_DETAIL_URL,
+    url,
+  };
+};
+
+export const setDetailContent = (content: ContentInfo): UiAction => {
+  return {
+    type: UiActionType.SET_DETAIL_CONTENT,
+    content,
+  };
+};
+
+export const showContentIgnoreSetting = (): UiAction => {
+  return {
+    type: UiActionType.SHOW_CONTENT_IGNORE_SETTING,
   };
 };

@@ -63,10 +63,18 @@ interface IAppProps extends IDispatchableComponentProps {
 
 export type AppProps = IAppProps;
 
-interface IColoredSnackbar extends IDispatchableComponentProps {
+interface IColoredSnackbarProps extends IDispatchableComponentProps {
   showSnackbar: boolean;
   snackbarContent: string;
   snackbarType: SnackbarType;
 }
 
-export type ColoredSnackbarProps = IColoredSnackbar;
+export type ColoredSnackbarProps = IColoredSnackbarProps;
+
+interface IDetailPaneProps extends IDispatchableComponentProps {
+  url: string;
+  content?: ContentInfo;
+  showIgnoreSettings: boolean;
+}
+
+export type DetailPaneProps = IDetailPaneProps;

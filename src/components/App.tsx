@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Iframe from 'react-iframe';
 import classnames from 'classnames';
 
 import Divider from '@material-ui/core/Divider';
@@ -15,13 +14,16 @@ import CourseList from './CourseList';
 import SettingList from './SettingList';
 import CardList from './CardList';
 import ToggleButton from './ToggleButton';
-import LoginDialog from './dialogs/LoginDialog';
-import NetworkErrorDialog from './dialogs/NetworkErrorDialog';
-import NewSemesterDialog from './dialogs/NewSemesterDialog';
-import ClearDataDialog from './dialogs/ClearDataDialog';
-import LogoutDialog from './dialogs/LogoutDialog';
+import {
+  ClearDataDialog,
+  LoginDialog,
+  LogoutDialog,
+  NetworkErrorDialog,
+  NewSemesterDialog,
+} from './dialogs';
 import ColoredSnackbar from './ColoredSnackbar';
 import { UiState } from '../redux/reducers/ui';
+import DetailPane from './DetailPane';
 
 class App extends React.PureComponent<AppProps, never> {
   public render() {
@@ -50,7 +52,7 @@ class App extends React.PureComponent<AppProps, never> {
           })}
         >
           <ToggleButton />
-          <Iframe url="welcome.html" />
+          <DetailPane />
         </div>
         {/* progress bar */}
         <div className={styles.progress_area}>

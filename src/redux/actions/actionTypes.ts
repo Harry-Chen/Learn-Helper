@@ -14,6 +14,9 @@ export enum UiActionType {
   CARD_FILTER = 'UI/card_filter',
   CARD_LIST_TITLE = 'UI/card_list_title',
   LOAD_MORE_CARD = 'UI/load_more_card',
+  SET_DETAIL_URL = 'UI/set_detail_url',
+  SET_DETAIL_CONTENT = 'UI/set_detail_content',
+  SHOW_CONTENT_IGNORE_SETTING = 'UI/show_content_ignore_setting',
 }
 
 export enum HelperActionType {
@@ -28,6 +31,7 @@ export enum DataActionType {
   UPDATE_COURSES = 'DATA/update_courses',
   UPDATE_CONTENT = 'DATA/update_content',
   TOGGLE_CONTENT_IGNORE = 'DATA/toggle_content_ignore',
+  RESET_CONTENT_IGNORE = 'DATA/reset_content_ignore',
   MARK_ALL_READ = 'DATA/mark_all_read',
   TOGGLE_READ_STATE = 'DATA/toggle_read_state',
   TOGGLE_STAR_STATE = 'DATA/toggle_star_state',

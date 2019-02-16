@@ -129,35 +129,35 @@ export function refresh() {
       dispatch(setProgressBar(20));
 
       let res = await helper.getAllContents(
-        getCourseIdListForContent(data, ContentType.NOTIFICATION),
+        getCourseIdListForContent(getState, ContentType.NOTIFICATION),
         ContentType.NOTIFICATION,
       );
       dispatch(updateNotification(res));
       dispatch(setProgressBar(36));
 
       res = await helper.getAllContents(
-        getCourseIdListForContent(data, ContentType.FILE),
+        getCourseIdListForContent(getState, ContentType.FILE),
         ContentType.FILE,
       );
       dispatch(updateFile(res));
       dispatch(setProgressBar(52));
 
       res = await helper.getAllContents(
-        getCourseIdListForContent(data, ContentType.HOMEWORK),
+        getCourseIdListForContent(getState, ContentType.HOMEWORK),
         ContentType.HOMEWORK,
       );
       dispatch(updateHomework(res));
       dispatch(setProgressBar(68));
 
       res = await helper.getAllContents(
-        getCourseIdListForContent(data, ContentType.DISCUSSION),
+        getCourseIdListForContent(getState, ContentType.DISCUSSION),
         ContentType.DISCUSSION,
       );
       dispatch(updateDiscussion(res));
       dispatch(setProgressBar(84));
 
       res = await helper.getAllContents(
-        getCourseIdListForContent(data, ContentType.QUESTION),
+        getCourseIdListForContent(getState, ContentType.QUESTION),
         ContentType.QUESTION,
       );
       dispatch(updateQuestion(res));

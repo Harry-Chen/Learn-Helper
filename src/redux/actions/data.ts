@@ -55,6 +55,12 @@ export function toggleContentIgnore(
   };
 }
 
+export function resetContentIgnore(): DataAction {
+  return {
+    type: DataActionType.RESET_CONTENT_IGNORE,
+  };
+}
+
 export function updateNotification(content: CourseContent): DataAction {
   return {
     type: DataActionType.UPDATE_CONTENT,

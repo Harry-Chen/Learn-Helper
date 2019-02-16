@@ -2,8 +2,10 @@ import { ContentType, CourseInfo } from 'thu-learn-lib/lib/types';
 import { DataState } from './reducers/data';
 import { ContentInfo } from '../types/data';
 import { CardListProps } from '../types/ui';
+import { STATE_DATA } from './reducers';
 
-export function getCourseIdListForContent(data: DataState, contentType: ContentType) {
+export function getCourseIdListForContent(getState: () => any, contentType: ContentType) {
+  const data = getState()[STATE_DATA] as DataState;
   const courseIDs = [...data.courseMap.keys()];
   return courseIDs.filter(id => !data.contentIgnore[id][contentType]);
 }
