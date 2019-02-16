@@ -29,6 +29,11 @@ interface IDataState {
   questionMap: Map<string, QuestionInfo>;
   lastUpdateTime: Date;
   updateFinished: boolean;
+  contentIgnore: {
+    [courseId: string]: {
+      [type: string]: boolean;
+    };
+  };
 }
 
 export type DataState = IDataState;
@@ -54,6 +59,7 @@ const initialState: IDataState = {
   questionMap: Map(),
   lastUpdateTime: new Date(0),
   updateFinished: false,
+  contentIgnore: {},
 };
 
 function update<T extends ContentInfo>(
@@ -155,14 +161,25 @@ export default function data(state: IDataState = initialState, action: DataActio
       };
 
     case DataActionType.UPDATE_COURSES:
-      // update course list
+      // update course list and ignoring list
       // any content that belongs to removed courses will be removed in following steps
       let courseMap = Map<string, CourseInfo>();
+      const contentIgnore = state.contentIgnore;
       for (const c of action.courseList) {
         courseMap = courseMap.set(c.id, c);
+        if (contentIgnore[c.id] === undefined) {
+          contentIgnore[c.id] = {
+            [ContentType.NOTIFICATION]: false,
+            [ContentType.FILE]: false,
+            [ContentType.HOMEWORK]: false,
+            [ContentType.QUESTION]: false,
+            [ContentType.QUESTION]: false,
+          };
+        }
       }
       return {
         ...state,
+        contentIgnore,
         courseMap,
       };
 
@@ -178,6 +195,18 @@ export default function data(state: IDataState = initialState, action: DataActio
       return {
         ...state,
         updateFinished: true,
+      };
+
+    case DataActionType.TOGGLE_CONTENT_IGNORE:
+      return {
+        ...state,
+        contentIgnore: {
+          ...state.contentIgnore,
+          [action.id]: {
+            ...state.contentIgnore[action.id],
+            [action.contentType]: action.state,
+          },
+        },
       };
 
     case DataActionType.MARK_ALL_READ:

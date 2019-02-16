@@ -22,7 +22,6 @@ import { DiscussionInfo, FileInfo, HomeworkInfo, NotificationInfo } from '../typ
 import { toggleReadState, toggleStarState } from '../redux/actions/data';
 
 class DetailCard extends React.PureComponent<CardProps, never> {
-
   public render(): React.ReactNode {
     const { content, dispatch } = this.props;
 

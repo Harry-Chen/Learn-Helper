@@ -15,35 +15,22 @@ class CommonDialog extends React.PureComponent<ICommonDialogProps> {
       <Dialog open={this.props.open}>
         <DialogTitle>{this.props.title}</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            {this.props.content}
-          </DialogContentText>
+          <DialogContentText>{this.props.content}</DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button
-            color="primary"
-            onClick={this.props.firstButtonOnClick}
-          >
+          <Button color="primary" onClick={this.props.firstButtonOnClick}>
             {this.props.firstButton}
           </Button>
-          {
-            this.props.secondButton !== undefined ?
-            (<Button
-              color="primary"
-              onClick={this.props.secondButtonOnClick}
-            >
+          {this.props.secondButton !== undefined ? (
+            <Button color="primary" onClick={this.props.secondButtonOnClick}>
               {this.props.secondButton}
-            </Button>) : null
-          }
-          {
-            this.props.thirdButton !== undefined ?
-              (<Button
-                color="primary"
-                onClick={this.props.thirdButtonOnClick}
-              >
-                {this.props.thirdButton}
-              </Button>) : null
-          }
+            </Button>
+          ) : null}
+          {this.props.thirdButton !== undefined ? (
+            <Button color="primary" onClick={this.props.thirdButtonOnClick}>
+              {this.props.thirdButton}
+            </Button>
+          ) : null}
         </DialogActions>
       </Dialog>
     );

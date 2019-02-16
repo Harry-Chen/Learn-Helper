@@ -1,10 +1,7 @@
 import React from 'react';
 
 import { ICommonDialogProps } from '../../types/dialogs';
-import {
-  toggleLoginDialog,
-  toggleNetworkErrorDialog,
-} from '../../redux/actions/ui';
+import { toggleLoginDialog, toggleNetworkErrorDialog } from '../../redux/actions/ui';
 import { connect } from 'react-redux';
 import { IUiStateSlice, STATE_UI } from '../../redux/reducers';
 import { loggedIn, refresh } from '../../redux/actions/helper';
@@ -29,7 +26,7 @@ const mapStateToProps = (state: IUiStateSlice): Partial<ICommonDialogProps> => {
         · 保存的用户凭据不正确（修改过密码）
         <br />
         您可以选择重试或者放弃加载，或者更换新的凭据。
-    </div>
+      </div>
     ),
     firstButton: '重试加载',
     secondButton: '离线查看',
@@ -54,4 +51,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): Partial<ICommonDialogProps
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(NetworkErrorDialog);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(NetworkErrorDialog);
