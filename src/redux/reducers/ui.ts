@@ -3,6 +3,7 @@ import { UiActionType } from '../actions/actionTypes';
 import { UiAction } from '../actions/ui';
 import { ContentType, CourseInfo } from 'thu-learn-lib/lib/types';
 import { CARD_BATCH_LOAD_SIZE } from '../../constants';
+import { ContentInfo } from '../../types/data';
 
 interface IUiState {
   showLoadingProgressBar: boolean;
@@ -22,6 +23,9 @@ interface IUiState {
   cardVisibilityThreshold: number;
   cardCourseFilter?: CourseInfo;
   cardListTitle: string;
+  detailUrl: string;
+  detailContent?: ContentInfo;
+  showContentIgnoreSetting: boolean;
 }
 
 export type UiState = IUiState;
@@ -44,6 +48,9 @@ const initialState: UiState = {
   cardVisibilityThreshold: CARD_BATCH_LOAD_SIZE,
   cardCourseFilter: undefined,
   cardListTitle: '主页',
+  detailUrl: 'welcome.html',
+  detailContent: undefined,
+  showContentIgnoreSetting: false,
 };
 
 export default function ui(state: UiState = initialState, action: UiAction): UiState {
@@ -125,6 +132,24 @@ export default function ui(state: UiState = initialState, action: UiAction): UiS
       return {
         ...state,
         cardVisibilityThreshold: state.cardVisibilityThreshold + CARD_BATCH_LOAD_SIZE,
+      };
+    case UiActionType.SET_DETAIL_URL:
+      return {
+        ...state,
+        detailUrl: action.url,
+        detailContent: undefined,
+        showContentIgnoreSetting: false,
+      };
+    case UiActionType.SET_DETAIL_CONTENT:
+      return {
+        ...state,
+        detailContent: action.content,
+        showContentIgnoreSetting: false,
+      };
+    case UiActionType.SHOW_CONTENT_IGNORE_SETTING:
+      return {
+        ...state,
+        showContentIgnoreSetting: true,
       };
     default:
       return state;

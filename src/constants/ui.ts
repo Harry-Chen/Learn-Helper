@@ -3,7 +3,11 @@ import { IconName } from '@fortawesome/fontawesome-common-types';
 import { IMenuItem, IMenuItemEnum } from '../types/ui';
 import { Dispatch } from 'redux';
 import { refresh } from '../redux/actions/helper';
-import { toggleClearDataDialog, toggleLogoutDialog } from '../redux/actions/ui';
+import {
+  showContentIgnoreSetting,
+  toggleClearDataDialog,
+  toggleLogoutDialog,
+} from '../redux/actions/ui';
 import { ContentType } from 'thu-learn-lib/lib/types';
 import { markAllRead } from '../redux/actions/data';
 
@@ -135,8 +139,7 @@ const SETTINGS_FUNC: IMenuItemEnum = {
     icon: 'cog',
     name: '管理忽略项',
     handler: (dispatch: Dispatch<any>) => {
-      // dispatch();
-      // show manage page
+      dispatch(showContentIgnoreSetting());
     },
   },
   SETTINGS_MARK_READ: {

@@ -20,6 +20,7 @@ import { ContentType } from 'thu-learn-lib/lib/types';
 import { formatDate } from '../utils/format';
 import { DiscussionInfo, FileInfo, HomeworkInfo, NotificationInfo } from '../types/data';
 import { toggleReadState, toggleStarState } from '../redux/actions/data';
+import { setDetailContent, setDetailUrl } from '../redux/actions/ui';
 
 class ContentCard extends React.PureComponent<CardProps, never> {
   public render(): React.ReactNode {
@@ -52,14 +53,14 @@ class ContentCard extends React.PureComponent<CardProps, never> {
         break;
       // show details in DetailPane
       case ContentType.NOTIFICATION:
-        break;
       case ContentType.HOMEWORK:
+        this.props.dispatch(setDetailContent(content));
         break;
       // navigate iframe in DetailPane to given url
       case ContentType.DISCUSSION:
       case ContentType.QUESTION:
         const url = (content as DiscussionInfo).url;
-        break;
+        this.props.dispatch(setDetailUrl(url));
     }
   };
 
@@ -200,7 +201,12 @@ class ContentCard extends React.PureComponent<CardProps, never> {
       const homework = content as HomeworkInfo;
       submitButton = (
         <Tooltip title="提交作业">
-          <IconButton color="primary" className={styles.card_action_button} component="div">
+          <IconButton
+            color="primary"
+            className={styles.card_action_button}
+            component="div"
+            onClick={() => { dispatch(setDetailUrl(homework.submitUrl)); }}
+          >
             <FontAwesomeIcon icon="upload" />
           </IconButton>
         </Tooltip>

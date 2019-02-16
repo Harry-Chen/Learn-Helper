@@ -136,6 +136,14 @@ function markAllRead<T extends ContentInfo>(oldMap: Map<string, T>): Map<string,
   return map;
 }
 
+const IGNORE_UNSET_ALL = {
+  [ContentType.NOTIFICATION]: false,
+  [ContentType.FILE]: false,
+  [ContentType.HOMEWORK]: false,
+  [ContentType.QUESTION]: false,
+  [ContentType.QUESTION]: false,
+};
+
 export default function data(state: IDataState = initialState, action: DataAction): IDataState {
   const stateKey = `${action.contentType}Map`;
 
@@ -160,7 +168,7 @@ export default function data(state: IDataState = initialState, action: DataActio
         semester: action.semester,
       };
 
-    case DataActionType.UPDATE_COURSES:
+    case DataActionType.UPDATE_COURSES: {
       // update course list and ignoring list
       // any content that belongs to removed courses will be removed in following steps
       let courseMap = Map<string, CourseInfo>();
@@ -169,11 +177,7 @@ export default function data(state: IDataState = initialState, action: DataActio
         courseMap = courseMap.set(c.id, c);
         if (contentIgnore[c.id] === undefined) {
           contentIgnore[c.id] = {
-            [ContentType.NOTIFICATION]: false,
-            [ContentType.FILE]: false,
-            [ContentType.HOMEWORK]: false,
-            [ContentType.QUESTION]: false,
-            [ContentType.QUESTION]: false,
+            ...IGNORE_UNSET_ALL,
           };
         }
       }
@@ -182,6 +186,7 @@ export default function data(state: IDataState = initialState, action: DataActio
         contentIgnore,
         courseMap,
       };
+    }
 
     case DataActionType.UPDATE_CONTENT:
       return {
@@ -208,6 +213,19 @@ export default function data(state: IDataState = initialState, action: DataActio
           },
         },
       };
+
+    case DataActionType.RESET_CONTENT_IGNORE: {
+      const contentIgnore = {};
+      for (const c of state.courseMap.keys()) {
+        contentIgnore[c] = {
+          ...IGNORE_UNSET_ALL,
+        };
+      }
+      return {
+        ...state,
+        contentIgnore,
+      };
+    }
 
     case DataActionType.MARK_ALL_READ:
       return {
