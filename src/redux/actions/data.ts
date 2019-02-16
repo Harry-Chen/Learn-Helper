@@ -3,7 +3,7 @@ import { ContentType, CourseContent, CourseInfo, SemesterInfo } from 'thu-learn-
 
 interface IDataAction {
   type: DataActionType;
-  id: string;
+  id?: string;
   insist?: boolean;
   semester?: SemesterInfo;
   courseList?: CourseInfo[];
@@ -14,35 +14,48 @@ interface IDataAction {
 
 export type DataAction = IDataAction;
 
-export function newSemester(semester: SemesterInfo) {
+export function newSemester(semester: SemesterInfo): DataAction {
   return {
     type: DataActionType.NEW_SEMESTER,
     semester,
   };
 }
 
-export function insistSemester(insist: boolean) {
+export function insistSemester(insist: boolean): DataAction {
   return {
     type: DataActionType.INSIST_SEMESTER,
     insist,
   };
 }
 
-export function updateSemester(semester: SemesterInfo) {
+export function updateSemester(semester: SemesterInfo): DataAction {
   return {
     type: DataActionType.UPDATE_SEMESTER,
     semester,
   };
 }
 
-export function updateCourses(courseList: CourseInfo[]) {
+export function updateCourses(courseList: CourseInfo[]): DataAction {
   return {
     type: DataActionType.UPDATE_COURSES,
     courseList,
   };
 }
 
-export function updateNotification(content: CourseContent) {
+export function toggleContentIgnore(
+  courseId: string,
+  contentType: ContentType,
+  ignore: boolean,
+): DataAction {
+  return {
+    type: DataActionType.TOGGLE_CONTENT_IGNORE,
+    id: courseId,
+    contentType,
+    state: ignore,
+  };
+}
+
+export function updateNotification(content: CourseContent): DataAction {
   return {
     type: DataActionType.UPDATE_CONTENT,
     content,
@@ -50,7 +63,7 @@ export function updateNotification(content: CourseContent) {
   };
 }
 
-export function updateFile(content: CourseContent) {
+export function updateFile(content: CourseContent): DataAction {
   return {
     type: DataActionType.UPDATE_CONTENT,
     content,
@@ -58,7 +71,7 @@ export function updateFile(content: CourseContent) {
   };
 }
 
-export function updateHomework(content: CourseContent) {
+export function updateHomework(content: CourseContent): DataAction {
   return {
     type: DataActionType.UPDATE_CONTENT,
     content,
@@ -66,7 +79,7 @@ export function updateHomework(content: CourseContent) {
   };
 }
 
-export function updateDiscussion(content: CourseContent) {
+export function updateDiscussion(content: CourseContent): DataAction {
   return {
     type: DataActionType.UPDATE_CONTENT,
     content,
@@ -74,7 +87,7 @@ export function updateDiscussion(content: CourseContent) {
   };
 }
 
-export function updateQuestion(content: CourseContent) {
+export function updateQuestion(content: CourseContent): DataAction {
   return {
     type: DataActionType.UPDATE_CONTENT,
     content,
@@ -82,13 +95,13 @@ export function updateQuestion(content: CourseContent) {
   };
 }
 
-export function markAllRead() {
+export function markAllRead(): DataAction {
   return {
     type: DataActionType.MARK_ALL_READ,
   };
 }
 
-export function toggleReadState(id: string, state: boolean, contentType: ContentType) {
+export function toggleReadState(id: string, state: boolean, contentType: ContentType): DataAction {
   return {
     type: DataActionType.TOGGLE_READ_STATE,
     id,
@@ -97,7 +110,7 @@ export function toggleReadState(id: string, state: boolean, contentType: Content
   };
 }
 
-export function toggleStarState(id: string, state: boolean, contentType: ContentType) {
+export function toggleStarState(id: string, state: boolean, contentType: ContentType): DataAction {
   return {
     type: DataActionType.TOGGLE_STAR_STATE,
     id,
@@ -106,13 +119,13 @@ export function toggleStarState(id: string, state: boolean, contentType: Content
   };
 }
 
-export function clearAllData() {
+export function clearAllData(): DataAction {
   return {
     type: DataActionType.CLEAR_DATA,
   };
 }
 
-export function updateFinished() {
+export function updateFinished(): DataAction {
   return {
     type: DataActionType.UPDATE_FINISHED,
   };

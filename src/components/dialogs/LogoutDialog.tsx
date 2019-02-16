@@ -1,10 +1,7 @@
 import React from 'react';
 
 import { ICommonDialogProps } from '../../types/dialogs';
-import {
-  toggleLoginDialog,
-  toggleLogoutDialog,
-} from '../../redux/actions/ui';
+import { toggleLoginDialog, toggleLogoutDialog } from '../../redux/actions/ui';
 import { connect } from 'react-redux';
 import { IUiStateSlice, STATE_UI } from '../../redux/reducers';
 import { clearAllData } from '../../redux/actions/data';
@@ -52,4 +49,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): Partial<ICommonDialogProps
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LogoutDialog);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(LogoutDialog);

@@ -1,10 +1,7 @@
 import React from 'react';
 
 import { ICommonDialogProps } from '../../types/dialogs';
-import {
-  toggleIgnoreWrongSemester,
-  toggleNewSemesterDialog,
-} from '../../redux/actions/ui';
+import { toggleIgnoreWrongSemester, toggleNewSemesterDialog } from '../../redux/actions/ui';
 import { connect } from 'react-redux';
 import { IUiStateSlice, STATE_DATA, STATE_UI } from '../../redux/reducers';
 import { formatSemester } from '../../utils/format';
@@ -61,4 +58,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): Partial<ICommonDialogProps
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewSemesterDialog);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(NewSemesterDialog);

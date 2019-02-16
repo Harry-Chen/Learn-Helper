@@ -17,7 +17,8 @@ import {
   newSemester,
   updateCourses,
   updateDiscussion,
-  updateFile, updateFinished,
+  updateFile,
+  updateFinished,
   updateHomework,
   updateNotification,
   updateQuestion,
@@ -76,7 +77,7 @@ export function loggedOut() {
 export function refreshIfNeeded() {
   return (dispatch, getState) => {
     const data = getState()[STATE_DATA] as DataState;
-    const justUpdated = new Date().getTime() - data.lastUpdateTime.getTime() > 15 * 60 * 1000;
+    const justUpdated = new Date().getTime() - data.lastUpdateTime.getTime() <= 15 * 60 * 1000;
     if (data.updateFinished && justUpdated) {
       dispatch(toggleSnackbar(true));
       dispatch(setSnackbar('距离上次成功刷新不足15分钟', SnackbarType.NOTIFICATION));
@@ -128,35 +129,35 @@ export function refresh() {
       dispatch(setProgressBar(20));
 
       let res = await helper.getAllContents(
-        getCourseIdListForContent(getState, ContentType.NOTIFICATION),
+        getCourseIdListForContent(data, ContentType.NOTIFICATION),
         ContentType.NOTIFICATION,
       );
       dispatch(updateNotification(res));
       dispatch(setProgressBar(36));
 
       res = await helper.getAllContents(
-        getCourseIdListForContent(getState, ContentType.FILE),
+        getCourseIdListForContent(data, ContentType.FILE),
         ContentType.FILE,
       );
       dispatch(updateFile(res));
       dispatch(setProgressBar(52));
 
       res = await helper.getAllContents(
-        getCourseIdListForContent(getState, ContentType.HOMEWORK),
+        getCourseIdListForContent(data, ContentType.HOMEWORK),
         ContentType.HOMEWORK,
       );
       dispatch(updateHomework(res));
       dispatch(setProgressBar(68));
 
       res = await helper.getAllContents(
-        getCourseIdListForContent(getState, ContentType.DISCUSSION),
+        getCourseIdListForContent(data, ContentType.DISCUSSION),
         ContentType.DISCUSSION,
       );
       dispatch(updateDiscussion(res));
       dispatch(setProgressBar(84));
 
       res = await helper.getAllContents(
-        getCourseIdListForContent(getState, ContentType.QUESTION),
+        getCourseIdListForContent(data, ContentType.QUESTION),
         ContentType.QUESTION,
       );
       dispatch(updateQuestion(res));
@@ -166,7 +167,7 @@ export function refresh() {
       dispatch(setSnackbar('更新成功！', SnackbarType.SUCCESS));
 
       // wait 300ms before hiding progressbar
-      await new Promise((resolve, reject) => {
+      await new Promise(resolve => {
         setTimeout(() => {
           resolve();
         }, 1000);
