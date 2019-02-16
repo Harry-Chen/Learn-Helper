@@ -62,6 +62,8 @@ class ContentCard extends React.PureComponent<CardProps, never> {
         const url = (content as DiscussionInfo).url;
         this.props.dispatch(setDetailUrl(url));
     }
+    // mark card as read
+    this.props.dispatch(toggleReadState(content.id, true, content.type));
   };
 
   private genStatusText() {
