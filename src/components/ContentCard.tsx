@@ -12,7 +12,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { COURSE_MAIN_FUNC } from '../constants/ui';
-import { CardProps } from '../types/sidebar';
+import { CardProps } from '../types/ui';
 
 import styles from '../css/sidebar.css';
 import { connect } from 'react-redux';
@@ -23,12 +23,12 @@ import { toggleReadState, toggleStarState } from '../redux/actions/data';
 
 class ContentCard extends React.PureComponent<CardProps, never> {
   public render(): React.ReactNode {
-    const { content, dispatch } = this.props;
+    const { content } = this.props;
 
     return (
       <Card className={styles.detail_card}>
         <CardContent>
-          <div className={styles.card_first_line}>
+          <div className={styles.card_first_line} onClick={this.onTitleClick}>
             {this.iconArea()}
             <span className={styles.card_title}>{content.title}</span>
           </div>
@@ -42,6 +42,26 @@ class ContentCard extends React.PureComponent<CardProps, never> {
       </Card>
     );
   }
+
+  private onTitleClick = () => {
+    const content = this.props.content;
+    switch (content.type) {
+      // initiate file download
+      case ContentType.FILE:
+        location.href = (content as FileInfo).downloadUrl;
+        break;
+      // show details in DetailPane
+      case ContentType.NOTIFICATION:
+        break;
+      case ContentType.HOMEWORK:
+        break;
+      // navigate iframe in DetailPane to given url
+      case ContentType.DISCUSSION:
+      case ContentType.QUESTION:
+        const url = (content as DiscussionInfo).url;
+        break;
+    }
+  };
 
   private genStatusText() {
     const { content } = this.props;
@@ -190,7 +210,12 @@ class ContentCard extends React.PureComponent<CardProps, never> {
     if ((content as any).attachmentUrl !== undefined) {
       attachmentButton = (
         <Tooltip title={`附件：${(content as any).attachmentName}`}>
-          <IconButton color="primary" className={styles.card_action_button} component="div">
+          <IconButton
+            color="primary"
+            className={styles.card_action_button}
+            component="div"
+            onClick={() => { location.href = (content as any).attachmentUrl; }}
+          >
             <FontAwesomeIcon icon="paperclip" />
           </IconButton>
         </Tooltip>

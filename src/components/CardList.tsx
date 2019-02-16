@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import List from '@material-ui/core/List';
 import ListSubheader from '@material-ui/core/ListSubheader';
 
-import { CardListProps } from '../types/sidebar';
+import { CardListProps } from '../types/ui';
 import ContentCard from './ContentCard';
 import styles from '../css/sidebar.css';
 

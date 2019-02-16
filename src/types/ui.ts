@@ -2,6 +2,7 @@ import { IconName } from '@fortawesome/fontawesome-common-types';
 import { Dispatch } from 'redux';
 import { ContentType, CourseInfo } from 'thu-learn-lib/lib/types';
 import { ContentInfo } from './data';
+import { SnackbarType } from './dialogs';
 
 export interface IMenuItem {
   name: string;
@@ -12,10 +13,6 @@ export interface IMenuItem {
 
 export interface IMenuItemEnum {
   [key: string]: IMenuItem;
-}
-
-interface IComponent {
-  classes?: any;
 }
 
 interface IDispatchableComponentProps {
@@ -58,48 +55,18 @@ export type CardListProps = ICardListProps;
 
 export type CardProps = ICardProps;
 
-export enum CardType {
-  HOMEWORK = 'HOMEWORK',
-  NOTIFICATION = 'NOTIFICATION',
-  DISCUSSION = 'DISCUSSION',
-  FILE = 'FILE',
-  QUESTION = 'QUESTION',
+interface IAppProps extends IDispatchableComponentProps {
+  showLoadingProgressBar: boolean;
+  loadingProgress: number;
+  paneHidden: boolean;
 }
 
-interface ICardDataBase extends IComponent {
-  type: CardType;
-  course: string;
-  title: string;
-  date: Date;
-  hasRead: boolean;
-  hasStarred: boolean;
-  link: string;
+export type AppProps = IAppProps;
+
+interface IColoredSnackbar extends IDispatchableComponentProps {
+  showSnackbar: boolean;
+  snackbarContent: string;
+  snackbarType: SnackbarType;
 }
 
-export interface IHomeworkCardData extends ICardDataBase {
-  type: CardType.HOMEWORK;
-  hasSubmitted: boolean;
-  submitLink: string;
-  fileLink?: string;
-  grade?: string;
-  grader?: string;
-}
-
-export interface INotificationCardData extends ICardDataBase {
-  type: CardType.NOTIFICATION;
-  fileLink?: string;
-}
-
-export interface IDiscussionCardData extends ICardDataBase {
-  type: CardType.DISCUSSION;
-}
-
-export interface IFileCardData extends ICardDataBase {
-  type: CardType.FILE;
-}
-
-export type CardData =
-  | IHomeworkCardData
-  | INotificationCardData
-  | IDiscussionCardData
-  | IFileCardData;
+export type ColoredSnackbarProps = IColoredSnackbar;

@@ -1,6 +1,6 @@
 import { IconName } from '@fortawesome/fontawesome-common-types';
 
-import { IMenuItem, IMenuItemEnum } from '../types/sidebar';
+import { IMenuItem, IMenuItemEnum } from '../types/ui';
 import { Dispatch } from 'redux';
 import { refresh } from '../redux/actions/helper';
 import { toggleClearDataDialog, toggleLogoutDialog } from '../redux/actions/ui';

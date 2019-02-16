@@ -9,7 +9,7 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 
 import styles from '../css/sidebar.css';
 import '../constants/fontAwesome.ts';
-import { SettingListProps } from '../types/sidebar';
+import { SettingListProps } from '../types/ui';
 import { connect } from 'react-redux';
 import { SETTINGS_FUNC_LIST } from '../constants/ui';
 
