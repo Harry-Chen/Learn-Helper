@@ -5,7 +5,7 @@ import List from '@material-ui/core/List';
 import ListSubheader from '@material-ui/core/ListSubheader';
 
 import { CardListProps } from '../types/sidebar';
-import DetailCard from './DetailCard';
+import ContentCard from './ContentCard';
 import styles from '../css/sidebar.css';
 
 import { STATE_DATA, STATE_HELPER, STATE_UI } from '../redux/reducers';
@@ -59,7 +59,7 @@ class CardList extends React.PureComponent<CardListProps, null> {
           }
         >
           {filtered.map(c => (
-            <DetailCard key={c.id} content={c} />
+            <ContentCard key={c.id} content={c} />
           ))}
 
           {canLoadMore ? (

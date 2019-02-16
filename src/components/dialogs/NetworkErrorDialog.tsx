@@ -23,12 +23,12 @@ const mapStateToProps = (state: IUiStateSlice): Partial<ICommonDialogProps> => {
         <br />
         · 服务器去思考人生了
         <br />
-        · 保存的用户凭据不正确（修改过密码）
+        · 保存的用户凭据不正确（最近修改过密码？）
         <br />
-        您可以选择重试或者放弃加载，或者更换新的凭据。
+        您可以选择重试、放弃刷新，或者更换新的凭据。
       </div>
     ),
-    firstButton: '重试加载',
+    firstButton: '重试刷新',
     secondButton: '离线查看',
     thirdButton: '更新凭据',
   };
