@@ -15,7 +15,7 @@ import { COURSE_FUNC, COURSE_FUNC_LIST, COURSE_ICON } from '../constants/ui';
 import { STATE_DATA, STATE_HELPER } from '../redux/reducers';
 import { DataState } from '../redux/reducers/data';
 import { connect } from 'react-redux';
-import { setCardFilter, setCardListTitle } from '../redux/actions/ui';
+import { setCardFilter, setCardListTitle, setDetailUrl } from '../redux/actions/ui';
 import { HelperState } from '../redux/reducers/helper';
 
 class CourseList extends React.PureComponent<
@@ -73,7 +73,7 @@ class CourseList extends React.PureComponent<
                         dispatch(setCardFilter(func.type, c));
                         dispatch(setCardListTitle(`${func.name}-${c.name}`));
                       } else {
-                        // TODO open course homepage
+                        dispatch(setDetailUrl(c.url));
                       }
                     }}
                   >

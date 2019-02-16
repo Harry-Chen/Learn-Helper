@@ -79,7 +79,7 @@ export const COURSE_FUNC: IMenuItemEnum = {
   },
   COURSE_HOMEPAGE: {
     icon: 'external-link-alt',
-    name: '课程主页（新窗口）',
+    name: '课程主页',
   },
 };
 
