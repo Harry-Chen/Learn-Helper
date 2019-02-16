@@ -10,7 +10,7 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 
 import styles from '../css/sidebar.css';
 import '../constants/fontAwesome.ts';
-import { SummaryListProps } from '../types/sidebar';
+import { SummaryListProps } from '../types/ui';
 import { connect } from 'react-redux';
 import { STATE_DATA, STATE_HELPER } from '../redux/reducers';
 import { DataState } from '../redux/reducers/data';

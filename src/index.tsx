@@ -17,7 +17,7 @@ ReactDOM.render(
       <App />
     </PersistGate>
   </Provider>,
-  document.querySelector('#index'),
+  document.querySelector('#main'),
 );
 
 getStoredCredential().then(res => {

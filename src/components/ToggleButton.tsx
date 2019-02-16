@@ -6,7 +6,7 @@ import styles from '../css/sidebar.css';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { IUiStateSlice, STATE_UI } from '../redux/reducers';
-import { AppProp } from '../types/app';
+import { AppProps } from '../types/ui';
 import { togglePane } from '../redux/actions/ui';
 
 class ToggleButton extends React.PureComponent<
@@ -34,7 +34,7 @@ class ToggleButton extends React.PureComponent<
   }
 }
 
-const mapStateToProps = (state: IUiStateSlice): Partial<AppProp> => {
+const mapStateToProps = (state: IUiStateSlice): Partial<AppProps> => {
   return {
     paneHidden: state[STATE_UI].paneHidden,
   };

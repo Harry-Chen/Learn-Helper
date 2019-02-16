@@ -9,6 +9,7 @@
         "jsx": "react",
         "experimentalDecorators": true,
         "allowSyntheticDefaultImports": true,
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "noImplicitThis": true
     }
 }
