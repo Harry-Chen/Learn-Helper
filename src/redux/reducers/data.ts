@@ -16,6 +16,7 @@ import {
 import { DataAction } from '../actions/data';
 import { DataActionType } from '../actions/actionTypes';
 import { Map } from 'immutable';
+import _ from 'lodash';
 
 interface IDataState {
   semester: SemesterInfo;
@@ -173,7 +174,7 @@ export default function data(state: IDataState = initialState, action: DataActio
       // any content that belongs to removed courses will be removed in following steps
       let courseMap = Map<string, CourseInfo>();
       const contentIgnore = state.contentIgnore;
-      for (const c of action.courseList) {
+      for (const c of _.orderBy(action.courseList, ['id'])) {
         courseMap = courseMap.set(c.id, c);
         if (contentIgnore[c.id] === undefined) {
           contentIgnore[c.id] = {
@@ -212,11 +213,12 @@ export default function data(state: IDataState = initialState, action: DataActio
             [action.contentType]: action.state,
           },
         },
+        updateFinished: false,
       };
 
     case DataActionType.RESET_CONTENT_IGNORE: {
       const contentIgnore = {};
-      for (const c of state.courseMap.keys()) {
+      for (const c of [...state.courseMap.keys()].sort()) {
         contentIgnore[c] = {
           ...IGNORE_UNSET_ALL,
         };
@@ -224,6 +226,7 @@ export default function data(state: IDataState = initialState, action: DataActio
       return {
         ...state,
         contentIgnore,
+        updateFinished: false,
       };
     }
 

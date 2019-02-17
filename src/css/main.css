@@ -36,8 +36,11 @@
     left: 671px;
     bottom: 0;
     right: 0;
-    overflow: hidden;
+    min-width: 700px;
+    overflow-x: auto;
+    overflow-y: auto;
     transition: left 0.3s linear;
+    background-color: #eee;
 }
 
 .pane-fullscreen {

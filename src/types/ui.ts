@@ -78,3 +78,14 @@ interface IDetailPaneProps extends IDispatchableComponentProps {
 }
 
 export type DetailPaneProps = IDetailPaneProps;
+
+interface IContentIgnoreSettingProps extends IDispatchableComponentProps {
+  ignoreState: Array<{
+    course: CourseInfo;
+    ignore: {
+      [contentType: string]: boolean;
+    };
+  }>;
+}
+
+export type ContentIgnoreSettingProps = IContentIgnoreSettingProps;

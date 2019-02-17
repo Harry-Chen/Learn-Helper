@@ -1,0 +1,24 @@
+.ignore_setting {
+    display: block;
+    text-align: center;
+}
+
+.ignore_setting_title {
+    font-size: 30px;
+    display: block;
+    margin: 20px auto 0;
+}
+
+.ignore_setting_description {
+    font-size: 15px;
+    margin: 10px auto;
+}
+
+.ignore_setting_container {
+    width: fit-content;
+    margin: 20px auto;
+}
+
+.ignore_setting_reset_button {
+    margin: 20px 0 0;
+}
