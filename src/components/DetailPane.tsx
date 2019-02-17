@@ -5,11 +5,12 @@ import { connect } from 'react-redux';
 import { IUiStateSlice, STATE_UI } from '../redux/reducers';
 import { UiState } from '../redux/reducers/ui';
 import { DetailPaneProps } from '../types/ui';
+import ContentIgnoreSetting from './ContentIgnoreSetting';
 
 class DetailPane extends React.PureComponent<DetailPaneProps, any> {
   public render() {
     if (this.props.showIgnoreSettings) {
-      return 'Ignore Settings';
+      return (<ContentIgnoreSetting/>)
     } else if (this.props.content !== undefined) {
       const { content, dispatch } = this.props;
       return JSON.stringify(content);

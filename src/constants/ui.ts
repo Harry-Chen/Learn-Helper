@@ -57,7 +57,7 @@ export const COURSE_FUNC: IMenuItemEnum = {
     icon: 'info-circle',
     name: '课程综合',
   },
-  COURSE_FILES: {
+  COURSE_FILE: {
     icon: COURSE_MAIN_FUNC[ContentType.FILE].icon,
     name: '课程文件',
     type: ContentType.FILE,
@@ -86,7 +86,7 @@ export const COURSE_FUNC: IMenuItemEnum = {
 export const COURSE_FUNC_LIST: IMenuItem[] = [
   COURSE_FUNC.COURSE_SUMMARY,
   COURSE_FUNC.COURSE_NOTIFICATION,
-  COURSE_FUNC.COURSE_FILES,
+  COURSE_FUNC.COURSE_FILE,
   COURSE_FUNC.COURSE_HOMEWORK,
   COURSE_FUNC.COURSE_DISCUSSION,
   COURSE_FUNC.COURSE_QUESTION,
