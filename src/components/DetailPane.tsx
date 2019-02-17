@@ -6,18 +6,16 @@ import { IUiStateSlice, STATE_UI } from '../redux/reducers';
 import { UiState } from '../redux/reducers/ui';
 import { DetailPaneProps } from '../types/ui';
 import ContentIgnoreSetting from './ContentIgnoreSetting';
+import ContentDetail from './ContentDetail';
 
 class DetailPane extends React.PureComponent<DetailPaneProps, any> {
   public render() {
     if (this.props.showIgnoreSettings) {
-      return (<ContentIgnoreSetting/>)
+      return (<ContentIgnoreSetting/>);
     } else if (this.props.content !== undefined) {
-      const { content, dispatch } = this.props;
-      return JSON.stringify(content);
+      return (<ContentDetail content={this.props.content} />);
     } else {
-      return (
-        <Iframe url={this.props.url}/>
-      );
+      return (<Iframe url={this.props.url}/>);
     }
   }
 }

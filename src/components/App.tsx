@@ -4,6 +4,7 @@ import classnames from 'classnames';
 
 import Divider from '@material-ui/core/Divider';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 import { AppProps } from '../types/ui';
 import { IUiStateSlice, STATE_UI } from '../redux/reducers';
@@ -28,7 +29,8 @@ import DetailPane from './DetailPane';
 class App extends React.PureComponent<AppProps, never> {
   public render() {
     return (
-      <div>
+      <React.Fragment>
+        <CssBaseline />
         {/* sidebar */}
         <div
           className={classnames(styles.paneFolder, { [styles.paneHidden]: this.props.paneHidden })}
@@ -70,7 +72,7 @@ class App extends React.PureComponent<AppProps, never> {
         <LogoutDialog />
         {/* snackbar for notification */}
         <ColoredSnackbar />
-      </div>
+      </React.Fragment>
     );
   }
 }

@@ -16,7 +16,7 @@ import {
 import { DataAction } from '../actions/data';
 import { DataActionType } from '../actions/actionTypes';
 import { Map } from 'immutable';
-import _ from 'lodash';
+import orderBy from 'lodash/orderBy';
 
 interface IDataState {
   semester: SemesterInfo;
@@ -174,7 +174,7 @@ export default function data(state: IDataState = initialState, action: DataActio
       // any content that belongs to removed courses will be removed in following steps
       let courseMap = Map<string, CourseInfo>();
       const contentIgnore = state.contentIgnore;
-      for (const c of _.orderBy(action.courseList, ['id'])) {
+      for (const c of orderBy(action.courseList, ['id'])) {
         courseMap = courseMap.set(c.id, c);
         if (contentIgnore[c.id] === undefined) {
           contentIgnore[c.id] = {
