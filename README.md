@@ -6,19 +6,20 @@ A chrome extension for Web Learning Website.
 
 * [Harry-Chen](https://github.com/Harry-Chen)
   * current maintainer
-  * developer of v4
+  * developer from v4.0.0
 * [xxr3376](https://github.com/xxr3376)
   * original author
-  * developer until v3.3.1
+  * developer till v3.3.1
 
 ## Features
 
-* provide a Evernote-like UI
+* provide a Evernote-like materialized UI
 * collect all data of Web Learning
 	* Homework
-	* Announcement
+	* Notification
 	* File
 	* Discussion
+	* Question
 * provide new message reminder and highlight messages
 * provide a `Priority Inbox` like Gmail
 * provide a off-line mode, cache all message that you have already read
@@ -26,8 +27,6 @@ A chrome extension for Web Learning Website.
 ## Install (Chrome Plugin)
 
 Use chrome store link: https://chrome.google.com/webstore/detail/learn-helper/mdehapphdlihjjgkhmoiknmnhcjpjall
-
-If you can't open the link above for some reason, you can try this link: http://thudev.sinaapp.com/learn
 
 ## Build
 
@@ -51,6 +50,7 @@ Use `npm run dev-server` to watch changes in `src/` and start Webpack Dev Server
 * Rewrite use React (with Material-UI) + Redux
 * ADD support for learn2018
 * REMOVE support for all other versions
+* ADD chrome badge to remind unread message count
 
 **v3.3.1**
 * FIX discusstion reply bug
