@@ -41,6 +41,12 @@
 .card_list_header {
     width: 100%;
     text-align: center;
+    transition: box-shadow .2s ease;
+}
+
+.card_list_header_floating {
+  box-shadow: rgba(0,0,0,.3) 0 4px 6px;
+  z-index: 100 !important; /* Need to float on top of badges */
 }
 
 .card_list_header_text {
