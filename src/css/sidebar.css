@@ -93,7 +93,7 @@
 .card_func_icon {
     width: 20px;
     height: 20px;
-    background-color: #fff0 !important;
+    background-color: rgba(0,0,0,.3) !important;
     color: inherit !important;
 }
 

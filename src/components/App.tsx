@@ -29,7 +29,7 @@ import DetailPane from './DetailPane';
 class App extends React.PureComponent<AppProps, never> {
   public render() {
     return (
-      <React.Fragment>
+      <>
         <CssBaseline />
         {/* sidebar */}
         <div
@@ -72,7 +72,7 @@ class App extends React.PureComponent<AppProps, never> {
         <LogoutDialog />
         {/* snackbar for notification */}
         <ColoredSnackbar />
-      </React.Fragment>
+      </>
     );
   }
 }
