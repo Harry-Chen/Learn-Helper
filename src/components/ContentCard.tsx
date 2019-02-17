@@ -3,6 +3,7 @@ import classnames from 'classnames';
 
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
 import Chip from '@material-ui/core/Chip';
@@ -28,18 +29,20 @@ class ContentCard extends React.PureComponent<CardProps, never> {
 
     return (
       <Card className={styles.detail_card}>
-        <CardContent>
-          <div className={styles.card_first_line} onClick={this.onTitleClick}>
-            {this.iconArea()}
-            <span className={styles.card_title}>{content.title}</span>
-          </div>
+        <CardActionArea onClick={this.onTitleClick}>
+          <CardContent>
+            <div className={styles.card_first_line}>
+              {this.iconArea()}
+              <span className={styles.card_title}>{content.title}</span>
+            </div>
 
-          <div className={styles.card_second_line}>
-            <span className={styles.card_status}>{this.genStatusText()}</span>
-            <span className={styles.card_course}>{content.courseName}</span>
-          </div>
-        </CardContent>
-        {this.actionArea()}
+            <div className={styles.card_second_line}>
+              <span className={styles.card_status}>{this.genStatusText()}</span>
+              <span className={styles.card_course}>{content.courseName}</span>
+            </div>
+          </CardContent>
+          {this.actionArea()}
+        </CardActionArea>
       </Card>
     );
   }
@@ -172,9 +175,11 @@ class ContentCard extends React.PureComponent<CardProps, never> {
             [styles.card_starred]: content.starred,
           })}
           component="div"
-          onClick={() => {
+          onClick={ev => {
             dispatch(toggleStarState(content.id, !content.starred, content.type));
+            ev.stopPropagation();
           }}
+          onMouseDown={ev => ev.stopPropagation()}
         >
           <FontAwesomeIcon icon="star" />
         </IconButton>
@@ -187,9 +192,11 @@ class ContentCard extends React.PureComponent<CardProps, never> {
           color="primary"
           className={styles.card_action_button}
           component="div"
-          onClick={() => {
+          onClick={ev => {
             dispatch(toggleReadState(content.id, !content.hasRead, content.type));
+            ev.stopPropagation();
           }}
+          onMouseDown={ev => ev.stopPropagation()}
         >
           <FontAwesomeIcon icon={content.hasRead ? 'clipboard' : 'clipboard-check'} />
         </IconButton>
@@ -207,7 +214,11 @@ class ContentCard extends React.PureComponent<CardProps, never> {
             color="primary"
             className={styles.card_action_button}
             component="div"
-            onClick={() => { dispatch(setDetailUrl(homework.submitUrl)); }}
+            onClick={ev => {
+              dispatch(setDetailUrl(homework.submitUrl));
+              ev.stopProgation();
+            }}
+            onMouseDown={ev => ev.stopPropagation()}
           >
             <FontAwesomeIcon icon="upload" />
           </IconButton>
