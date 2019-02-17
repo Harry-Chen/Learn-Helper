@@ -1,11 +1,10 @@
-.ignore_setting {
+.ignore_setting, .content_detail {
     display: block;
     text-align: center;
 }
 
 .ignore_setting_title {
     font-size: 30px;
-    display: block;
     margin: 20px auto 0;
 }
 
@@ -22,3 +21,32 @@
 .ignore_setting_reset_button {
     margin: 20px 0 0;
 }
+
+.content_detail_title {
+    font-size: 30px;
+    margin: 50px auto 0;
+}
+
+.content_detail_lines {
+    text-align: left;
+    margin-left: 100px;
+    max-width: 700px;
+}
+
+.content_detail_line {
+    margin: 10px 0;
+    font-size: 15px;
+    color: #777777;
+}
+
+.content_detail_line>td {
+    min-width: 75px;
+}
+
+.content_detail_content {
+    text-align: left;
+    margin: 10px 100px 10px 100px;
+    font-size: larger;
+    border: 1px solid darkgray;
+}
+

@@ -1,7 +1,7 @@
 import { IconName } from '@fortawesome/fontawesome-common-types';
 import { Dispatch } from 'redux';
 import { ContentType, CourseInfo } from 'thu-learn-lib/lib/types';
-import { ContentInfo } from './data';
+import { ContentInfo, FileInfo, NotificationInfo } from './data';
 import { SnackbarType } from './dialogs';
 
 export interface IMenuItem {
@@ -89,3 +89,5 @@ interface IContentIgnoreSettingProps extends IDispatchableComponentProps {
 }
 
 export type ContentIgnoreSettingProps = IContentIgnoreSettingProps;
+
+export type ContentDetailProps = ICardProps;
