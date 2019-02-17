@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import cn from 'classnames';
+
 import List from '@material-ui/core/List';
 import ListSubheader from '@material-ui/core/ListSubheader';
 
@@ -18,6 +20,10 @@ import { generateCardList } from '../redux/selectors';
 class CardList extends React.PureComponent<CardListProps, null> {
   private readonly scrollRef: React.RefObject<HTMLDivElement>;
 
+  state = {
+    onTop: true,
+  }
+
   constructor(props) {
     super(props);
     this.scrollRef = React.createRef();
@@ -26,6 +32,7 @@ class CardList extends React.PureComponent<CardListProps, null> {
   componentDidUpdate(prevProps: CardListProps) {
     if (prevProps.type !== this.props.type || prevProps.course !== this.props.course) {
       this.scrollRef.current.scrollTop = 0;
+      this.setState({ onTop: true });
     }
   }
 
@@ -39,8 +46,10 @@ class CardList extends React.PureComponent<CardListProps, null> {
       <div
         className={styles.card_list}
         onScroll={ev => {
-          if (!canLoadMore) return;
           const self = ev.target as HTMLDivElement;
+          this.setState({ onTop: self.scrollTop === 0 });
+
+          if (!canLoadMore) return;
           const bottomLine = self.scrollTop + self.clientHeight;
           if (bottomLine + 180 > self.scrollHeight)
             // 80 px on load more hint
@@ -53,7 +62,10 @@ class CardList extends React.PureComponent<CardListProps, null> {
           className={styles.card_list_inner}
           component="nav"
           subheader={
-            <ListSubheader component="div" className={styles.card_list_header}>
+          <ListSubheader component="div" className={cn(
+            styles.card_list_header,
+            { [styles.card_list_header_floating]: !this.state.onTop },
+          )}>
               <span className={styles.card_list_header_text}>{title}</span>
             </ListSubheader>
           }
