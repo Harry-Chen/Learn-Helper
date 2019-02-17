@@ -10,6 +10,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import { ILoginDialogProps } from '../../types/dialogs';
 
@@ -37,7 +38,10 @@ class LoginDialog extends React.PureComponent<ILoginDialogProps, never> {
             如果您打开保存功能，则凭据
             <b>会被保存在本地</b>。
           </DialogContentText>
+        </DialogContent>
+        <DialogContent>
           <TextField
+            fullWidth
             autoFocus={true}
             margin="dense"
             id="username"
@@ -49,9 +53,8 @@ class LoginDialog extends React.PureComponent<ILoginDialogProps, never> {
               this.username = e.target.value;
             }}
           />
-          <br />
           <TextField
-            autoFocus={true}
+            fullWidth
             margin="dense"
             id="password"
             label="密码"
@@ -62,14 +65,15 @@ class LoginDialog extends React.PureComponent<ILoginDialogProps, never> {
               this.password = e.target.value;
             }}
           />
-          <br />
-          <Checkbox
-            id="saveCredential"
-            onChange={e => {
-              this.save = e.target.checked;
-            }}
+          <FormControlLabel
+            control={<Checkbox
+              id="saveCredential"
+              onChange={e => {
+                this.save = e.target.checked;
+              }}
+            />}
+            label="保存凭据以自动登录"
           />
-          保存凭据以自动登录
         </DialogContent>
         <DialogActions>
           {this.props.inLoginProgress ? (
