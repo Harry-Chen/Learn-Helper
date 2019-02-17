@@ -62,6 +62,12 @@ class CardList extends React.PureComponent<CardListProps, null> {
             <ContentCard key={c.id} content={c} />
           ))}
 
+          {filtered.length === 0 ? (
+            <div className={styles.card_list_load_more}>
+              这里什么也没有
+            </div>
+          ) : null}
+
           {canLoadMore ? (
             <div className={styles.card_list_load_more} onClick={loadMore}>
               加载更多

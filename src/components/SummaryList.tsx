@@ -66,6 +66,7 @@ const mapStateToProps = (state): SummaryListProps => {
   if (!helper.loggedIn) return { numbers: {} };
   const data = state[STATE_DATA] as DataState;
   const numbers = {};
+  let total = 0;
   for (const k of Object.keys(COURSE_MAIN_FUNC)) {
     const type = COURSE_MAIN_FUNC[k].type;
     const mapName = `${type}Map`;
@@ -75,7 +76,9 @@ const mapStateToProps = (state): SummaryListProps => {
       if (!c.hasRead) count += 1;
     }
     numbers[type] = count;
+    total += count;
   }
+  chrome.browserAction.setBadgeText({ text: total === 0 ? '' : String(total) });
   return { numbers };
 };
 

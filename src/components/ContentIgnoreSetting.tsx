@@ -30,7 +30,7 @@ class ContentIgnoreSetting extends React.PureComponent<ContentIgnoreSettingProps
         <div className={styles.ignore_setting_description}>
           此处的更改在下一次刷新时生效。<br />
           被忽略的内容将不会保存在缓存中，如果已经存在，则会被移除。<br />
-          如果您重新打开一个忽略的项目，则属于它的所有内容将再次变成未读。
+          如果您重新启用一个忽略的项目，则属于它的全部内容将再次变成未读。
         </div>
         <div className={styles.ignore_setting_container}>
 
@@ -54,7 +54,7 @@ class ContentIgnoreSetting extends React.PureComponent<ContentIgnoreSettingProps
                     {Object.keys(ContentType).map(type => (
                       <TableCell align={'center'} key={type}>
                         <Switch
-                          checked={!s.ignore[ContentType[type]]}
+                          checked={s.ignore[ContentType[type]]}
                           onChange={() => {
                             this.props.dispatch(toggleContentIgnore(
                               s.course.id, ContentType[type], !s.ignore[ContentType[type]]));
