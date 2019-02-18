@@ -22,6 +22,7 @@ export const generateCardList = (
   lastUpdateTime: Date,
   type?: ContentType,
   course?: CourseInfo,
+  title?: string,
 ): Partial<CardListProps> => {
   let newCards: ContentInfo[] = [];
 
@@ -50,11 +51,12 @@ export const generateCardList = (
       lastRegenerateTime = lastUpdateTime;
     }
 
-    // fetch latest state of data
+    // filter cards to show
     newCards = allContent.map(l => data[`${l.type}Map`].get(l.id));
     if (type !== undefined) newCards = newCards.filter(l => l.type === type);
     if (course !== undefined) newCards = newCards.filter(l => l.courseId === course.id);
 
+    // title filter change does not trigger re-sorting
     // sort by starred, hasRead and time
     newCards.sort((a, b) => {
       if (a.starred && !b.starred) return -1;
@@ -68,6 +70,11 @@ export const generateCardList = (
   oldType = type;
   oldCourse = course;
   oldCards = newCards;
+
+  if (title !== undefined) {
+    newCards = newCards.filter(l => l.title.includes(title));
+  }
+
   return {
     contents: newCards,
   };

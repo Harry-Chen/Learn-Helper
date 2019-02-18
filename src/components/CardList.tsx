@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import { connect } from 'react-redux';
 
 import cn from 'classnames';
 
 import List from '@material-ui/core/List';
 import ListSubheader from '@material-ui/core/ListSubheader';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import InputBase from '@material-ui/core/InputBase';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { CardListProps } from '../types/ui';
 import ContentCard from './ContentCard';
@@ -14,7 +19,7 @@ import { STATE_DATA, STATE_HELPER, STATE_UI } from '../redux/reducers';
 import { DataState } from '../redux/reducers/data';
 import { UiState } from '../redux/reducers/ui';
 import { HelperState } from '../redux/reducers/helper';
-import { loadMoreCard } from '../redux/actions/ui';
+import { loadMoreCard, setTitleFilter } from '../redux/actions/ui';
 import { generateCardList } from '../redux/selectors';
 
 const initialState = {
@@ -66,11 +71,32 @@ class CardList extends React.PureComponent<CardListProps, typeof initialState> {
           subheader={
             <ListSubheader
               component="div"
-              className={cn(styles.card_list_header, {
-                [styles.card_list_header_floating]: !this.state.onTop,
-              })}
+              className={cn(styles.card_list_header, styles.card_list_header_floating)}
             >
-              <span className={styles.card_list_header_text}>{title}</span>
+              <AppBar position="static">
+                <Toolbar>
+                  <Typography
+                    variant="subtitle1"
+                    color="inherit"
+                    className={styles.card_list_header_title}
+                  >
+                    {title}
+                  </Typography>
+                  <div className={styles.card_list_header_grow} />
+                  <div className={styles.card_list_header_search}>
+                    <div className={styles.card_list_header_search_icon}>
+                      <FontAwesomeIcon icon={'search'} />
+                    </div>
+                    <InputBase
+                      placeholder="搜索..."
+                      classes={{
+                        root: styles.card_list_header_input_root,
+                      }}
+                      onChange={this.props.setTitleFilter}
+                    />
+                  </div>
+                </Toolbar>
+              </AppBar>
             </ListSubheader>
           }
         >
@@ -108,7 +134,8 @@ const mapStateToProps = (state): Partial<CardListProps> => {
   return {
     type: ui.cardTypeFilter,
     course: ui.cardCourseFilter,
-    ...generateCardList(data, data.lastUpdateTime, ui.cardTypeFilter, ui.cardCourseFilter),
+    ...generateCardList(data, data.lastUpdateTime,
+      ui.cardTypeFilter, ui.cardCourseFilter, ui.titleFilter),
     title: ui.cardListTitle,
     threshold: ui.cardVisibilityThreshold,
   };
@@ -118,6 +145,10 @@ const mapDispatchToProps = (dispatch): Partial<CardListProps> => {
   return {
     loadMore: () => {
       dispatch(loadMoreCard());
+    },
+    setTitleFilter: (e: ChangeEvent<HTMLInputElement>) => {
+      const filter = e.target.value.trim();
+      dispatch(setTitleFilter(filter === '' ? undefined : filter));
     },
   };
 };

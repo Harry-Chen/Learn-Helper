@@ -42,10 +42,55 @@
     width: 100%;
     text-align: center;
     transition: box-shadow .2s ease;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.card_list_header_title {
+    max-width: 70%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.card_list_header_grow {
+    flex-grow: 1;
+}
+
+.card_list_header_search {
+    position: relative;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.75);
+    margin-left: 10px;
+    max-width: 40%;
+    width: auto;
+    height: 30px;
+}
+
+.card_list_header_search:hover {
+    background-color: rgba(255, 255, 255, 0.85);
+}
+
+.card_list_header_search_icon {
+    width: 10px;
+    height: 100%;
+    margin-left: 10px;
+    position: absolute;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card_list_header_input_root {
+    color: inherit;
+    width: auto;
+    margin-left: 30px;
+    vertical-align: top;
 }
 
 .card_list_header_floating {
-  box-shadow: rgba(0,0,0,.3) 0 4px 6px;
+  box-shadow: rgba(0,0,0,.3) 0 2px 3px;
   z-index: 100 !important; /* Need to float on top of badges */
 }
 

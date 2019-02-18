@@ -20,7 +20,7 @@ export const COURSE_MAIN_FUNC: {
 } = {
   [ContentType.NOTIFICATION]: {
     icon: 'bullhorn',
-    name: '通知',
+    name: '公告',
     type: ContentType.NOTIFICATION,
   },
   [ContentType.FILE]: {
@@ -105,7 +105,7 @@ const SUMMARY_FUNC: IMenuItemEnum = {
   },
   SUMMARY_NOTIFICATIONS: {
     icon: COURSE_MAIN_FUNC[ContentType.NOTIFICATION].icon,
-    name: '所有通知',
+    name: '所有公告',
     type: ContentType.NOTIFICATION,
   },
   SUMMARY_FILES: {

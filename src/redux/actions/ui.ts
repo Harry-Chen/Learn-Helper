@@ -145,3 +145,10 @@ export const showContentIgnoreSetting = (): UiAction => {
     type: UiActionType.SHOW_CONTENT_IGNORE_SETTING,
   };
 };
+
+export const setTitleFilter = (title?: string): UiAction => {
+  return {
+    type: UiActionType.SET_TITLE_FILTER,
+    title,
+  };
+};
