@@ -72,32 +72,7 @@ class CardList extends React.PureComponent<CardListProps, typeof initialState> {
             <ListSubheader
               component="div"
               className={cn(styles.card_list_header, styles.card_list_header_floating)}
-            >
-              <AppBar position="static">
-                <Toolbar>
-                  <Typography
-                    variant="subtitle1"
-                    color="inherit"
-                    className={styles.card_list_header_title}
-                  >
-                    {title}
-                  </Typography>
-                  <div className={styles.card_list_header_grow} />
-                  <div className={styles.card_list_header_search}>
-                    <div className={styles.card_list_header_search_icon}>
-                      <FontAwesomeIcon icon={'search'} />
-                    </div>
-                    <InputBase
-                      placeholder="搜索..."
-                      classes={{
-                        root: styles.card_list_header_input_root,
-                      }}
-                      onChange={this.props.setTitleFilter}
-                    />
-                  </div>
-                </Toolbar>
-              </AppBar>
-            </ListSubheader>
+            />
           }
         >
           {filtered.map(c => (

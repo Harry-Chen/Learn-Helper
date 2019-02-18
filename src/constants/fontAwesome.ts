@@ -28,6 +28,10 @@ import { faChalkboardTeacher } from '@fortawesome/free-solid-svg-icons/faChalkbo
 import { faClipboardCheck } from '@fortawesome/free-solid-svg-icons/faClipboardCheck';
 import { faClipboard } from '@fortawesome/free-solid-svg-icons/faClipboard';
 import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch';
+import { faFilter } from '@fortawesome/free-solid-svg-icons/faFilter';
+import { faBars } from '@fortawesome/free-solid-svg-icons/faBars';
+import { faAngleLeft } from '@fortawesome/free-solid-svg-icons/faAngleLeft';
+import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes';
 
 const ICON_TO_USE = [
   faThumbtack,
@@ -58,6 +62,10 @@ const ICON_TO_USE = [
   faClipboardCheck,
   faClipboard,
   faSearch,
+  faBars,
+  faAngleLeft,
+  faFilter,
+  faTimes,
 ];
 
 ICON_TO_USE.map(i => library.add(i));
