@@ -9,19 +9,16 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import Icon from '@material-ui/core/Icon';
 import Drawer from '@material-ui/core/Drawer';
 import InputBase from '@material-ui/core/InputBase';
 import Typography from '@material-ui/core/Typography';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { AppProps } from '../types/ui';
-import { IUiStateSlice, STATE_UI } from '../redux/reducers';
-import { togglePane } from '../redux/actions/ui';
+import { IUiStateSlice, STATE_DATA, STATE_UI } from '../redux/reducers';
+import { setTitleFilter, togglePaneHidden } from '../redux/actions/ui';
 import styles from '../css/main.css';
-
-import { withStyles } from '@material-ui/styles';
+import '../css/scrollbar.css';
 
 import SummaryList from './SummaryList';
 import CourseList from './CourseList';
@@ -37,54 +34,56 @@ import {
 import ColoredSnackbar from './ColoredSnackbar';
 import { UiState } from '../redux/reducers/ui';
 import DetailPane from './DetailPane';
+import { DataState } from '../redux/reducers/data';
+import { formatSemester } from '../utils/format';
 
-class App extends React.PureComponent<AppProps, never> {
-  state = {
-    filterShown: false,
-    filter: '',
-  }
+const initialState = {
+  filterShown: false,
+  filter: '',
+};
+
+class App extends React.PureComponent<AppProps, typeof initialState> {
+
+  public state = initialState;
+
+  private inputRef: React.RefObject<HTMLDivElement>;
 
   componentWillMount() {
     this.inputRef = React.createRef();
   }
 
-  toggleFilter = () => {
-    if(this.state.filterShown) {
+  private toggleFilter = () => {
+    if (this.state.filterShown) {
       this.setState({
         filterShown: false,
-      });
-    } else {
-      setTimeout(() => this.inputRef.current.focus(), 250);
-
-      this.setState({
-        filterShown: true,
         filter: '',
       });
+      this.props.setTitleFilter('');
+    } else {
+      setTimeout(() => this.inputRef.current.focus(), 250);
+      this.setState({
+        filterShown: true,
+      });
     }
-  }
+  };
 
-  handleFilter = ev => {
+  private handleFilter = ev => {
     this.setState({ filter: ev.target.value });
-  }
+    this.props.setTitleFilter(ev.target.value);
+  };
 
-  filterBlur = () => {
-    if(this.state.filterShown && this.state.filter === '') {
+  private filterBlur = () => {
+    if (this.state.filterShown && this.state.filter === '') {
       this.setState({ filterShown: false });
     }
-  }
+  };
 
   public render() {
     return (
       <>
         <CssBaseline />
         {/* sidebar */}
-        <AppBar
-          position="fixed"
-          className={classnames(
-            styles.app_bar,
-            { [styles.app_bar_open]: !this.props.paneHidden },
-          )}
-        >
+        <AppBar position="fixed" >
           <Toolbar>
             <IconButton
               color="inherit"
@@ -101,9 +100,6 @@ class App extends React.PureComponent<AppProps, never> {
           variant="persistent"
           anchor="left"
           open={!this.props.paneHidden}
-          classes={{
-            paper: styles.sidebar_paper,
-          }}
         >
           <div className={styles.sidebar_wrapper}>
             <div
@@ -117,13 +113,20 @@ class App extends React.PureComponent<AppProps, never> {
                   >
                     <FontAwesomeIcon icon="angle-left" />
                   </IconButton>
-                  <Typography variant="h6" className={styles.sidebar_master_title} noWrap>
-                    学期在这里
+                  <Typography
+                    variant="subtitle1"
+                    className={styles.sidebar_master_title}
+                    noWrap={true}
+                  >
+                    {this.props.semesterTitle}
                   </Typography>
                 </Toolbar>
-                <Toolbar className={classnames(styles.sidebar_header_right, { [styles.sidebar_filter_shown]: this.state.filterShown })}>
-                  <Typography variant="h6" className={styles.sidebar_cardlist_name} noWrap>
-                    标题在这里
+                <Toolbar
+                  className={classnames(styles.sidebar_header_right,
+                    { [styles.sidebar_filter_shown]: this.state.filterShown })}
+                >
+                  <Typography variant="h6" className={styles.sidebar_cardlist_name} noWrap={true}>
+                    {this.props.cardListTitle}
                   </Typography>
 
                   <div className={styles.sidebar_filter_group}>
@@ -133,11 +136,13 @@ class App extends React.PureComponent<AppProps, never> {
                     >
                       <FontAwesomeIcon
                         icon="filter"
-                        className={classnames(styles.filter_icon, { [styles.filter_icon_shown]: !this.state.filterShown })}
+                        className={classnames(styles.filter_icon,
+                          { [styles.filter_icon_shown]: !this.state.filterShown })}
                       />
                       <FontAwesomeIcon
                         icon="times"
-                        className={classnames(styles.filter_icon, { [styles.filter_icon_shown]: this.state.filterShown })}
+                        className={classnames(styles.filter_icon,
+                          { [styles.filter_icon_shown]: this.state.filterShown })}
                       />
                     </IconButton>
                     <div className={styles.filter_input}>
@@ -148,7 +153,7 @@ class App extends React.PureComponent<AppProps, never> {
                         value={this.state.filter}
                         onChange={this.handleFilter}
                         inputProps={{
-                          onBlur: this.filterBlur
+                          onBlur: this.filterBlur,
                         }}
                       />
                     </div>
@@ -177,7 +182,9 @@ class App extends React.PureComponent<AppProps, never> {
             [styles.pane_fullscreen]: this.props.paneHidden,
           })}
         >
-          <Toolbar></Toolbar>
+          <Toolbar>
+
+          </Toolbar>
           <DetailPane />
         </div>
         {/* progress bar */}
@@ -203,16 +210,23 @@ class App extends React.PureComponent<AppProps, never> {
 
 const mapStateToProps = (state: IUiStateSlice): Partial<AppProps> => {
   const uiState = state[STATE_UI] as UiState;
+  const dataState = state[STATE_DATA] as DataState;
   return {
     showLoadingProgressBar: uiState.showLoadingProgressBar,
     loadingProgress: uiState.loadingProgress,
     paneHidden: uiState.paneHidden,
+    cardListTitle: uiState.cardListTitle,
+    semesterTitle: formatSemester(dataState.semester),
   };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): Partial<AppProps> => ({
-  openSidebar: () => dispatch(togglePane(false)),
-  closeSidebar: () => dispatch(togglePane(true)),
+  openSidebar: () => dispatch(togglePaneHidden(false)),
+  closeSidebar: () => dispatch(togglePaneHidden(true)),
+  setTitleFilter: (s: string) => {
+    const filter = s.trim();
+    dispatch(setTitleFilter(filter === '' ? undefined : filter));
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

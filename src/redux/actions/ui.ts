@@ -41,7 +41,7 @@ export const toggleSnackbar = (state: boolean): UiAction => {
   };
 };
 
-export const togglePane = (state: boolean): UiAction => {
+export const togglePaneHidden = (state: boolean): UiAction => {
   return {
     type: UiActionType.PANE_VISIBILITY,
     state,
