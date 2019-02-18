@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Badge } from '@material-ui/core';
@@ -11,7 +12,6 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import styles from '../css/sidebar.css';
 import '../constants/fontAwesome.ts';
 import { SummaryListProps } from '../types/ui';
-import { connect } from 'react-redux';
 import { STATE_DATA, STATE_HELPER } from '../redux/reducers';
 import { DataState } from '../redux/reducers/data';
 import { COURSE_MAIN_FUNC, SUMMARY_FUNC_LIST } from '../constants/ui';
@@ -19,7 +19,7 @@ import { ContentInfo } from '../types/data';
 import { HelperState } from '../redux/reducers/helper';
 import { setCardFilter, setCardListTitle } from '../redux/actions/ui';
 
-class SummaryList extends React.PureComponent<SummaryListProps, null> {
+class SummaryList extends React.PureComponent<SummaryListProps, never> {
   render() {
     const { numbers, dispatch } = this.props;
 

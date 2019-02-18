@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Collapse from '@material-ui/core/Collapse';
@@ -14,7 +15,6 @@ import { CourseListProps } from '../types/ui';
 import { COURSE_FUNC, COURSE_FUNC_LIST, COURSE_ICON } from '../constants/ui';
 import { STATE_DATA, STATE_HELPER } from '../redux/reducers';
 import { DataState } from '../redux/reducers/data';
-import { connect } from 'react-redux';
 import { setCardFilter, setCardListTitle, setDetailUrl } from '../redux/actions/ui';
 import { HelperState } from '../redux/reducers/helper';
 

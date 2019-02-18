@@ -1,6 +1,7 @@
 import { Learn2018Helper } from 'thu-learn-lib/lib';
-import { HelperActionType } from '../actions/actionTypes';
 import { AnyAction } from 'redux';
+
+import { HelperActionType } from '../actions/actionTypes';
 
 interface IHelperState {
   helper: Learn2018Helper;

@@ -1,6 +1,8 @@
-import { UiActionType } from './actionTypes';
-import { SnackbarType } from '../../types/dialogs';
 import { ContentType, CourseInfo } from 'thu-learn-lib/lib/types';
+
+import { UiActionType } from './actionTypes';
+
+import { SnackbarType } from '../../types/dialogs';
 import { ContentInfo } from '../../types/data';
 
 interface IUiAction {

@@ -1,6 +1,7 @@
 import { IconName } from '@fortawesome/fontawesome-common-types';
 import { Dispatch } from 'redux';
 import { ContentType, CourseInfo } from 'thu-learn-lib/lib/types';
+
 import { ContentInfo } from './data';
 import { SnackbarType } from './dialogs';
 

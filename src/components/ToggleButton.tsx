@@ -1,10 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+
 import Fab from '@material-ui/core/Fab';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import styles from '../css/sidebar.css';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 import { IUiStateSlice, STATE_UI } from '../redux/reducers';
 import { AppProps } from '../types/ui';
 import { togglePane } from '../redux/actions/ui';
@@ -14,7 +15,7 @@ class ToggleButton extends React.PureComponent<
     paneHidden: boolean;
     dispatch: Dispatch<any>;
   },
-  null
+  never
 > {
   public render() {
     const { dispatch } = this.props;

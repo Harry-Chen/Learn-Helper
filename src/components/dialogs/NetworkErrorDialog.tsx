@@ -1,12 +1,13 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { ICommonDialogProps } from '../../types/dialogs';
 import { toggleLoginDialog, toggleNetworkErrorDialog } from '../../redux/actions/ui';
-import { connect } from 'react-redux';
 import { IUiStateSlice, STATE_UI } from '../../redux/reducers';
 import { loggedIn, refresh } from '../../redux/actions/helper';
 import { UiState } from '../../redux/reducers/ui';
-import { Dispatch } from 'redux';
+
 import CommonDialog from './CommonDialog';
 
 class NetworkErrorDialog extends CommonDialog {}

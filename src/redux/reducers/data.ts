@@ -5,6 +5,9 @@ import {
   SemesterInfo,
   SemesterType,
 } from 'thu-learn-lib/lib/types';
+import { Map } from 'immutable';
+import orderBy from 'lodash/orderBy';
+
 import {
   ContentInfo,
   DiscussionInfo,
@@ -15,8 +18,6 @@ import {
 } from '../../types/data';
 import { DataAction } from '../actions/data';
 import { DataActionType } from '../actions/actionTypes';
-import { Map } from 'immutable';
-import orderBy from 'lodash/orderBy';
 
 interface IDataState {
   semester: SemesterInfo;
