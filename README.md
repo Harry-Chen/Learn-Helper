@@ -51,6 +51,7 @@ Use `npm run dev-server` to watch changes in `src/` and start Webpack Dev Server
 * ADD support for learn2018
 * REMOVE support for all other versions
 * ADD chrome badge to remind unread message count
+* ADD card title filter
 
 **v3.3.1**
 * FIX discusstion reply bug
