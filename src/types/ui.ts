@@ -41,7 +41,6 @@ interface ICardListProps extends IDispatchableComponentProps, Partial<ICardFilte
   threshold: number;
   title: string;
   loadMore: () => any;
-  setTitleFilter: (e: ChangeEvent<HTMLInputElement>) => any;
 }
 
 interface ICardProps extends IDispatchableComponentProps {
@@ -62,9 +61,11 @@ interface IAppProps extends IDispatchableComponentProps {
   showLoadingProgressBar: boolean;
   loadingProgress: number;
   paneHidden: boolean;
-
+  cardListTitle: string;
+  semesterTitle: string;
   openSidebar: () => any;
   closeSidebar: () => any;
+  setTitleFilter: (filter: string) => any;
 }
 
 export type AppProps = IAppProps;
