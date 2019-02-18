@@ -1,5 +1,5 @@
 import { applyMiddleware, createStore } from 'redux';
-import { persistStore, persistReducer } from 'redux-persist';
+import { persistReducer } from 'redux-persist';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
@@ -23,8 +23,4 @@ const config: PersistConfig = {
 const persistedReducer = persistReducer(config, reducers);
 const createStoreWithMiddleware = applyMiddleware(thunk, logger)(createStore);
 
-export default () => {
-  const store = createStoreWithMiddleware(persistedReducer);
-  const persistor = persistStore(store);
-  return { store, persistor };
-};
+export { createStoreWithMiddleware as createStore, persistedReducer as reducer };
