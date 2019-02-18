@@ -8,7 +8,7 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 
 import { CardListProps } from '../types/ui';
 import ContentCard from './ContentCard';
-import styles from '../css/sidebar.css';
+import styles from '../css/list.css';
 
 import { STATE_DATA, STATE_HELPER, STATE_UI } from '../redux/reducers';
 import { DataState } from '../redux/reducers/data';

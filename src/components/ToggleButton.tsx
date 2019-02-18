@@ -5,7 +5,7 @@ import { Dispatch } from 'redux';
 import Fab from '@material-ui/core/Fab';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import styles from '../css/sidebar.css';
+import styles from '../css/main.css';
 import { IUiStateSlice, STATE_UI } from '../redux/reducers';
 import { AppProps } from '../types/ui';
 import { togglePane } from '../redux/actions/ui';

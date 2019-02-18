@@ -1,5 +1,5 @@
 
-.pane-folder {
+.pane_folder {
     position: absolute;
     top: 0;
     left: 0;
@@ -12,7 +12,7 @@
     transition: opacity 0.3s linear;
 }
 
-.pane-message {
+.pane_message {
     position: absolute;
     top: 0;
     left: 270px;
@@ -26,11 +26,11 @@
     transition: opacity 0.3s linear;
 }
 
-.pane-hidden {
+.pane_hidden {
     opacity: 0;
 }
 
-.pane-content {
+.pane_content {
     position: absolute;
     top: 0;
     left: 671px;
@@ -43,7 +43,7 @@
     background-color: #eee;
 }
 
-.pane-fullscreen {
+.pane_fullscreen {
     left: 0;
 }
 
@@ -70,4 +70,12 @@
 .snack_bar_text {
     display: flex;
     align-items: center;
+}
+
+.toggle_button {
+    height: 0;
+    width: 0;
+    position: fixed;
+    margin: 8px;
+    z-index: 1000;
 }

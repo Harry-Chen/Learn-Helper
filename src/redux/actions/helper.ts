@@ -176,6 +176,7 @@ export function refresh() {
         }, 1000);
       });
     } catch (e) {
+      console.error(e);
       dispatch(toggleNetworkErrorDialog(true));
     } finally {
       dispatch(toggleProgressBar(false));

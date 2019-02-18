@@ -33,7 +33,9 @@ class App extends React.PureComponent<AppProps, never> {
         <CssBaseline />
         {/* sidebar */}
         <div
-          className={classnames(styles.paneFolder, { [styles.paneHidden]: this.props.paneHidden })}
+          className={
+            classnames(styles.pane_folder, { [styles.pane_hidden]: this.props.paneHidden })
+          }
         >
           <SummaryList />
           <Divider />
@@ -43,14 +45,16 @@ class App extends React.PureComponent<AppProps, never> {
         </div>
         {/* list of cards */}
         <div
-          className={classnames(styles.paneMessage, { [styles.paneHidden]: this.props.paneHidden })}
+          className={
+            classnames(styles.pane_message, { [styles.pane_hidden]: this.props.paneHidden })
+          }
         >
           <CardList />
         </div>
         {/* detail area */}
         <div
-          className={classnames(styles.paneContent, {
-            [styles.paneFullscreen]: this.props.paneHidden,
+          className={classnames(styles.pane_content, {
+            [styles.pane_fullscreen]: this.props.paneHidden,
           })}
         >
           <ToggleButton />

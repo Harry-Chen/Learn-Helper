@@ -1,11 +1,12 @@
 .ignore_setting, .content_detail {
     display: block;
     text-align: center;
+    margin-top: 50px;
 }
 
 .ignore_setting_title {
     font-size: 30px;
-    margin: 20px auto 0;
+    margin: 10px auto 0;
 }
 
 .ignore_setting_description {
@@ -24,13 +25,12 @@
 
 .content_detail_title {
     font-size: 25px;
-    margin: 50px auto 0;
+    margin: 10px auto 0;
 }
 
 .content_detail_lines {
     text-align: left;
     margin: 10px 100px;
-    /*margin-left: 100px;*/
     max-width: 700px;
 }
 
@@ -47,7 +47,8 @@
 .content_detail_content {
     text-align: left;
     margin: 10px 100px;
-    /*font-size: larger;*/
+    font-size: 1.2em;
     border: 1px solid darkgray;
+    white-space: pre-wrap;
 }
 

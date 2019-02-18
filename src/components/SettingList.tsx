@@ -8,7 +8,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 
-import styles from '../css/sidebar.css';
+import styles from '../css/list.css';
 import '../constants/fontAwesome.ts';
 import { SettingListProps } from '../types/ui';
 import { SETTINGS_FUNC_LIST } from '../constants/ui';

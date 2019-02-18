@@ -20,11 +20,14 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
         <p className={styles.content_detail_title}>{content.title}</p>
         <div className={styles.content_detail_lines}>
           <table>
+            <tbody>
+            {this.generateLine('课程名称', content.courseName)}
             {isHomework ? this.generateDetailsForHomework(homework) : null}
             {isNotification ? this.generateDetailsForNotification(notification) : null}
+            </tbody>
           </table>
         </div>
-        <div
+        <p
           className={styles.content_detail_content}
           dangerouslySetInnerHTML={{
             __html: isHomework ? homework.description : notification.content,
@@ -36,7 +39,7 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
 
   private generateDetailsForHomework = (homework: HomeworkInfo): React.ReactNode => {
     return (
-      <tbody>
+      <>
         {this.generateLine('截止日期', formatDate(homework.deadline))}
         {homework.submitted ? this.generateLine('提交时间', formatDate(homework.submitTime)) : null}
         {homework.submittedContent !== undefined
@@ -70,13 +73,13 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
             )
           : null}
         {this.generateLine('作业详情', this.generateLink(homework.title, homework.url, true))}
-      </tbody>
+      </>
     );
   };
 
   private generateDetailsForNotification = (notification: NotificationInfo): React.ReactNode => {
     return (
-      <tbody>
+      <>
         {this.generateLine('发布日期', formatDate(notification.publishTime))}
         {this.generateLine('发布人', notification.publisher)}
         {this.generateLine('重要性', notification.markedImportant ? '高' : '普通')}
@@ -90,7 +93,7 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
           '公告详情',
           this.generateLink(notification.title, notification.url, true),
         )}
-      </tbody>
+      </>
     );
   };
 

@@ -6,6 +6,11 @@
         "tslint-react"
     ],
     "jsRules": {},
-    "rules": {},
+    "rules": {
+        "no-console": false,
+        "ter-arrow-parens": false,
+        "align": false,
+        "ordered-imports": false
+    },
     "rulesDirectory": []
 }

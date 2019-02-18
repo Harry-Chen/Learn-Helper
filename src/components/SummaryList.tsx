@@ -9,7 +9,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 
-import styles from '../css/sidebar.css';
+import styles from '../css/list.css';
 import '../constants/fontAwesome.ts';
 import { SummaryListProps } from '../types/ui';
 import { STATE_DATA, STATE_HELPER } from '../redux/reducers';
