@@ -9,6 +9,9 @@ import { login, refreshIfNeeded } from './redux/actions/helper';
 import { getStoredCredential } from './utils/storage';
 
 import App from './components/App';
+import { printWelcomeMessage } from './utils/console';
+
+printWelcomeMessage();
 
 const { store, persistor } = reduxStore();
 
@@ -30,7 +33,8 @@ getStoredCredential().then(res => {
       .then(() => {
         store.dispatch<any>(refreshIfNeeded());
       })
-      .catch(() => {
+      .catch((e) => {
+        console.error(e);
         store.dispatch(toggleLoginDialog(false));
         store.dispatch(toggleNetworkErrorDialog(true));
       });

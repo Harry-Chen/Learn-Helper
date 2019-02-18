@@ -14,7 +14,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Tooltip from '@material-ui/core/Tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import styles from '../css/sidebar.css';
+import styles from '../css/card.css';
 import { formatDate } from '../utils/format';
 import { DiscussionInfo, FileInfo, HomeworkInfo, NotificationInfo } from '../types/data';
 import { CardProps } from '../types/ui';
@@ -95,7 +95,10 @@ class ContentCard extends React.PureComponent<CardProps, never> {
       }
     } else if (content.type === ContentType.DISCUSSION || content.type === ContentType.QUESTION) {
       const discussion = content as DiscussionInfo;
-      suffix = ` · 回复:${discussion.replyCount} · 最后回复:${discussion.lastReplierName}`;
+      suffix = ` · 回复:${discussion.replyCount}`;
+      if (discussion.replyCount !== 0) {
+        suffix += ` · 最后回复:${discussion.lastReplierName}`;
+      }
     }
 
     return `${formatDate(content.date)}${suffix}`;
@@ -134,11 +137,11 @@ class ContentCard extends React.PureComponent<CardProps, never> {
       let urgency: string;
       if (diffDays >= 0 && homework.submitted) {
         urgency = 'submitted';
-      } else if (diffDays > 10) {
+      } else if (diffDays >= 10) {
         urgency = 'far';
-      } else if (diffDays > 5) {
+      } else if (diffDays >= 5) {
         urgency = 'near';
-      } else if (diffDays > 3) {
+      } else if (diffDays >= 3) {
         urgency = 'close';
       } else if (diffDays >= 0) {
         urgency = 'urgent';

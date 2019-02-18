@@ -1,0 +1,75 @@
+
+.numbered_list, .course_list {
+    width: 100%;
+}
+
+.sidebar_list_item {
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+}
+
+.course_list_item_text, .settings_list_item_text {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.course_list_item_text>span {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.list_title {
+    margin-left: 10px;
+}
+
+.list_item_icon {
+    width: 18px;
+    height: 18px;
+}
+
+.card_list {
+  max-height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.card_list_inner {
+  background: #f6f6f6;
+}
+
+.card_list_header {
+    width: 100%;
+    text-align: center;
+    transition: box-shadow .2s ease;
+}
+
+.card_list_header_floating {
+  box-shadow: rgba(0,0,0,.3) 0 4px 6px;
+  z-index: 100 !important; /* Need to float on top of badges */
+}
+
+.card_list_header_text {
+    font-size: 20px;
+}
+
+.card_list_load_more {
+  height: 60px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  opacity: .38;
+  transition: opacity .2s ease;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.card_list_load_more:hover {
+  opacity: .7;
+}
+
+.subfunc_list {
+    margin-left: 10px !important;
+}

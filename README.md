@@ -1,6 +1,6 @@
 # Learn Helper
 
-A chrome extension for Web Learning Website.
+A Chrome extension for [Web Learning](https://learn.tsinghua.edu.cn) of Tsinghua University.
 
 ## Authors & Maintainers
 

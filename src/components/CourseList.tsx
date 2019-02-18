@@ -9,7 +9,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 
-import styles from '../css/sidebar.css';
+import styles from '../css/list.css';
 import '../constants/fontAwesome.ts';
 import { CourseListProps } from '../types/ui';
 import { COURSE_FUNC, COURSE_FUNC_LIST, COURSE_ICON } from '../constants/ui';

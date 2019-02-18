@@ -34,9 +34,14 @@ class LoginDialog extends React.PureComponent<ILoginDialogProps, never> {
           <DialogContentText>
             请输入您的学号/用户名和密码以登录到网络学堂。
             <br />
-            请注意，本插件默认不会保存您的凭据；每次打开新的学堂助手时，您都需要重新输入。
-            如果您打开保存功能，则凭据
-            <b>会被保存在本地</b>。
+            请注意，本插件默认不会保存您的凭据；每次打开新的学堂助手页面时，您都需要重新输入。
+            如果您选择保存凭据，则本插件会将其<b>保存在本地</b>，并启用自动登录功能。
+            <br />
+            我们对凭据进行了简单的加密，但并不能完全防止其被第三方读取。
+            在长时间不使用或者出借计算机时，请务必退出登录，以免您的凭据被泄露。
+            <br />
+            如果您选择登录，则视为您已经阅读并同意<a href={'about.html'} target={'_blank'}>此页面</a>中的所有内容。
+            否则，请立刻停止使用并从 Chrome 中卸载本插件。
           </DialogContentText>
         </DialogContent>
         <DialogContent>
@@ -55,6 +60,7 @@ class LoginDialog extends React.PureComponent<ILoginDialogProps, never> {
           />
           <TextField
             fullWidth
+            autoFocus={true}
             margin="dense"
             id="password"
             label="密码"

@@ -1,4 +1,5 @@
-const path = require("path");
+const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 
@@ -7,15 +8,10 @@ const htmlPlugin = new HtmlWebpackPlugin({
   filename: "./index.html"
 });
 
-const typingsForCssModulesLoaderConf = {
-  loader: 'typings-for-css-modules-loader',
-  options: {
-    modules: true,
-    namedExport: true,
-    camelCase: true,
-    sass: true
-  }
-};
+const replacePlugin = new webpack.NormalModuleReplacementPlugin(
+  /pubsuffix\.js/,
+  path.resolve(__dirname, 'src/utils/pubsuffix_stub.js')
+);
 
 module.exports = {
   entry: {
@@ -26,22 +22,30 @@ module.exports = {
     path: path.resolve("./dist"),
     filename: "[name].js"
   },
-  plugins: [htmlPlugin],
+  plugins: [ htmlPlugin, replacePlugin ],
   devServer: {
     contentBase: './dist'
   },
   module: {
     rules: [
       {
-        exclude: [/node_modules/, /.*pubsuffix.js/],
+        exclude: /node_modules/,
         test: /\.tsx?$/,
         use: "ts-loader"
       },
       {
         exclude: /node_modules/,
         test: /\.css$/,
-        use: [ 'style-loader', typingsForCssModulesLoaderConf ]
-      }
+        use: [ 'style-loader', {
+          loader: 'typings-for-css-modules-loader',
+          options: {
+            modules: true,
+            namedExport: true,
+            sass: true,
+            localIdentName: '[name]--[local]--[hash:base64:5]'
+          }
+        }]
+      },
     ]
   },
   resolve: {

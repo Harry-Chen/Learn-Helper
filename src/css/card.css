@@ -1,93 +1,5 @@
-
-.numbered_list, .course_list {
-    width: 100%;
-}
-
-.sidebar_list_item {
-    padding-top: 8px !important;
-    padding-bottom: 8px !important;
-}
-
-.course_list_item_text, .settings_list_item_text {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-}
-
-.course_list_item_text>span {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-
-.list_title {
-    margin-left: 10px;
-}
-
-.list_item_icon {
-    width: 18px;
-    height: 18px;
-}
-
-.card_list {
-  max-height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-.card_list_inner {
-  background: #f6f6f6;
-}
-
-.card_list_header {
-    width: 100%;
-    text-align: center;
-    transition: box-shadow .2s ease;
-}
-
-.card_list_header_floating {
-  box-shadow: rgba(0,0,0,.3) 0 4px 6px;
-  z-index: 100 !important; /* Need to float on top of badges */
-}
-
-.card_list_header_text {
-    font-size: 20px;
-}
-
-.card_list_load_more {
-  height: 60px;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: black;
-  opacity: .38;
-  transition: opacity .2s ease;
-  margin-top: 20px;
-  cursor: pointer;
-}
-
-.card_list_load_more:hover {
-  opacity: .7;
-}
-
-.subfunc_list {
-    margin-left: 10px !important;
-}
-
-.toggle_button {
-    height: 0;
-    width: 0;
-    position: fixed;
-    margin: 8px;
-    z-index: 1000;
-}
-
 .detail_card {
     margin: 5px;
-}
-
-.detail_card_hidden {
-    display: none;
 }
 
 .card_func_icon {
@@ -131,7 +43,7 @@
 .card_status {
     float: left;
     text-align: left;
-    max-width: 75%;
+    max-width: 70%;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -140,7 +52,7 @@
 .card_course {
     float: right;
     text-align: right;
-    max-width: 25%;
+    max-width: 36%;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -165,48 +77,48 @@
 
 .chip_file {
     color: #fad1e5 !important;
-    text-shadow: 0 -1px 0px #bc1267;
     background-color: #e91981 !important;
+    text-shadow: 0 -1px 0 #bc1267;
 }
 
 .chip_discussion, .chip_notification {
     color: #e5cdf2 !important;
     background-color: #7e08be !important;
-    text-shadow: 0 -1px 0px #650698;
+    text-shadow: 0 -1px 0 #650698;
 }
 
 .chip_homework_far {
     color: #d2e7ff !important;
-    text-shadow: 0 -1px 0px #006be7;
+    text-shadow: 0 -1px 0 #006be7;
     background-color: #28f !important;
 }
 
 .chip_homework_near {
     color: #2f2f00 !important;
-    text-shadow: 0 1px 0px #ffff25;
-    background-color: #ee0;
+    background-color: #ee0 !important;
+    text-shadow: 0 1px 0 #ffff25;
 }
 
 .chip_homework_close {
     color: #d9eed9 !important;
     background-color: #e60 !important;
-    text-shadow: 0 -1px 0px #be5200;
+    text-shadow: 0 -1px 0 #be5200;
 }
 
 .chip_homework_urgent {
     color: #fbcccc !important;
-    text-shadow: 0 -1px 0px #be0000;
     background-color: #e00 !important;
+    text-shadow: 0 -1px 0 #be0000;
 }
 
 .chip_homework_submitted {
     color: #d9eed9 !important;
     background-color: #4a4 !important;
-    text-shadow: 0 -1px 0px #368836;
+    text-shadow: 0 -1px 0 #368836;
 }
 
 .chip_homework_due {
     color: #e0e0e0 !important;
     background-color: #666 !important;
-    text-shadow: 0 -1px 0px #525252;
+    text-shadow: 0 -1px 0 #525252;
 }
