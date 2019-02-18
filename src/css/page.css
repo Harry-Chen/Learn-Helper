@@ -4,6 +4,11 @@
     margin-top: 50px;
 }
 
+.content_detail {
+  margin-bottom: 40px;
+  padding: 0 20px;
+}
+
 .ignore_setting_title {
     font-size: 30px;
     margin: 10px auto 0;
@@ -34,6 +39,10 @@
     max-width: 700px;
 }
 
+.content_detail_lines a {
+  color: inherit;
+}
+
 .content_detail_line {
     margin: 10px 0;
     font-size: 15px;
@@ -48,7 +57,7 @@
     text-align: left;
     margin: 10px 100px;
     font-size: 1.2em;
-    border: 1px solid darkgray;
+    padding: 10px 20px;
     white-space: pre-wrap;
 }
 
