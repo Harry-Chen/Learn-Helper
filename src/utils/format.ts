@@ -1,7 +1,11 @@
-import { SemesterInfo } from 'thu-learn-lib/lib/types';
+import { SemesterInfo, SemesterType } from 'thu-learn-lib/lib/types';
 
 export function formatSemester(semester: SemesterInfo): string {
-  return `${semester.startYear}-${semester.endYear}-${semester.type}`;
+  if (semester.type !== SemesterType.UNKNOWN) {
+    return `${semester.startYear}-${semester.endYear}-${semester.type}`;
+  } else {
+    return SemesterType.UNKNOWN;
+  }
 }
 
 export function formatDate(date: Date): string {
