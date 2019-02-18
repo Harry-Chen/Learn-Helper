@@ -95,6 +95,14 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
             </IconButton>
           </Toolbar>
         </AppBar>
+        {/* progress bar */}
+        <div className={styles.progress_area}>
+          <LinearProgress
+            variant="determinate"
+            value={this.props.loadingProgress}
+            hidden={!this.props.showLoadingProgressBar}
+          />
+        </div>
         <Drawer
           className={styles.sidebar}
           variant="persistent"
@@ -186,14 +194,6 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
 
           </Toolbar>
           <DetailPane />
-        </div>
-        {/* progress bar */}
-        <div className={styles.progress_area}>
-          <LinearProgress
-            variant="determinate"
-            value={this.props.loadingProgress}
-            hidden={!this.props.showLoadingProgressBar}
-          />
         </div>
         {/* dialogs */}
         <LoginDialog />

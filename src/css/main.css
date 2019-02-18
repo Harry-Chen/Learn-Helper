@@ -146,8 +146,8 @@
 }
 
 .progress_area {
-    z-index: 100;
-    position: fixed;
+    z-index: 1500;
+    position: absolute;
     top: -1px;
     left: 0;
     width: 100%;
