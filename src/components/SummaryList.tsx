@@ -67,8 +67,8 @@ const mapStateToProps = (state): SummaryListProps => {
   const data = state[STATE_DATA] as DataState;
   const numbers = {};
   let total = 0;
-  for (const k of Object.keys(COURSE_MAIN_FUNC)) {
-    const type = COURSE_MAIN_FUNC[k].type;
+  for (const func of Object.values(COURSE_MAIN_FUNC)) {
+    const type = func.type;
     const mapName = `${type}Map`;
     const map = data[mapName] as Map<string, ContentInfo>;
     let count = 0;

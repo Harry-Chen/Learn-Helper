@@ -40,9 +40,9 @@ export const generateCardList = (
     if (lastUpdateTime !== lastRegenerateTime) {
       // data updated from network, generate data from scratch
       allContent = [];
-      for (const k of Object.keys(data)) {
-        if (k.startsWith('course') || !k.endsWith('Map')) continue;
-        const source = data[k] as Map<string, ContentInfo>;
+      for (const [key, content] of Object.entries(data)) {
+        if (key.startsWith('course') || !key.endsWith('Map')) continue;
+        const source = content as Map<string, ContentInfo>;
         for (const item of source.values()) {
           allContent.push(item);
         }

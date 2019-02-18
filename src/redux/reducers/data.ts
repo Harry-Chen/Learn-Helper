@@ -81,8 +81,8 @@ function update<T extends ContentInfo>(
   };
 
   // we always use the fetched data
-  for (const courseId of Object.keys(fetched)) {
-    for (const c of fetched[courseId]) {
+  for (const [courseId, content] of Object.entries(fetched)) {
+    for (const c of content) {
       // compare the time of two contents (including undefined)
       // if they differ, mark the content as unread
       const oldContent = oldMap.get(c.id);

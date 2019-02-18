@@ -49,16 +49,16 @@ class ContentIgnoreSetting extends React.PureComponent<ContentIgnoreSettingProps
                     <TableCell component="th" scope="row" key={s.course.id}>
                       {s.course.name}
                     </TableCell>
-                    {Object.keys(ContentType).map(type => (
+                    {Object.values(ContentType).map(type => (
                       <TableCell align={'center'} key={type}>
                         <Switch
-                          checked={s.ignore[ContentType[type]]}
+                          checked={s.ignore[type]}
                           onChange={() => {
                             this.props.dispatch(
                               toggleContentIgnore(
                                 s.course.id,
-                                ContentType[type],
-                                !s.ignore[ContentType[type]],
+                                type,
+                                !s.ignore[type],
                               ),
                             );
                           }}
@@ -89,10 +89,10 @@ class ContentIgnoreSetting extends React.PureComponent<ContentIgnoreSettingProps
 
 const mapStateToProps = (state): ContentIgnoreSettingProps => {
   const data = state[STATE_DATA] as DataState;
-  const ignoreState = Object.keys(data.contentIgnore).map(courseID => {
+  const ignoreState = Object.entries(data.contentIgnore).map(ignore => {
     return {
-      course: data.courseMap.get(courseID),
-      ignore: data.contentIgnore[courseID],
+      course: data.courseMap.get(ignore[0]),
+      ignore: ignore[1],
     };
   });
   return {
