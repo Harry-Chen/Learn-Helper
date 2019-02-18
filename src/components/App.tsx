@@ -99,6 +99,7 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
         <div className={styles.progress_area}>
           <LinearProgress
             variant="determinate"
+            color={'secondary'}
             value={this.props.loadingProgress}
             hidden={!this.props.showLoadingProgressBar}
           />
