@@ -46,6 +46,10 @@
   display: inline-flex;
 }
 
+.sidebar_master_title {
+  margin-left: 8px !important;
+}
+
 .sidebar_header_right {
   width: 400px;
   box-sizing: border-box;

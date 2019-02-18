@@ -16,7 +16,11 @@ class DetailPane extends React.PureComponent<DetailPaneProps, never> {
     } else if (this.props.content !== undefined) {
       return <ContentDetail content={this.props.content} />;
     } else {
-      return <Iframe url={this.props.url} />;
+      return <div style={{
+        height: 'calc(100% - 64px)',
+        width: '100%',
+        position: 'relative',
+      }}><Iframe url={this.props.url} /></div>;
     }
   }
 }

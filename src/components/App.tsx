@@ -117,6 +117,9 @@ class App extends React.PureComponent<AppProps, never> {
                   >
                     <FontAwesomeIcon icon="angle-left" />
                   </IconButton>
+                  <Typography variant="h6" className={styles.sidebar_master_title} noWrap>
+                    学期在这里
+                  </Typography>
                 </Toolbar>
                 <Toolbar className={classnames(styles.sidebar_header_right, { [styles.sidebar_filter_shown]: this.state.filterShown })}>
                   <Typography variant="h6" className={styles.sidebar_cardlist_name} noWrap>
