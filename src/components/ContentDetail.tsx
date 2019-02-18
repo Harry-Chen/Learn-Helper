@@ -27,7 +27,7 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
             </tbody>
           </table>
         </div>
-        <p
+        <div
           className={styles.content_detail_content}
           dangerouslySetInnerHTML={{
             __html: isHomework ? homework.description : notification.content,

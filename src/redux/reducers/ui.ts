@@ -27,6 +27,7 @@ interface IUiState {
   detailUrl: string;
   detailContent?: ContentInfo;
   showContentIgnoreSetting: boolean;
+  titleFilter?: string;
 }
 
 export type UiState = IUiState;
@@ -52,6 +53,7 @@ const initialState: UiState = {
   detailUrl: 'welcome.html',
   detailContent: undefined,
   showContentIgnoreSetting: false,
+  titleFilter: undefined,
 };
 
 export default function ui(state: UiState = initialState, action: UiAction): UiState {
@@ -151,6 +153,11 @@ export default function ui(state: UiState = initialState, action: UiAction): UiS
       return {
         ...state,
         showContentIgnoreSetting: true,
+      };
+    case UiActionType.SET_TITLE_FILTER:
+      return {
+        ...state,
+        titleFilter: action.title,
       };
     default:
       return state;

@@ -17,6 +17,7 @@ export enum UiActionType {
   SET_DETAIL_URL = 'UI/set_detail_url',
   SET_DETAIL_CONTENT = 'UI/set_detail_content',
   SHOW_CONTENT_IGNORE_SETTING = 'UI/show_content_ignore_setting',
+  SET_TITLE_FILTER = 'UI/set_title_filter',
 }
 
 export enum HelperActionType {
