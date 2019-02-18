@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { ContentType } from 'thu-learn-lib/lib/types';
 
 import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
@@ -14,35 +15,32 @@ import styles from '../css/page.css';
 import { ContentIgnoreSettingProps } from '../types/ui';
 import { STATE_DATA } from '../redux/reducers';
 import { DataState } from '../redux/reducers/data';
-import { ContentType } from 'thu-learn-lib/lib/types';
 import { resetContentIgnore, toggleContentIgnore } from '../redux/actions/data';
 import { COURSE_FUNC } from '../constants/ui';
 
-class ContentIgnoreSetting extends React.PureComponent<ContentIgnoreSettingProps, any> {
+class ContentIgnoreSetting extends React.PureComponent<ContentIgnoreSettingProps, never> {
   public render() {
     return (
       <div className={styles.ignore_setting}>
-        <span
-          className={styles.ignore_setting_title}
-        >
-          管理忽略项
-        </span>
+        <span className={styles.ignore_setting_title}>管理忽略项</span>
         <div className={styles.ignore_setting_description}>
-          此处的更改在下一次刷新时生效。<br />
-          被忽略的内容将不会保存在缓存中，如果已经存在，则会被移除。<br />
+          此处的更改在下一次刷新时生效。
+          <br />
+          被忽略的内容将不会保存在缓存中，如果已经存在，则会被移除。
+          <br />
           如果您重新启用一个忽略的项目，则属于它的全部内容将再次变成未读。
         </div>
         <div className={styles.ignore_setting_container}>
-
           <Paper>
             <Table padding={'dense'}>
               <TableHead>
                 <TableRow>
                   <TableCell>课程名称</TableCell>
                   {Object.keys(ContentType).map(type => (
-                      <TableCell key={type} align={'center'}>
-                        {COURSE_FUNC[`COURSE_${type}`].name}
-                      </TableCell>))}
+                    <TableCell key={type} align={'center'}>
+                      {COURSE_FUNC[`COURSE_${type}`].name}
+                    </TableCell>
+                  ))}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -56,8 +54,13 @@ class ContentIgnoreSetting extends React.PureComponent<ContentIgnoreSettingProps
                         <Switch
                           checked={s.ignore[ContentType[type]]}
                           onChange={() => {
-                            this.props.dispatch(toggleContentIgnore(
-                              s.course.id, ContentType[type], !s.ignore[ContentType[type]]));
+                            this.props.dispatch(
+                              toggleContentIgnore(
+                                s.course.id,
+                                ContentType[type],
+                                !s.ignore[ContentType[type]],
+                              ),
+                            );
                           }}
                         />
                       </TableCell>
@@ -71,13 +74,15 @@ class ContentIgnoreSetting extends React.PureComponent<ContentIgnoreSettingProps
             <Button
               color={'secondary'}
               variant={'contained'}
-              onClick={() => { this.props.dispatch(resetContentIgnore()); }}
+              onClick={() => {
+                this.props.dispatch(resetContentIgnore());
+              }}
             >
               重置
             </Button>
           </div>
         </div>
-    </div>
+      </div>
     );
   }
 }

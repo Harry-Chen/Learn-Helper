@@ -1,7 +1,8 @@
+import { ContentType, CourseInfo } from 'thu-learn-lib/lib/types';
+
 import { SnackbarType } from '../../types/dialogs';
 import { UiActionType } from '../actions/actionTypes';
 import { UiAction } from '../actions/ui';
-import { ContentType, CourseInfo } from 'thu-learn-lib/lib/types';
 import { CARD_BATCH_LOAD_SIZE } from '../../constants';
 import { ContentInfo } from '../../types/data';
 

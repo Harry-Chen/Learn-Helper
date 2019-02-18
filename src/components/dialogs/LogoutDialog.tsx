@@ -1,14 +1,15 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { ICommonDialogProps } from '../../types/dialogs';
 import { toggleLoginDialog, toggleLogoutDialog } from '../../redux/actions/ui';
-import { connect } from 'react-redux';
 import { IUiStateSlice, STATE_UI } from '../../redux/reducers';
 import { clearAllData } from '../../redux/actions/data';
 import { loggedOut } from '../../redux/actions/helper';
 import { UiState } from '../../redux/reducers/ui';
 import { removeStoredCredential } from '../../utils/storage';
-import { Dispatch } from 'redux';
+
 import CommonDialog from './CommonDialog';
 
 class LogoutDialog extends CommonDialog {}

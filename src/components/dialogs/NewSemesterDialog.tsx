@@ -1,15 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { ICommonDialogProps } from '../../types/dialogs';
 import { toggleIgnoreWrongSemester, toggleNewSemesterDialog } from '../../redux/actions/ui';
-import { connect } from 'react-redux';
 import { IUiStateSlice, STATE_DATA, STATE_UI } from '../../redux/reducers';
 import { formatSemester } from '../../utils/format';
 import { insistSemester, updateSemester } from '../../redux/actions/data';
 import { refresh } from '../../redux/actions/helper';
 import { DataState } from '../../redux/reducers/data';
 import { UiState } from '../../redux/reducers/ui';
-import { Dispatch } from 'redux';
+
 import CommonDialog from './CommonDialog';
 
 class NewSemesterDialog extends CommonDialog {}

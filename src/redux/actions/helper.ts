@@ -1,3 +1,6 @@
+import { Learn2018Helper } from 'thu-learn-lib/lib';
+import { ContentType, SemesterType } from 'thu-learn-lib/lib/types';
+
 import {
   setProgressBar,
   setSnackbar,
@@ -8,11 +11,6 @@ import {
   toggleProgressBar,
   toggleSnackbar,
 } from './ui';
-import { Learn2018Helper } from 'thu-learn-lib/lib';
-import { SnackbarType } from '../../types/dialogs';
-import { STATE_DATA, STATE_HELPER, STATE_UI } from '../reducers';
-import { HelperState } from '../reducers/helper';
-import { DataState } from '../reducers/data';
 import {
   newSemester,
   updateCourses,
@@ -24,10 +22,15 @@ import {
   updateQuestion,
   updateSemester,
 } from './data';
-import { getCourseIdListForContent } from '../selectors';
-import { ContentType, SemesterType } from 'thu-learn-lib/lib/types';
-import { UiState } from '../reducers/ui';
 import { HelperActionType } from './actionTypes';
+
+import { STATE_DATA, STATE_HELPER, STATE_UI } from '../reducers';
+import { HelperState } from '../reducers/helper';
+import { DataState } from '../reducers/data';
+import { getCourseIdListForContent } from '../selectors';
+import { UiState } from '../reducers/ui';
+
+import { SnackbarType } from '../../types/dialogs';
 import { getStoredCredential, storeCredential } from '../../utils/storage';
 
 export function login(username: string, password: string, save: boolean) {

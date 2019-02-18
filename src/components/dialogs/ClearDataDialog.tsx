@@ -1,14 +1,15 @@
 import React from 'react';
+import { Dispatch } from 'redux';
+import { connect } from 'react-redux';
 
 import { ICommonDialogProps } from '../../types/dialogs';
 import { toggleClearDataDialog } from '../../redux/actions/ui';
-import { connect } from 'react-redux';
 import { IUiStateSlice, STATE_UI } from '../../redux/reducers';
 import { clearAllData } from '../../redux/actions/data';
 import { refresh } from '../../redux/actions/helper';
 import { UiState } from '../../redux/reducers/ui';
+
 import CommonDialog from './CommonDialog';
-import { Dispatch } from 'redux';
 
 class ClearDataDialog extends CommonDialog {}
 

@@ -1,5 +1,6 @@
-import { DataActionType } from './actionTypes';
 import { ContentType, CourseContent, CourseInfo, SemesterInfo } from 'thu-learn-lib/lib/types';
+
+import { DataActionType } from './actionTypes';
 
 interface IDataAction {
   type: DataActionType;

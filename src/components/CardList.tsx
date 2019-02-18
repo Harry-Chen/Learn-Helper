@@ -17,12 +17,14 @@ import { HelperState } from '../redux/reducers/helper';
 import { loadMoreCard } from '../redux/actions/ui';
 import { generateCardList } from '../redux/selectors';
 
-class CardList extends React.PureComponent<CardListProps, null> {
+const initialState = {
+  onTop: true,
+};
+
+class CardList extends React.PureComponent<CardListProps, typeof initialState> {
   private readonly scrollRef: React.RefObject<HTMLDivElement>;
 
-  state = {
-    onTop: true,
-  }
+  public state = initialState;
 
   constructor(props) {
     super(props);
@@ -62,10 +64,12 @@ class CardList extends React.PureComponent<CardListProps, null> {
           className={styles.card_list_inner}
           component="nav"
           subheader={
-          <ListSubheader component="div" className={cn(
-            styles.card_list_header,
-            { [styles.card_list_header_floating]: !this.state.onTop },
-          )}>
+            <ListSubheader
+              component="div"
+              className={cn(styles.card_list_header, {
+                [styles.card_list_header_floating]: !this.state.onTop,
+              })}
+            >
               <span className={styles.card_list_header_text}>{title}</span>
             </ListSubheader>
           }
@@ -75,9 +79,7 @@ class CardList extends React.PureComponent<CardListProps, null> {
           ))}
 
           {filtered.length === 0 ? (
-            <div className={styles.card_list_load_more}>
-              这里什么也没有
-            </div>
+            <div className={styles.card_list_load_more}>这里什么也没有</div>
           ) : null}
 
           {canLoadMore ? (

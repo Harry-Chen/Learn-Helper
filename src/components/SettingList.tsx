@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import List from '@material-ui/core/List';
@@ -10,10 +11,9 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import styles from '../css/sidebar.css';
 import '../constants/fontAwesome.ts';
 import { SettingListProps } from '../types/ui';
-import { connect } from 'react-redux';
 import { SETTINGS_FUNC_LIST } from '../constants/ui';
 
-class SettingList extends React.PureComponent<SettingListProps, null> {
+class SettingList extends React.PureComponent<SettingListProps, never> {
   constructor(props) {
     super(props);
   }

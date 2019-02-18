@@ -23,13 +23,14 @@
 }
 
 .content_detail_title {
-    font-size: 30px;
+    font-size: 25px;
     margin: 50px auto 0;
 }
 
 .content_detail_lines {
     text-align: left;
-    margin-left: 100px;
+    margin: 10px 100px;
+    /*margin-left: 100px;*/
     max-width: 700px;
 }
 
@@ -40,13 +41,13 @@
 }
 
 .content_detail_line>td {
-    min-width: 75px;
+    min-width: 80px;
 }
 
 .content_detail_content {
     text-align: left;
-    margin: 10px 100px 10px 100px;
-    font-size: larger;
+    margin: 10px 100px;
+    /*font-size: larger;*/
     border: 1px solid darkgray;
 }
 

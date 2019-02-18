@@ -7,6 +7,7 @@ import reduxStore from './redux/store';
 import { toggleLoginDialog, toggleNetworkErrorDialog } from './redux/actions/ui';
 import { login, refreshIfNeeded } from './redux/actions/helper';
 import { getStoredCredential } from './utils/storage';
+
 import App from './components/App';
 
 const { store, persistor } = reduxStore();

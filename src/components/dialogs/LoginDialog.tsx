@@ -66,12 +66,14 @@ class LoginDialog extends React.PureComponent<ILoginDialogProps, never> {
             }}
           />
           <FormControlLabel
-            control={<Checkbox
-              id="saveCredential"
-              onChange={e => {
-                this.save = e.target.checked;
-              }}
-            />}
+            control={
+              <Checkbox
+                id="saveCredential"
+                onChange={e => {
+                  this.save = e.target.checked;
+                }}
+              />
+            }
             label="保存凭据以自动登录"
           />
         </DialogContent>

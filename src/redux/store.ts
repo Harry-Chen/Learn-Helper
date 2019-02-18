@@ -1,11 +1,11 @@
 import { applyMiddleware, createStore } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
+import thunk from 'redux-thunk';
+import logger from 'redux-logger';
+
 import createChromeStorage from 'redux-persist-chrome-storage';
 import { PersistConfig } from 'redux-persist/es/types';
 import immutableTransform from 'redux-persist-transform-immutable';
-
-import thunk from 'redux-thunk';
-import logger from 'redux-logger';
 
 import reducers, { STATE_HELPER, STATE_UI } from './reducers';
 import { STORAGE_KEY_REDUX } from '../constants';

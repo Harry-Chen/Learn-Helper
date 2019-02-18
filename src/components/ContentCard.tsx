@@ -1,5 +1,7 @@
 import React, { ReactNode } from 'react';
+import { connect } from 'react-redux';
 import classnames from 'classnames';
+import { ContentType } from 'thu-learn-lib/lib/types';
 
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -12,14 +14,11 @@ import Avatar from '@material-ui/core/Avatar';
 import Tooltip from '@material-ui/core/Tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { COURSE_MAIN_FUNC } from '../constants/ui';
-import { CardProps } from '../types/ui';
-
 import styles from '../css/sidebar.css';
-import { connect } from 'react-redux';
-import { ContentType } from 'thu-learn-lib/lib/types';
 import { formatDate } from '../utils/format';
 import { DiscussionInfo, FileInfo, HomeworkInfo, NotificationInfo } from '../types/data';
+import { CardProps } from '../types/ui';
+import { COURSE_MAIN_FUNC } from '../constants/ui';
 import { toggleReadState, toggleStarState } from '../redux/actions/data';
 import { setDetailContent, setDetailUrl } from '../redux/actions/ui';
 
@@ -77,10 +76,9 @@ class ContentCard extends React.PureComponent<CardProps, never> {
     if (content.type === ContentType.HOMEWORK) {
       const homework = content as HomeworkInfo;
       const submitted = homework.submitted ? '已提交' : '未提交';
-      const grade =
-        homework.grade === undefined
-          ? '未批阅'
-          : `成绩：${homework.grade} · 批阅者：${homework.graderName}`;
+      const grade = homework.graded
+        ? `${homework.grade === -100 ? '已阅' : `${homework.grade}分`}（${homework.graderName}）`
+        : '未批阅';
       suffix = ` · ${submitted} · ${grade}`;
     } else if (content.type === ContentType.NOTIFICATION || content.type === ContentType.FILE) {
       const notification = content as NotificationInfo;
@@ -88,7 +86,7 @@ class ContentCard extends React.PureComponent<CardProps, never> {
         suffix += ' · 重要';
       }
       if (content.type === ContentType.NOTIFICATION) {
-        suffix += ` · 发布者：${notification.publisher}`;
+        suffix += ` · 发布者:${notification.publisher}`;
       } else if (content.type === ContentType.FILE) {
         const file = content as FileInfo;
         if (file.description.trim() !== '') {
@@ -97,7 +95,7 @@ class ContentCard extends React.PureComponent<CardProps, never> {
       }
     } else if (content.type === ContentType.DISCUSSION || content.type === ContentType.QUESTION) {
       const discussion = content as DiscussionInfo;
-      suffix = ` · 回复数：${discussion.replyCount} · 最后回复：${discussion.lastReplierName}`;
+      suffix = ` · 回复:${discussion.replyCount} · 最后回复:${discussion.lastReplierName}`;
     }
 
     return `${formatDate(content.date)}${suffix}`;
@@ -216,7 +214,7 @@ class ContentCard extends React.PureComponent<CardProps, never> {
             component="div"
             onClick={ev => {
               dispatch(setDetailUrl(homework.submitUrl));
-              ev.stopProgation();
+              ev.stopPropagation();
             }}
             onMouseDown={ev => ev.stopPropagation()}
           >
@@ -233,7 +231,9 @@ class ContentCard extends React.PureComponent<CardProps, never> {
             color="primary"
             className={styles.card_action_button}
             component="div"
-            onClick={() => { location.href = (content as any).attachmentUrl; }}
+            onClick={() => {
+              location.href = (content as any).attachmentUrl;
+            }}
           >
             <FontAwesomeIcon icon="paperclip" />
           </IconButton>
@@ -241,7 +241,7 @@ class ContentCard extends React.PureComponent<CardProps, never> {
       );
     }
 
-    const action = (
+    return (
       <CardActions className={styles.card_action_line}>
         {starButton}
         {markReadButton}
@@ -249,8 +249,6 @@ class ContentCard extends React.PureComponent<CardProps, never> {
         {attachmentButton}
       </CardActions>
     );
-
-    return action;
   }
 }
 
