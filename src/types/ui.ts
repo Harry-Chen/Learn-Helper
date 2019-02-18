@@ -62,6 +62,9 @@ interface IAppProps extends IDispatchableComponentProps {
   showLoadingProgressBar: boolean;
   loadingProgress: number;
   paneHidden: boolean;
+
+  openSidebar: () => any;
+  closeSidebar: () => any;
 }
 
 export type AppProps = IAppProps;
