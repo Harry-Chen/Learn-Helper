@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { ContentType } from 'thu-learn-lib/lib/types';
 
+import Paper from '@material-ui/core/Paper';
+
 import styles from '../css/page.css';
 import { ContentDetailProps } from '../types/ui';
 import { HomeworkInfo, NotificationInfo } from '../types/data';
@@ -27,7 +29,7 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
             </tbody>
           </table>
         </div>
-        <div
+        <Paper
           className={styles.content_detail_content}
           dangerouslySetInnerHTML={{
             __html: isHomework ? homework.description : notification.content,
