@@ -40,8 +40,11 @@ class LoginDialog extends React.PureComponent<ILoginDialogProps, never> {
             我们对凭据进行了简单的加密，但并不能完全防止其被第三方读取。
             在长时间不使用或者出借计算机时，请务必退出登录，以免您的凭据被泄露。
             <br />
-            如果您选择登录，则视为您已经阅读并同意<a href={'about.html'} target={'_blank'}>此页面</a>中的所有内容。
-            否则，请立刻停止使用并从 Chrome 中卸载本插件。
+            如果您选择登录，则视为您已经阅读并同意
+            <a href={'about.html'} target={'_blank'}>
+              此页面
+            </a>
+            中的所有内容。 否则，请立刻停止使用并从 Chrome 中卸载本插件。
           </DialogContentText>
         </DialogContent>
         <DialogContent>

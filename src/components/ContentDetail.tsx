@@ -23,9 +23,9 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
         <div className={styles.content_detail_lines}>
           <table>
             <tbody>
-            {this.generateLine('课程名称', content.courseName)}
-            {isHomework ? this.generateDetailsForHomework(homework) : null}
-            {isNotification ? this.generateDetailsForNotification(notification) : null}
+              {this.generateLine('课程名称', content.courseName)}
+              {isHomework ? this.generateDetailsForHomework(homework) : null}
+              {isNotification ? this.generateDetailsForNotification(notification) : null}
             </tbody>
           </table>
         </div>

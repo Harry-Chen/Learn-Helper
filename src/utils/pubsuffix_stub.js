@@ -1,1 +1,3 @@
-module.exports.getPublicSuffix = function getPublicSuffix(domain) { return null };
+module.exports.getPublicSuffix = function getPublicSuffix(domain) {
+  return null;
+};
