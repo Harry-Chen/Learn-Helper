@@ -104,8 +104,13 @@ const mapStateToProps = (state): Partial<CardListProps> => {
   return {
     type: ui.cardTypeFilter,
     course: ui.cardCourseFilter,
-    ...generateCardList(data, data.lastUpdateTime,
-      ui.cardTypeFilter, ui.cardCourseFilter, ui.titleFilter),
+    ...generateCardList(
+      data,
+      data.lastUpdateTime,
+      ui.cardTypeFilter,
+      ui.cardCourseFilter,
+      ui.titleFilter,
+    ),
     title: ui.cardListTitle,
     threshold: ui.cardVisibilityThreshold,
   };

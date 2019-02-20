@@ -23,7 +23,7 @@ const loadApp = () => {
   ReactDOM.render(
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <App/>
+        <App />
       </PersistGate>
     </Provider>,
     document.querySelector('#main'),
@@ -38,7 +38,7 @@ const loadApp = () => {
         .then(() => {
           store.dispatch<any>(refreshIfNeeded());
         })
-        .catch((e) => {
+        .catch(e => {
           console.error(e);
           store.dispatch(toggleLoginDialog(false));
           store.dispatch(toggleNetworkErrorDialog(true));

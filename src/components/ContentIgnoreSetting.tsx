@@ -55,11 +55,7 @@ class ContentIgnoreSetting extends React.PureComponent<ContentIgnoreSettingProps
                           checked={s.ignore[type]}
                           onChange={() => {
                             this.props.dispatch(
-                              toggleContentIgnore(
-                                s.course.id,
-                                type,
-                                !s.ignore[type],
-                              ),
+                              toggleContentIgnore(s.course.id, type, !s.ignore[type]),
                             );
                           }}
                         />

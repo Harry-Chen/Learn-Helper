@@ -72,8 +72,9 @@ export const generateCardList = (
   oldCards = newCards;
 
   if (title !== undefined) {
-    newCards = newCards.filter(l => l.title
-      .toLocaleLowerCase().includes(title.toLocaleLowerCase()));
+    newCards = newCards.filter(l =>
+      l.title.toLocaleLowerCase().includes(title.toLocaleLowerCase()),
+    );
   }
 
   return {

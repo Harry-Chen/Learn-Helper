@@ -43,7 +43,6 @@ const initialState = {
 };
 
 class App extends React.PureComponent<AppProps, typeof initialState> {
-
   public state = initialState;
 
   private inputRef: React.RefObject<HTMLDivElement>;
@@ -83,7 +82,7 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
       <>
         <CssBaseline />
         {/* sidebar */}
-        <AppBar position="fixed" >
+        <AppBar position="fixed">
           <Toolbar>
             <IconButton
               color="inherit"
@@ -111,9 +110,7 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
           open={!this.props.paneHidden}
         >
           <div className={styles.sidebar_wrapper}>
-            <div
-              className={styles.sidebar_header}
-            >
+            <div className={styles.sidebar_header}>
               <div className={styles.sidebar_header_content}>
                 <Toolbar className={styles.sidebar_header_left}>
                   <IconButton
@@ -131,8 +128,9 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
                   </Typography>
                 </Toolbar>
                 <Toolbar
-                  className={classnames(styles.sidebar_header_right,
-                    { [styles.sidebar_filter_shown]: this.state.filterShown })}
+                  className={classnames(styles.sidebar_header_right, {
+                    [styles.sidebar_filter_shown]: this.state.filterShown,
+                  })}
                 >
                   <Typography variant="h6" className={styles.sidebar_cardlist_name} noWrap={true}>
                     {this.props.cardListTitle}
@@ -145,13 +143,15 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
                     >
                       <FontAwesomeIcon
                         icon="filter"
-                        className={classnames(styles.filter_icon,
-                          { [styles.filter_icon_shown]: !this.state.filterShown })}
+                        className={classnames(styles.filter_icon, {
+                          [styles.filter_icon_shown]: !this.state.filterShown,
+                        })}
                       />
                       <FontAwesomeIcon
                         icon="times"
-                        className={classnames(styles.filter_icon,
-                          { [styles.filter_icon_shown]: this.state.filterShown })}
+                        className={classnames(styles.filter_icon, {
+                          [styles.filter_icon_shown]: this.state.filterShown,
+                        })}
                       />
                     </IconButton>
                     <div className={styles.filter_input}>
@@ -191,9 +191,7 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
             [styles.pane_fullscreen]: this.props.paneHidden,
           })}
         >
-          <Toolbar>
-
-          </Toolbar>
+          <Toolbar />
           <DetailPane />
         </div>
         {/* dialogs */}
@@ -230,4 +228,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): Partial<AppProps> => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);
