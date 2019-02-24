@@ -62,6 +62,6 @@
     "redux-persist-chrome-storage": "^1.0.1",
     "redux-persist-transform-immutable": "^5.0.0",
     "redux-thunk": "^2.3.0",
-    "thu-learn-lib": "^1.0.13"
+    "thu-learn-lib": "^1.0.14"
   }
 }
