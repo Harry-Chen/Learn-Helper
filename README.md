@@ -46,6 +46,10 @@ Use `npm run dev-server` to watch changes in `src/` and start Webpack Dev Server
 
 ## Revision History
 
+**v4.0.1**
+* FIX url error in attachment of notification
+* FIX too wide detail pane on narrow-screen devices
+
 **v4.0.0**
 * Rewrite use React (with Material-UI) + Redux
 * ADD support for learn2018

@@ -131,18 +131,21 @@
     left: 671px;
     bottom: 0;
     right: 0;
-    min-width: 700px;
     overflow-x: auto;
     overflow-y: auto;
     background-color: #eee;
+    transition: left 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+}
 
-    transition: left 225ms cubic-bezier(0, 0, 0.2, 1) 0ms
+@media (max-width: 1024px) {
+    .pane_content {
+        min-width: 350px;
+    }
 }
 
 .pane_fullscreen {
     left: 0;
-
-    transition: left 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms
+    transition: left 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
 }
 
 .progress_area {
