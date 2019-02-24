@@ -83,7 +83,7 @@ export function refreshIfNeeded() {
     const justUpdated = new Date().getTime() - data.lastUpdateTime.getTime() <= 15 * 60 * 1000;
     if (data.updateFinished && justUpdated) {
       dispatch(toggleSnackbar(true));
-      dispatch(setSnackbar('距离上次成功刷新不足15分钟', SnackbarType.NOTIFICATION));
+      dispatch(setSnackbar('离上次成功刷新不足15分钟，若需要可手动刷新', SnackbarType.NOTIFICATION));
     } else {
       dispatch(refresh());
     }
