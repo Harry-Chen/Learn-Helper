@@ -6,7 +6,7 @@ import Paper from '@material-ui/core/Paper';
 
 import styles from '../css/page.css';
 import { ContentDetailProps } from '../types/ui';
-import { HomeworkInfo, NotificationInfo } from '../types/data';
+import { HomeworkInfo, NotificationInfo, FileInfo } from '../types/data';
 import { formatDate } from '../utils/format';
 import { setDetailUrl } from '../redux/actions/ui';
 
@@ -15,8 +15,10 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
     const content = this.props.content;
     const homework = content as HomeworkInfo;
     const notification = content as NotificationInfo;
+    const file = content as FileInfo;
     const isHomework = content.type === ContentType.HOMEWORK;
     const isNotification = content.type === ContentType.NOTIFICATION;
+    const isFile = content.type === ContentType.FILE;
     return (
       <div className={styles.content_detail}>
         <p className={styles.content_detail_title}>{content.title}</p>
@@ -26,19 +28,39 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
               {this.generateLine('课程名称', content.courseName)}
               {isHomework ? this.generateDetailsForHomework(homework) : null}
               {isNotification ? this.generateDetailsForNotification(notification) : null}
+              {isFile ? this.generateDetailsForFile(file) : null}
             </tbody>
           </table>
         </div>
         <Paper
           className={styles.content_detail_content}
           dangerouslySetInnerHTML={{
-            __html: isHomework ? homework.description : notification.content,
+            __html: isHomework
+              ? homework.description
+              : isFile
+              ? file.description
+              : notification.content,
           }}
         />
       </div>
     );
   }
-
+  private translateFileType = (type: String): String => {
+    //TODO: Translate file type to human-readable representation.
+    return type;
+  };
+  private;
+  private generateDetailsForFile = (file: FileInfo): React.ReactNode => {
+    return (
+      <>
+        {this.generateLine('上传时间', formatDate(file.uploadTime))}
+        {this.generateLine('访问量', file.visitCount)}
+        {this.generateLine('下载量', file.downloadCount)}
+        {this.generateLine('文件类型', this.translateFileType(file.fileType))}
+        {this.generateLine('操作', this.generateLink('下载', file.downloadUrl))}
+      </>
+    );
+  };
   private generateDetailsForHomework = (homework: HomeworkInfo): React.ReactNode => {
     return (
       <>
@@ -78,7 +100,6 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
       </>
     );
   };
-
   private generateDetailsForNotification = (notification: NotificationInfo): React.ReactNode => {
     return (
       <>
