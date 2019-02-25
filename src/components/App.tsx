@@ -15,7 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { AppProps } from '../types/ui';
-import { IUiStateSlice, STATE_DATA, STATE_UI } from '../redux/reducers';
+import { IUiStateSlice, STATE_DATA, STATE_HELPER, STATE_UI } from '../redux/reducers';
 import { setTitleFilter, togglePaneHidden } from '../redux/actions/ui';
 import styles from '../css/main.css';
 import '../css/scrollbar.css';
@@ -36,6 +36,7 @@ import { UiState } from '../redux/reducers/ui';
 import DetailPane from './DetailPane';
 import { DataState } from '../redux/reducers/data';
 import { formatSemester } from '../utils/format';
+import { HelperState } from '../redux/reducers/helper';
 
 const initialState = {
   filterShown: false,
@@ -210,11 +211,12 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
 const mapStateToProps = (state: IUiStateSlice): Partial<AppProps> => {
   const uiState = state[STATE_UI] as UiState;
   const dataState = state[STATE_DATA] as DataState;
+  const helperState = state[STATE_HELPER] as HelperState;
   return {
     showLoadingProgressBar: uiState.showLoadingProgressBar,
     loadingProgress: uiState.loadingProgress,
     paneHidden: uiState.paneHidden,
-    cardListTitle: uiState.cardListTitle,
+    cardListTitle: helperState.loggedIn ? uiState.cardListTitle : '加载中...',
     semesterTitle: formatSemester(dataState.semester),
   };
 };

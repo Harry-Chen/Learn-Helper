@@ -36,9 +36,20 @@ import { getStoredCredential, storeCredential } from '../../utils/storage';
 export function login(username: string, password: string, save: boolean) {
   return async (dispatch, getState) => {
     dispatch(toggleLoginDialogProgress(true));
-    const helper = getState().helper.helper as Learn2018Helper;
-    const res = await helper.login(username, password);
-    // login failed
+    const helperState = getState()[STATE_HELPER] as HelperState;
+    const helper = helperState.helper as Learn2018Helper;
+
+    const timeout = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (!getState()[STATE_HELPER].loggedIn) {
+          dispatch(toggleSnackbar(true));
+          dispatch(setSnackbar('登录超时', SnackbarType.ERROR));
+          reject('login timeout');
+        } else resolve();
+      }, 3000);
+    });
+
+    const res = await Promise.race([helper.login(username, password), timeout]);
     if (!res) return Promise.reject();
     // login succeeded
     // hide login dialog (if shown), show success notice
@@ -107,7 +118,7 @@ export function refresh() {
       if (!helperState.loggedIn) {
         const credential = await getStoredCredential();
         const loginResult = await helper.login(credential.username, credential.password);
-        if (loginResult) return Promise.reject();
+        if (!loginResult) return Promise.reject(new Error('login failed again'));
         dispatch(loggedIn());
       }
       const s = await helper.getCurrentSemester();

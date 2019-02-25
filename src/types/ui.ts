@@ -39,7 +39,6 @@ interface ICardFilter {
 interface ICardListProps extends IDispatchableComponentProps, Partial<ICardFilter> {
   contents: ContentInfo[];
   threshold: number;
-  title: string;
   loadMore: () => any;
 }
 

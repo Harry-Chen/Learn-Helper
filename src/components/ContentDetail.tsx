@@ -19,6 +19,13 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
     const isHomework = content.type === ContentType.HOMEWORK;
     const isNotification = content.type === ContentType.NOTIFICATION;
     const isFile = content.type === ContentType.FILE;
+
+    let contentDetail = isHomework ? homework.description
+      : isFile ? file.description : notification.content;
+    contentDetail = contentDetail.trim();
+
+    if (contentDetail === '') contentDetail = '详情为空';
+
     return (
       <div className={styles.content_detail}>
         <p className={styles.content_detail_title}>{content.title}</p>
@@ -34,32 +41,30 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
         </div>
         <Paper
           className={styles.content_detail_content}
-          dangerouslySetInnerHTML={{
-            __html: isHomework
-              ? homework.description
-              : isFile
-              ? file.description
-              : notification.content,
-          }}
+          dangerouslySetInnerHTML={{ __html: contentDetail }}
         />
       </div>
     );
   }
-  private translateFileType = (type: String): String => {
-    //TODO: Translate file type to human-readable representation.
+
+  private translateFileType = (type: string): string => {
+    // TODO: Translate file type to human-readable representation.
     return type;
   };
+
   private generateDetailsForFile = (file: FileInfo): React.ReactNode => {
     return (
       <>
         {this.generateLine('上传时间', formatDate(file.uploadTime))}
         {this.generateLine('访问量', file.visitCount)}
         {this.generateLine('下载量', file.downloadCount)}
+        {this.generateLine('文件大小', file.size)}
         {this.generateLine('文件类型', this.translateFileType(file.fileType))}
-        {this.generateLine('操作', this.generateLink('下载', file.downloadUrl))}
+        {this.generateLine('下载文件', this.generateLink(file.title, file.downloadUrl))}
       </>
     );
   };
+
   private generateDetailsForHomework = (homework: HomeworkInfo): React.ReactNode => {
     return (
       <>
@@ -95,10 +100,11 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
               this.generateLink(homework.answerAttachmentName, homework.answerAttachmentUrl),
             )
           : null}
-        {this.generateLine('作业详情', this.generateLink(homework.title, homework.url, true))}
+        {this.generateLine('查看作业', this.generateLink(homework.title, homework.url, true))}
       </>
     );
   };
+
   private generateDetailsForNotification = (notification: NotificationInfo): React.ReactNode => {
     return (
       <>
@@ -112,7 +118,7 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
             )
           : null}
         {this.generateLine(
-          '公告详情',
+          '公告原文',
           this.generateLink(notification.title, notification.url, true),
         )}
       </>

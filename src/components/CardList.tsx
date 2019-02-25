@@ -97,7 +97,6 @@ const mapStateToProps = (state): Partial<CardListProps> => {
   if (!loggedIn) {
     return {
       contents: [],
-      title: '加载中...',
     };
   }
 
@@ -111,7 +110,6 @@ const mapStateToProps = (state): Partial<CardListProps> => {
       ui.cardCourseFilter,
       ui.titleFilter,
     ),
-    title: ui.cardListTitle,
     threshold: ui.cardVisibilityThreshold,
   };
 };

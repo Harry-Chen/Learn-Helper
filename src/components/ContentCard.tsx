@@ -49,11 +49,8 @@ class ContentCard extends React.PureComponent<CardProps, never> {
   private onTitleClick = () => {
     const content = this.props.content;
     switch (content.type) {
-      // initiate file download
-      case ContentType.FILE:
-      //location.href = (content as FileInfo).downloadUrl;
-      //break;
       // show details in DetailPane
+      case ContentType.FILE:
       case ContentType.NOTIFICATION:
       case ContentType.HOMEWORK:
         this.props.dispatch(setDetailContent(content));
@@ -89,6 +86,7 @@ class ContentCard extends React.PureComponent<CardProps, never> {
         suffix += ` · 发布者:${notification.publisher}`;
       } else if (content.type === ContentType.FILE) {
         const file = content as FileInfo;
+        suffix += ` · ${file.size}`;
         if (file.description.trim() !== '') {
           suffix += ` · ${file.description.trim()}`;
         }
@@ -245,7 +243,7 @@ class ContentCard extends React.PureComponent<CardProps, never> {
     }
     if (content.type === ContentType.FILE) {
       downloadButton = (
-        <Tooltip title={`下载文件`}>
+        <Tooltip title={'下载文件'}>
           <IconButton
             color="primary"
             className={styles.card_action_button}
