@@ -51,8 +51,8 @@ class ContentCard extends React.PureComponent<CardProps, never> {
     switch (content.type) {
       // initiate file download
       case ContentType.FILE:
-        location.href = (content as FileInfo).downloadUrl;
-        break;
+      //location.href = (content as FileInfo).downloadUrl;
+      //break;
       // show details in DetailPane
       case ContentType.NOTIFICATION:
       case ContentType.HOMEWORK:
@@ -206,7 +206,7 @@ class ContentCard extends React.PureComponent<CardProps, never> {
 
     let submitButton: ReactNode = null;
     let attachmentButton: ReactNode = null;
-
+    let downloadButton: ReactNode = null;
     if (content.type === ContentType.HOMEWORK) {
       const homework = content as HomeworkInfo;
       submitButton = (
@@ -243,12 +243,28 @@ class ContentCard extends React.PureComponent<CardProps, never> {
         </Tooltip>
       );
     }
-
+    if (content.type === ContentType.FILE) {
+      downloadButton = (
+        <Tooltip title={`下载文件`}>
+          <IconButton
+            color="primary"
+            className={styles.card_action_button}
+            component="div"
+            onClick={() => {
+              location.href = (content as any).downloadUrl;
+            }}
+          >
+            <FontAwesomeIcon icon="download" />
+          </IconButton>
+        </Tooltip>
+      );
+    }
     return (
       <CardActions className={styles.card_action_line}>
         {starButton}
         {markReadButton}
         {submitButton}
+        {downloadButton}
         {attachmentButton}
       </CardActions>
     );
