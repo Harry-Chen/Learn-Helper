@@ -49,7 +49,6 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
     //TODO: Translate file type to human-readable representation.
     return type;
   };
-  private;
   private generateDetailsForFile = (file: FileInfo): React.ReactNode => {
     return (
       <>
