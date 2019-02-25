@@ -46,6 +46,11 @@ Use `npm run dev-server` to watch changes in `src/` and start Webpack Dev Server
 
 ## Revision History
 
+**v4.0.2**
+* FIX whitespace warping problem in detail page
+* ADD timeout judgement for login process
+* ADD detail page for files
+
 **v4.0.1**
 * FIX url error in attachment of notification
 * FIX too wide detail pane on narrow-screen devices
