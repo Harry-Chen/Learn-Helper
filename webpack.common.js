@@ -5,7 +5,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const htmlPlugin = new HtmlWebpackPlugin({
   template: "./src/index.html",
-  filename: "./index.html"
+  filename: "./index.html",
+  excludeChunks: ["background"]
 });
 
 const replacePlugin = new webpack.NormalModuleReplacementPlugin(
