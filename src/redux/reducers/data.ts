@@ -183,6 +183,13 @@ export default function data(state: IDataState = initialState, action: DataActio
           };
         }
       }
+      // remove courses that do not exist any more
+      // otherwise the app will crash after dropping any course
+      for (const k of [...Object.keys(contentIgnore)]) {
+        if (!courseMap.has(k)) {
+          delete contentIgnore[k];
+        }
+      }
       return {
         ...state,
         contentIgnore,
