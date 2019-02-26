@@ -46,6 +46,11 @@ Use `npm run dev-server` to watch changes in `src/` and start Webpack Dev Server
 
 ## Revision History
 
+**v4.0.3**
+* FIX bugs in `ContentDetail` and `ContentIgnoreSettings`
+* Avoid opening too many instances when clicking on extension icon
+* Switch to WebExtension API for file downloading
+
 **v4.0.2**
 * FIX whitespace warping problem in detail page
 * ADD timeout judgement for login process
