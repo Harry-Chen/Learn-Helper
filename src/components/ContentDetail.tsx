@@ -22,9 +22,8 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
 
     let contentDetail = isHomework ? homework.description
       : isFile ? file.description : notification.content;
-    contentDetail = contentDetail.trim();
-
-    if (contentDetail === '') contentDetail = '详情为空';
+    if (contentDetail !== undefined) contentDetail = contentDetail.trim();
+    if (contentDetail === undefined || contentDetail === '') contentDetail = '详情为空';
 
     return (
       <div className={styles.content_detail}>

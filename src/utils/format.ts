@@ -8,6 +8,10 @@ export function formatSemester(semester: SemesterInfo): string {
   }
 }
 
-export function formatDate(date: Date): string {
-  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+export function formatDate(date?: Date): string {
+  if (date === undefined) {
+    return '无';
+  } else {
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+  }
 }
