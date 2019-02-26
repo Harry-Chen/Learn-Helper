@@ -1,6 +1,6 @@
 # Learn Helper
 
-A Chrome extension for [Web Learning](https://learn.tsinghua.edu.cn) of Tsinghua University.
+A browser extension for [Web Learning](https://learn.tsinghua.edu.cn) of Tsinghua University.
 
 ## Authors & Maintainers
 
@@ -24,9 +24,11 @@ A Chrome extension for [Web Learning](https://learn.tsinghua.edu.cn) of Tsinghua
 * provide a `Priority Inbox` like Gmail
 * provide a off-line mode, cache all message that you have already read
 
-## Install (Chrome Plugin)
+## Install
 
-Use chrome store link: https://chrome.google.com/webstore/detail/learn-helper/mdehapphdlihjjgkhmoiknmnhcjpjall
+[Chrome Store](https://chrome.google.com/webstore/detail/learn-helper/mdehapphdlihjjgkhmoiknmnhcjpjall), [Firefox Add-ons](https://addons.mozilla.org/zh-CN/firefox/addon/thu-learn-helper/)  
+
+Or you can install the unpacked version from releases
 
 ## Build
 
@@ -50,6 +52,7 @@ Use `npm run dev-server` to watch changes in `src/` and start Webpack Dev Server
 * FIX bugs in `ContentDetail` and `ContentIgnoreSettings`
 * Avoid opening too many instances when clicking on extension icon
 * Switch to WebExtension API for file downloading
+* Release Firefox version!
 
 **v4.0.2**
 * FIX whitespace warping problem in detail page
