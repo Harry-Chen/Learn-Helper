@@ -21,6 +21,7 @@ import { CardProps } from '../types/ui';
 import { COURSE_MAIN_FUNC } from '../constants/ui';
 import { toggleReadState, toggleStarState } from '../redux/actions/data';
 import { setDetailContent, setDetailUrl } from '../redux/actions/ui';
+import { initiateFileDownload } from '../utils/download';
 
 class ContentCard extends React.PureComponent<CardProps, never> {
   public render(): React.ReactNode {
@@ -233,7 +234,7 @@ class ContentCard extends React.PureComponent<CardProps, never> {
             className={styles.card_action_button}
             component="div"
             onClick={() => {
-              location.href = (content as any).attachmentUrl;
+              initiateFileDownload((content as any).attachmentUrl);
             }}
           >
             <FontAwesomeIcon icon="paperclip" />
@@ -249,7 +250,7 @@ class ContentCard extends React.PureComponent<CardProps, never> {
             className={styles.card_action_button}
             component="div"
             onClick={() => {
-              location.href = (content as any).downloadUrl;
+              initiateFileDownload((content as any).downloadUrl);
             }}
           >
             <FontAwesomeIcon icon="download" />

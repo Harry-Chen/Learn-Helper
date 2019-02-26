@@ -155,7 +155,7 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
         </a>
       );
     } else {
-      return <a href={url}>{name}</a>;
+      return <a href={url} target={'_blank'}>{name}</a>;
     }
   };
 }

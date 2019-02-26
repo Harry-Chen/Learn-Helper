@@ -13,6 +13,7 @@
 	"permissions" : [
 		"storage",
 		"tabs",
+		"downloads",
 		"https://learn.tsinghua.edu.cn/*",
 		"https://learn2018.tsinghua.edu.cn/*",
 		"https://id.tsinghua.edu.cn/*"

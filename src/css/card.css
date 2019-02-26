@@ -43,7 +43,7 @@
 .card_status {
     float: left;
     text-align: left;
-    max-width: 70%;
+    max-width: 65%;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -52,7 +52,7 @@
 .card_course {
     float: right;
     text-align: right;
-    max-width: 36%;
+    max-width: 35%;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
