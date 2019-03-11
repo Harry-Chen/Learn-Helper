@@ -11,6 +11,24 @@ A browser extension for [Web Learning](https://learn.tsinghua.edu.cn) of Tsinghu
   * original author
   * developer till v3.3.1
 
+## License
+
+This project is licensed under the terms of MIT License from version 4.0.3 for any condition __EXCLUDING__:
+
+* You are working / have worked for Computer and Information Manage Center, Tsinghua University.
+* Your project is financially supported by any institute in relation to Tsinghua University.
+
+If any of these criteria is met, any usage of code, without explicit authorization from the authors,  from this project will be considered as infringement of copyright. The word ‘usage’ may refer to making copies of, modifying, redistributing of the source code or derivatives (such as browser extension) of this project, for either commercial or non-commercial use. However you can still install and run the browser extension released by the author without being constrained by this exception.
+
+## 版权说明
+
+本项目从 4.0.3 版本起，依照 MIT License 开源，但__不包含__下列情况：
+
+* 您过去或者目前为清华大学信息化技术中心工作
+* 您的项目受到任何与清华大学有关的机构的经济资助
+
+如果上述任意条件成立，任何未经授权的对本项目中代码的使用将会被认为是侵权。上文中的“使用”包括对项目的源代码或衍生品（如浏览器插件）制作拷贝、修改、重分发，无论是否用作商业用途。但安装并运行作者发布的浏览器插件的行为不受此例外约束。
+
 ## Features
 
 * provide a Evernote-like materialized UI
