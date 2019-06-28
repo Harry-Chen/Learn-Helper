@@ -1,5 +1,4 @@
 import React from 'react';
-import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 
 import { ICommonDialogProps } from '../../types/dialogs';
@@ -23,7 +22,7 @@ const mapStateToProps = (state: IUiStateSlice): Partial<ICommonDialogProps> => {
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<any>): Partial<ICommonDialogProps> => {
+const mapDispatchToProps = (dispatch): Partial<ICommonDialogProps> => {
   return {
     firstButtonOnClick: () => {
       dispatch(toggleClearDataDialog(false));

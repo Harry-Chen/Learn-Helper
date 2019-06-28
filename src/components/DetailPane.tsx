@@ -1,5 +1,6 @@
 import React from 'react';
 import Iframe from 'react-iframe';
+import classnames from 'classnames';
 import { connect } from 'react-redux';
 
 import { IUiStateSlice, STATE_UI } from '../redux/reducers';
@@ -8,6 +9,8 @@ import { DetailPaneProps } from '../types/ui';
 
 import ContentIgnoreSetting from './ContentIgnoreSetting';
 import ContentDetail from './ContentDetail';
+
+import styles from '../css/main.css';
 
 class DetailPane extends React.PureComponent<DetailPaneProps, never> {
   public render() {
@@ -24,7 +27,7 @@ class DetailPane extends React.PureComponent<DetailPaneProps, never> {
             position: 'relative',
           }}
         >
-          <Iframe url={this.props.url} />
+          <Iframe className={styles.web_frame} url={this.props.url} />
         </div>
       );
     }

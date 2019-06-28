@@ -6,6 +6,7 @@
 .sidebar_list_item {
     padding-top: 8px !important;
     padding-bottom: 8px !important;
+    height: 40px !important;
 }
 
 .course_list_item_text, .settings_list_item_text {
@@ -26,6 +27,12 @@
 .list_item_icon {
     width: 18px;
     height: 18px;
+    min-width: 0 !important;
+    margin-right: 16px !important;
+}
+
+.summary_list_item_text {
+    margin-right: 16px;
 }
 
 .card_list {

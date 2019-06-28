@@ -52,7 +52,7 @@ class SummaryList extends React.PureComponent<SummaryListProps, never> {
               color="primary"
               invisible={func.type === undefined || numbers[func.type] === undefined}
             >
-              <ListItemText primary={func.name} />
+              <ListItemText className={styles.summary_list_item_text} primary={func.name} />
             </Badge>
           </ListItem>
         ))}

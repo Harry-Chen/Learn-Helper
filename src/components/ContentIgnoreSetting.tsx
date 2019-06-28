@@ -32,7 +32,7 @@ class ContentIgnoreSetting extends React.PureComponent<ContentIgnoreSettingProps
         </div>
         <div className={styles.ignore_setting_container}>
           <Paper>
-            <Table padding={'dense'}>
+            <Table>
               <TableHead>
                 <TableRow>
                   <TableCell>课程名称</TableCell>

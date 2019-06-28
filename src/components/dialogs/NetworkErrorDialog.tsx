@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
 import { ICommonDialogProps } from '../../types/dialogs';
 import { toggleLoginDialog, toggleNetworkErrorDialog } from '../../redux/actions/ui';
@@ -35,7 +34,7 @@ const mapStateToProps = (state: IUiStateSlice): Partial<ICommonDialogProps> => {
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<any>): Partial<ICommonDialogProps> => {
+const mapDispatchToProps = (dispatch): Partial<ICommonDialogProps> => {
   return {
     firstButtonOnClick: () => {
       dispatch(toggleNetworkErrorDialog(false));

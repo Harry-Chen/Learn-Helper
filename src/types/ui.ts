@@ -4,7 +4,6 @@ import { ContentType, CourseInfo } from 'thu-learn-lib/lib/types';
 
 import { ContentInfo } from './data';
 import { SnackbarType } from './dialogs';
-import { ChangeEvent } from 'react';
 
 export interface IMenuItem {
   name: string;

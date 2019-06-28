@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 import classnames from 'classnames';
 
 import Divider from '@material-ui/core/Divider';
@@ -221,7 +220,7 @@ const mapStateToProps = (state: IUiStateSlice): Partial<AppProps> => {
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<any>): Partial<AppProps> => ({
+const mapDispatchToProps = (dispatch): Partial<AppProps> => ({
   openSidebar: () => dispatch(togglePaneHidden(false)),
   closeSidebar: () => dispatch(togglePaneHidden(true)),
   setTitleFilter: (s: string) => {

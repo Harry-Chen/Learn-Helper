@@ -172,3 +172,11 @@
     display: flex;
     align-items: center;
 }
+
+.web_frame {
+    position: absolute;
+    display: block;
+    height: 100%;
+    width: 100%;
+    border-width: 0;
+}
