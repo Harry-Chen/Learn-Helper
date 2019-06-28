@@ -1,4 +1,4 @@
-import { ContentType, CourseInfo } from 'thu-learn-lib/lib/types';
+import { ContentType, CourseInfo, Homework } from 'thu-learn-lib/lib/types';
 
 import { DataState } from './reducers/data';
 import { ContentInfo } from '../types/data';
@@ -58,11 +58,20 @@ export const generateCardList = (
 
     // title filter change does not trigger re-sorting
     // sort by starred, hasRead and time
+    // unfinished homework before deadline always comes before everything regular cards
     newCards.sort((a, b) => {
       if (a.starred && !b.starred) return -1;
       if (!a.starred && b.starred) return 1;
       if (!a.hasRead && b.hasRead) return -1;
       if (a.hasRead && !b.hasRead) return 1;
+      if (a.type === ContentType.HOMEWORK
+        && (a as Homework).deadline.getTime() > new Date().getTime()) {
+        return -1;
+      }
+      if (b.type === ContentType.HOMEWORK
+        && (b as Homework).deadline.getTime() > new Date().getTime()) {
+        return 1;
+      }
       return b.date.getTime() - a.date.getTime();
     });
   }

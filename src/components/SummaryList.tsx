@@ -15,7 +15,7 @@ import { SummaryListProps } from '../types/ui';
 import { STATE_DATA, STATE_HELPER } from '../redux/reducers';
 import { DataState } from '../redux/reducers/data';
 import { COURSE_MAIN_FUNC, SUMMARY_FUNC_LIST } from '../constants/ui';
-import { ContentInfo } from '../types/data';
+import { ContentInfo, HomeworkInfo } from '../types/data';
 import { HelperState } from '../redux/reducers/helper';
 import { setCardFilter, setCardListTitle } from '../redux/actions/ui';
 
@@ -73,7 +73,11 @@ const mapStateToProps = (state): SummaryListProps => {
     const map = data[mapName] as Map<string, ContentInfo>;
     let count = 0;
     for (const [_, c] of map.entries()) {
-      if (!c.hasRead) count += 1;
+      if (!c.hasRead || (
+        // unfinished homework before deadline is counted in
+        (c as HomeworkInfo).submitted === false &&
+        (c as HomeworkInfo).deadline.getTime() > new Date().getTime()
+      )) count += 1;
     }
     numbers[type] = count;
     total += count;
