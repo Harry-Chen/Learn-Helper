@@ -50,19 +50,19 @@ Or you can install the unpacked version from releases
 
 ## Build
 
-Learn Helper is built using npm
+Learn Helper is built using `yarn`:
 ```bash
-npm install
-npm run dev-build # for develop build
-npm run dev-watch # for develop build with watching
-npm run format # run prettier
-npm run build # for release build
+yarn
+yarn run dev-build # for develop build
+yarn run dev-watch # for develop build with watching
+yarn run format # run prettier
+yarn run build # for release build
 ```
 
 You may need to run build commands more than once to get the correct output.
 The compiled Chrome plugin is in `dist/` (unpacked).
 
-Use `npm run dev-server` to watch changes in `src/` and start Webpack Dev Server.
+Use `yarn run dev-server` to watch changes in `src/` and start Webpack Dev Server.
 
 ## Revision History
 
