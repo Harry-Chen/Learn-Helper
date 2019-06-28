@@ -156,7 +156,7 @@ const IGNORE_UNSET_ALL = {
   [ContentType.FILE]: false,
   [ContentType.HOMEWORK]: false,
   [ContentType.QUESTION]: false,
-  [ContentType.QUESTION]: false,
+  [ContentType.DISCUSSION]: false,
 };
 
 export default function data(state: IDataState = initialState, action: DataAction): IDataState {
