@@ -5443,9 +5443,9 @@ through2@^2.0.0:
     xtend "~4.0.1"
 
 thu-learn-lib@^1.0.14:
-  version "1.1.0"
-  resolved "https://registry.npm.taobao.org/thu-learn-lib/download/thu-learn-lib-1.1.0.tgz#2dee98000d54d8400b3e559cf1321e561c4f72d7"
-  integrity sha1-Le6YAA1U2EALPlWc8TIeVhxPctc=
+  version "1.1.1"
+  resolved "https://registry.npm.taobao.org/thu-learn-lib/download/thu-learn-lib-1.1.1.tgz#386ce63b88530ade4289392b9d802295d354f3f4"
+  integrity sha1-OGzmO4hTCt5CiTkrnYAildNU8/Q=
   dependencies:
     cheerio "^1.0.0-rc.2"
     cross-fetch "^3.0.1"
