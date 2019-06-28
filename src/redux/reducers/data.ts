@@ -1,7 +1,7 @@
 import {
   ContentType,
   CourseContent,
-  CourseInfo,
+  CourseInfo, Homework,
   SemesterInfo,
   SemesterType,
 } from 'thu-learn-lib/lib/types';
@@ -90,7 +90,20 @@ function update<T extends ContentInfo>(
       let updated = true;
       if (oldContent !== undefined) {
         if (newDate.getTime() === oldContent[dateKey[contentType]].getTime()) {
+          // the date is not modified
           updated = false;
+          if (contentType === ContentType.HOMEWORK) {
+            const oldGradeTime = (oldContent as Homework).gradeTime;
+            const newGradeTime = (c as Homework).gradeTime;
+            if (newGradeTime && !oldGradeTime) {
+              // newly-graded homework
+              updated = true;
+            } else if (newGradeTime && oldGradeTime &&
+              // re-graded homework
+              newGradeTime.getTime() !== oldGradeTime.getTime()) {
+              updated = true;
+            }
+          }
         }
       }
       // copy other attributes either way
