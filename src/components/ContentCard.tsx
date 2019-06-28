@@ -66,6 +66,20 @@ class ContentCard extends React.PureComponent<CardProps, never> {
     this.props.dispatch(toggleReadState(content.id, true, content.type));
   };
 
+  private generateHomeworkGradeStatus = (homework: HomeworkInfo) => {
+    if (!homework.graded) {
+      return '未批阅';
+    }
+    let grade = '';
+    if (homework.grade === undefined) {
+      grade =  '无评分';
+    } else {
+      grade = homework.gradeLevel ? homework.gradeLevel : `${homework.grade}分`;
+    }
+    grade += `（${homework.graderName}）`;
+    return grade;
+  };
+
   private genStatusText() {
     const { content } = this.props;
 
@@ -74,9 +88,7 @@ class ContentCard extends React.PureComponent<CardProps, never> {
     if (content.type === ContentType.HOMEWORK) {
       const homework = content as HomeworkInfo;
       const submitted = homework.submitted ? '已提交' : '未提交';
-      const grade = homework.graded
-        ? `${homework.grade === -100 ? '已阅' : `${homework.grade}分`}（${homework.graderName}）`
-        : '未批阅';
+      const grade = this.generateHomeworkGradeStatus(homework);
       suffix = ` · ${submitted} · ${grade}`;
     } else if (content.type === ContentType.NOTIFICATION || content.type === ContentType.FILE) {
       const notification = content as NotificationInfo;

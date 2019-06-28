@@ -80,7 +80,8 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
           : null}
         {homework.graded ? this.generateLine('评阅时间', formatDate(homework.gradeTime)) : null}
         {homework.graded ? this.generateLine('评阅者', homework.graderName) : null}
-        {homework.graded ? this.generateLine('成绩', homework.grade) : null}
+        {homework.gradeLevel ? this.generateLine('成绩', homework.gradeLevel) :
+          homework.graded ? this.generateLine('成绩', homework.grade ? homework.grade : '无评分') : null}
         {homework.gradeContent !== undefined
           ? this.generateLine('评阅内容', homework.gradeContent, true)
           : null}
