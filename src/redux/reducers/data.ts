@@ -19,6 +19,12 @@ import {
 import { DataAction } from '../actions/data';
 import { DataActionType } from '../actions/actionTypes';
 
+interface IContentIgnore {
+  [courseId: string]: {
+    [type: string]: boolean;
+  };
+}
+
 interface IDataState {
   semester: SemesterInfo;
   fetchedSemester: SemesterInfo;
@@ -31,11 +37,7 @@ interface IDataState {
   questionMap: Map<string, QuestionInfo>;
   lastUpdateTime: Date;
   updateFinished: boolean;
-  contentIgnore: {
-    [courseId: string]: {
-      [type: string]: boolean;
-    };
-  };
+  contentIgnore: IContentIgnore;
 }
 
 export type DataState = IDataState;
@@ -69,6 +71,7 @@ function update<T extends ContentInfo>(
   contentType: ContentType,
   fetched: CourseContent,
   courseMap: Map<string, CourseInfo>,
+  contentIgnore: IContentIgnore,
 ): Map<string, T> {
   let result = Map<string, ContentInfo>();
 
@@ -110,6 +113,7 @@ function update<T extends ContentInfo>(
       const newContent: ContentInfo = {
         ...c,
         courseId,
+        ignored: contentIgnore[courseId][contentType],
         type: contentType,
         courseName: courseMap.get(courseId).name,
         date: newDate,
@@ -213,7 +217,8 @@ export default function data(state: IDataState = initialState, action: DataActio
     case DataActionType.UPDATE_CONTENT:
       return {
         ...state,
-        [stateKey]: update(state[stateKey], action.contentType, action.content, state.courseMap),
+        [stateKey]: update(state[stateKey], action.contentType,
+          action.content, state.courseMap,state.contentIgnore),
         lastUpdateTime: new Date(),
         updateFinished: false,
       };

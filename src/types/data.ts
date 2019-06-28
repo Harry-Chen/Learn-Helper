@@ -18,6 +18,7 @@ interface ICardStatus {
   date: Date;
   hasRead: boolean;
   starred: boolean;
+  ignored: boolean;
 }
 
 type ICardData = ICourseRef & ICardStatus;

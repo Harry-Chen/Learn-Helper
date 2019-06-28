@@ -30,7 +30,7 @@ class SummaryList extends React.PureComponent<SummaryListProps, never> {
         subheader={
           <ListSubheader component="div" disableSticky={true}>
             <FontAwesomeIcon icon={'thumbtack'} />
-            <span className={styles.list_title}>{'通知汇总'}</span>
+            <span className={styles.list_title}>{'项目汇总'}</span>
           </ListSubheader>
         }
       >

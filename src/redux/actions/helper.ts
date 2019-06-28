@@ -27,7 +27,6 @@ import { HelperActionType } from './actionTypes';
 import { STATE_DATA, STATE_HELPER, STATE_UI } from '../reducers';
 import { HelperState } from '../reducers/helper';
 import { DataState } from '../reducers/data';
-import { getCourseIdListForContent } from '../selectors';
 import { UiState } from '../reducers/ui';
 
 import { SnackbarType } from '../../types/dialogs';
@@ -144,38 +143,25 @@ export function refresh() {
       dispatch(updateCourses(courses));
       dispatch(setProgressBar(20));
 
-      let res = await helper.getAllContents(
-        getCourseIdListForContent(getState, ContentType.NOTIFICATION),
-        ContentType.NOTIFICATION,
-      );
+      const allCourseIds = courses.map(c => c.id);
+
+      let res = await helper.getAllContents(allCourseIds, ContentType.NOTIFICATION);
       dispatch(updateNotification(res));
       dispatch(setProgressBar(36));
 
-      res = await helper.getAllContents(
-        getCourseIdListForContent(getState, ContentType.FILE),
-        ContentType.FILE,
-      );
+      res = await helper.getAllContents(allCourseIds, ContentType.FILE);
       dispatch(updateFile(res));
       dispatch(setProgressBar(52));
 
-      res = await helper.getAllContents(
-        getCourseIdListForContent(getState, ContentType.HOMEWORK),
-        ContentType.HOMEWORK,
-      );
+      res = await helper.getAllContents(allCourseIds, ContentType.HOMEWORK);
       dispatch(updateHomework(res));
       dispatch(setProgressBar(68));
 
-      res = await helper.getAllContents(
-        getCourseIdListForContent(getState, ContentType.DISCUSSION),
-        ContentType.DISCUSSION,
-      );
+      res = await helper.getAllContents(allCourseIds, ContentType.DISCUSSION);
       dispatch(updateDiscussion(res));
       dispatch(setProgressBar(84));
 
-      res = await helper.getAllContents(
-        getCourseIdListForContent(getState, ContentType.QUESTION),
-        ContentType.QUESTION,
-      );
+      res = await helper.getAllContents(allCourseIds, ContentType.QUESTION);
       dispatch(updateQuestion(res));
       dispatch(updateFinished());
       dispatch(setProgressBar(100));

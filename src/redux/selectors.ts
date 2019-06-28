@@ -54,7 +54,12 @@ export const generateCardList = (
     // filter cards to show
     newCards = allContent.map(l => data[`${l.type}Map`].get(l.id));
     if (type !== undefined) newCards = newCards.filter(l => l.type === type);
-    if (course !== undefined) newCards = newCards.filter(l => l.courseId === course.id);
+    if (course !== undefined) {
+      newCards = newCards.filter(l => l.courseId === course.id);
+    } else {
+      // in summary list, respect ignore marks
+      newCards = newCards.filter(l => !l.ignored);
+    }
 
     // title filter change does not trigger re-sorting
     // sort by starred, hasRead and time
