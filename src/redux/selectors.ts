@@ -57,8 +57,9 @@ export const generateCardList = (
     if (course !== undefined) {
       newCards = newCards.filter(l => l.courseId === course.id);
     } else {
-      // in summary list, respect ignore marks
-      newCards = newCards.filter(l => !l.ignored);
+      // in summary list, respect all ignore marks
+      newCards = newCards.filter(l =>
+        !data.contentIgnore[l.courseId][l.type] && !l.ignored);
     }
 
     // title filter change does not trigger re-sorting

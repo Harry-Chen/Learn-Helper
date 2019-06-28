@@ -36,6 +36,7 @@ export enum DataActionType {
   MARK_ALL_READ = 'DATA/mark_all_read',
   TOGGLE_READ_STATE = 'DATA/toggle_read_state',
   TOGGLE_STAR_STATE = 'DATA/toggle_star_state',
+  TOGGLE_IGNORE_STATE = 'DATA/toggle_ignore_state',
   CLEAR_DATA = 'DATA/clear_data',
   UPDATE_FINISHED = 'DATA/update_finished',
 }

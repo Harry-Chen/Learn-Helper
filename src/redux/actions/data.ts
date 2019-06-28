@@ -117,6 +117,15 @@ export function toggleReadState(id: string, state: boolean, contentType: Content
   };
 }
 
+export function toggleIgnoreState(id: string, state: boolean, contentType: ContentType): DataAction {
+  return {
+    type: DataActionType.TOGGLE_IGNORE_STATE,
+    id,
+    state,
+    contentType,
+  };
+}
+
 export function toggleStarState(id: string, state: boolean, contentType: ContentType): DataAction {
   return {
     type: DataActionType.TOGGLE_STAR_STATE,

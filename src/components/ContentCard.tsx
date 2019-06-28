@@ -19,7 +19,7 @@ import { formatDate } from '../utils/format';
 import { DiscussionInfo, FileInfo, HomeworkInfo, NotificationInfo } from '../types/data';
 import { CardProps } from '../types/ui';
 import { COURSE_MAIN_FUNC } from '../constants/ui';
-import { toggleReadState, toggleStarState } from '../redux/actions/data';
+import { toggleReadState, toggleIgnoreState, toggleStarState } from '../redux/actions/data';
 import { setDetailContent, setDetailUrl } from '../redux/actions/ui';
 import { initiateFileDownload } from '../utils/download';
 
@@ -215,6 +215,23 @@ class ContentCard extends React.PureComponent<CardProps, never> {
       </Tooltip>
     );
 
+    const ignoreButton = (
+      <Tooltip title={content.ignored ? '取消忽略此项' : '忽略此项'}>
+        <IconButton
+          color="primary"
+          className={styles.card_action_button}
+          component="div"
+          onClick={ev => {
+            dispatch(toggleIgnoreState(content.id, !content.ignored, content.type));
+            ev.stopPropagation();
+          }}
+          onMouseDown={ev => ev.stopPropagation()}
+        >
+          <FontAwesomeIcon icon={content.ignored ? 'trash' : 'trash-alt'} />
+        </IconButton>
+      </Tooltip>
+    );
+
     let submitButton: ReactNode = null;
     let attachmentButton: ReactNode = null;
     let downloadButton: ReactNode = null;
@@ -274,6 +291,7 @@ class ContentCard extends React.PureComponent<CardProps, never> {
       <CardActions className={styles.card_action_line}>
         {starButton}
         {markReadButton}
+        {ignoreButton}
         {submitButton}
         {downloadButton}
         {attachmentButton}

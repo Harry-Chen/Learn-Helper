@@ -113,7 +113,7 @@ function update<T extends ContentInfo>(
       const newContent: ContentInfo = {
         ...c,
         courseId,
-        ignored: contentIgnore[courseId][contentType],
+        ignored: oldContent === undefined ? false : oldContent.ignored,
         type: contentType,
         courseName: courseMap.get(courseId).name,
         date: newDate,
@@ -276,6 +276,12 @@ export default function data(state: IDataState = initialState, action: DataActio
       return {
         ...state,
         [stateKey]: toggle(state[stateKey], action.id, 'starred', action.state),
+      };
+
+    case DataActionType.TOGGLE_IGNORE_STATE:
+      return {
+        ...state,
+        [stateKey]: toggle(state[stateKey], action.id, 'ignored', action.state),
       };
 
     case DataActionType.CLEAR_DATA:

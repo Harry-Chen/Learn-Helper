@@ -32,6 +32,7 @@ import { faFilter } from '@fortawesome/free-solid-svg-icons/faFilter';
 import { faBars } from '@fortawesome/free-solid-svg-icons/faBars';
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons/faAngleLeft';
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons/faTrashAlt';
 
 const ICON_TO_USE = [
   faThumbtack,
@@ -66,6 +67,7 @@ const ICON_TO_USE = [
   faAngleLeft,
   faFilter,
   faTimes,
+  faTrashAlt,
 ];
 
 ICON_TO_USE.map(i => library.add(i));
