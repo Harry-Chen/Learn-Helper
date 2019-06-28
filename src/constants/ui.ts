@@ -123,6 +123,11 @@ const SUMMARY_FUNC: IMenuItemEnum = {
     name: '所有答疑',
     type: ContentType.QUESTION,
   },
+  SUMMARY_IGNORED: {
+    icon: 'trash',
+    name: '所有忽略',
+    type: null,
+  },
 };
 
 export const SUMMARY_FUNC_LIST: IMenuItem[] = [
@@ -132,12 +137,13 @@ export const SUMMARY_FUNC_LIST: IMenuItem[] = [
   SUMMARY_FUNC.SUMMARY_FILES,
   SUMMARY_FUNC.SUMMARY_DISCUSSIONS,
   SUMMARY_FUNC.SUMMARY_QUESTIONS,
+  SUMMARY_FUNC.SUMMARY_IGNORED,
 ];
 
 const SETTINGS_FUNC: IMenuItemEnum = {
   SETTINGS_IGNORE: {
     icon: 'cog',
-    name: '管理忽略项',
+    name: '管理隐藏项',
     handler: (dispatch: Dispatch<any>) => {
       dispatch(showContentIgnoreSetting());
     },

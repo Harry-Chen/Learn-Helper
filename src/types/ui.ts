@@ -8,7 +8,7 @@ import { SnackbarType } from './dialogs';
 export interface IMenuItem {
   name: string;
   icon: IconName;
-  type?: ContentType;
+  type?: ContentType | null;
   handler?: (any) => any;
 }
 

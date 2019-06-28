@@ -20,7 +20,7 @@ interface IUiState {
   ignoreWrongSemester: boolean;
   showLogoutDialog: boolean;
   showClearDataDialog: boolean;
-  cardTypeFilter?: ContentType;
+  cardTypeFilter?: ContentType | null;
   cardVisibilityThreshold: number;
   cardCourseFilter?: CourseInfo;
   cardListTitle: string;

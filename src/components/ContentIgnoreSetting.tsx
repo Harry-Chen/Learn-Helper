@@ -22,11 +22,11 @@ class ContentIgnoreSetting extends React.PureComponent<ContentIgnoreSettingProps
   public render() {
     return (
       <div className={styles.ignore_setting}>
-        <span className={styles.ignore_setting_title}>管理忽略项</span>
+        <span className={styles.ignore_setting_title}>管理隐藏项</span>
         <div className={styles.ignore_setting_description}>
           此处的更改在下一次刷新时生效，并且只在汇总功能中起作用。
           <br />
-          如果您重新启用一个忽略的项目，原本的项目属性（是否已读、加星标）不会发生变化。
+          如果您重新启用一个隐藏的项目，原本的项目属性（是否已读、加星标）不会发生变化。
         </div>
         <div className={styles.ignore_setting_container}>
           <Paper>

@@ -53,13 +53,19 @@ export const generateCardList = (
 
     // filter cards to show
     newCards = allContent.map(l => data[`${l.type}Map`].get(l.id));
-    if (type !== undefined) newCards = newCards.filter(l => l.type === type);
-    if (course !== undefined) {
-      newCards = newCards.filter(l => l.courseId === course.id);
+    if (type === null) {
+      // show ignored items
+      newCards = newCards.filter(l => l.ignored);
     } else {
-      // in summary list, respect all ignore marks
-      newCards = newCards.filter(l =>
-        !data.contentIgnore[l.courseId][l.type] && !l.ignored);
+      // normal items
+      if (type !== undefined) newCards = newCards.filter(l => l.type === type);
+      if (course !== undefined) {
+        newCards = newCards.filter(l => l.courseId === course.id);
+      } else {
+        // in summary list, respect all ignore marks
+        newCards = newCards.filter(l =>
+          !data.contentIgnore[l.courseId][l.type] && !l.ignored);
+      }
     }
 
     // title filter change does not trigger re-sorting

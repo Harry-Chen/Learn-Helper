@@ -11,7 +11,7 @@ interface IUiAction {
   snackbarContent?: string;
   snackbarType?: SnackbarType;
   loadingProgress?: number;
-  cardType?: ContentType;
+  cardType?: ContentType | null;
   cardCourse?: CourseInfo;
   title?: string;
   url?: string;
@@ -105,7 +105,7 @@ export const toggleIgnoreWrongSemester = (state: boolean): UiAction => {
   };
 };
 
-export const setCardFilter = (cardType?: ContentType, cardCourse?: CourseInfo): UiAction => {
+export const setCardFilter = (cardType?: ContentType | null, cardCourse?: CourseInfo): UiAction => {
   return {
     type: UiActionType.CARD_FILTER,
     cardType,
