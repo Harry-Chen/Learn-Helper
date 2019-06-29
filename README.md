@@ -66,6 +66,17 @@ Use `yarn run dev-server` to watch changes in `src/` and start Webpack Dev Serve
 
 ## Revision History
 
+**v4.1.0**
+* ADD conversion to non-numerical grades (A+/B/C/...)
+* ADD ignoring of single item, refine the logic of course module hiding
+* ADD bulk downloading of unread files
+* ADD detailed time in detail pane
+* FIX state storing problem in FireFox
+* FIX homework not marked as unread after being graded
+* FIX garbled text shown in detail pane when notification has empty body
+* FIX wrong notice when certain module of course is disabled
+
+
 **v4.0.3**
 * FIX bugs in `ContentDetail` and `ContentIgnoreSettings`
 * Avoid opening too many instances when clicking on extension icon

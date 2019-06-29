@@ -1,19 +1,18 @@
 {
-	"name" : "Learn Helper",
-	"version":"4.0.3",
-	"minimum_chrome_version" : "55",
-	"manifest_version" : 2,
-	"description":"清华大学网络学堂助手，集中展示课程公告、作业、DDL等信息，提供一站式服务",
-	"content_scripts":[
-	],
-	"background" : {
+	"name": "Learn Helper",
+	"version": "4.1.0",
+	"minimum_chrome_version": "55",
+	"manifest_version": 2,
+	"description": "清华大学网络学堂助手，集中展示课程公告、作业、DDL等信息，提供一站式服务",
+	"content_scripts": [],
+	"background": {
         "scripts": [
 			"browser-polyfill.min.js",
 			"background.js"
 		],
         "persistent": false
 	},
-	"permissions" : [
+	"permissions": [
 		"storage",
 		"tabs",
 		"downloads",
@@ -22,9 +21,9 @@
 		"https://id.tsinghua.edu.cn/*"
 	],
 	"icons": {
-		"16" : "icons/16.png",
-		"48" : "icons/48.png",
-		"128" : "icons/128.png"
+		"16": "icons/16.png",
+		"48": "icons/48.png",
+		"128": "icons/128.png"
 	},
 	"browser_action": {
 		"default_icon": "icons/19.png",
