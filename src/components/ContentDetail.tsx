@@ -130,11 +130,19 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
     content: React.ReactNode,
     embedHtml: boolean = false,
   ): React.ReactNode => {
+    let contentHTML: string;
+    if (embedHtml) {
+      contentHTML = content as string;
+      // if content starts with mysterious string, strip it away
+      if (contentHTML.startsWith('\xC2\x9E\xC3\xA9\x65')) {
+        contentHTML = contentHTML.substr(5);
+      }
+    }
     return (
       <tr className={styles.content_detail_line}>
         <td>{name}：</td>
         {embedHtml ? (
-          <td dangerouslySetInnerHTML={{ __html: content as string }} />
+          <td dangerouslySetInnerHTML={{ __html: contentHTML }} />
         ) : (
           <td>{content}</td>
         )}
