@@ -7,7 +7,7 @@ import Paper from '@material-ui/core/Paper';
 import styles from '../css/page.css';
 import { ContentDetailProps } from '../types/ui';
 import { HomeworkInfo, NotificationInfo, FileInfo } from '../types/data';
-import { formatDate } from '../utils/format';
+import { formatDateTime } from '../utils/format';
 import { setDetailUrl } from '../redux/actions/ui';
 
 class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
@@ -54,7 +54,7 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
   private generateDetailsForFile = (file: FileInfo): React.ReactNode => {
     return (
       <>
-        {this.generateLine('上传时间', formatDate(file.uploadTime))}
+        {this.generateLine('上传时间', formatDateTime(file.uploadTime))}
         {this.generateLine('访问量', file.visitCount)}
         {this.generateLine('下载量', file.downloadCount)}
         {this.generateLine('文件大小', file.size)}
@@ -67,8 +67,8 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
   private generateDetailsForHomework = (homework: HomeworkInfo): React.ReactNode => {
     return (
       <>
-        {this.generateLine('截止日期', formatDate(homework.deadline))}
-        {homework.submitted ? this.generateLine('提交时间', formatDate(homework.submitTime)) : null}
+        {this.generateLine('截止时间', formatDateTime(homework.deadline))}
+        {homework.submitted ? this.generateLine('提交时间', formatDateTime(homework.submitTime)) : null}
         {homework.submittedContent !== undefined
           ? this.generateLine('提交内容', homework.submittedContent, true)
           : null}
@@ -78,7 +78,7 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
               this.generateLink(homework.submittedAttachmentName, homework.submittedAttachmentUrl),
             )
           : null}
-        {homework.graded ? this.generateLine('评阅时间', formatDate(homework.gradeTime)) : null}
+        {homework.graded ? this.generateLine('评阅时间', formatDateTime(homework.gradeTime)) : null}
         {homework.graded ? this.generateLine('评阅者', homework.graderName) : null}
         {homework.gradeLevel ? this.generateLine('成绩', homework.gradeLevel) :
           homework.graded ? this.generateLine('成绩', homework.grade ? homework.grade : '无评分') : null}
@@ -108,7 +108,7 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
   private generateDetailsForNotification = (notification: NotificationInfo): React.ReactNode => {
     return (
       <>
-        {this.generateLine('发布日期', formatDate(notification.publishTime))}
+        {this.generateLine('发布时间', formatDateTime(notification.publishTime))}
         {this.generateLine('发布人', notification.publisher)}
         {this.generateLine('重要性', notification.markedImportant ? '高' : '普通')}
         {notification.attachmentName !== undefined
