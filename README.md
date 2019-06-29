@@ -66,6 +66,9 @@ Use `yarn run dev-server` to watch changes in `src/` and start Webpack Dev Serve
 
 ## Revision History
 
+**v4.1.1**
+* FIX wrong encoding of notifications (caused by `thu-learn-lib`)
+
 **v4.1.0**
 * ADD conversion to non-numerical grades (A+/B/C/...)
 * ADD ignoring of single item, refine the logic of course module hiding
