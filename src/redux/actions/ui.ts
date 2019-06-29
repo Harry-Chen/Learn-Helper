@@ -3,7 +3,9 @@ import { ContentType, CourseInfo } from 'thu-learn-lib/lib/types';
 import { UiActionType } from './actionTypes';
 
 import { SnackbarType } from '../../types/dialogs';
-import { ContentInfo } from '../../types/data';
+import { ContentInfo, FileInfo } from '../../types/data';
+import { initiateFileDownload } from '../../utils/download';
+import { toggleReadState } from './data';
 
 interface IUiAction {
   type: UiActionType;
@@ -123,6 +125,18 @@ export const setCardListTitle = (title: string): UiAction => {
 export const loadMoreCard = (): UiAction => {
   return {
     type: UiActionType.LOAD_MORE_CARD,
+  };
+};
+
+export const downloadAllUnreadFiles = (contents: ContentInfo[]) => {
+  return (dispatch, getState) => {
+    for (const c of contents) {
+      if (c.type === ContentType.FILE && !c.hasRead) {
+        const file = c as FileInfo;
+        initiateFileDownload(file.downloadUrl);
+        dispatch(toggleReadState(file.id, true, ContentType.FILE));
+      }
+    }
   };
 };
 

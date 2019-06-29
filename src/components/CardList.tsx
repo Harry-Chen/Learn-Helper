@@ -1,21 +1,25 @@
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import cn from 'classnames';
 
 import List from '@material-ui/core/List';
+import Button from '@material-ui/core/Button';
 import ListSubheader from '@material-ui/core/ListSubheader';
 
 import { CardListProps } from '../types/ui';
 import ContentCard from './ContentCard';
+
 import styles from '../css/list.css';
 
 import { STATE_DATA, STATE_HELPER, STATE_UI } from '../redux/reducers';
 import { DataState } from '../redux/reducers/data';
 import { UiState } from '../redux/reducers/ui';
 import { HelperState } from '../redux/reducers/helper';
-import { loadMoreCard } from '../redux/actions/ui';
+import { downloadAllUnreadFiles, loadMoreCard } from '../redux/actions/ui';
 import { generateCardList } from '../redux/selectors';
+import { ContentType } from 'thu-learn-lib/lib/types';
+import { ContentInfo } from '../types/data';
 
 const initialState = {
   onTop: true,
@@ -39,7 +43,7 @@ class CardList extends React.PureComponent<CardListProps, typeof initialState> {
   }
 
   public render() {
-    const { contents, threshold, loadMore, ...rest } = this.props;
+    const { contents, threshold, loadMore, unreadFileCount, ...rest } = this.props;
     const filtered = contents.slice(0, threshold);
 
     const canLoadMore = threshold < contents.length;
@@ -67,7 +71,19 @@ class CardList extends React.PureComponent<CardListProps, typeof initialState> {
             <ListSubheader
               component="div"
               className={cn(styles.card_list_header, styles.card_list_header_floating)}
-            />
+            >
+              {unreadFileCount === 0 ? null : (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => {
+                    this.props.downloadAllUnreadFiles(contents);
+                  }}
+                >
+                  下载所有未读文件（共{unreadFileCount}个）
+              </Button>
+              )}
+            </ListSubheader>
           }
         >
           {filtered.map(c => (
@@ -100,16 +116,22 @@ const mapStateToProps = (state): Partial<CardListProps> => {
     };
   }
 
+  const generatedCardList = generateCardList(data, data.lastUpdateTime, ui.cardTypeFilter,
+    ui.cardCourseFilter, ui.titleFilter);
+
+  let unreadFileCount = 0;
+
+  generatedCardList.contents.forEach(c => {
+    if (c.type === ContentType.FILE && !c.hasRead) {
+      unreadFileCount += 1;
+    }
+  });
+
   return {
     type: ui.cardTypeFilter,
     course: ui.cardCourseFilter,
-    ...generateCardList(
-      data,
-      data.lastUpdateTime,
-      ui.cardTypeFilter,
-      ui.cardCourseFilter,
-      ui.titleFilter,
-    ),
+    ...generatedCardList,
+    unreadFileCount,
     threshold: ui.cardVisibilityThreshold,
   };
 };
@@ -118,6 +140,9 @@ const mapDispatchToProps = (dispatch): Partial<CardListProps> => {
   return {
     loadMore: () => {
       dispatch(loadMoreCard());
+    },
+    downloadAllUnreadFiles: (contents: ContentInfo[]) => {
+      dispatch(downloadAllUnreadFiles(contents));
     },
   };
 };

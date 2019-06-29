@@ -38,7 +38,9 @@ interface ICardFilter {
 interface ICardListProps extends IDispatchableComponentProps, Partial<ICardFilter> {
   contents: ContentInfo[];
   threshold: number;
+  unreadFileCount: number;
   loadMore: () => any;
+  downloadAllUnreadFiles: (contents: ContentInfo[]) => any;
 }
 
 interface ICardProps extends IDispatchableComponentProps {
