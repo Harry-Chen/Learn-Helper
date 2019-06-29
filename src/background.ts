@@ -5,6 +5,6 @@ const clickListener = () => {
   });
 };
 
-if (!chrome.browserAction.onClicked.hasListener(clickListener)) {
-  chrome.browserAction.onClicked.addListener(clickListener);
+if (!browser.browserAction.onClicked.hasListener(clickListener)) {
+  browser.browserAction.onClicked.addListener(clickListener);
 }

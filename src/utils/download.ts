@@ -1,5 +1,5 @@
 export function initiateFileDownload(url: string, filename?: string) {
-  chrome.downloads.download({
+  browser.downloads.download({
     url,
     filename,
   });

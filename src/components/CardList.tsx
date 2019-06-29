@@ -43,7 +43,8 @@ class CardList extends React.PureComponent<CardListProps, typeof initialState> {
   }
 
   public render() {
-    const { contents, threshold, loadMore, unreadFileCount, ...rest } = this.props;
+    const { contents, threshold, loadMore,
+      unreadFileCount, downloadAllUnreadFiles, ...rest } = this.props;
     const filtered = contents.slice(0, threshold);
 
     const canLoadMore = threshold < contents.length;
@@ -77,7 +78,7 @@ class CardList extends React.PureComponent<CardListProps, typeof initialState> {
                   variant="contained"
                   color="primary"
                   onClick={() => {
-                    this.props.downloadAllUnreadFiles(contents);
+                    downloadAllUnreadFiles(contents);
                   }}
                 >
                   下载所有未读文件（共{unreadFileCount}个）
