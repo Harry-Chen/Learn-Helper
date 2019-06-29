@@ -44,7 +44,7 @@ class LoginDialog extends React.PureComponent<ILoginDialogProps, never> {
             <a href={'about.html'} target={'_blank'}>
               此页面
             </a>
-            中的所有内容。 否则，请立刻停止使用并从 Chrome 中卸载本插件。
+            中的所有内容。 否则，请立刻停止使用并从浏览器中卸载本插件。
           </DialogContentText>
         </DialogContent>
         <DialogContent>

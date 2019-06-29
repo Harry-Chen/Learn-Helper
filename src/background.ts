@@ -1,5 +1,5 @@
 const clickListener = () => {
-  chrome.tabs.create({
+  browser.tabs.create({
     url: 'index.html',
   });
 };

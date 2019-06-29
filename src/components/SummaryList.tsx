@@ -84,7 +84,7 @@ const mapStateToProps = (state): SummaryListProps => {
     numbers[type] = count;
     total += count;
   }
-  chrome.browserAction.setBadgeText({ text: total === 0 ? '' : String(total) });
+  browser.browserAction.setBadgeText({ text: total === 0 ? '' : String(total) });
   return { numbers };
 };
 
