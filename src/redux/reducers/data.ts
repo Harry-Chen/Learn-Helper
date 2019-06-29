@@ -1,7 +1,8 @@
 import {
   ContentType,
   CourseContent,
-  CourseInfo, Homework,
+  CourseInfo,
+  Homework,
   SemesterInfo,
   SemesterType,
 } from 'thu-learn-lib/lib/types';
@@ -101,9 +102,12 @@ function update<T extends ContentInfo>(
             if (newGradeTime && !oldGradeTime) {
               // newly-graded homework
               updated = true;
-            } else if (newGradeTime && oldGradeTime &&
+            } else if (
+              newGradeTime &&
+              oldGradeTime &&
               // re-graded homework
-              newGradeTime.getTime() !== oldGradeTime.getTime()) {
+              newGradeTime.getTime() !== oldGradeTime.getTime()
+            ) {
               updated = true;
             }
           }
@@ -217,8 +221,13 @@ export default function data(state: IDataState = initialState, action: DataActio
     case DataActionType.UPDATE_CONTENT:
       return {
         ...state,
-        [stateKey]: update(state[stateKey], action.contentType,
-          action.content, state.courseMap,state.contentIgnore),
+        [stateKey]: update(
+          state[stateKey],
+          action.contentType,
+          action.content,
+          state.courseMap,
+          state.contentIgnore,
+        ),
         lastUpdateTime: new Date(),
         updateFinished: false,
       };

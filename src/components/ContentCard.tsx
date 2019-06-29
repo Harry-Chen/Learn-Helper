@@ -72,7 +72,7 @@ class ContentCard extends React.PureComponent<CardProps, never> {
     }
     let grade = '';
     if (homework.grade === undefined) {
-      grade =  '无评分';
+      grade = '无评分';
     } else {
       grade = homework.gradeLevel ? homework.gradeLevel : `${homework.grade}分`;
     }

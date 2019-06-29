@@ -22,8 +22,10 @@ function toDateString(date: Date, padding: boolean): string {
 }
 
 function toTimeString(date: Date): string {
-  return `${zeroPad(date.getHours(), 2)}:${zeroPad(date.getMinutes(),
-    2)}:${zeroPad(date.getSeconds(), 2)}`;
+  return `${zeroPad(date.getHours(), 2)}:${zeroPad(date.getMinutes(), 2)}:${zeroPad(
+    date.getSeconds(),
+    2,
+  )}`;
 }
 
 export function formatDate(date?: Date): string {

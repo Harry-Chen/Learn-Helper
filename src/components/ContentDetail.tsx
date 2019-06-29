@@ -20,8 +20,11 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
     const isNotification = content.type === ContentType.NOTIFICATION;
     const isFile = content.type === ContentType.FILE;
 
-    let contentDetail = isHomework ? homework.description
-      : isFile ? file.description : notification.content;
+    let contentDetail = isHomework
+      ? homework.description
+      : isFile
+      ? file.description
+      : notification.content;
     if (contentDetail !== undefined) contentDetail = contentDetail.trim();
     if (contentDetail === undefined || contentDetail === '') contentDetail = '详情为空';
 
@@ -68,7 +71,9 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
     return (
       <>
         {this.generateLine('截止时间', formatDateTime(homework.deadline))}
-        {homework.submitted ? this.generateLine('提交时间', formatDateTime(homework.submitTime)) : null}
+        {homework.submitted
+          ? this.generateLine('提交时间', formatDateTime(homework.submitTime))
+          : null}
         {homework.submittedContent !== undefined
           ? this.generateLine('提交内容', homework.submittedContent, true)
           : null}
@@ -80,8 +85,11 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
           : null}
         {homework.graded ? this.generateLine('评阅时间', formatDateTime(homework.gradeTime)) : null}
         {homework.graded ? this.generateLine('评阅者', homework.graderName) : null}
-        {homework.gradeLevel ? this.generateLine('成绩', homework.gradeLevel) :
-          homework.graded ? this.generateLine('成绩', homework.grade ? homework.grade : '无评分') : null}
+        {homework.gradeLevel
+          ? this.generateLine('成绩', homework.gradeLevel)
+          : homework.graded
+          ? this.generateLine('成绩', homework.grade ? homework.grade : '无评分')
+          : null}
         {homework.gradeContent !== undefined
           ? this.generateLine('评阅内容', homework.gradeContent, true)
           : null}
@@ -141,11 +149,7 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
     return (
       <tr className={styles.content_detail_line}>
         <td>{name}：</td>
-        {embedHtml ? (
-          <td dangerouslySetInnerHTML={{ __html: contentHTML }} />
-        ) : (
-          <td>{content}</td>
-        )}
+        {embedHtml ? <td dangerouslySetInnerHTML={{ __html: contentHTML }} /> : <td>{content}</td>}
       </tr>
     );
   };
@@ -164,7 +168,11 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
         </a>
       );
     } else {
-      return <a href={url} target={'_blank'}>{name}</a>;
+      return (
+        <a href={url} target={'_blank'}>
+          {name}
+        </a>
+      );
     }
   };
 }

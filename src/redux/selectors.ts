@@ -63,8 +63,7 @@ export const generateCardList = (
         newCards = newCards.filter(l => l.courseId === course.id);
       } else {
         // in summary list, respect all ignore marks
-        newCards = newCards.filter(l =>
-          !data.contentIgnore[l.courseId][l.type] && !l.ignored);
+        newCards = newCards.filter(l => !data.contentIgnore[l.courseId][l.type] && !l.ignored);
       }
     }
 
@@ -76,12 +75,16 @@ export const generateCardList = (
       if (!a.starred && b.starred) return 1;
       if (!a.hasRead && b.hasRead) return -1;
       if (a.hasRead && !b.hasRead) return 1;
-      if (a.type === ContentType.HOMEWORK
-        && (a as Homework).deadline.getTime() > new Date().getTime()) {
+      if (
+        a.type === ContentType.HOMEWORK &&
+        (a as Homework).deadline.getTime() > new Date().getTime()
+      ) {
         return -1;
       }
-      if (b.type === ContentType.HOMEWORK
-        && (b as Homework).deadline.getTime() > new Date().getTime()) {
+      if (
+        b.type === ContentType.HOMEWORK &&
+        (b as Homework).deadline.getTime() > new Date().getTime()
+      ) {
         return 1;
       }
       return b.date.getTime() - a.date.getTime();

@@ -73,11 +73,13 @@ const mapStateToProps = (state): SummaryListProps => {
     const map = data[mapName] as Map<string, ContentInfo>;
     let count = 0;
     for (const [_, c] of map.entries()) {
-      if (!c.ignored && !data.contentIgnore[c.courseId][type] && !c.hasRead || (
+      if (
+        (!c.ignored && !data.contentIgnore[c.courseId][type] && !c.hasRead) ||
         // unfinished homework before deadline is counted in
-        (c as HomeworkInfo).submitted === false &&
-        (c as HomeworkInfo).deadline.getTime() > new Date().getTime()
-      )) count += 1;
+        ((c as HomeworkInfo).submitted === false &&
+          (c as HomeworkInfo).deadline.getTime() > new Date().getTime())
+      )
+        count += 1;
     }
     numbers[type] = count;
     total += count;
