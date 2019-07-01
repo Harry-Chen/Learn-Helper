@@ -42,6 +42,9 @@ export async function versionMigrate(store) {
     // migrate from version < 4.0.0, clearing all data
     console.info('Migrating from legacy version, all data cleaned');
     await browser.storage.local.clear();
+    await browser.storage.local.set({
+      [STORAGE_KEY_VERSION]: currentVersion,
+    });
   } else if (oldVersion !== currentVersion) {
     // for future migration
     store.dispatch(setDetailUrl('changelog.html'));
