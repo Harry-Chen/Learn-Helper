@@ -66,6 +66,10 @@ Use `yarn run dev-server` to watch changes in `src/` and start Webpack Dev Serve
 
 ## Revision History
 
+**v4.1.2**
+* FIX error when loading content from disabled modules of courses
+* ADD general handler to clear all data when fatal error occurs
+
 **v4.1.1**
 * FIX wrong encoding of notifications (caused by `thu-learn-lib`)
 

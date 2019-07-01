@@ -65,6 +65,7 @@ interface IAppProps extends IDispatchableComponentProps {
   semesterTitle: string;
   openSidebar: () => any;
   closeSidebar: () => any;
+  resetApp: () => any;
   setTitleFilter: (filter: string) => any;
 }
 

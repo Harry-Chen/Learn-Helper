@@ -139,7 +139,9 @@ export function refresh() {
 
       dispatch(setProgressBar(10));
 
-      const courses = await helper.getCourseList(s.id);
+      // get the latest semester id, since it can either be changed or not
+      const currentSemesterId = (getState()[STATE_DATA] as DataState).semester.id;
+      const courses = await helper.getCourseList(currentSemesterId);
       dispatch(updateCourses(courses));
       dispatch(setProgressBar(20));
 

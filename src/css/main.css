@@ -3,6 +3,12 @@
   margin-left: -8px !important;
 }
 
+.app_error_text {
+    text-align: center;
+    margin: 10px auto !important;
+    display: block !important;
+}
+
 .sidebar {}
 
 .sidebar_wrapper {
