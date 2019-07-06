@@ -66,6 +66,9 @@ Use `yarn run dev-server` to watch changes in `src/` and start Webpack Dev Serve
 
 ## Revision History
 
+**v4.1.3**
+* FIX wrong logic in version migration which clears data at each start
+
 **v4.1.2**
 * FIX error when loading content from disabled modules of courses
 * ADD general handler to clear all data when fatal error occurs
