@@ -21,9 +21,12 @@ function rewriteCookie(e) {
   return { responseHeaders: e.responseHeaders }
 }
 
+const opts = ['blocking', 'responseHeaders'];
+if(navigator.userAgent.indexOf('Chrome') !== -1) opts.push('extraHeaders')
+
 if(!browser.webRequest.onHeadersReceived.hasListener(rewriteCookie))
   browser.webRequest.onHeadersReceived.addListener(rewriteCookie, {
     urls: [
       'https://learn2018.tsinghua.edu.cn/*',
     ],
-  }, ['blocking', 'responseHeaders', 'extraHeaders']);
+  }, opts);
