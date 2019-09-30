@@ -10,12 +10,15 @@
 			"browser-polyfill.min.js",
 			"background.js"
 		],
-        "persistent": false
+        "persistent": true
 	},
 	"permissions": [
 		"storage",
 		"tabs",
 		"downloads",
+        "cookies",
+        "webRequest",
+        "webRequestBlocking",
 		"https://learn.tsinghua.edu.cn/*",
 		"https://learn2018.tsinghua.edu.cn/*",
 		"https://id.tsinghua.edu.cn/*"
