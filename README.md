@@ -33,11 +33,11 @@ If any of these criteria is met, any usage of code, without explicit authorizati
 
 * provide a Evernote-like materialized UI
 * collect all data of Web Learning
-	* Homework
-	* Notification
-	* File
-	* Discussion
-	* Question
+  * Homework
+  * Notification
+  * File
+  * Discussion
+  * Question
 * provide new message reminder and highlight messages
 * provide a `Priority Inbox` like Gmail
 * provide a off-line mode, cache all message that you have already read
@@ -51,6 +51,7 @@ Or you can install the unpacked version from releases
 ## Build
 
 Learn Helper is built using `yarn`:
+
 ```bash
 yarn
 yarn run dev-build # for develop build
@@ -66,17 +67,27 @@ Use `yarn run dev-server` to watch changes in `src/` and start Webpack Dev Serve
 
 ## Revision History
 
-**v4.1.3**
+### v4.1.4
+
+* FIX crash after dropping courses
+* FIX wrong order of undue homework in card list
+* FIX ignored homework counting in badges
+
+### v4.1.3
+
 * FIX wrong logic in version migration which clears data at each start
 
-**v4.1.2**
+### v4.1.2
+
 * FIX error when loading content from disabled modules of courses
 * ADD general handler to clear all data when fatal error occurs
 
-**v4.1.1**
+### v4.1.1
+
 * FIX wrong encoding of notifications (caused by `thu-learn-lib`)
 
-**v4.1.0**
+### v4.1.0
+
 * ADD conversion to non-numerical grades (A+/B/C/...)
 * ADD ignoring of single item, refine the logic of course module hiding
 * ADD bulk downloading of unread files
@@ -86,79 +97,95 @@ Use `yarn run dev-server` to watch changes in `src/` and start Webpack Dev Serve
 * FIX garbled text shown in detail pane when notification has empty body
 * FIX wrong notice when certain module of course is disabled
 
+### v4.0.3
 
-**v4.0.3**
 * FIX bugs in `ContentDetail` and `ContentIgnoreSettings`
 * Avoid opening too many instances when clicking on extension icon
 * Switch to WebExtension API for file downloading
 * Release Firefox version!
 
-**v4.0.2**
+### v4.0.2
+
 * FIX whitespace warping problem in detail page
 * ADD timeout judgement for login process
 * ADD detail page for files
 
-**v4.0.1**
+### v4.0.1
+
 * FIX url error in attachment of notification
 * FIX too wide detail pane on narrow-screen devices
 
-**v4.0.0**
+### v4.0.0
+
 * Rewrite use React (with Material-UI) + Redux
 * ADD support for learn2018
 * REMOVE support for all other versions
 * ADD chrome badge to remind unread message count
 * ADD card title filter
 
-**v3.3.1**
+### v3.3.1
+
 * FIX discusstion reply bug
 
-**v3.3.0**
+### v3.3.0
+
 * ADD discusstion collection
 * FIX icon error
 * rebuild project, using grunt build completely
 
-**v3.2.3**
+### v3.2.3
+
 * FIX display items repeatly when refresh
 
-**v3.2.2**
+### v3.2.2
+
 * add installation checking code
 
-**v3.2.0**
+### v3.2.0
+
 * hide term-model when first time open
 * move to Chrome Web Store
 
-**v3.1.0**
+### v3.1.0
+
 * FIX clear div when clearing data
 * automaticaly switch to new term
 
-**v3.0.1**
+### v3.0.1
+
 * css fix
 
-**v3.0.0**
+### v3.0.0
+
 * move all logic to `background.iced`
 * auto login after long time no-operation
 * do not refresh data when reopen in 5min
 * add off-line mode for homework and announcement by adding a cache
 
-**v2.2.1**
+### v2.2.1
+
 * bug fixed
 
-**v2.2.0**
+### v2.2.0
+
 * FIX wrong href target
 * ignore unfinished homework that exceed the time limit
 
-**v2.1.0**
+### v2.1.0
+
 * ADD file collection function
 * add function to update database smoothly
 * ADD changelog page
 * FIX bug of displaying course name #4
 * FIX unread message number
 
-**v2.0.1**
+### v2.0.1
+
 * FIX refresh button bug
 * FIX security problem of saved password
 * show version info in index page
 
-**v2.0.0**
+### v2.0.0
+
 * evernote-like UI
 * collect Homework and Announcement
