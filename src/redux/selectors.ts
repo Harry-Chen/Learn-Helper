@@ -71,11 +71,10 @@ export const generateCardList = (
       if (a === b) return 0;
       if (a) return -1;
       if (b) return 1;
-    }
+    };
 
     // sort by starred, hasRead, notDue (homework only), and time
     newCards.sort((a, b) => {
-
       let result = compareBoolean(a.starred, b.starred);
       if (result != 0) return result;
       result = compareBoolean(!a.hasRead, !b.hasRead);
@@ -84,8 +83,7 @@ export const generateCardList = (
       const bNotDue = b.type === ContentType.HOMEWORK && b.date.getTime() > new Date().getTime();
       result = compareBoolean(aNotDue, bNotDue);
       if (result != 0) return result;
-      return b.date.getTime() - a.date.getTime()
-
+      return b.date.getTime() - a.date.getTime();
     });
   }
 

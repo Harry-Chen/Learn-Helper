@@ -49,7 +49,4 @@ const mapDispatchToProps = (dispatch): Partial<ICommonDialogProps> => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(LogoutDialog);
+export default connect(mapStateToProps, mapDispatchToProps)(LogoutDialog);

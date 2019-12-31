@@ -13,7 +13,6 @@
     "build": "webpack --config webpack.prod.js",
     "dev-build": "webpack --config webpack.dev.js",
     "dev-watch": "webpack -w --config webpack.dev.js",
-    "dev-server": "webpack-dev-server --config webpack.dev.js --open",
     "lint": "tslint 'src/**/*.{ts, tsx}'"
   },
   "devDependencies": {

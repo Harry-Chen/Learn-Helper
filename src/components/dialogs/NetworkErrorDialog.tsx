@@ -51,7 +51,4 @@ const mapDispatchToProps = (dispatch): Partial<ICommonDialogProps> => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(NetworkErrorDialog);
+export default connect(mapStateToProps, mapDispatchToProps)(NetworkErrorDialog);

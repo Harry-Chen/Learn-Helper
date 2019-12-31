@@ -35,7 +35,4 @@ const mapDispatchToProps = (dispatch): Partial<ICommonDialogProps> => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ClearDataDialog);
+export default connect(mapStateToProps, mapDispatchToProps)(ClearDataDialog);

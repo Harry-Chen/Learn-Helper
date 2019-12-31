@@ -34,7 +34,6 @@ export async function removeStoredCredential() {
 }
 
 export async function versionMigrate(store) {
-
   const oldVersion = (await browser.storage.local.get([STORAGE_KEY_VERSION]))[STORAGE_KEY_VERSION];
   const currentVersion = (await (await fetch('/manifest.json')).json()).version;
 

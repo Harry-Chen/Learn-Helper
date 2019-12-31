@@ -58,7 +58,4 @@ const mapDispatchToProps = (dispatch): Partial<ICommonDialogProps> => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(NewSemesterDialog);
+export default connect(mapStateToProps, mapDispatchToProps)(NewSemesterDialog);

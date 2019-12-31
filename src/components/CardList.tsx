@@ -159,7 +159,4 @@ const mapDispatchToProps = (dispatch): Partial<CardListProps> => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CardList);
+export default connect(mapStateToProps, mapDispatchToProps)(CardList);

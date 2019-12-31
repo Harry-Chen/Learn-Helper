@@ -86,7 +86,7 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
     if (!this.state.hasError) {
       return (
         <>
-          <CssBaseline/>
+          <CssBaseline />
           {/* sidebar */}
           <AppBar position="fixed">
             <Toolbar>
@@ -96,7 +96,7 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
                 className={classnames(styles.app_bar_btn)}
                 onClick={this.props.openSidebar}
               >
-                <FontAwesomeIcon icon="bars"/>
+                <FontAwesomeIcon icon="bars" />
               </IconButton>
             </Toolbar>
           </AppBar>
@@ -123,7 +123,7 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
                       className={classnames(styles.app_bar_btn)}
                       onClick={this.props.closeSidebar}
                     >
-                      <FontAwesomeIcon icon="angle-left"/>
+                      <FontAwesomeIcon icon="angle-left" />
                     </IconButton>
                     <Typography
                       variant="subtitle1"
@@ -178,15 +178,15 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
               </div>
               <div className={styles.sidebar_content}>
                 <div className={classnames(styles.sidebar_component, styles.sidebar_folder)}>
-                  <SummaryList/>
-                  <Divider/>
-                  <CourseList/>
-                  <Divider/>
-                  <SettingList/>
+                  <SummaryList />
+                  <Divider />
+                  <CourseList />
+                  <Divider />
+                  <SettingList />
                 </div>
                 {/* list of cards */}
                 <div className={classnames(styles.sidebar_component, styles.sidebar_cards)}>
-                  <CardList/>
+                  <CardList />
                 </div>
               </div>
             </div>
@@ -197,35 +197,27 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
               [styles.pane_fullscreen]: this.props.paneHidden,
             })}
           >
-            <Toolbar/>
-            <DetailPane/>
+            <Toolbar />
+            <DetailPane />
           </div>
           {/* dialogs */}
-          <LoginDialog/>
-          <NetworkErrorDialog/>
-          <NewSemesterDialog/>
-          <ClearDataDialog/>
-          <LogoutDialog/>
+          <LoginDialog />
+          <NetworkErrorDialog />
+          <NewSemesterDialog />
+          <ClearDataDialog />
+          <LogoutDialog />
           {/* snackbar for notification */}
-          <ColoredSnackbar/>
+          <ColoredSnackbar />
         </>
       );
     } else {
       return (
         <>
-          <Typography
-            variant="h5"
-            className={styles.app_error_text}
-            noWrap={true}
-          >
+          <Typography variant="h5" className={styles.app_error_text} noWrap={true}>
             哎呀，出错了！
           </Typography>
           <br />
-          <Typography
-            variant="body1"
-            className={styles.app_error_text}
-            noWrap={true}
-          >
+          <Typography variant="body1" className={styles.app_error_text} noWrap={true}>
             发生了不可恢复的错误，请点击下面的按钮清除数据重新来过。
           </Typography>
           <Button
@@ -236,11 +228,7 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
           >
             清除数据
           </Button>
-          <Typography
-            variant="body1"
-            className={styles.app_error_text}
-            noWrap={true}
-          >
+          <Typography variant="body1" className={styles.app_error_text} noWrap={true}>
             错误详细消息：{this.state.lastError.toString()}
           </Typography>
         </>
@@ -278,7 +266,4 @@ const mapDispatchToProps = (dispatch): Partial<AppProps> => ({
   },
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
