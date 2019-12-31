@@ -67,6 +67,10 @@ Use `yarn run dev-server` to watch changes in `src/` and start Webpack Dev Serve
 
 ## Revision History
 
+### v4.1.5
+
+* FIX scrolling problem of sidebar
+
 ### v4.1.4
 
 * FIX crash after dropping courses
