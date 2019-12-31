@@ -68,7 +68,7 @@ export const generateCardList = (
     }
 
     const compareBoolean = (a: boolean, b: boolean) => {
-      if (a && b) return 0;
+      if (a === b) return 0;
       if (a) return -1;
       if (b) return 1;
     }

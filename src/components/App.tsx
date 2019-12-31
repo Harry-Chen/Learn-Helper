@@ -50,11 +50,7 @@ const initialState = {
 class App extends React.PureComponent<AppProps, typeof initialState> {
   public state = initialState;
 
-  private inputRef: React.RefObject<HTMLDivElement>;
-
-  componentWillMount() {
-    this.inputRef = React.createRef();
-  }
+  private inputRef: React.RefObject<HTMLDivElement> = React.createRef();
 
   componentDidCatch(error, info) {
     this.setState({ hasError: true, lastError: error });
