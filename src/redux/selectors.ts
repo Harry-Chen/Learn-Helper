@@ -67,27 +67,25 @@ export const generateCardList = (
       }
     }
 
-    // title filter change does not trigger re-sorting
-    // sort by starred, hasRead and time
-    // unfinished homework before deadline always comes before everything regular cards
+    const compareBoolean = (a: boolean, b: boolean) => {
+      if (a && b) return 0;
+      if (a) return -1;
+      if (b) return 1;
+    }
+
+    // sort by starred, hasRead, notDue (homework only), and time
     newCards.sort((a, b) => {
-      if (a.starred && !b.starred) return -1;
-      if (!a.starred && b.starred) return 1;
-      if (!a.hasRead && b.hasRead) return -1;
-      if (a.hasRead && !b.hasRead) return 1;
-      if (
-        a.type === ContentType.HOMEWORK &&
-        (a as Homework).deadline.getTime() > new Date().getTime()
-      ) {
-        return -1;
-      }
-      if (
-        b.type === ContentType.HOMEWORK &&
-        (b as Homework).deadline.getTime() > new Date().getTime()
-      ) {
-        return 1;
-      }
-      return b.date.getTime() - a.date.getTime();
+
+      let result = compareBoolean(a.starred, b.starred);
+      if (result != 0) return result;
+      result = compareBoolean(!a.hasRead, !b.hasRead);
+      if (result != 0) return result;
+      const aNotDue = a.type === ContentType.HOMEWORK && a.date.getTime() > new Date().getTime();
+      const bNotDue = b.type === ContentType.HOMEWORK && b.date.getTime() > new Date().getTime();
+      result = compareBoolean(aNotDue, bNotDue);
+      if (result != 0) return result;
+      return b.date.getTime() - a.date.getTime()
+
     });
   }
 
