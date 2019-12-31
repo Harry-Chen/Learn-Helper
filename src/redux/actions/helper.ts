@@ -110,16 +110,18 @@ export function refresh() {
     const helper = helperState.helper as Learn2018Helper;
 
     try {
-      // refresh() dispatched before logged in
+      // refresh() might be dispatched before logged in
       // which can only occur when logging in with saved credentials but failed
-      // mainly due to network disconnection, or that the user has changed his password
-      // so we can try login again
-      if (!helperState.loggedIn) {
-        const credential = await getStoredCredential();
-        const loginResult = await helper.login(credential.username, credential.password);
-        if (!loginResult) return Promise.reject(new Error('login failed again'));
-        dispatch(loggedIn());
-      }
+      // and then user choose to try again
+      // if (!helperState.loggedIn) {
+      // however we choose to login every time
+      // to avoid the confusion caused by session timeout
+      // this is not expensive anyway
+      const credential = await getStoredCredential();
+      const loginResult = await helper.login(credential.username, credential.password);
+      if (!loginResult) return Promise.reject(new Error('login failed again'));
+      dispatch(loggedIn());
+      // }
       const s = await helper.getCurrentSemester();
 
       // user required to ignore semester problem
