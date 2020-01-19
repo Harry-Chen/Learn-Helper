@@ -54,10 +54,10 @@ Learn Helper is built using `yarn`:
 
 ```bash
 yarn
-yarn run dev-build # for develop build
-yarn run dev-watch # for develop build with watching
-yarn run format # run prettier
-yarn run build # for release build
+yarn dev-build # for develop build
+yarn dev-watch # for develop build with watching
+yarn format # run prettier
+yarn build # for release build
 ```
 
 You may need to run build commands more than once to get the correct output.

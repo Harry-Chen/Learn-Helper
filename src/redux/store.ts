@@ -10,7 +10,7 @@ import immutableTransform from 'redux-persist-transform-immutable';
 import reducers, { STATE_HELPER, STATE_UI } from './reducers';
 import { STORAGE_KEY_REDUX } from '../constants';
 
-const config: PersistConfig = {
+const config: PersistConfig<any> = {
   storage: localStorage,
   transforms: [immutableTransform()],
   key: STORAGE_KEY_REDUX,

@@ -4,20 +4,15 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
 
-const htmlPlugin = new HtmlWebpackPlugin({
+const createIndex = new HtmlWebpackPlugin({
   template: "./src/index.html",
   filename: "./index.html",
   excludeChunks: ["background"]
 });
 
-const copyPlugin = new CopyPlugin([
+const copyPolyFill = new CopyPlugin([
   {from: './node_modules/webextension-polyfill/dist/browser-polyfill.min.js', to: './'}
 ]);
-
-const replacePlugin = new webpack.NormalModuleReplacementPlugin(
-  /pubsuffix\.js/,
-  path.resolve(__dirname, 'src/utils/pubsuffix_stub.js')
-);
 
 module.exports = {
   entry: {
@@ -28,7 +23,7 @@ module.exports = {
     path: path.resolve("./dist"),
     filename: "[name].js"
   },
-  plugins: [ htmlPlugin, replacePlugin, copyPlugin ],
+  plugins: [ createIndex, copyPolyFill ],
   devServer: {
     contentBase: './dist'
   },
