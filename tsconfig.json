@@ -10,7 +10,6 @@
         "experimentalDecorators": true,
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
-        "noImplicitThis": true,
-        "typeRoots": ["node_modules/@types", "node_modules/web-ext-types"]
+        "noImplicitThis": true
     }
 }
