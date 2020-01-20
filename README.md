@@ -1,5 +1,11 @@
 # Learn Helper
 
+![GitHub version](https://img.shields.io/github/package-json/v/xxr3376/Learn-Project)
+![Chrome Web Store version](https://img.shields.io/chrome-web-store/v/mdehapphdlihjjgkhmoiknmnhcjpjall)
+![Chrome Web Store users](https://img.shields.io/chrome-web-store/users/mdehapphdlihjjgkhmoiknmnhcjpjall)
+![Chrome Web Store rating](https://img.shields.io/chrome-web-store/stars/mdehapphdlihjjgkhmoiknmnhcjpjall)
+
+
 A browser extension for [Web Learning](https://learn.tsinghua.edu.cn) of Tsinghua University.
 
 ## Authors & Maintainers
