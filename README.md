@@ -2,6 +2,7 @@
 
 ![GitHub version](https://img.shields.io/github/package-json/v/xxr3376/Learn-Project)
 ![Chrome Web Store version](https://img.shields.io/chrome-web-store/v/mdehapphdlihjjgkhmoiknmnhcjpjall)
+![Mozilla Addon version](https://img.shields.io/amo/v/thu-learn-helper)
 ![Chrome Web Store users](https://img.shields.io/chrome-web-store/users/mdehapphdlihjjgkhmoiknmnhcjpjall)
 ![Chrome Web Store rating](https://img.shields.io/chrome-web-store/stars/mdehapphdlihjjgkhmoiknmnhcjpjall)
 
