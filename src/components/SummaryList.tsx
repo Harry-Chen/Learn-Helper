@@ -80,7 +80,7 @@ const mapStateToProps = (state): SummaryListProps => {
         (!c.hasRead || // all unread content
           // unfinished homework before deadline
           (!(c as HomeworkInfo).submitted &&
-            (c as HomeworkInfo).deadline.getTime() > new Date().getTime()))
+            (c as HomeworkInfo)?.deadline?.getTime() > new Date().getTime()))
       ) {
         count += 1;
       }

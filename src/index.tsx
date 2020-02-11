@@ -4,8 +4,8 @@ import { Provider } from 'react-redux';
 import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/es/integration/react';
 
-import { toggleLoginDialog, toggleNetworkErrorDialog } from './redux/actions/ui';
-import { login, refreshIfNeeded } from './redux/actions/helper';
+import { toggleLoginDialog } from './redux/actions/ui';
+import { login, loginFail, refreshIfNeeded } from './redux/actions/helper';
 import { getStoredCredential, versionMigrate } from './utils/storage';
 import { printWelcomeMessage } from './utils/console';
 import { createStore, reducer } from './redux/store';
@@ -38,10 +38,9 @@ const loadApp = () => {
         .then(() => {
           store.dispatch<any>(refreshIfNeeded());
         })
-        .catch(e => {
+        .catch((e: any) => {
           console.error(e);
-          store.dispatch(toggleLoginDialog(false));
-          store.dispatch(toggleNetworkErrorDialog(true));
+          store.dispatch<any>(loginFail());
         });
     }
   });
