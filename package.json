@@ -13,7 +13,7 @@
     "build": "webpack --config webpack.prod.js",
     "dev-build": "webpack --config webpack.dev.js",
     "dev-watch": "webpack -w --config webpack.dev.js",
-    "lint": "tslint 'src/**/*.{ts, tsx}'"
+    "lint": "tslint --fix --project tsconfig.json"
   },
   "devDependencies": {
     "@types/classnames": "^2.2.7",

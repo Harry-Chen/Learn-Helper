@@ -64,9 +64,10 @@ class CardList extends React.PureComponent<CardListProps, typeof initialState> {
 
           if (!canLoadMore) return;
           const bottomLine = self.scrollTop + self.clientHeight;
-          if (bottomLine + 180 > self.scrollHeight)
+          if (bottomLine + 180 > self.scrollHeight) {
             // 80 px on load more hint
             loadMore();
+          }
         }}
         ref={this.scrollRef}
         {...rest}

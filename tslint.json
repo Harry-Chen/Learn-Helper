@@ -10,7 +10,17 @@
         "no-console": false,
         "ter-arrow-parens": false,
         "align": false,
-        "ordered-imports": false
+        "ordered-imports": false,
+        "import-name": false,
+        "variable-name": false,
+        "jsx-no-multiline-js": false,
+        "jsx-wrap-multiline": false,
+        "jsx-no-lambda": false
     },
-    "rulesDirectory": []
+    "rulesDirectory": [],
+    "linterOptions": {
+        "exclude": [
+            "src/css"
+        ]
+    }
 }

@@ -93,7 +93,7 @@ class CourseList extends React.PureComponent<
 
   private closeAllItems = () => {
     this.props.courses.map(i => (this.state.opened[i.id] = false));
-  };
+  }
 
   private handleClick = id => {
     const nextState = !this.state.opened[id];
@@ -101,7 +101,7 @@ class CourseList extends React.PureComponent<
     this.setState({
       opened: { ...this.state.opened, [id]: nextState },
     });
-  };
+  }
 }
 
 const mapStateToProps = (state): CourseListProps => {

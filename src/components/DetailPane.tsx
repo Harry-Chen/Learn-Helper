@@ -16,7 +16,7 @@ class DetailPane extends React.PureComponent<DetailPaneProps, never> {
   public render() {
     if (this.props.showIgnoreSettings) {
       return <ContentIgnoreSetting />;
-    } else if (this.props.content !== undefined) {
+    }  if (this.props.content !== undefined) {
       return <ContentDetail content={this.props.content} />;
     } else {
       return (

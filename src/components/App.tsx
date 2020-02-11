@@ -69,18 +69,18 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
         filterShown: true,
       });
     }
-  };
+  }
 
   private handleFilter = ev => {
     this.setState({ filter: ev.target.value });
     this.props.setTitleFilter(ev.target.value);
-  };
+  }
 
   private filterBlur = () => {
     if (this.state.filterShown && this.state.filter === '') {
       this.setState({ filterShown: false });
     }
-  };
+  }
 
   public render() {
     if (!this.state.hasError) {
@@ -210,7 +210,7 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
           <ColoredSnackbar />
         </>
       );
-    } else {
+    } 
       return (
         <>
           <Typography variant="h5" className={styles.app_error_text} noWrap={true}>
@@ -233,7 +233,7 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
           </Typography>
         </>
       );
-    }
+    
   }
 }
 

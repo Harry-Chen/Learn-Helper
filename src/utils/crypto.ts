@@ -1,10 +1,8 @@
 /* tslint:disable:no-bitwise... */
 
-
 const textToChars = (text: string) => text.split('').map(c => c.charCodeAt(0));
 const byteHex = (n: number) => `0${Number(n).toString(16)}`.substr(-2);
 const applySaltToChar = (salt: string) => (code: number) => textToChars(salt).reduce((a, b) => a ^ b, code);
-
 
 export const cipher = (salt: string) => {
   return (text: string) =>
@@ -13,7 +11,6 @@ export const cipher = (salt: string) => {
       .map(byteHex)
       .join('');
 };
-
 
 export const decipher = (salt: string) => {
   return (encoded: string) =>

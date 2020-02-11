@@ -64,7 +64,7 @@ class ContentCard extends React.PureComponent<CardProps, never> {
     }
     // mark card as read
     this.props.dispatch(toggleReadState(content.id, true, content.type));
-  };
+  }
 
   private generateHomeworkGradeStatus = (homework: HomeworkInfo) => {
     if (!homework.graded) {
@@ -78,7 +78,7 @@ class ContentCard extends React.PureComponent<CardProps, never> {
     }
     grade += `（${homework.graderName}）`;
     return grade;
-  };
+  }
 
   private genStatusText() {
     const { content } = this.props;
