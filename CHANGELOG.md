@@ -1,5 +1,10 @@
 # Changelog
 
+## v4.1.6
+
+* FIX inability to login after login failed
+* FIX crash triggered by wrong badge counting
+
 ## v4.1.5
 
 * FIX scrolling problem of sidebar
