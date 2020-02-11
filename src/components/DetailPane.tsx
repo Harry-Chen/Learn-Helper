@@ -16,21 +16,21 @@ class DetailPane extends React.PureComponent<DetailPaneProps, never> {
   public render() {
     if (this.props.showIgnoreSettings) {
       return <ContentIgnoreSetting />;
-    }  if (this.props.content !== undefined) {
-      return <ContentDetail content={this.props.content} />;
-    } else {
-      return (
-        <div
-          style={{
-            height: 'calc(100% - 64px)',
-            width: '100%',
-            position: 'relative',
-          }}
-        >
-          <Iframe className={styles.web_frame} url={this.props.url} />
-        </div>
-      );
     }
+    if (this.props.content !== undefined) {
+      return <ContentDetail content={this.props.content} />;
+    }
+    return (
+      <div
+        style={{
+          height: 'calc(100% - 64px)',
+          width: '100%',
+          position: 'relative',
+        }}
+      >
+        <Iframe className={styles.web_frame} url={this.props.url} />
+      </div>
+    );
   }
 }
 

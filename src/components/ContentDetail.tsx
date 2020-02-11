@@ -52,7 +52,7 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
   private translateFileType = (type: string): string => {
     // TODO: Translate file type to human-readable representation.
     return type;
-  }
+  };
 
   private generateDetailsForFile = (file: FileInfo): React.ReactNode => {
     return (
@@ -65,7 +65,7 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
         {this.generateLine('下载文件', this.generateLink(file.title, file.downloadUrl))}
       </>
     );
-  }
+  };
 
   private generateDetailsForHomework = (homework: HomeworkInfo): React.ReactNode => {
     return (
@@ -111,7 +111,7 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
         {this.generateLine('查看作业', this.generateLink(homework.title, homework.url, true))}
       </>
     );
-  }
+  };
 
   private generateDetailsForNotification = (notification: NotificationInfo): React.ReactNode => {
     return (
@@ -131,7 +131,7 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
         )}
       </>
     );
-  }
+  };
 
   private generateLine = (
     name: string,
@@ -152,7 +152,7 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
         {embedHtml ? <td dangerouslySetInnerHTML={{ __html: contentHTML }} /> : <td>{content}</td>}
       </tr>
     );
-  }
+  };
 
   private generateLink = (name: string, url: string, inApp: boolean = false): React.ReactNode => {
     if (inApp) {
@@ -167,14 +167,13 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
           {name}
         </a>
       );
-    } 
-      return (
-        <a href={url} target={'_blank'}>
-          {name}
-        </a>
-      );
-    
-  }
+    }
+    return (
+      <a href={url} target={'_blank'}>
+        {name}
+      </a>
+    );
+  };
 }
 
 export default connect()(ContentDetail);

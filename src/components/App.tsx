@@ -69,18 +69,18 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
         filterShown: true,
       });
     }
-  }
+  };
 
   private handleFilter = ev => {
     this.setState({ filter: ev.target.value });
     this.props.setTitleFilter(ev.target.value);
-  }
+  };
 
   private filterBlur = () => {
     if (this.state.filterShown && this.state.filter === '') {
       this.setState({ filterShown: false });
     }
-  }
+  };
 
   public render() {
     if (!this.state.hasError) {
@@ -210,30 +210,29 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
           <ColoredSnackbar />
         </>
       );
-    } 
-      return (
-        <>
-          <Typography variant="h5" className={styles.app_error_text} noWrap={true}>
-            哎呀，出错了！
-          </Typography>
-          <br />
-          <Typography variant="body1" className={styles.app_error_text} noWrap={true}>
-            发生了不可恢复的错误，请点击下面的按钮清除数据重新来过。
-          </Typography>
-          <Button
-            color="secondary"
-            variant="contained"
-            className={styles.app_error_text}
-            onClick={this.props.resetApp}
-          >
-            清除数据
-          </Button>
-          <Typography variant="body1" className={styles.app_error_text} noWrap={true}>
-            错误详细消息：{this.state.lastError.toString()}
-          </Typography>
-        </>
-      );
-    
+    }
+    return (
+      <>
+        <Typography variant="h5" className={styles.app_error_text} noWrap={true}>
+          哎呀，出错了！
+        </Typography>
+        <br />
+        <Typography variant="body1" className={styles.app_error_text} noWrap={true}>
+          发生了不可恢复的错误，请点击下面的按钮清除数据重新来过。
+        </Typography>
+        <Button
+          color="secondary"
+          variant="contained"
+          className={styles.app_error_text}
+          onClick={this.props.resetApp}
+        >
+          清除数据
+        </Button>
+        <Typography variant="body1" className={styles.app_error_text} noWrap={true}>
+          错误详细消息：{this.state.lastError.toString()}
+        </Typography>
+      </>
+    );
   }
 }
 

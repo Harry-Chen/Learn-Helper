@@ -3,9 +3,8 @@ import { SemesterInfo, SemesterType } from 'thu-learn-lib/lib/types';
 export function formatSemester(semester: SemesterInfo): string {
   if (semester.type !== SemesterType.UNKNOWN) {
     return `${semester.startYear}-${semester.endYear}-${semester.type}`;
-  } 
-    return SemesterType.UNKNOWN;
-  
+  }
+  return SemesterType.UNKNOWN;
 }
 
 function zeroPad(num: number, length: number): string {
@@ -16,9 +15,8 @@ function zeroPad(num: number, length: number): string {
 function toDateString(date: Date, padding: boolean): string {
   if (padding) {
     return `${date.getFullYear()}-${zeroPad(date.getMonth() + 1, 2)}-${zeroPad(date.getDate(), 2)}`;
-  } 
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-  
+  }
+  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 }
 
 function toTimeString(date: Date): string {
@@ -31,15 +29,13 @@ function toTimeString(date: Date): string {
 export function formatDate(date?: Date): string {
   if (date === undefined) {
     return '无';
-  } 
-    return `${toDateString(date, false)}`;
-  
+  }
+  return `${toDateString(date, false)}`;
 }
 
 export function formatDateTime(date?: Date): string {
   if (date === undefined) {
     return '无';
-  } 
-    return `${toDateString(date, true)} ${toTimeString(date)}`;
-  
+  }
+  return `${toDateString(date, true)} ${toTimeString(date)}`;
 }
