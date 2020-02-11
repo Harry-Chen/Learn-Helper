@@ -40,7 +40,7 @@ interface ICardListProps extends IDispatchableComponentProps, Partial<ICardFilte
   threshold: number;
   unreadFileCount: number;
   loadMore: () => any;
-  downloadAllUnreadFiles: (contents: ContentInfo[]) => any;
+  downloadAllUnread: (contents: ContentInfo[]) => any;
 }
 
 interface ICardProps extends IDispatchableComponentProps {

@@ -1,27 +1,26 @@
-const textToChars = text => text.split('').map(c => c.charCodeAt(0));
+/* tslint:disable:no-bitwise... */
 
-export const cipher = salt => {
-  const byteHex = n => `0${Number(n).toString(16)}`.substr(-2);
-  const applySaltToChar = code => textToChars(salt).reduce((a, b) => a ^ b, code);
 
-  return text =>
-    text
-      .split('')
-      .map(textToChars)
-      .map(applySaltToChar)
+const textToChars = (text: string) => text.split('').map(c => c.charCodeAt(0));
+const byteHex = (n: number) => `0${Number(n).toString(16)}`.substr(-2);
+const applySaltToChar = (salt: string) => (code: number) => textToChars(salt).reduce((a, b) => a ^ b, code);
+
+
+export const cipher = (salt: string) => {
+  return (text: string) =>
+  textToChars(text)
+      .map(applySaltToChar(salt))
       .map(byteHex)
       .join('');
 };
 
-export const decipher = salt => {
-  const textToChars = text => text.split('').map(c => c.charCodeAt(0));
-  const applySaltToChar = code => textToChars(salt).reduce((a, b) => a ^ b, code);
 
-  return encoded =>
+export const decipher = (salt: string) => {
+  return (encoded: string) =>
     encoded
       .match(/.{1,2}/g)
       .map(hex => parseInt(hex, 16))
-      .map(applySaltToChar)
+      .map(applySaltToChar(salt))
       .map(charCode => String.fromCharCode(charCode))
       .join('');
 };

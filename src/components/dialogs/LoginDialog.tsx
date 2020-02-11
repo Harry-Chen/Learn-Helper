@@ -49,7 +49,7 @@ class LoginDialog extends React.PureComponent<ILoginDialogProps, never> {
         </DialogContent>
         <DialogContent>
           <TextField
-            fullWidth
+            fullWidth={true}
             autoFocus={true}
             margin="dense"
             id="username"
@@ -62,7 +62,7 @@ class LoginDialog extends React.PureComponent<ILoginDialogProps, never> {
             }}
           />
           <TextField
-            fullWidth
+            fullWidth={true}
             autoFocus={true}
             margin="dense"
             id="password"
