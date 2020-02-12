@@ -1,5 +1,10 @@
 # Changelog
 
+## v4.1.7
+
+* FIX wrong UI logic when login failed
+* ADD more specific error recovery message
+
 ## v4.1.6
 
 * FIX inability to login after login failed
