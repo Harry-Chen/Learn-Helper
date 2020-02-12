@@ -36,6 +36,13 @@ export const toggleLoginDialogProgress = (state: boolean): UiAction => {
   };
 };
 
+export function loginEnd() {
+  return async (dispatch, getState) => {
+    dispatch(toggleLoginDialog(false));
+    dispatch(toggleLoginDialogProgress(false));
+  }
+}
+
 export const toggleSnackbar = (state: boolean): UiAction => {
   return {
     type: UiActionType.SNACKBAR_VISIBILITY,
@@ -63,6 +70,13 @@ export const toggleProgressBar = (state: boolean): UiAction => {
     state,
   };
 };
+
+export function showSnackbar(content: string, type: SnackbarType) {
+  return async (dispatch, getState) => {
+    dispatch(setSnackbar(content, type));
+    dispatch(toggleSnackbar(true));
+  };
+}
 
 export const setSnackbar = (content: string, type: SnackbarType): UiAction => {
   return {

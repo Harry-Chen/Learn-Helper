@@ -15,7 +15,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { ILoginDialogProps } from '../../types/dialogs';
 
 import { IUiStateSlice, STATE_UI } from '../../redux/reducers';
-import { login, loginFail, refresh } from '../../redux/actions/helper';
+import { toggleLoginDialog } from '../../redux/actions/ui';
+import { login, refresh } from '../../redux/actions/helper';
 
 class LoginDialog extends React.PureComponent<ILoginDialogProps, never> {
   private username: string = '';
@@ -100,7 +101,9 @@ class LoginDialog extends React.PureComponent<ILoginDialogProps, never> {
                   this.props.dispatch<any>(refresh());
                 })
                 .catch(() => {
-                  this.props.dispatch<any>(loginFail());
+                  // here we catch only login problems
+                  // for refresh() has a try-catch block in itself
+                  this.props.dispatch<any>(toggleLoginDialog(true));
                 });
             }}
             type="submit"
