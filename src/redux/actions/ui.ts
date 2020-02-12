@@ -40,7 +40,7 @@ export function loginEnd() {
   return async (dispatch, getState) => {
     dispatch(toggleLoginDialog(false));
     dispatch(toggleLoginDialogProgress(false));
-  }
+  };
 }
 
 export const toggleSnackbar = (state: boolean): UiAction => {

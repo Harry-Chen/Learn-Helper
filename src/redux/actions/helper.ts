@@ -32,7 +32,6 @@ import { UiState } from '../reducers/ui';
 import { SnackbarType } from '../../types/dialogs';
 import { getStoredCredential, storeCredential } from '../../utils/storage';
 
-
 // here we don't catch errors in login(), for there are two cases:
 // 1. silent login when starting, then NetworkErrorDialog should be shown
 // 2. explicit login in LoginDialog, then login dialog should still be shown
@@ -96,7 +95,9 @@ export function refreshIfNeeded() {
     const data = getState()[STATE_DATA] as DataState;
     const justUpdated = new Date().getTime() - data.lastUpdateTime.getTime() <= 15 * 60 * 1000;
     if (data.updateFinished && justUpdated) {
-      dispatch(showSnackbar('离上次成功刷新不足15分钟，若需要可手动刷新', SnackbarType.NOTIFICATION));
+      dispatch(
+        showSnackbar('离上次成功刷新不足15分钟，若需要可手动刷新', SnackbarType.NOTIFICATION),
+      );
     } else {
       dispatch(refresh());
     }

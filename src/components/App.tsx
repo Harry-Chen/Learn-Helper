@@ -45,6 +45,7 @@ const initialState = {
   filter: '',
   hasError: false,
   lastError: new Error(),
+  lastErrorInfo: undefined,
 };
 
 class App extends React.PureComponent<AppProps, typeof initialState> {
@@ -53,7 +54,7 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
   private inputRef: React.RefObject<HTMLDivElement> = React.createRef();
 
   componentDidCatch(error, info) {
-    this.setState({ hasError: true, lastError: error });
+    this.setState({ hasError: true, lastError: error, lastErrorInfo: info });
   }
 
   private toggleFilter = () => {
@@ -229,7 +230,11 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
           清除数据
         </Button>
         <Typography variant="body1" className={styles.app_error_text} noWrap={true}>
-          错误详细消息：{this.state.lastError.toString()}
+          错误描述：{this.state.lastErrorInfo.toString()}
+        </Typography>
+        <br />
+        <Typography variant="body1" className={styles.app_error_text} noWrap={true}>
+          错误信息：{this.state.lastError.toString()}
         </Typography>
       </>
     );
