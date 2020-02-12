@@ -86,7 +86,7 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
   public render() {
     if (!this.state.hasError) {
       return (
-        <>
+        <main>
           <CssBaseline />
           {/* sidebar */}
           <AppBar position="fixed">
@@ -102,22 +102,22 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
             </Toolbar>
           </AppBar>
           {/* progress bar */}
-          <div className={styles.progress_area}>
+          <header className={styles.progress_area}>
             <LinearProgress
               variant="determinate"
               color={'secondary'}
               value={this.props.loadingProgress}
               hidden={!this.props.showLoadingProgressBar}
             />
-          </div>
+          </header>
           <Drawer
             className={styles.sidebar}
             variant="persistent"
             anchor="left"
             open={!this.props.paneHidden}
           >
-            <div className={styles.sidebar_wrapper}>
-              <div className={styles.sidebar_header}>
+            <nav className={styles.sidebar_wrapper}>
+              <header className={styles.sidebar_header}>
                 <div className={styles.sidebar_header_content}>
                   <Toolbar className={styles.sidebar_header_left}>
                     <IconButton
@@ -176,31 +176,31 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
                     </div>
                   </Toolbar>
                 </div>
-              </div>
-              <div className={styles.sidebar_content}>
-                <div className={classnames(styles.sidebar_component, styles.sidebar_folder)}>
+              </header>
+              <section className={styles.sidebar_content}>
+                <nav className={classnames(styles.sidebar_component, styles.sidebar_folder)}>
                   <SummaryList />
                   <Divider />
                   <CourseList />
                   <Divider />
                   <SettingList />
-                </div>
+                </nav>
                 {/* list of cards */}
-                <div className={classnames(styles.sidebar_component, styles.sidebar_cards)}>
+                <nav className={classnames(styles.sidebar_component, styles.sidebar_cards)}>
                   <CardList />
-                </div>
-              </div>
-            </div>
+                </nav>
+              </section>
+            </nav>
           </Drawer>
           {/* detail area */}
-          <div
+          <aside
             className={classnames(styles.pane_content, {
               [styles.pane_fullscreen]: this.props.paneHidden,
             })}
           >
             <Toolbar />
             <DetailPane />
-          </div>
+          </aside>
           {/* dialogs */}
           <LoginDialog />
           <NetworkErrorDialog />
@@ -209,17 +209,16 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
           <LogoutDialog />
           {/* snackbar for notification */}
           <ColoredSnackbar />
-        </>
+        </main>
       );
     }
     return (
-      <>
+      <main className={styles.app_error_section}>
         <Typography variant="h5" className={styles.app_error_text} noWrap={true}>
-          哎呀，出错了！
+          <b>哎呀，出错了！</b>
         </Typography>
-        <br />
         <Typography variant="body1" className={styles.app_error_text} noWrap={true}>
-          发生了不可恢复的错误，请点击下面的按钮清除数据重新来过。
+          发生了不可恢复的错误，如果刷新页面无法解决，请点击下面的按钮重新来过。
         </Typography>
         <Button
           color="secondary"
@@ -229,14 +228,19 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
         >
           清除数据
         </Button>
-        <Typography variant="body1" className={styles.app_error_text} noWrap={true}>
-          错误描述：{this.state.lastErrorInfo.toString()}
+        <Typography variant="body1" className={styles.app_error_text}>
+          <b>请将下面的错误信息发送给开发者，以协助解决问题，感谢支持！</b>
         </Typography>
-        <br />
-        <Typography variant="body1" className={styles.app_error_text} noWrap={true}>
-          错误信息：{this.state.lastError.toString()}
+        <Typography variant="body1" className={styles.app_error_text}>
+          错误信息：
+          <br />
+          <code>{this.state.lastError.stack}</code>
         </Typography>
-      </>
+        <Typography variant="body1" className={styles.app_error_text}>
+          错误组件：
+          <code>{this.state.lastErrorInfo.componentStack}</code>
+        </Typography>
+      </main>
     );
   }
 }

@@ -21,7 +21,7 @@ class DetailPane extends React.PureComponent<DetailPaneProps, never> {
       return <ContentDetail content={this.props.content} />;
     }
     return (
-      <div
+      <section
         style={{
           height: 'calc(100% - 64px)',
           width: '100%',
@@ -29,7 +29,7 @@ class DetailPane extends React.PureComponent<DetailPaneProps, never> {
         }}
       >
         <Iframe className={styles.web_frame} url={this.props.url} />
-      </div>
+      </section>
     );
   }
 }

@@ -29,9 +29,9 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
     if (contentDetail === undefined || contentDetail === '') contentDetail = '详情为空';
 
     return (
-      <div className={styles.content_detail}>
+      <section className={styles.content_detail}>
         <p className={styles.content_detail_title}>{content.title}</p>
-        <div className={styles.content_detail_lines}>
+        <section className={styles.content_detail_lines}>
           <table>
             <tbody>
               {this.generateLine('课程名称', content.courseName)}
@@ -40,12 +40,12 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
               {isFile ? this.generateDetailsForFile(file) : null}
             </tbody>
           </table>
-        </div>
+        </section>
         <Paper
           className={styles.content_detail_content}
           dangerouslySetInnerHTML={{ __html: contentDetail }}
         />
-      </div>
+      </section>
     );
   }
 

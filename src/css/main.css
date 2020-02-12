@@ -3,8 +3,15 @@
   margin-left: -8px !important;
 }
 
+.app_error_section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .app_error_text {
-    text-align: center;
+    /* text-align: center; */
+    white-space: pre-wrap;
     margin: 10px auto !important;
     display: block !important;
 }
