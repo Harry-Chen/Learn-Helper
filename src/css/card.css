@@ -3,10 +3,11 @@
 }
 
 .card_func_icon {
-    width: 20px;
-    height: 20px;
+    width: 32px !important;
+    height: 32px !important;
     background-color: rgba(0,0,0,.3) !important;
     color: inherit !important;
+    font-size: 1rem !important;
 }
 
 .card_first_line {
