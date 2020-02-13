@@ -20,7 +20,7 @@ const mapStateToProps = (state: IUiStateSlice): Partial<ICommonDialogProps> => {
     open: (state[STATE_UI] as UiState).showNewSemesterDialog,
     title: '检测到新学期',
     content: (
-      <section>
+      <div>
         当前学期为：{formatSemester(data.semester)}
         <br />
         当前网络学堂学期为：{formatSemester(data.fetchedSemester)}
@@ -28,7 +28,7 @@ const mapStateToProps = (state: IUiStateSlice): Partial<ICommonDialogProps> => {
         是否要进行学期切换（本学期数据将会被清空，操作不可逆）？
         <br />
         如果您选择“不再询问”，则需要手动进行缓存清理。
-      </section>
+      </div>
     ),
     firstButton: '是',
     secondButton: '否',

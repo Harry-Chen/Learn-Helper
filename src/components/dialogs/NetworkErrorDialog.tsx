@@ -16,7 +16,7 @@ const mapStateToProps = (state: IUiStateSlice): Partial<ICommonDialogProps> => {
     open: (state[STATE_UI] as UiState).showNetworkErrorDialog,
     title: '刷新课程信息失败',
     content: (
-      <section>
+      <div>
         可能原因有：
         <br />
         · 网络不太给力
@@ -26,7 +26,7 @@ const mapStateToProps = (state: IUiStateSlice): Partial<ICommonDialogProps> => {
         · 保存的用户凭据不正确（最近修改过密码？）
         <br />
         您可以选择重试、放弃刷新，或者更换新的凭据。
-      </section>
+      </div>
     ),
     firstButton: '重试刷新',
     secondButton: '离线查看',

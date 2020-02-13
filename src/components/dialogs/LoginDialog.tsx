@@ -94,17 +94,16 @@ class LoginDialog extends React.PureComponent<ILoginDialogProps, never> {
           <Button
             color="primary"
             disabled={this.props.inLoginProgress}
-            onClick={() => {
-              this.props
-                .dispatch<any>(login(this.username, this.password, this.save))
-                .then(() => {
-                  this.props.dispatch<any>(refresh());
-                })
-                .catch(() => {
-                  // here we catch only login problems
-                  // for refresh() has a try-catch block in itself
-                  this.props.dispatch<any>(toggleLoginDialog(true));
-                });
+            onClick={async () => {
+              try {
+                await this.props.dispatch<any>(login(this.username, this.password, this.save));
+                await this.props.dispatch<any>(refresh());
+              } catch (e) {
+                // here we catch only login problems
+                // for refresh() has a try-catch block in itself
+                console.log(e);
+                this.props.dispatch<any>(toggleLoginDialog(true));
+              }
             }}
             type="submit"
           >

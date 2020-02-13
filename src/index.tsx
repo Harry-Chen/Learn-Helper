@@ -15,34 +15,35 @@ import App from './components/App';
 printWelcomeMessage();
 
 const store = createStore(reducer);
-const persistor = persistStore(store, null, () => {
-  versionMigrate(store).then(loadApp);
+const persistor = persistStore(store, null, async () => {
+  await versionMigrate(store);
+  await loadApp();
 });
 
-const loadApp = () => {
-  ReactDOM.render(
+const LearnHelper = () => {
+  return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <App />
       </PersistGate>
-    </Provider>,
-    document.querySelector('#main'),
+    </Provider>
   );
-
-  getStoredCredential().then(res => {
-    if (res === null) {
-      store.dispatch(toggleLoginDialog(true));
-    } else {
-      store
-        .dispatch<any>(login(res.username, res.password, false))
-        .then(() => {
-          store.dispatch<any>(refreshIfNeeded());
-        })
-        .catch(() => {
-          // here we catch only login problems
-          // for refresh() has a try-catch block in itself
-          store.dispatch<any>(toggleNetworkErrorDialog(true));
-        });
-    }
-  });
 };
+
+const loadApp = async () => {
+  const res = await getStoredCredential();
+  if (res === null) {
+    store.dispatch(toggleLoginDialog(true));
+  } else {
+    try {
+      await store.dispatch<any>(login(res.username, res.password, false));
+      await store.dispatch<any>(refreshIfNeeded());
+    } catch (e) {
+      // here we catch only login problems
+      // for refresh() has a try-catch block in itself
+      store.dispatch<any>(toggleNetworkErrorDialog(true));
+    }
+  }
+};
+
+ReactDOM.render(<LearnHelper />, document.querySelector('#main'));
