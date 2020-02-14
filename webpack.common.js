@@ -31,7 +31,8 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        use: "ts-loader"
+        use: "ts-loader",
+        exclude: /node_modules/
       },
       {
         test: /\.css$/,
@@ -42,7 +43,8 @@ module.exports = {
               localIdentName: '[name]--[local]--[hash:base64:5]'
             }
           }
-        }]
+        }],
+        exclude: /node_modules/
       },
     ]
   },
