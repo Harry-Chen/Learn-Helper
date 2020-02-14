@@ -51,6 +51,7 @@
     "classnames": "^2.2.6",
     "immutable": "^4.0.0-rc.12",
     "lodash": "^4.17.11",
+    "preact": "^10.3.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-iframe": "^1.3.3",
@@ -63,5 +64,8 @@
     "redux-thunk": "^2.3.0",
     "thu-learn-lib": "^2.0.0",
     "webextension-polyfill": "^0.6.0"
+  },
+  "resolutions": {
+    "entities": "1.1.1"
   }
 }
