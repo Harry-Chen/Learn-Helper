@@ -41,7 +41,7 @@ const loadApp = async () => {
     } catch (e) {
       // here we catch only login problems
       // for refresh() has a try-catch block in itself
-      store.dispatch<any>(toggleNetworkErrorDialog(true));
+      store.dispatch(toggleNetworkErrorDialog(true));
     }
   }
 };

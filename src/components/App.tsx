@@ -55,6 +55,7 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
 
   componentDidCatch(error, info) {
     this.setState({ hasError: true, lastError: error, lastErrorInfo: info });
+    console.error(error);
   }
 
   private toggleFilter = () => {
@@ -234,11 +235,11 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
         <Typography variant="body1" className={styles.app_error_text}>
           错误信息：
           <br />
-          <code>{this.state.lastError.stack}</code>
+          <code>{this.state.lastError.stack ?? `${this.state.lastError.name}: ${this.state.lastError.message}`}</code>
         </Typography>
         <Typography variant="body1" className={styles.app_error_text}>
           错误组件：
-          <code>{this.state.lastErrorInfo.componentStack}</code>
+          <code>{this.state.lastErrorInfo?.componentStack ?? '无此信息'}</code>
         </Typography>
       </main>
     );
