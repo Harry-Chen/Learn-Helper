@@ -75,8 +75,7 @@ const mapStateToProps = (state): SummaryListProps => {
     for (const [_, c] of map.entries()) {
       if (
         !c.ignored &&
-        data.contentIgnore[c.courseId] && // the dict will be erased after dropping a course
-        !data.contentIgnore[c.courseId][type] &&
+        data.contentIgnore[c.courseId]?.[type] === false &&
         (!c.hasRead || // all unread content
           // unfinished homework before deadline
           (!(c as HomeworkInfo).submitted &&

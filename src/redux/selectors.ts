@@ -3,13 +3,7 @@ import { ContentType, CourseInfo, Homework } from 'thu-learn-lib/lib/types';
 import { DataState } from './reducers/data';
 import { ContentInfo } from '../types/data';
 import { CardListProps } from '../types/ui';
-import { STATE_DATA } from './reducers';
 
-export function getCourseIdListForContent(getState: () => any, contentType: ContentType) {
-  const data = getState()[STATE_DATA] as DataState;
-  const courseIDs = [...data.courseMap.keys()];
-  return courseIDs.filter(id => !data.contentIgnore[id][contentType]);
-}
 
 let oldType: ContentType;
 let oldCourse: CourseInfo;
@@ -63,7 +57,7 @@ export const generateCardList = (
         newCards = newCards.filter(l => l.courseId === course.id);
       } else {
         // in summary list, respect all ignore marks
-        newCards = newCards.filter(l => !data.contentIgnore[l.courseId][l.type] && !l.ignored);
+        newCards = newCards.filter(l => data.contentIgnore[l.courseId]?.[l.type] === false && !l.ignored);
       }
     }
 
