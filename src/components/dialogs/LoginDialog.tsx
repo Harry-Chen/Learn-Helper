@@ -29,7 +29,7 @@ class LoginDialog extends React.PureComponent<ILoginDialogProps, never> {
 
   public render(): React.ReactNode {
     return (
-      <Dialog open={this.props.open}>
+      <Dialog open={this.props.open} keepMounted={true}>
         <DialogTitle>登录网络学堂</DialogTitle>
         <DialogContent>
           <DialogContentText>

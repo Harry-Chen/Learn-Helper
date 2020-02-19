@@ -12,7 +12,7 @@ import { ICommonDialogProps } from '../../types/dialogs';
 class CommonDialog extends React.PureComponent<ICommonDialogProps, never> {
   public render(): React.ReactNode {
     return (
-      <Dialog open={this.props.open}>
+      <Dialog open={this.props.open} keepMounted={true}>
         <DialogTitle>{this.props.title}</DialogTitle>
         <DialogContent>
           <DialogContentText>{this.props.content}</DialogContentText>
