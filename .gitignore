@@ -4,3 +4,5 @@ dist/*.js
 node_modules
 legacy
 *.css.d.ts
+yarn-error.log
+

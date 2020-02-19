@@ -64,8 +64,5 @@
     "redux-thunk": "^2.3.0",
     "thu-learn-lib": "^2.0.0",
     "webextension-polyfill": "^0.6.0"
-  },
-  "resolutions": {
-    "entities": "1.1.1"
   }
 }
