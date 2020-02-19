@@ -56,7 +56,7 @@ export function login(username: string, password: string, save: boolean) {
       await Promise.race([helper.login(username, password), timeout]);
     } catch (e) {
       const error = e as FailReason;
-      dispatch(showSnackbar(`登录失败：${failReasonToString(error)}`, SnackbarType.ERROR));
+      dispatch(showSnackbar(`登录失败：${failReasonToString(error) ?? error ?? '未知错误'}`, SnackbarType.ERROR));
       dispatch(loginEnd());
       return Promise.reject(`login failed: ${error}`);
     }
