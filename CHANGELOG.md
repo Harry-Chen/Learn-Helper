@@ -1,5 +1,11 @@
 # Changelog
 
+## v4.2.0
+
+* ADD switch to `preact` and adjust bundle configuration to reduce code size (but also increase the minimal browser version)
+* ADD more information in error recovery page
+* FIX crash after dropping a course (again)
+
 ## v4.1.7
 
 * FIX wrong UI logic when login failed
