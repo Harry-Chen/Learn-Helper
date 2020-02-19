@@ -40,7 +40,6 @@ export function formatDateTime(date?: Date): string {
   return `${toDateString(date, true)} ${toTimeString(date)}`;
 }
 
-
 const FAIL_REASON_MAPPING = {
   [FailReason.BAD_CREDENTIAL]: '用户名或密码错误',
   [FailReason.ERROR_FETCH_FROM_ID]: '无法从 id.tsinghua.edu.cn 获取票据',

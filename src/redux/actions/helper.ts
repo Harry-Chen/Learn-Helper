@@ -38,7 +38,6 @@ import { getStoredCredential, storeCredential } from '../../utils/storage';
 // 2. explicit login in LoginDialog, then login dialog should still be shown
 export function login(username: string, password: string, save: boolean) {
   return async (dispatch, getState) => {
-
     dispatch(toggleLoginDialogProgress(true));
     const helperState = getState()[STATE_HELPER] as HelperState;
     const helper = helperState.helper as Learn2018Helper;
@@ -56,7 +55,12 @@ export function login(username: string, password: string, save: boolean) {
       await Promise.race([helper.login(username, password), timeout]);
     } catch (e) {
       const error = e as FailReason;
-      dispatch(showSnackbar(`登录失败：${failReasonToString(error) ?? error ?? '未知错误'}`, SnackbarType.ERROR));
+      dispatch(
+        showSnackbar(
+          `登录失败：${failReasonToString(error) ?? error ?? '未知错误'}`,
+          SnackbarType.ERROR,
+        ),
+      );
       dispatch(loginEnd());
       return Promise.reject(`login failed: ${error}`);
     }
@@ -109,7 +113,6 @@ export function refresh() {
     const helper = helperState.helper as Learn2018Helper;
 
     try {
-
       // login on every refresh
       const credential = await getStoredCredential();
       await helper.login(credential.username, credential.password);

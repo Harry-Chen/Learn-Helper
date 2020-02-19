@@ -4,7 +4,6 @@ import { DataState } from './reducers/data';
 import { ContentInfo } from '../types/data';
 import { CardListProps } from '../types/ui';
 
-
 let oldType: ContentType;
 let oldCourse: CourseInfo;
 let allContent: ContentInfo[];
@@ -57,7 +56,9 @@ export const generateCardList = (
         newCards = newCards.filter(l => l.courseId === course.id);
       } else {
         // in summary list, respect all ignore marks
-        newCards = newCards.filter(l => data.contentIgnore[l.courseId]?.[l.type] === false && !l.ignored);
+        newCards = newCards.filter(
+          l => data.contentIgnore[l.courseId]?.[l.type] === false && !l.ignored,
+        );
       }
     }
 

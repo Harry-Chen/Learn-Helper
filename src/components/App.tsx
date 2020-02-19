@@ -235,7 +235,10 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
         <Typography variant="body1" className={styles.app_error_text}>
           错误信息：
           <br />
-          <code>{this.state.lastError.stack ?? `${this.state.lastError.name}: ${this.state.lastError.message}`}</code>
+          <code>
+            {this.state.lastError.stack ??
+              `${this.state.lastError.name}: ${this.state.lastError.message}`}
+          </code>
         </Typography>
         <Typography variant="body1" className={styles.app_error_text}>
           错误组件：
