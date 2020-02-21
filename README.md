@@ -50,7 +50,7 @@ If any of these criteria is met, any usage of code, without explicit authorizati
 
 ## Install
 
-[Chrome Store](https://chrome.google.com/webstore/detail/learn-helper/mdehapphdlihjjgkhmoiknmnhcjpjall), [Firefox Add-ons](https://addons.mozilla.org/zh-CN/firefox/addon/thu-learn-helper/)  
+[Chrome Store](https://chrome.google.com/webstore/detail/learn-helper/mdehapphdlihjjgkhmoiknmnhcjpjall), [Firefox Add-ons](https://addons.mozilla.org/zh-CN/firefox/addon/thu-learn-helper/), [Edge Addons](https://microsoftedge.microsoft.com/addons/detail/dhddjfhadejlhiaafnbadhaeichbkgil)  
 
 Or you can install the unpacked version from releases
 
