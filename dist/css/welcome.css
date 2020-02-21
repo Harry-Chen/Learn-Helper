@@ -1,17 +1,19 @@
 html {
-  background: url('../image/bg.png') no-repeat center center,
-              url('../image/creampaper.png');
+  background: url('../image/creampaper.png');
 }
 
 body {
-  font: 16px / 1.5 Helvetica, "Microsoft Yahei", "Hiragino Sans GB", sans;
-	text-align:center;
+  font: 16px / 1.5 Helvetica, "Source Han Sans SC", "Noto Sans CJK SC", "Microsoft Yahei", "Hiragino Sans GB", sans-serif;
+  text-align: center;
 }
 
-#wrapper {
-  min-height: 400px;
-  height: 100%;
-  position: relative;
+main {
+  height: 98vh;
+  width: 98vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 a {
@@ -24,36 +26,36 @@ a:focus {
   color: #04F;
 }
 
+#content {
+  margin-top: 30vh;
+}
+
 #menu {
+  margin-top: 5px;
   line-height: 30px;
-  height: 40px;
-  width: 400px;
+  width: 100%;
   color: #999;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-left: -200px;
-  margin-top: 80px;
 }
 
 #version {
   font-size: 0.8em;
-  font-family: consolas, monospace;
+  font-family: "Fira Code Retina", consolas, monospace;
 }
 
-#footer {
-  position: absolute;
-  bottom: 10px;
-  left: 0;
-  right: 0;
+
+footer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+#copyright {
   font-size: 0.7em;
-}
-
-#footer,
-#footer a {
   color: #999;
+  margin-top: auto;
 }
 
-#footer a {
+
+#copyright a {
   text-decoration: underline;
 }
