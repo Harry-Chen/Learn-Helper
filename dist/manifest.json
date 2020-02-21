@@ -1,9 +1,10 @@
 {
-	"name": "Learn Helper",
+	"name": "__MSG_appName__",
 	"version": "4.2.0",
 	"minimum_chrome_version": "72",
 	"manifest_version": 2,
-	"description": "清华大学网络学堂助手，集中展示课程公告、作业、DDL等信息，提供一站式服务",
+	"description": "__MSG_appDesc__",
+	"default_locale": "zh_CN",
 	"content_scripts": [],
 	"background": {
         "scripts": [
@@ -26,6 +27,6 @@
 	},
 	"browser_action": {
 		"default_icon": "icons/19.png",
-		"default_title": "Learn Helper"
+		"default_title": "__MSG_appName__"
 	}
 }
