@@ -18,7 +18,6 @@ import { AppProps } from '../types/ui';
 import { IUiStateSlice, STATE_DATA, STATE_HELPER, STATE_UI } from '../redux/reducers';
 import { setTitleFilter, togglePaneHidden } from '../redux/actions/ui';
 import styles from '../css/main.css';
-import '../css/scrollbar.css';
 
 import SummaryList from './SummaryList';
 import CourseList from './CourseList';

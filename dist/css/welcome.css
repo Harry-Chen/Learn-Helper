@@ -8,8 +8,8 @@ body {
 }
 
 main {
-  height: 98vh;
-  width: 98vw;
+  height: 99vh;
+  width: 99vw;
   display: flex;
   flex-direction: column;
   justify-content: center;

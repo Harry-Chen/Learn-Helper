@@ -1,8 +1,9 @@
 html {
   background: url('../image/creampaper.png');
 }
+
 body {
-  font: 16px / 1.5 Helvetica, "Microsoft Yahei", "Hiragino Sans GB", sans;
+  font: 16px / 1.5 Helvetica, "Source Han Sans SC", "Noto Sans CJK SC", "Microsoft Yahei", "Hiragino Sans GB", sans-serif;
 }
 
 ul {
