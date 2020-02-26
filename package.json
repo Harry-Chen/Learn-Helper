@@ -1,6 +1,6 @@
 {
   "name": "learn-helper",
-  "version": "4.2.0",
+  "version": "4.2.1",
   "author": "xxr3376 & Harry Chen",
   "license": "MIT",
   "private": true,
@@ -64,5 +64,8 @@
     "redux-thunk": "^2.3.0",
     "thu-learn-lib": "^2.2.1",
     "webextension-polyfill": "^0.6.0"
+  },
+  "resolutions": {
+    "entities": "1.1.1"
   }
 }
