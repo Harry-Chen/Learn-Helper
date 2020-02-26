@@ -1,5 +1,11 @@
 # Changelog
 
+## v4.2.1
+
+* ADD preview window to the detail page of files
+* REMOVE permission of learn2018.tsinghua.edu.cn
+* Rewrite welcome page using modern CSS
+
 ## v4.2.0
 
 * ADD switch to `preact` and adjust bundle configuration to reduce code size (but also increase the minimal browser version)

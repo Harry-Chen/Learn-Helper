@@ -38,12 +38,13 @@ export async function versionMigrate(store) {
   const currentVersion = (await (await fetch('/manifest.json')).json()).version;
 
   if (oldVersion === undefined) {
-    // migrate from version < 4.0.0, clearing all data
+    // migrate from version < 4.0.0 or newly installed, clearing all data
     console.info('Migrating from legacy version, all data cleaned');
     await browser.storage.local.clear();
     await browser.storage.local.set({
       [STORAGE_KEY_VERSION]: currentVersion,
     });
+    store.dispatch(setDetailUrl('readme.html'));
   } else if (oldVersion !== currentVersion) {
     // for future migration
     store.dispatch(setDetailUrl('changelog.html'));

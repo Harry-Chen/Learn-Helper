@@ -9,7 +9,7 @@ body {
 
 main {
   height: 99vh;
-  width: 99vw;
+  width: 98vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
