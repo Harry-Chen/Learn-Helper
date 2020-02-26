@@ -63,8 +63,10 @@
 .content_detail_preview {
     margin: 10px 80px;
     border: none;
+    min-width: 400px;
     width: -webkit-fill-available;
     width: -moz-available;
+    min-height: 600px;
     height: -webkit-fill-available;
     height: -moz-available;
 }
