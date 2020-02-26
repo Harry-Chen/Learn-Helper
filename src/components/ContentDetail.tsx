@@ -1,4 +1,5 @@
 import React from 'react';
+import Iframe from 'react-iframe';
 import { connect } from 'react-redux';
 import { ContentType } from 'thu-learn-lib/lib/types';
 
@@ -45,6 +46,9 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
           className={styles.content_detail_content}
           dangerouslySetInnerHTML={{ __html: contentDetail }}
         />
+        {isFile && this.canFilePreview(file) ? (
+          <Iframe className={styles.content_detail_preview} url={file.previewUrl} />
+        ) : null}
       </section>
     );
   }
@@ -52,6 +56,12 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
   private translateFileType = (type: string): string => {
     // TODO: Translate file type to human-readable representation.
     return type;
+  };
+
+  private canFilePreview = (file: FileInfo): boolean => {
+    // TODO add type whitelist for preview
+    const ALLOWED_TYPES = [];
+    return file.previewUrl !== undefined;
   };
 
   private generateDetailsForFile = (file: FileInfo): React.ReactNode => {
@@ -138,18 +148,14 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
     content: React.ReactNode,
     embedHtml: boolean = false,
   ): React.ReactNode => {
-    let contentHTML: string;
-    if (embedHtml) {
-      contentHTML = content as string;
-      // if content starts with mysterious string, strip it away
-      if (contentHTML.startsWith('\xC2\x9E\xC3\xA9\x65')) {
-        contentHTML = contentHTML.substr(5);
-      }
-    }
     return (
       <tr className={styles.content_detail_line}>
         <td>{name}：</td>
-        {embedHtml ? <td dangerouslySetInnerHTML={{ __html: contentHTML }} /> : <td>{content}</td>}
+        {embedHtml ? (
+          <td dangerouslySetInnerHTML={{ __html: content as string }} />
+        ) : (
+          <td>{content}</td>
+        )}
       </tr>
     );
   };

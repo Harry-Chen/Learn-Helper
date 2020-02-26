@@ -255,15 +255,17 @@ class ContentCard extends React.PureComponent<CardProps, never> {
       );
     }
 
-    if ((content as any).attachmentUrl !== undefined) {
+    if ((content as any).attachmentUrl) {
+      // could be homework or notification, anyway it has attachmentName and attachmentUrl
+      const homework = content as HomeworkInfo;
       attachmentButton = (
-        <Tooltip title={`附件：${(content as any).attachmentName}`}>
+        <Tooltip title={`附件：${homework.attachmentName}`}>
           <IconButton
             color="primary"
             className={styles.card_action_button}
             component="div"
             onClick={() => {
-              initiateFileDownload((content as any).attachmentUrl);
+              initiateFileDownload(homework.attachmentUrl, homework.attachmentName);
             }}
           >
             <FontAwesomeIcon icon="paperclip" />
@@ -272,6 +274,7 @@ class ContentCard extends React.PureComponent<CardProps, never> {
       );
     }
     if (content.type === ContentType.FILE) {
+      const file = content as FileInfo;
       downloadButton = (
         <Tooltip title={'下载文件'}>
           <IconButton
@@ -279,7 +282,7 @@ class ContentCard extends React.PureComponent<CardProps, never> {
             className={styles.card_action_button}
             component="div"
             onClick={() => {
-              initiateFileDownload((content as any).downloadUrl);
+              initiateFileDownload(file.downloadUrl);
             }}
           >
             <FontAwesomeIcon icon="download" />
