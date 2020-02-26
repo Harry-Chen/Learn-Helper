@@ -65,6 +65,7 @@
     border: none;
     width: -webkit-fill-available;
     width: -moz-available;
+    min-height: 600px;
     height: -webkit-fill-available;
     height: -moz-available;
 }
