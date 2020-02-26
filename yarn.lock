@@ -4853,7 +4853,7 @@ string.prototype.trimright@^2.1.1:
 
 string_decoder@^1.0.0, string_decoder@^1.1.1:
   version "1.3.0"
-  resolved "https://registry.npm.taobao.org/string_decoder/download/string_decoder-1.3.0.tgz#42f114594a46cf1a8e30b0a84f56c78c3edac21e"
+  resolved "https://registry.npm.taobao.org/string_decoder/download/string_decoder-1.3.0.tgz?cache=0&sync_timestamp=1565170823020&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fstring_decoder%2Fdownload%2Fstring_decoder-1.3.0.tgz#42f114594a46cf1a8e30b0a84f56c78c3edac21e"
   integrity sha1-QvEUWUpGzxqOMLCoT1bHjD7awh4=
   dependencies:
     safe-buffer "~5.2.0"
@@ -4983,10 +4983,10 @@ through2@^2.0.0:
     readable-stream "~2.3.6"
     xtend "~4.0.1"
 
-thu-learn-lib@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npm.taobao.org/thu-learn-lib/download/thu-learn-lib-2.2.0.tgz#054514d6a32ea372d5ceaae7b828329a2f21915c"
-  integrity sha1-BUUU1qMuo3LVzqrnuCgymi8hkVw=
+thu-learn-lib@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npm.taobao.org/thu-learn-lib/download/thu-learn-lib-2.2.1.tgz#db0b6c3036ff3373b621bdfd23a4336e254f25fd"
+  integrity sha1-2wtsMDb/M3O2Ib39I6QzbiVPJf0=
   dependencies:
     cheerio "^1.0.0-rc.2"
     cross-fetch "^3.0.1"
