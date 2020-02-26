@@ -62,8 +62,11 @@
 
 .content_detail_preview {
     margin: 10px 80px;
+    border: none;
     width: -webkit-fill-available;
+    width: -moz-available;
     height: -webkit-fill-available;
+    height: -moz-available;
 }
 
 @media (max-width: 1280px) {
