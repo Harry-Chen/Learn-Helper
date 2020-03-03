@@ -42,13 +42,9 @@ export function login(username: string, password: string, save: boolean) {
     const helperState = getState()[STATE_HELPER] as HelperState;
     const helper = helperState.helper as Learn2018Helper;
 
-    // wait at most 3 seconds for timeout
-    const timeout = new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (!getState()[STATE_HELPER].loggedIn) {
-          reject(FailReason.NOT_LOGGED_IN);
-        } else resolve();
-      }, 3000);
+    // wait at most 5 seconds for timeout
+    const timeout = new Promise((_, reject) => {
+      setTimeout(() => {reject(FailReason.NOT_LOGGED_IN);}, 5000);
     });
 
     try {
