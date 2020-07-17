@@ -50,7 +50,7 @@
     "@material-ui/styles": "4.1.2",
     "classnames": "^2.2.6",
     "immutable": "^4.0.0-rc.12",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "preact": "^10.3.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
