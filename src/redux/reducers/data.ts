@@ -89,7 +89,7 @@ function update<T extends ContentInfo>(
     for (const c of content) {
       // compare the time of two contents (including undefined)
       // if they differ, mark the content as unread
-      const oldContent = oldMap.get(c.id);
+      const oldContent = oldMap.get(c.id) as ContentInfo;
       const newDate = c[dateKey[contentType]];
       let updated = true;
       if (oldContent !== undefined) {
@@ -138,7 +138,7 @@ function toggle<T extends ContentInfo>(
   key: string,
   status: boolean,
 ): Map<string, T> {
-  return oldMap.update(id, c => {
+  return oldMap.update(id, (c: any) => {
     return {
       ...c,
       [key]: status,
@@ -149,7 +149,7 @@ function toggle<T extends ContentInfo>(
 function markAllRead<T extends ContentInfo>(oldMap: Map<string, T>): Map<string, T> {
   let map = oldMap;
   for (const k of oldMap.keys()) {
-    map = map.update(k, c => {
+    map = map.update(k, (c: any) => {
       return {
         ...c,
         hasRead: true,

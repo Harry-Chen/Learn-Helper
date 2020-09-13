@@ -6,4 +6,5 @@ legacy
 *.css.d.ts
 yarn-error.log
 .vscode/
+size-report.html
 

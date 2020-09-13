@@ -10,9 +10,11 @@ const createIndex = new HtmlWebpackPlugin({
   excludeChunks: ["background"]
 });
 
-const copyPolyFill = new CopyPlugin([
-  {from: './node_modules/webextension-polyfill/dist/browser-polyfill.min.js', to: './'}
-]);
+const copyPolyFill = new CopyPlugin({
+  patterns: [
+    { from: './node_modules/webextension-polyfill/dist/browser-polyfill.min.js', to: './' }
+  ]
+});
 
 module.exports = {
   entry: {
