@@ -27,8 +27,9 @@ interface IContentIgnore {
 }
 
 interface IDataState {
-  semester: SemesterInfo;
-  fetchedSemester: SemesterInfo;
+  semesters: string[]; // all available semesters return by Web Learning
+  semester: SemesterInfo; // current semester of Learn Helper
+  fetchedSemester: SemesterInfo; // current semester of Web Learning
   insistSemester: boolean;
   courseMap: Map<string, CourseInfo>;
   notificationMap: Map<string, NotificationInfo>;
@@ -53,6 +54,7 @@ const semesterPlaceholder: SemesterInfo = {
 };
 
 const initialState: IDataState = {
+  semesters: [],
   semester: semesterPlaceholder,
   fetchedSemester: semesterPlaceholder,
   insistSemester: false,
@@ -171,6 +173,13 @@ export default function data(state: IDataState = initialState, action: DataActio
   const stateKey = `${action.contentType}Map`;
 
   switch (action.type) {
+
+    case DataActionType.UPDATE_SEMESTER_LIST:
+      return {
+        ...state,
+        semesters: action.semesters,
+      }
+
     case DataActionType.NEW_SEMESTER:
       // save the new semester for querying user
       return {

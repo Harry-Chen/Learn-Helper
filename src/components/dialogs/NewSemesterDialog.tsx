@@ -20,15 +20,17 @@ const mapStateToProps = (state: IUiStateSlice): Partial<ICommonDialogProps> => {
     open: (state[STATE_UI] as UiState).showNewSemesterDialog,
     title: '检测到新学期',
     content: (
-      <div>
-        当前学期为：{formatSemester(data.semester)}
+      <span>
+        当前 Learn Helper 学期：{formatSemester(data.semester)}
         <br />
-        当前网络学堂学期为：{formatSemester(data.fetchedSemester)}
+        当前网络学堂学期：{formatSemester(data.fetchedSemester)}
         <br />
-        是否要进行学期切换（本学期数据将会被清空，操作不可逆）？
+        是否要进行学期切换（本学期已读、星标等状态将会被清空）？
         <br />
-        如果您选择“不再询问”，则需要手动进行缓存清理。
-      </div>
+        如果选择“否”，则在下一次打开 Learn Helper 前都将保持当前学期。
+        <br />
+        如果选择“不再询问”，则需要手动进行学期切换。
+      </span>
     ),
     firstButton: '是',
     secondButton: '否',

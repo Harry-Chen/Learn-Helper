@@ -7,6 +7,27 @@ export function formatSemester(semester: SemesterInfo): string {
   return SemesterType.UNKNOWN;
 }
 
+export function semesterFromId(id: string): SemesterInfo {
+  let type = SemesterType.UNKNOWN;
+  switch (id.charAt(id.length - 1)) {
+    case '1': type = SemesterType.FALL; break;
+    case '2': type = SemesterType.SPRING; break;
+    case '3': type = SemesterType.SUMMER; break;
+  }
+  return {
+    id,
+    startDate: new Date(),
+    endDate: new Date(),
+    startYear: parseInt(id.substr(0, 4)),
+    endYear: parseInt(id.substr(5, 4)),
+    type,
+  };
+}
+
+export function formatSemesterId(id: string): string {
+  return formatSemester(semesterFromId(id));
+}
+
 function zeroPad(num: number, length: number): string {
   const zero = length - num.toString().length + 1;
   return Array(+(zero > 0 && zero)).join('0') + num;

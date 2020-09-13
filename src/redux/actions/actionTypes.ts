@@ -11,6 +11,7 @@ export enum UiActionType {
   IGNORE_WRONG_SEMESTER = 'UI/ignore_wrong_semester',
   TOGGLE_LOGOUT_DIALOG = 'UI/toggle_logout_dialog',
   TOGGLE_CLEAR_DATA_DIALOG = 'UI/toggle_clear_data_dialog',
+  TOGGLE_CHANGE_SEMESTER_DIALOG = 'UI/toggle_change_semester_dialog',
   CARD_FILTER = 'UI/card_filter',
   CARD_LIST_TITLE = 'UI/card_list_title',
   LOAD_MORE_CARD = 'UI/load_more_card',
@@ -26,6 +27,7 @@ export enum HelperActionType {
 }
 
 export enum DataActionType {
+  UPDATE_SEMESTER_LIST = 'DATA/update_semester_list',
   NEW_SEMESTER = 'DATA/new_semester',
   INSIST_SEMESTER = 'DATA/insist_semester',
   UPDATE_SEMESTER = 'DATA/update_semester',

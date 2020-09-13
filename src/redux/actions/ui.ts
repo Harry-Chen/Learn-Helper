@@ -107,6 +107,13 @@ export const toggleLogoutDialog = (state: boolean): UiAction => {
   };
 };
 
+export const toggleIgnoreWrongSemester = (state: boolean): UiAction => {
+  return {
+    type: UiActionType.IGNORE_WRONG_SEMESTER,
+    state,
+  };
+};
+
 export const toggleClearDataDialog = (state: boolean): UiAction => {
   return {
     type: UiActionType.TOGGLE_CLEAR_DATA_DIALOG,
@@ -114,9 +121,9 @@ export const toggleClearDataDialog = (state: boolean): UiAction => {
   };
 };
 
-export const toggleIgnoreWrongSemester = (state: boolean): UiAction => {
+export const toggleChangeSemesterDialog = (state: boolean): UiAction => {
   return {
-    type: UiActionType.IGNORE_WRONG_SEMESTER,
+    type: UiActionType.TOGGLE_CHANGE_SEMESTER_DIALOG,
     state,
   };
 };

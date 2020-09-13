@@ -12,11 +12,12 @@ import Drawer from '@material-ui/core/Drawer';
 import InputBase from '@material-ui/core/InputBase';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import Tooltip from '@material-ui/core/Tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { AppProps } from '../types/ui';
 import { IUiStateSlice, STATE_DATA, STATE_HELPER, STATE_UI } from '../redux/reducers';
-import { setTitleFilter, togglePaneHidden } from '../redux/actions/ui';
+import { setTitleFilter, toggleChangeSemesterDialog, togglePaneHidden } from '../redux/actions/ui';
 import styles from '../css/main.css';
 
 import SummaryList from './SummaryList';
@@ -24,6 +25,7 @@ import CourseList from './CourseList';
 import SettingList from './SettingList';
 import CardList from './CardList';
 import {
+  ChangeSemesterDialog,
   ClearDataDialog,
   LoginDialog,
   LogoutDialog,
@@ -133,6 +135,18 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
                     >
                       {this.props.semesterTitle}
                     </Typography>
+                    {
+                      !this.props.latestSemester ?
+                      <Tooltip title="非最新学期" >
+                        <IconButton
+                          className={styles.sidebar_master_notify_icon}
+                          onClick={this.props.openChangeSemesterDialog}
+                        >
+                          <FontAwesomeIcon icon="star-of-life"/>
+                        </IconButton>
+                      </Tooltip>
+                      :null
+                    }
                   </Toolbar>
                   <Toolbar
                     className={classnames(styles.sidebar_header_right, {
@@ -205,6 +219,7 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
           <LoginDialog />
           <NetworkErrorDialog />
           <NewSemesterDialog />
+          <ChangeSemesterDialog />
           <ClearDataDialog />
           <LogoutDialog />
           {/* snackbar for notification */}
@@ -258,12 +273,14 @@ const mapStateToProps = (state: IUiStateSlice): Partial<AppProps> => {
     paneHidden: uiState.paneHidden,
     cardListTitle: helperState.loggedIn ? uiState.cardListTitle : '加载中...',
     semesterTitle: formatSemester(dataState.semester),
+    latestSemester: dataState.semester.id === dataState.fetchedSemester.id
   };
 };
 
 const mapDispatchToProps = (dispatch): Partial<AppProps> => ({
   openSidebar: () => dispatch(togglePaneHidden(false)),
   closeSidebar: () => dispatch(togglePaneHidden(true)),
+  openChangeSemesterDialog: () => dispatch(toggleChangeSemesterDialog(true)),
   setTitleFilter: (s: string) => {
     const filter = s.trim();
     dispatch(setTitleFilter(filter === '' ? undefined : filter));

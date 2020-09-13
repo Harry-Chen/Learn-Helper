@@ -8,9 +8,7 @@ import { faDownload } from '@fortawesome/free-solid-svg-icons/faDownload';
 import { faQuestion } from '@fortawesome/free-solid-svg-icons/faQuestion';
 import { faInbox } from '@fortawesome/free-solid-svg-icons/faInbox';
 import { faWrench } from '@fortawesome/free-solid-svg-icons/faWrench';
-import { faCog } from '@fortawesome/free-solid-svg-icons/faCog';
 import { faCogs } from '@fortawesome/free-solid-svg-icons/faCogs';
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons/faEnvelope';
 import { faSync } from '@fortawesome/free-solid-svg-icons/faSync';
 import { faUser } from '@fortawesome/free-solid-svg-icons/faUser';
 import { faTrash } from '@fortawesome/free-solid-svg-icons/faTrash';
@@ -33,6 +31,11 @@ import { faBars } from '@fortawesome/free-solid-svg-icons/faBars';
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons/faAngleLeft';
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons/faTrashAlt';
+import { faBan } from '@fortawesome/free-solid-svg-icons/faBan';
+import { faEnvelopeOpen } from '@fortawesome/free-solid-svg-icons/faEnvelopeOpen';
+import { faRandom } from '@fortawesome/free-solid-svg-icons/faRandom';
+import { faStarOfLife } from '@fortawesome/free-solid-svg-icons/faStarOfLife';
+
 
 const ICON_TO_USE = [
   faThumbtack,
@@ -43,9 +46,7 @@ const ICON_TO_USE = [
   faQuestion,
   faInbox,
   faWrench,
-  faCog,
   faCogs,
-  faEnvelope,
   faSync,
   faUser,
   faTrash,
@@ -68,6 +69,10 @@ const ICON_TO_USE = [
   faFilter,
   faTimes,
   faTrashAlt,
+  faEnvelopeOpen,
+  faRandom,
+  faBan,
+  faStarOfLife,
 ];
 
 ICON_TO_USE.map(i => library.add(i));

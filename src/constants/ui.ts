@@ -7,6 +7,7 @@ import {
   showContentIgnoreSetting,
   toggleClearDataDialog,
   toggleLogoutDialog,
+  toggleChangeSemesterDialog,
 } from '../redux/actions/ui';
 import { ContentType } from 'thu-learn-lib/lib/types';
 import { markAllRead } from '../redux/actions/data';
@@ -142,14 +143,14 @@ export const SUMMARY_FUNC_LIST: IMenuItem[] = [
 
 const SETTINGS_FUNC: IMenuItemEnum = {
   SETTINGS_IGNORE: {
-    icon: 'cog',
+    icon: 'ban',
     name: '管理隐藏项',
     handler: (dispatch: Dispatch<any>) => {
       dispatch(showContentIgnoreSetting());
     },
   },
   SETTINGS_MARK_READ: {
-    icon: 'envelope',
+    icon: 'envelope-open',
     name: '全部标为已读',
     handler: (dispatch: Dispatch<any>) => {
       dispatch(markAllRead());
@@ -160,6 +161,13 @@ const SETTINGS_FUNC: IMenuItemEnum = {
     name: '手动刷新',
     handler: (dispatch: Dispatch<any>) => {
       dispatch(refresh());
+    },
+  },
+  SETTINGS_CHANGE_SEMESTER: {
+    icon: 'random',
+    name: '切换学期',
+    handler: (dispatch: Dispatch<any>) => {
+      dispatch(toggleChangeSemesterDialog(true));
     },
   },
   SETTINGS_CHANGE_USER: {
@@ -182,6 +190,7 @@ export const SETTINGS_FUNC_LIST: IMenuItem[] = [
   SETTINGS_FUNC.SETTINGS_IGNORE,
   SETTINGS_FUNC.SETTINGS_MARK_READ,
   SETTINGS_FUNC.SETTINGS_REFRESH,
+  SETTINGS_FUNC.SETTINGS_CHANGE_SEMESTER,
   SETTINGS_FUNC.SETTINGS_CLEAR_CACHE,
   SETTINGS_FUNC.SETTINGS_CHANGE_USER,
 ];

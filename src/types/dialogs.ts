@@ -19,6 +19,7 @@ export interface ICommonDialogProps {
   secondButtonOnClick?: AnyFunc;
   thirdButton?: ReactNode;
   thirdButtonOnClick?: AnyFunc;
+  dispatch?: AnyFunc;
 }
 
 export interface ILoginDialogProps {

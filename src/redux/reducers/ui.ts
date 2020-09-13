@@ -17,6 +17,7 @@ interface IUiState {
   inLoginProgress: boolean;
   showNetworkErrorDialog: boolean;
   showNewSemesterDialog: boolean;
+  showChangeSemesterDialog: boolean;
   ignoreWrongSemester: boolean;
   showLogoutDialog: boolean;
   showClearDataDialog: boolean;
@@ -46,6 +47,7 @@ const initialState: UiState = {
   ignoreWrongSemester: false,
   showLogoutDialog: false,
   showClearDataDialog: false,
+  showChangeSemesterDialog: false,
   cardTypeFilter: undefined,
   cardVisibilityThreshold: CARD_BATCH_LOAD_SIZE,
   cardCourseFilter: undefined,
@@ -113,6 +115,11 @@ export default function ui(state: UiState = initialState, action: UiAction): UiS
       return {
         ...state,
         showClearDataDialog: action.state,
+      };
+    case UiActionType.TOGGLE_CHANGE_SEMESTER_DIALOG:
+      return {
+        ...state,
+        showChangeSemesterDialog: action.state,
       };
     case UiActionType.TOGGLE_LOGOUT_DIALOG:
       return {

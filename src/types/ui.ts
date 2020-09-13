@@ -63,10 +63,12 @@ interface IAppProps extends IDispatchableComponentProps {
   paneHidden: boolean;
   cardListTitle: string;
   semesterTitle: string;
+  latestSemester: boolean;
   openSidebar: () => any;
   closeSidebar: () => any;
   resetApp: () => any;
   setTitleFilter: (filter: string) => any;
+  openChangeSemesterDialog: () => any;
 }
 
 export type AppProps = IAppProps;

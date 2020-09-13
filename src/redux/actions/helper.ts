@@ -21,6 +21,7 @@ import {
   updateNotification,
   updateQuestion,
   updateSemester,
+  updateSemesterList,
 } from './data';
 import { HelperActionType } from './actionTypes';
 
@@ -113,6 +114,9 @@ export function refresh() {
       const credential = await getStoredCredential();
       await helper.login(credential.username, credential.password);
       dispatch(loggedIn());
+
+      const semesters = await helper.getSemesterIdList();
+      dispatch(updateSemesterList(semesters));
 
       const s = await helper.getCurrentSemester();
 

@@ -11,6 +11,7 @@ interface IDataAction {
   content?: CourseContent;
   state?: boolean;
   contentType?: ContentType;
+  semesters?: string[];
 }
 
 export type DataAction = IDataAction;
@@ -27,6 +28,13 @@ export function insistSemester(insist: boolean): DataAction {
     type: DataActionType.INSIST_SEMESTER,
     insist,
   };
+}
+
+export function updateSemesterList(semesters: string[]): DataAction {
+  return {
+    type: DataActionType.UPDATE_SEMESTER_LIST,
+    semesters,
+  }
 }
 
 export function updateSemester(semester: SemesterInfo): DataAction {
