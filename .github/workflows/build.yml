@@ -14,7 +14,7 @@ jobs:
             - name: Install dependencies
               run: yarn install --frozen-lockfile
             - name: Build dev version
-              run: yarn dev-build
+              run: yarn dev-build || yarn dev-build # run twice for css.d.ts generation
             - name: Upload dev build
               uses: actions/upload-artifact@v2
               with:
