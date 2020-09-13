@@ -33,7 +33,7 @@ class ChangeSemesterDialog extends CommonDialog<IChangeSemesterDialogProps, ICha
     constructor(props: IChangeSemesterDialogProps) {
         super(props);
         this.state = {
-            newSemester: this.props.semester
+            newSemester: this.props.semesters.includes(this.props.semester) ? this.props.semester : (this.props.semesters[0] ?? '') // in case current semester not in fetched list
         }
     }
 

@@ -197,6 +197,8 @@ export default function data(state: IDataState = initialState, action: DataActio
       // switch to new semester, remove all content
       return {
         ...initialState,
+        semesters: state.semesters,
+        fetchedSemester: state.fetchedSemester,
         semester: action.semester,
       };
 
