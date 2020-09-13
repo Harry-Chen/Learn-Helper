@@ -22,7 +22,7 @@ class CommonDialog<P extends ICommonDialogProps = ICommonDialogProps, S = never>
       <Dialog open={this.props.open} keepMounted={true}>
         <DialogTitle>{this.props.title}</DialogTitle>
         <DialogContent>
-          <DialogContentText>{this.props.content ?? this.getContent()}</DialogContentText>
+          {this.props.content ?? this.getContent()}
         </DialogContent>
         <DialogActions>
           <Button color="primary" onClick={this.props.firstButtonOnClick ?? this.firstButtonClick}>
