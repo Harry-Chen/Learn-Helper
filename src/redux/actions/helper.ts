@@ -119,6 +119,7 @@ export function refresh() {
       dispatch(updateSemesterList(semesters));
 
       const s = await helper.getCurrentSemester();
+      dispatch(newSemester(s));
 
       // user required to ignore semester problem
       const data = getState()[STATE_DATA] as DataState;
@@ -130,7 +131,6 @@ export function refresh() {
         dispatch(updateSemester(s));
       } else if (s.id !== data.semester.id && !ignoreSemester) {
         // stored semester differ with fetched one
-        dispatch(newSemester(s));
         dispatch(toggleNewSemesterDialog(true));
         return;
       }

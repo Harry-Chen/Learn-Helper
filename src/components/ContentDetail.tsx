@@ -73,6 +73,7 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
         {this.generateLine('文件大小', file.size)}
         {this.generateLine('文件类型', this.translateFileType(file.fileType))}
         {this.generateLine('下载文件', this.generateLink(file.title, file.downloadUrl))}
+        {this.canFilePreview(file) ? this.generateLine('预览文件', this.generateLink('在新窗口中打开预览', file.previewUrl)) : null}
       </>
     );
   };
