@@ -1,5 +1,11 @@
 # Changelog
 
+## v4.3.0
+
+* ADD dialog to change current semester
+* ADD link for file preview in detail page (workaround for a Chrome bug)
+* FIX sorting function of cards, showing undue homework in deadline order
+
 ## v4.2.1
 
 * ADD preview window to the detail page of files
