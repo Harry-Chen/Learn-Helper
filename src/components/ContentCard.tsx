@@ -169,7 +169,7 @@ class ContentCard extends React.PureComponent<CardProps, never> {
       <Badge variant="dot" color="secondary" invisible={content.hasRead}>
         <Chip
           avatar={icon}
-          label={<span className={styles.card_chip_text}>{label}</span>}
+          label={<div className={styles.card_chip_text}>{label}</div>}
           className={classnames(styles[className], styles.card_func_chip)}
         />
       </Badge>
