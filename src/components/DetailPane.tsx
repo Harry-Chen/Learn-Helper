@@ -12,7 +12,7 @@ import ContentDetail from './ContentDetail';
 
 import styles from '../css/main.css';
 
-class DetailPane extends React.PureComponent<DetailPaneProps, never> {
+class DetailPane extends React.PureComponent<DetailPaneProps, {frameUrl?: string}> {
   public render() {
     if (this.props.showIgnoreSettings) {
       return <ContentIgnoreSetting />;
@@ -20,6 +20,14 @@ class DetailPane extends React.PureComponent<DetailPaneProps, never> {
     if (this.props.content !== undefined) {
       return <ContentDetail content={this.props.content} />;
     }
+
+    // When prop `url` is changed, first remove the IFrame label and then recreate it,
+    // rather than reuse the old one.
+    const shouldRemoveIframeFirst = this.props.url && this.state?.frameUrl !== this.props.url;
+    if (shouldRemoveIframeFirst) {
+      this.setState({ frameUrl: this.props.url });
+    }
+
     return (
       <section
         style={{
@@ -28,7 +36,9 @@ class DetailPane extends React.PureComponent<DetailPaneProps, never> {
           position: 'relative',
         }}
       >
-        <Iframe className={styles.web_frame} url={this.props.url} />
+        {!shouldRemoveIframeFirst ? (
+          <Iframe className={styles.web_frame} url={this.state?.frameUrl} />
+        ) : null}
       </section>
     );
   }
