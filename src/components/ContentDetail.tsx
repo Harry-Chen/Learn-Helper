@@ -11,7 +11,7 @@ import { HomeworkInfo, NotificationInfo, FileInfo } from '../types/data';
 import { formatDateTime } from '../utils/format';
 import { setDetailUrl } from '../redux/actions/ui';
 
-class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
+class ContentDetail extends React.PureComponent<ContentDetailProps, {frameUrl?: string}> {
   public render() {
     const content = this.props.content;
     const homework = content as HomeworkInfo;
@@ -28,6 +28,16 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
       : notification.content;
     if (contentDetail !== undefined) contentDetail = contentDetail.trim();
     if (contentDetail === undefined || contentDetail === '') contentDetail = '详情为空';
+
+    // When `file.previewUrl` is changed (i.e file.previewUrl is not undefined and not equals to
+    // this.state.frameUrl), do not set the <Iframe>'s `url` attribute immediately.
+    // Instead, remove the IFrame label first, and set state `frameUrl` =`file.previewUrl`.
+    // Thus, the component will be update later with correct state, to recreate the <IFrame>` label
+    // rather than reuse the old one.
+    const shouldRemoveIframeFirst = file.previewUrl && this.state?.frameUrl !== file.previewUrl;
+    if (shouldRemoveIframeFirst) {
+      this.setState({ frameUrl: file.previewUrl });
+    }
 
     return (
       <section className={styles.content_detail}>
@@ -46,8 +56,8 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, never> {
           className={styles.content_detail_content}
           dangerouslySetInnerHTML={{ __html: contentDetail }}
         />
-        {isFile && this.canFilePreview(file) ? (
-          <Iframe className={styles.content_detail_preview} url={file.previewUrl} />
+        {!shouldRemoveIframeFirst && isFile && this.canFilePreview(file) ? (
+          <Iframe className={styles.content_detail_preview} url={this.state?.frameUrl} />
         ) : null}
       </section>
     );
