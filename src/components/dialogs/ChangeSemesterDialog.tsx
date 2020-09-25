@@ -79,8 +79,8 @@ const mapStateToProps = (state: IUiStateSlice): Partial<IChangeSemesterDialogPro
   const data = state[STATE_DATA] as DataState;
   return {
     open: (state[STATE_UI] as UiState).showChangeSemesterDialog,
-    semester: data.semester.id,
-    semesters: data.semesters,
+    semester: data.semester?.id ?? '',
+    semesters: data.semesters ?? [],
     latestSemester: data.fetchedSemester.id,
     title: '切换学期',
     content: null,

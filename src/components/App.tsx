@@ -233,8 +233,16 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
           <b>哎呀，出错了！</b>
         </Typography>
         <Typography variant="body1" className={styles.app_error_text} noWrap={true}>
-          发生了不可恢复的错误，如果刷新页面无法解决，请点击下面的按钮重新来过。
+          发生了不可恢复的错误，请尝试刷新页面。如果错误继续出现，请清除数据重新来过。
         </Typography>
+        <Button
+          color="secondary"
+          variant="contained"
+          className={styles.app_error_text}
+          onClick={() => {window.location = window.location;}}
+        >
+          刷新
+        </Button>
         <Button
           color="secondary"
           variant="contained"
