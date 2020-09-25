@@ -110,9 +110,9 @@ export function refresh() {
     const helper = helperState.helper as Learn2018Helper;
 
     try {
-      // login on every refresh
+      // login on every refresh (if stored)
       const credential = await getStoredCredential();
-      await helper.login(credential.username, credential.password);
+      credential && await helper.login(credential.username, credential.password);
       dispatch(loggedIn());
 
       const semesters = await helper.getSemesterIdList();
