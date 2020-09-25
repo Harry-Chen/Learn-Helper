@@ -36,7 +36,7 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, {frameUrl?: 
     // rather than reuse the old one.
     const shouldRemoveIframeFirst = file.previewUrl && this.state?.frameUrl !== file.previewUrl;
     if (shouldRemoveIframeFirst) {
-      this.setState({ frameUrl: file.previewUrl });
+      setTimeout(() => this.setState({ frameUrl: file.previewUrl }), 100);
     }
 
     return (

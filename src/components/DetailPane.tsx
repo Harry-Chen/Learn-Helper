@@ -25,7 +25,9 @@ class DetailPane extends React.PureComponent<DetailPaneProps, {frameUrl?: string
     // rather than reuse the old one.
     const shouldRemoveIframeFirst = this.props.url && this.state?.frameUrl !== this.props.url;
     if (shouldRemoveIframeFirst) {
-      this.setState({ frameUrl: this.props.url });
+      if (shouldRemoveIframeFirst) {
+        setTimeout(() => this.setState({ frameUrl: this.props.url }), 100);
+      }
     }
 
     return (
