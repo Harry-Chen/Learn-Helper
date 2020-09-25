@@ -1,5 +1,13 @@
 # Changelog
 
+## v4.3.1
+
+* FIX login error when not saving credentials
+* FIX error on first use after upgrade
+* ADD refresh button on error page to avoid unnecessary data cleaning
+* FIX iframe same-origin problem (probably a Chrome bug) (by Starrah)
+* FIX alignment of icons on content cards (bt Starrah)
+
 ## v4.3.0
 
 * ADD dialog to change current semester
