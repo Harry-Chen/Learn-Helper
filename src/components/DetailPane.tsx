@@ -12,7 +12,7 @@ import ContentDetail from './ContentDetail';
 
 import styles from '../css/main.css';
 
-class DetailPane extends React.PureComponent<DetailPaneProps, {frameUrl?: string}> {
+class DetailPane extends React.PureComponent<DetailPaneProps, { frameUrl?: string }> {
   public render() {
     if (this.props.showIgnoreSettings) {
       return <ContentIgnoreSetting />;

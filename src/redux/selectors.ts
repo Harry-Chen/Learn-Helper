@@ -27,7 +27,7 @@ export const generateCardList = (
   ) {
     // filter and data not changed, use filtered & sorted sequence
     // just fetch the latest state
-    newCards = oldCards.map(l => data[`${l.type}Map`].get(l.id));
+    newCards = oldCards.map((l) => data[`${l.type}Map`].get(l.id));
   } else {
     // filter or data changed, re-calculate visibility and sequence
 
@@ -45,19 +45,19 @@ export const generateCardList = (
     }
 
     // filter cards to show
-    newCards = allContent.map(l => data[`${l.type}Map`].get(l.id));
+    newCards = allContent.map((l) => data[`${l.type}Map`].get(l.id));
     if (type === null) {
       // show ignored items
-      newCards = newCards.filter(l => l.ignored);
+      newCards = newCards.filter((l) => l.ignored);
     } else {
       // normal items
-      if (type !== undefined) newCards = newCards.filter(l => l.type === type);
+      if (type !== undefined) newCards = newCards.filter((l) => l.type === type);
       if (course !== undefined) {
-        newCards = newCards.filter(l => l.courseId === course.id);
+        newCards = newCards.filter((l) => l.courseId === course.id);
       } else {
         // in summary list, respect all ignore marks
         newCards = newCards.filter(
-          l => data.contentIgnore[l.courseId]?.[l.type] === false && !l.ignored,
+          (l) => data.contentIgnore[l.courseId]?.[l.type] === false && !l.ignored,
         );
       }
     }
@@ -78,11 +78,11 @@ export const generateCardList = (
       const bNotDue = b.type === ContentType.HOMEWORK && b.date.getTime() > new Date().getTime();
       result = compareBoolean(aNotDue, bNotDue);
       if (result !== 0) return result;
-      if (aNotDue && bNotDue) { // homework not due: show the one with earliest deadline first
+      if (aNotDue && bNotDue) {
+        // homework not due: show the one with earliest deadline first
         return a.date.getTime() - b.date.getTime();
-      }  // otherwise: sort by time naturally
-        return b.date.getTime() - a.date.getTime();
-      
+      } // otherwise: sort by time naturally
+      return b.date.getTime() - a.date.getTime();
     });
   }
 
@@ -91,7 +91,7 @@ export const generateCardList = (
   oldCards = newCards;
 
   if (title !== undefined) {
-    newCards = newCards.filter(l =>
+    newCards = newCards.filter((l) =>
       l.title.toLocaleLowerCase().includes(title.toLocaleLowerCase()),
     );
   }

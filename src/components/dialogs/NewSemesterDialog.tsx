@@ -41,23 +41,23 @@ const mapStateToProps = (state: IUiStateSlice): Partial<ICommonDialogProps> => {
 };
 
 const mapDispatchToProps = (dispatch): Partial<ICommonDialogProps> => ({
-    firstButtonOnClick: () => {
-      dispatch(toggleNewSemesterDialog(false));
-      dispatch((_dispatch, getState) => {
-        _dispatch(updateSemester((getState()[STATE_DATA] as DataState).fetchedSemester));
-      });
-      dispatch(refresh());
-    },
-    secondButtonOnClick: () => {
-      dispatch(toggleNewSemesterDialog(false));
-      dispatch(toggleIgnoreWrongSemester(true));
-      dispatch(refresh());
-    },
-    thirdButtonOnClick: () => {
-      dispatch(toggleNewSemesterDialog(false));
-      dispatch(insistSemester(true));
-      dispatch(refresh());
-    },
-  });
+  firstButtonOnClick: () => {
+    dispatch(toggleNewSemesterDialog(false));
+    dispatch((_dispatch, getState) => {
+      _dispatch(updateSemester((getState()[STATE_DATA] as DataState).fetchedSemester));
+    });
+    dispatch(refresh());
+  },
+  secondButtonOnClick: () => {
+    dispatch(toggleNewSemesterDialog(false));
+    dispatch(toggleIgnoreWrongSemester(true));
+    dispatch(refresh());
+  },
+  thirdButtonOnClick: () => {
+    dispatch(toggleNewSemesterDialog(false));
+    dispatch(insistSemester(true));
+    dispatch(refresh());
+  },
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewSemesterDialog);

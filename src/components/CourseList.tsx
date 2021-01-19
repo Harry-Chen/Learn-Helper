@@ -40,14 +40,14 @@ class CourseList extends React.PureComponent<
       <List
         className={styles.course_list}
         component="nav"
-        subheader={(
+        subheader={
           <ListSubheader component="div" disableSticky>
             <FontAwesomeIcon icon="inbox" />
             <span className={styles.list_title}>本学期课程</span>
           </ListSubheader>
-        )}
+        }
       >
-        {courses.map(c => (
+        {courses.map((c) => (
           <div key={c.id}>
             <ListItem
               className={styles.sidebar_list_item}
@@ -62,7 +62,7 @@ class CourseList extends React.PureComponent<
             </ListItem>
             <Collapse in={this.state.opened[c.id]} timeout="auto" unmountOnExit>
               <List className={styles.subfunc_list} disablePadding>
-                {COURSE_FUNC_LIST.map(func => (
+                {COURSE_FUNC_LIST.map((func) => (
                   <ListItem
                     className={styles.sidebar_list_item}
                     button
@@ -92,10 +92,10 @@ class CourseList extends React.PureComponent<
   }
 
   private closeAllItems = () => {
-    this.props.courses.map(i => (this.state.opened[i.id] = false));
+    this.props.courses.map((i) => (this.state.opened[i.id] = false));
   };
 
-  private handleClick = id => {
+  private handleClick = (id) => {
     const nextState = !this.state.opened[id];
     this.closeAllItems();
     this.setState({
@@ -110,7 +110,7 @@ const mapStateToProps = (state): CourseListProps => {
       courses: [],
     };
   }
-  const {courseMap} = state[STATE_DATA] as DataState;
+  const { courseMap } = state[STATE_DATA] as DataState;
   return {
     courses: [...courseMap.values()],
   };

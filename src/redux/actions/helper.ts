@@ -45,7 +45,9 @@ export function login(username: string, password: string, save: boolean) {
 
     // wait at most 5 seconds for timeout
     const timeout = new Promise((_, reject) => {
-      setTimeout(() => {reject(FailReason.NOT_LOGGED_IN);}, 5000);
+      setTimeout(() => {
+        reject(FailReason.NOT_LOGGED_IN);
+      }, 5000);
     });
 
     try {
@@ -112,7 +114,7 @@ export function refresh() {
     try {
       // login on every refresh (if stored)
       const credential = await getStoredCredential();
-      credential && await helper.login(credential.username, credential.password);
+      credential && (await helper.login(credential.username, credential.password));
       dispatch(loggedIn());
 
       const semesters = await helper.getSemesterIdList();
@@ -143,7 +145,7 @@ export function refresh() {
       dispatch(updateCourses(courses));
       dispatch(setProgressBar(20));
 
-      const allCourseIds = courses.map(c => c.id);
+      const allCourseIds = courses.map((c) => c.id);
 
       let res = await helper.getAllContents(allCourseIds, ContentType.NOTIFICATION);
       dispatch(updateNotification(res));
@@ -169,7 +171,7 @@ export function refresh() {
       dispatch(showSnackbar('更新成功', SnackbarType.SUCCESS));
 
       // wait some time before hiding progressbar
-      await new Promise(resolve => {
+      await new Promise((resolve) => {
         setTimeout(() => {
           resolve(null); // to make tsc happy
         }, 1000);

@@ -58,7 +58,7 @@ class CardList extends React.PureComponent<CardListProps, typeof initialState> {
     return (
       <div
         className={styles.card_list}
-        onScroll={ev => {
+        onScroll={(ev) => {
           const self = ev.target as HTMLDivElement;
           this.setState({ onTop: self.scrollTop === 0 });
 
@@ -75,7 +75,7 @@ class CardList extends React.PureComponent<CardListProps, typeof initialState> {
         <List
           className={styles.card_list_inner}
           component="nav"
-          subheader={(
+          subheader={
             <ListSubheader
               component="div"
               className={cn(styles.card_list_header, styles.card_list_header_floating)}
@@ -94,9 +94,9 @@ class CardList extends React.PureComponent<CardListProps, typeof initialState> {
                 </Button>
               )}
             </ListSubheader>
-          )}
+          }
         >
-          {filtered.map(c => (
+          {filtered.map((c) => (
             <ContentCard key={c.id} content={c} />
           ))}
 
@@ -118,7 +118,7 @@ class CardList extends React.PureComponent<CardListProps, typeof initialState> {
 const mapStateToProps = (state): Partial<CardListProps> => {
   const data = state[STATE_DATA] as DataState;
   const ui = state[STATE_UI] as UiState;
-  const {loggedIn} = state[STATE_HELPER] as HelperState;
+  const { loggedIn } = state[STATE_HELPER] as HelperState;
 
   if (!loggedIn) {
     return {
@@ -136,7 +136,7 @@ const mapStateToProps = (state): Partial<CardListProps> => {
 
   let unreadFileCount = 0;
 
-  generatedCardList.contents.forEach(c => {
+  generatedCardList.contents.forEach((c) => {
     if (c.type === ContentType.FILE && !c.hasRead) {
       unreadFileCount += 1;
     }
@@ -152,12 +152,12 @@ const mapStateToProps = (state): Partial<CardListProps> => {
 };
 
 const mapDispatchToProps = (dispatch): Partial<CardListProps> => ({
-    loadMore: () => {
-      dispatch(loadMoreCard());
-    },
-    downloadAllUnread: (contents: ContentInfo[]) => {
-      dispatch(downloadAllUnreadFiles(contents));
-    },
-  });
+  loadMore: () => {
+    dispatch(loadMoreCard());
+  },
+  downloadAllUnread: (contents: ContentInfo[]) => {
+    dispatch(downloadAllUnreadFiles(contents));
+  },
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CardList);

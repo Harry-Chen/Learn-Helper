@@ -62,7 +62,7 @@ class LoginDialog extends React.PureComponent<ILoginDialogProps, never> {
             type="text"
             required
             multiline={false}
-            onChange={e => {
+            onChange={(e) => {
               this.username = e.target.value;
             }}
           />
@@ -75,19 +75,19 @@ class LoginDialog extends React.PureComponent<ILoginDialogProps, never> {
             type="password"
             required
             multiline={false}
-            onChange={e => {
+            onChange={(e) => {
               this.password = e.target.value;
             }}
           />
           <FormControlLabel
-            control={(
+            control={
               <Checkbox
                 id="saveCredential"
-                onChange={e => {
+                onChange={(e) => {
                   this.save = e.target.checked;
                 }}
               />
-            )}
+            }
             label="保存凭据以自动登录"
           />
         </DialogContent>

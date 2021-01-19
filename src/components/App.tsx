@@ -74,7 +74,7 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
     }
   };
 
-  private handleFilter = ev => {
+  private handleFilter = (ev) => {
     this.setState({ filter: ev.target.value });
     this.props.setTitleFilter(ev.target.value);
   };
@@ -128,26 +128,19 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
                     >
                       <FontAwesomeIcon icon="angle-left" />
                     </IconButton>
-                    <Typography
-                      variant="subtitle1"
-                      className={styles.sidebar_master_title}
-                      noWrap
-                    >
+                    <Typography variant="subtitle1" className={styles.sidebar_master_title} noWrap>
                       {this.props.semesterTitle}
                     </Typography>
-                    {
-                      !this.props.latestSemester ? (
-                        <Tooltip title="非最新学期">
-                          <IconButton
-                            className={styles.sidebar_master_notify_icon}
-                            onClick={this.props.openChangeSemesterDialog}
-                          >
-                            <FontAwesomeIcon icon="star-of-life" />
-                          </IconButton>
-                        </Tooltip>
-                    )
-                      :null
-                    }
+                    {!this.props.latestSemester ? (
+                      <Tooltip title="非最新学期">
+                        <IconButton
+                          className={styles.sidebar_master_notify_icon}
+                          onClick={this.props.openChangeSemesterDialog}
+                        >
+                          <FontAwesomeIcon icon="star-of-life" />
+                        </IconButton>
+                      </Tooltip>
+                    ) : null}
                   </Toolbar>
                   <Toolbar
                     className={classnames(styles.sidebar_header_right, {
@@ -240,7 +233,9 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
           color="secondary"
           variant="contained"
           className={styles.app_error_text}
-          onClick={() => {window.location = window.location;}}
+          onClick={() => {
+            window.location = window.location;
+          }}
         >
           刷新
         </Button>
@@ -282,7 +277,7 @@ const mapStateToProps = (state: IUiStateSlice): Partial<AppProps> => {
     paneHidden: uiState.paneHidden,
     cardListTitle: helperState.loggedIn ? uiState.cardListTitle : '加载中...',
     semesterTitle: formatSemester(dataState.semester),
-    latestSemester: dataState.semester.id === dataState.fetchedSemester.id
+    latestSemester: dataState.semester.id === dataState.fetchedSemester.id,
   };
 };
 

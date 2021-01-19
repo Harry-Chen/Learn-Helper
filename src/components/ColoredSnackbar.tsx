@@ -25,11 +25,11 @@ class ColoredSnackbar extends React.Component<ColoredSnackbarProps, never> {
       >
         <SnackbarContent
           className={snackbarClass(this.props.snackbarType)}
-          message={(
+          message={
             <span id="client-snackbar" className={styles.snack_bar_text}>
               {this.props.snackbarContent}
             </span>
-          )}
+          }
         />
       </Snackbar>
     );

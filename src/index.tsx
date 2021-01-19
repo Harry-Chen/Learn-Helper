@@ -26,7 +26,7 @@ const LearnHelper = () => (
       <App />
     </PersistGate>
   </Provider>
-  );
+);
 
 const loadApp = async () => {
   const res = await getStoredCredential();

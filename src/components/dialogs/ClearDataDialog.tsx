@@ -13,22 +13,22 @@ import CommonDialog from './CommonDialog';
 class ClearDataDialog extends CommonDialog {}
 
 const mapStateToProps = (state: IUiStateSlice): Partial<ICommonDialogProps> => ({
-    open: (state[STATE_UI] as UiState).showClearDataDialog,
-    title: '清除所有缓存',
-    content: '确认要清除吗？所有缓存的数据和已读状态将会被清除。',
-    firstButton: '是',
-    secondButton: '否',
-  });
+  open: (state[STATE_UI] as UiState).showClearDataDialog,
+  title: '清除所有缓存',
+  content: '确认要清除吗？所有缓存的数据和已读状态将会被清除。',
+  firstButton: '是',
+  secondButton: '否',
+});
 
 const mapDispatchToProps = (dispatch): Partial<ICommonDialogProps> => ({
-    firstButtonOnClick: () => {
-      dispatch(toggleClearDataDialog(false));
-      dispatch(clearAllData());
-      dispatch(refresh());
-    },
-    secondButtonOnClick: () => {
-      dispatch(toggleClearDataDialog(false));
-    },
-  });
+  firstButtonOnClick: () => {
+    dispatch(toggleClearDataDialog(false));
+    dispatch(clearAllData());
+    dispatch(refresh());
+  },
+  secondButtonOnClick: () => {
+    dispatch(toggleClearDataDialog(false));
+  },
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ClearDataDialog);

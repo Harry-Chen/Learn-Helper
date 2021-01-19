@@ -36,7 +36,6 @@ import { faEnvelopeOpen } from '@fortawesome/free-solid-svg-icons/faEnvelopeOpen
 import { faRandom } from '@fortawesome/free-solid-svg-icons/faRandom';
 import { faStarOfLife } from '@fortawesome/free-solid-svg-icons/faStarOfLife';
 
-
 const ICON_TO_USE = [
   faThumbtack,
   faHome,
@@ -75,4 +74,4 @@ const ICON_TO_USE = [
   faStarOfLife,
 ];
 
-ICON_TO_USE.map(i => library.add(i));
+ICON_TO_USE.map((i) => library.add(i));

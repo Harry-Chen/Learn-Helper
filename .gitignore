@@ -7,4 +7,6 @@ legacy
 yarn-error.log
 .vscode/
 size-report.html
-
+dist/BRANCH
+dist/COMMITHASH
+dist/VERSION

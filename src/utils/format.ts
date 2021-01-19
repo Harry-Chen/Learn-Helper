@@ -10,9 +10,15 @@ export function formatSemester(semester: SemesterInfo): string {
 export function semesterFromId(id: string): SemesterInfo {
   let type = SemesterType.UNKNOWN;
   switch (id.charAt(id.length - 1)) {
-    case '1': type = SemesterType.FALL; break;
-    case '2': type = SemesterType.SPRING; break;
-    case '3': type = SemesterType.SUMMER; break;
+    case '1':
+      type = SemesterType.FALL;
+      break;
+    case '2':
+      type = SemesterType.SPRING;
+      break;
+    case '3':
+      type = SemesterType.SUMMER;
+      break;
   }
   return {
     id,

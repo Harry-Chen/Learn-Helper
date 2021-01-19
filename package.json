@@ -9,7 +9,7 @@
     "url": "https://github.com/xxr3376/Learn-Project"
   },
   "scripts": {
-    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\" \"src/**/*.js\" \"src/**/*.jsx\"",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\" \"src/**/*.js\"",
     "build": "webpack --config webpack.prod.js",
     "dev-build": "webpack --config webpack.dev.js",
     "dev-watch": "webpack -w --config webpack.dev.js",

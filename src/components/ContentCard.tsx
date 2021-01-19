@@ -48,7 +48,7 @@ class ContentCard extends React.PureComponent<CardProps, never> {
   }
 
   private onTitleClick = () => {
-    const {content} = this.props;
+    const { content } = this.props;
     switch (content.type) {
       // show details in DetailPane
       case ContentType.FILE:
@@ -59,7 +59,7 @@ class ContentCard extends React.PureComponent<CardProps, never> {
       // navigate iframe in DetailPane to given url
       case ContentType.DISCUSSION:
       case ContentType.QUESTION:
-        const {url} = content as DiscussionInfo;
+        const { url } = content as DiscussionInfo;
         this.props.dispatch(setDetailUrl(url));
     }
     // mark card as read
@@ -187,11 +187,11 @@ class ContentCard extends React.PureComponent<CardProps, never> {
             [styles.card_starred]: content.starred,
           })}
           component="div"
-          onClick={ev => {
+          onClick={(ev) => {
             dispatch(toggleStarState(content.id, !content.starred, content.type));
             ev.stopPropagation();
           }}
-          onMouseDown={ev => ev.stopPropagation()}
+          onMouseDown={(ev) => ev.stopPropagation()}
         >
           <FontAwesomeIcon icon="star" />
         </IconButton>
@@ -204,11 +204,11 @@ class ContentCard extends React.PureComponent<CardProps, never> {
           color="primary"
           className={styles.card_action_button}
           component="div"
-          onClick={ev => {
+          onClick={(ev) => {
             dispatch(toggleReadState(content.id, !content.hasRead, content.type));
             ev.stopPropagation();
           }}
-          onMouseDown={ev => ev.stopPropagation()}
+          onMouseDown={(ev) => ev.stopPropagation()}
         >
           <FontAwesomeIcon icon={content.hasRead ? 'clipboard' : 'clipboard-check'} />
         </IconButton>
@@ -221,11 +221,11 @@ class ContentCard extends React.PureComponent<CardProps, never> {
           color="primary"
           className={styles.card_action_button}
           component="div"
-          onClick={ev => {
+          onClick={(ev) => {
             dispatch(toggleIgnoreState(content.id, !content.ignored, content.type));
             ev.stopPropagation();
           }}
-          onMouseDown={ev => ev.stopPropagation()}
+          onMouseDown={(ev) => ev.stopPropagation()}
         >
           <FontAwesomeIcon icon={content.ignored ? 'trash' : 'trash-alt'} />
         </IconButton>
@@ -243,11 +243,11 @@ class ContentCard extends React.PureComponent<CardProps, never> {
             color="primary"
             className={styles.card_action_button}
             component="div"
-            onClick={ev => {
+            onClick={(ev) => {
               dispatch(setDetailUrl(homework.submitUrl));
               ev.stopPropagation();
             }}
-            onMouseDown={ev => ev.stopPropagation()}
+            onMouseDown={(ev) => ev.stopPropagation()}
           >
             <FontAwesomeIcon icon="upload" />
           </IconButton>

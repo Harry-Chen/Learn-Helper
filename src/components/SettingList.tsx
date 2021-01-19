@@ -23,14 +23,14 @@ class SettingList extends React.PureComponent<SettingListProps, never> {
       <List
         className={styles.numbered_list}
         component="nav"
-        subheader={(
+        subheader={
           <ListSubheader component="div" disableSticky>
             <FontAwesomeIcon icon="wrench" />
             <span className={styles.list_title}>设置</span>
           </ListSubheader>
-        )}
+        }
       >
-        {SETTINGS_FUNC_LIST.map(i => (
+        {SETTINGS_FUNC_LIST.map((i) => (
           <ListItem
             className={styles.sidebar_list_item}
             button

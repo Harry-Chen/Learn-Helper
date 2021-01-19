@@ -34,7 +34,7 @@ export function updateSemesterList(semesters: string[]): DataAction {
   return {
     type: DataActionType.UPDATE_SEMESTER_LIST,
     semesters,
-  }
+  };
 }
 
 export function updateSemester(semester: SemesterInfo): DataAction {

@@ -141,18 +141,18 @@ function toggle<T extends ContentInfo>(
   status: boolean,
 ): Map<string, T> {
   return oldMap.update(id, (c: any) => ({
-      ...c,
-      [key]: status,
-    }));
+    ...c,
+    [key]: status,
+  }));
 }
 
 function markAllRead<T extends ContentInfo>(oldMap: Map<string, T>): Map<string, T> {
   let map = oldMap;
   for (const k of oldMap.keys()) {
     map = map.update(k, (c: any) => ({
-        ...c,
-        hasRead: true,
-      }));
+      ...c,
+      hasRead: true,
+    }));
   }
   return map;
 }
@@ -169,12 +169,11 @@ export default function data(state: IDataState = initialState, action: DataActio
   const stateKey = `${action.contentType}Map`;
 
   switch (action.type) {
-
     case DataActionType.UPDATE_SEMESTER_LIST:
       return {
         ...state,
         semesters: action.semesters,
-      }
+      };
 
     case DataActionType.NEW_SEMESTER:
       // save the new semester for querying user
@@ -202,7 +201,7 @@ export default function data(state: IDataState = initialState, action: DataActio
       // update course list and ignoring list
       // any content that belongs to removed courses will be removed in following steps
       let courseMap = Map<string, CourseInfo>();
-      const {contentIgnore} = state;
+      const { contentIgnore } = state;
       for (const c of orderBy(action.courseList, ['id'])) {
         courseMap = courseMap.set(c.id, c);
         if (contentIgnore[c.id] === undefined) {
