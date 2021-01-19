@@ -1,5 +1,12 @@
 # Changelog
 
+## v4.4.0
+
+* FIX error when reading data from disabled functionalities (#90)
+* ADD more version info on welcome page
+* Deploy self-host version of FireFox Addons (see <https://harrychen.xyz/learn/>)
+* Upgrade to TypeScript v4.1, Webpack v5.15, React v17, Material-UI v4.11
+
 ## v4.3.1
 
 * FIX login error when not saving credentials
