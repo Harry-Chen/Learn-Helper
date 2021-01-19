@@ -107,7 +107,7 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
           <header className={styles.progress_area}>
             <LinearProgress
               variant="determinate"
-              color={'secondary'}
+              color="secondary"
               value={this.props.loadingProgress}
               hidden={!this.props.showLoadingProgressBar}
             />
@@ -131,20 +131,21 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
                     <Typography
                       variant="subtitle1"
                       className={styles.sidebar_master_title}
-                      noWrap={true}
+                      noWrap
                     >
                       {this.props.semesterTitle}
                     </Typography>
                     {
-                      !this.props.latestSemester ?
-                      <Tooltip title="非最新学期" >
-                        <IconButton
-                          className={styles.sidebar_master_notify_icon}
-                          onClick={this.props.openChangeSemesterDialog}
-                        >
-                          <FontAwesomeIcon icon="star-of-life"/>
-                        </IconButton>
-                      </Tooltip>
+                      !this.props.latestSemester ? (
+                        <Tooltip title="非最新学期">
+                          <IconButton
+                            className={styles.sidebar_master_notify_icon}
+                            onClick={this.props.openChangeSemesterDialog}
+                          >
+                            <FontAwesomeIcon icon="star-of-life" />
+                          </IconButton>
+                        </Tooltip>
+                    )
                       :null
                     }
                   </Toolbar>
@@ -153,7 +154,7 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
                       [styles.sidebar_filter_shown]: this.state.filterShown,
                     })}
                   >
-                    <Typography variant="h6" className={styles.sidebar_cardlist_name} noWrap={true}>
+                    <Typography variant="h6" className={styles.sidebar_cardlist_name} noWrap>
                       {this.props.cardListTitle}
                     </Typography>
 
@@ -229,10 +230,10 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
     }
     return (
       <main className={styles.app_error_section}>
-        <Typography variant="h5" className={styles.app_error_text} noWrap={true}>
+        <Typography variant="h5" className={styles.app_error_text} noWrap>
           <b>哎呀，出错了！</b>
         </Typography>
-        <Typography variant="body1" className={styles.app_error_text} noWrap={true}>
+        <Typography variant="body1" className={styles.app_error_text} noWrap>
           发生了不可恢复的错误，请尝试刷新页面。如果错误继续出现，请清除数据重新来过。
         </Typography>
         <Button

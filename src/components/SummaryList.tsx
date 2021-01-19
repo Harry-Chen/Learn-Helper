@@ -27,17 +27,17 @@ class SummaryList extends React.PureComponent<SummaryListProps, never> {
       <List
         className={styles.numbered_list}
         component="nav"
-        subheader={
-          <ListSubheader component="div" disableSticky={true}>
-            <FontAwesomeIcon icon={'thumbtack'} />
-            <span className={styles.list_title}>{'项目汇总'}</span>
+        subheader={(
+          <ListSubheader component="div" disableSticky>
+            <FontAwesomeIcon icon="thumbtack" />
+            <span className={styles.list_title}>项目汇总</span>
           </ListSubheader>
-        }
+        )}
       >
         {SUMMARY_FUNC_LIST.map(func => (
           <ListItem
             className={styles.sidebar_list_item}
-            button={true}
+            button
             key={func.name}
             onClick={() => {
               dispatch(setCardFilter(func.type));
@@ -68,7 +68,7 @@ const mapStateToProps = (state): SummaryListProps => {
   const numbers = {};
   let total = 0;
   for (const func of Object.values(COURSE_MAIN_FUNC)) {
-    const type = func.type;
+    const {type} = func;
     const mapName = `${type}Map`;
     const map = data[mapName] as Map<string, ContentInfo>;
     let count = 0;

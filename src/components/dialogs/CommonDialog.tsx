@@ -13,13 +13,16 @@ class CommonDialog<P extends ICommonDialogProps = ICommonDialogProps, S = never>
 
   // could be overloaded by subclasses
   public getContent(): React.ReactNode { return null; }
+
   public firstButtonClick() {}
+
   public secondButtonClick() {}
+
   public thirdButtonClick() {}
 
   public render(): React.ReactNode {
     return (
-      <Dialog open={this.props.open} keepMounted={true}>
+      <Dialog open={this.props.open} keepMounted>
         <DialogTitle>{this.props.title}</DialogTitle>
         <DialogContent>
           {this.props.content ?? this.getContent()}

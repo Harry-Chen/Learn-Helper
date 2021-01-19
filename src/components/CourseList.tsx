@@ -40,18 +40,18 @@ class CourseList extends React.PureComponent<
       <List
         className={styles.course_list}
         component="nav"
-        subheader={
-          <ListSubheader component="div" disableSticky={true}>
-            <FontAwesomeIcon icon={'inbox'} />
+        subheader={(
+          <ListSubheader component="div" disableSticky>
+            <FontAwesomeIcon icon="inbox" />
             <span className={styles.list_title}>本学期课程</span>
           </ListSubheader>
-        }
+        )}
       >
         {courses.map(c => (
           <div key={c.id}>
             <ListItem
               className={styles.sidebar_list_item}
-              button={true}
+              button
               onClick={() => this.handleClick(c.id)}
             >
               <ListItemIcon className={styles.list_item_icon}>
@@ -60,12 +60,12 @@ class CourseList extends React.PureComponent<
               <ListItemText primary={c.name} className={styles.course_list_item_text} />
               <FontAwesomeIcon icon={this.state.opened[c.id] ? 'angle-up' : 'angle-down'} />
             </ListItem>
-            <Collapse in={this.state.opened[c.id]} timeout="auto" unmountOnExit={true}>
-              <List className={styles.subfunc_list} disablePadding={true}>
+            <Collapse in={this.state.opened[c.id]} timeout="auto" unmountOnExit>
+              <List className={styles.subfunc_list} disablePadding>
                 {COURSE_FUNC_LIST.map(func => (
                   <ListItem
                     className={styles.sidebar_list_item}
-                    button={true}
+                    button
                     key={func.name}
                     onClick={() => {
                       if (func.name !== COURSE_FUNC.COURSE_HOMEPAGE.name) {
@@ -110,7 +110,7 @@ const mapStateToProps = (state): CourseListProps => {
       courses: [],
     };
   }
-  const courseMap = (state[STATE_DATA] as DataState).courseMap;
+  const {courseMap} = state[STATE_DATA] as DataState;
   return {
     courses: [...courseMap.values()],
   };

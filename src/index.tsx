@@ -20,15 +20,13 @@ const persistor = persistStore(store, null, async () => {
   await loadApp();
 });
 
-const LearnHelper = () => {
-  return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <App />
-      </PersistGate>
-    </Provider>
+const LearnHelper = () => (
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+      <App />
+    </PersistGate>
+  </Provider>
   );
-};
 
 const loadApp = async () => {
   const res = await getStoredCredential();

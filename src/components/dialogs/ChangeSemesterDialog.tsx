@@ -39,28 +39,30 @@ class ChangeSemesterDialog extends CommonDialog<IChangeSemesterDialogProps, ICha
 
     public getContent(): React.ReactNode {
         return (
-            <span>
-                切换学期将导致所有配置（隐藏）和状态（已读、星标）丢失，请三思！
-                <br />
-                当前 Learn Helper 学期：{formatSemesterId(this.props.semester)}
-                <br />
-                当前网络学堂学期：{formatSemesterId(this.props.latestSemester)}
-                <br />
-                <FormControl className={styles.form_control}>
-                <InputLabel id="select-semester">选择学期</InputLabel>
-                <Select
-                    labelId="select-semester"
-                    value={this.state.newSemester}
-                    onChange={(e) => {this.setState({
+          <span>
+            切换学期将导致所有配置（隐藏）和状态（已读、星标）丢失，请三思！
+            <br />
+            当前 Learn Helper 学期：
+            {formatSemesterId(this.props.semester)}
+            <br />
+            当前网络学堂学期：
+            {formatSemesterId(this.props.latestSemester)}
+            <br />
+            <FormControl className={styles.form_control}>
+              <InputLabel id="select-semester">选择学期</InputLabel>
+              <Select
+                labelId="select-semester"
+                value={this.state.newSemester}
+                onChange={(e) => {this.setState({
                         newSemester: e.target.value as string
                     })}}
-                >
-                    {this.props.semesters.map(s => (
-                        <MenuItem value={s} key={s}>{formatSemesterId(s)}</MenuItem>
+              >
+                {this.props.semesters.map(s => (
+                  <MenuItem value={s} key={s}>{formatSemesterId(s)}</MenuItem>
                     ))}
-                </Select>
-                </FormControl>
-            </span>
+              </Select>
+            </FormControl>
+          </span>
           )
     }
 
@@ -89,14 +91,12 @@ const mapStateToProps = (state: IUiStateSlice): Partial<IChangeSemesterDialogPro
   };
 };
 
-const mapDispatchToProps = (dispatch): Partial<IChangeSemesterDialogProps> => {
-  return {
+const mapDispatchToProps = (dispatch): Partial<IChangeSemesterDialogProps> => ({
     dispatch,
     firstButtonOnClick: null,
     secondButtonOnClick: () => {
       dispatch(toggleChangeSemesterDialog(false));
     }
-  };
-};
+  });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChangeSemesterDialog);

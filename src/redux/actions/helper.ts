@@ -171,7 +171,7 @@ export function refresh() {
       // wait some time before hiding progressbar
       await new Promise(resolve => {
         setTimeout(() => {
-          resolve();
+          resolve(null); // to make tsc happy
         }, 1000);
       });
     } catch (e) {

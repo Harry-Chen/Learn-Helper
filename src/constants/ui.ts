@@ -1,7 +1,8 @@
 import { IconName } from '@fortawesome/fontawesome-common-types';
 
-import { IMenuItem, IMenuItemEnum } from '../types/ui';
 import { Dispatch } from 'redux';
+import { ContentType } from 'thu-learn-lib/lib/types';
+import { IMenuItem, IMenuItemEnum } from '../types/ui';
 import { refresh } from '../redux/actions/helper';
 import {
   showContentIgnoreSetting,
@@ -9,7 +10,6 @@ import {
   toggleLogoutDialog,
   toggleChangeSemesterDialog,
 } from '../redux/actions/ui';
-import { ContentType } from 'thu-learn-lib/lib/types';
 import { markAllRead } from '../redux/actions/data';
 
 export const COURSE_MAIN_FUNC: {

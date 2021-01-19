@@ -11,8 +11,7 @@ import CommonDialog from './CommonDialog';
 
 class NetworkErrorDialog extends CommonDialog {}
 
-const mapStateToProps = (state: IUiStateSlice): Partial<ICommonDialogProps> => {
-  return {
+const mapStateToProps = (state: IUiStateSlice): Partial<ICommonDialogProps> => ({
     open: (state[STATE_UI] as UiState).showNetworkErrorDialog,
     title: '刷新课程信息失败',
     content: (
@@ -31,11 +30,9 @@ const mapStateToProps = (state: IUiStateSlice): Partial<ICommonDialogProps> => {
     firstButton: '重试刷新',
     secondButton: '离线查看',
     thirdButton: '更新凭据',
-  };
-};
+  });
 
-const mapDispatchToProps = (dispatch): Partial<ICommonDialogProps> => {
-  return {
+const mapDispatchToProps = (dispatch): Partial<ICommonDialogProps> => ({
     firstButtonOnClick: () => {
       dispatch(toggleNetworkErrorDialog(false));
       dispatch(refresh());
@@ -48,7 +45,6 @@ const mapDispatchToProps = (dispatch): Partial<ICommonDialogProps> => {
       dispatch(toggleNetworkErrorDialog(false));
       dispatch(toggleLoginDialog(true));
     },
-  };
-};
+  });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NetworkErrorDialog);

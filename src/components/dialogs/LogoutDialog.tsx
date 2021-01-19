@@ -13,19 +13,16 @@ import CommonDialog from './CommonDialog';
 
 class LogoutDialog extends CommonDialog {}
 
-const mapStateToProps = (state: IUiStateSlice): Partial<ICommonDialogProps> => {
-  return {
+const mapStateToProps = (state: IUiStateSlice): Partial<ICommonDialogProps> => ({
     open: (state[STATE_UI] as UiState).showLogoutDialog,
     title: '退出登录',
     content: '您确认要退出登录吗？如果只是更换登录密码，请不要选择清除数据。',
     firstButton: '退出',
     secondButton: '退出并清除数据',
     thirdButton: '取消',
-  };
-};
+  });
 
-const mapDispatchToProps = (dispatch): Partial<ICommonDialogProps> => {
-  return {
+const mapDispatchToProps = (dispatch): Partial<ICommonDialogProps> => ({
     firstButtonOnClick: () => {
       dispatch(async _dispatch => {
         await removeStoredCredential();
@@ -46,7 +43,6 @@ const mapDispatchToProps = (dispatch): Partial<ICommonDialogProps> => {
     thirdButtonOnClick: () => {
       dispatch(toggleLogoutDialog(false));
     },
-  };
-};
+  });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LogoutDialog);

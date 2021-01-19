@@ -35,7 +35,7 @@ class ContentIgnoreSetting extends React.PureComponent<ContentIgnoreSettingProps
                 <TableRow>
                   <TableCell>课程名称</TableCell>
                   {Object.keys(ContentType).map(type => (
-                    <TableCell key={type} align={'center'}>
+                    <TableCell key={type} align="center">
                       {COURSE_FUNC[`COURSE_${type}`].name}
                     </TableCell>
                   ))}
@@ -48,7 +48,7 @@ class ContentIgnoreSetting extends React.PureComponent<ContentIgnoreSettingProps
                       {s.course.name}
                     </TableCell>
                     {Object.values(ContentType).map(type => (
-                      <TableCell align={'center'} key={type}>
+                      <TableCell align="center" key={type}>
                         <Switch
                           checked={s.ignore[type]}
                           onChange={() => {
@@ -66,8 +66,8 @@ class ContentIgnoreSetting extends React.PureComponent<ContentIgnoreSettingProps
           </Paper>
           <div className={styles.ignore_setting_reset_button}>
             <Button
-              color={'secondary'}
-              variant={'contained'}
+              color="secondary"
+              variant="contained"
               onClick={() => {
                 this.props.dispatch(resetContentIgnore());
               }}
@@ -83,12 +83,10 @@ class ContentIgnoreSetting extends React.PureComponent<ContentIgnoreSettingProps
 
 const mapStateToProps = (state): ContentIgnoreSettingProps => {
   const data = state[STATE_DATA] as DataState;
-  const ignoreState = Object.entries(data.contentIgnore).map(ignore => {
-    return {
+  const ignoreState = Object.entries(data.contentIgnore).map(ignore => ({
       course: data.courseMap.get(ignore[0]),
       ignore: ignore[1],
-    };
-  });
+    }));
   return {
     ignoreState,
   };

@@ -7,6 +7,7 @@ import List from '@material-ui/core/List';
 import Button from '@material-ui/core/Button';
 import ListSubheader from '@material-ui/core/ListSubheader';
 
+import { ContentType } from 'thu-learn-lib/lib/types';
 import { CardListProps } from '../types/ui';
 import ContentCard from './ContentCard';
 
@@ -18,7 +19,6 @@ import { UiState } from '../redux/reducers/ui';
 import { HelperState } from '../redux/reducers/helper';
 import { downloadAllUnreadFiles, loadMoreCard } from '../redux/actions/ui';
 import { generateCardList } from '../redux/selectors';
-import { ContentType } from 'thu-learn-lib/lib/types';
 import { ContentInfo } from '../types/data';
 
 const initialState = {
@@ -75,7 +75,7 @@ class CardList extends React.PureComponent<CardListProps, typeof initialState> {
         <List
           className={styles.card_list_inner}
           component="nav"
-          subheader={
+          subheader={(
             <ListSubheader
               component="div"
               className={cn(styles.card_list_header, styles.card_list_header_floating)}
@@ -88,11 +88,13 @@ class CardList extends React.PureComponent<CardListProps, typeof initialState> {
                     downloadAllUnread(contents);
                   }}
                 >
-                  下载所有未读文件（共{unreadFileCount}个）
+                  下载所有未读文件（共
+                  {unreadFileCount}
+                  个）
                 </Button>
               )}
             </ListSubheader>
-          }
+          )}
         >
           {filtered.map(c => (
             <ContentCard key={c.id} content={c} />
@@ -116,7 +118,7 @@ class CardList extends React.PureComponent<CardListProps, typeof initialState> {
 const mapStateToProps = (state): Partial<CardListProps> => {
   const data = state[STATE_DATA] as DataState;
   const ui = state[STATE_UI] as UiState;
-  const loggedIn = (state[STATE_HELPER] as HelperState).loggedIn;
+  const {loggedIn} = state[STATE_HELPER] as HelperState;
 
   if (!loggedIn) {
     return {
@@ -149,15 +151,13 @@ const mapStateToProps = (state): Partial<CardListProps> => {
   };
 };
 
-const mapDispatchToProps = (dispatch): Partial<CardListProps> => {
-  return {
+const mapDispatchToProps = (dispatch): Partial<CardListProps> => ({
     loadMore: () => {
       dispatch(loadMoreCard());
     },
     downloadAllUnread: (contents: ContentInfo[]) => {
       dispatch(downloadAllUnreadFiles(contents));
     },
-  };
-};
+  });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CardList);

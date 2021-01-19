@@ -80,9 +80,9 @@ export const generateCardList = (
       if (result !== 0) return result;
       if (aNotDue && bNotDue) { // homework not due: show the one with earliest deadline first
         return a.date.getTime() - b.date.getTime();
-      } else { // otherwise: sort by time naturally
+      }  // otherwise: sort by time naturally
         return b.date.getTime() - a.date.getTime();
-      }
+      
     });
   }
 

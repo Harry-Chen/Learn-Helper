@@ -21,9 +21,11 @@ const mapStateToProps = (state: IUiStateSlice): Partial<ICommonDialogProps> => {
     title: '检测到新学期',
     content: (
       <span>
-        当前 Learn Helper 学期：{formatSemester(data.semester)}
+        当前 Learn Helper 学期：
+        {formatSemester(data.semester)}
         <br />
-        当前网络学堂学期：{formatSemester(data.fetchedSemester)}
+        当前网络学堂学期：
+        {formatSemester(data.fetchedSemester)}
         <br />
         是否要进行学期切换（本学期已读、星标等状态将会被清空）？
         <br />
@@ -38,8 +40,7 @@ const mapStateToProps = (state: IUiStateSlice): Partial<ICommonDialogProps> => {
   };
 };
 
-const mapDispatchToProps = (dispatch): Partial<ICommonDialogProps> => {
-  return {
+const mapDispatchToProps = (dispatch): Partial<ICommonDialogProps> => ({
     firstButtonOnClick: () => {
       dispatch(toggleNewSemesterDialog(false));
       dispatch((_dispatch, getState) => {
@@ -57,7 +58,6 @@ const mapDispatchToProps = (dispatch): Partial<ICommonDialogProps> => {
       dispatch(insistSemester(true));
       dispatch(refresh());
     },
-  };
-};
+  });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewSemesterDialog);
