@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
-
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 
 const createIndex = new HtmlWebpackPlugin({
   template: "./src/index.html",
@@ -25,7 +25,7 @@ module.exports = {
     path: path.resolve("./dist"),
     filename: "[name].js"
   },
-  plugins: [ createIndex, copyPolyFill ],
+  plugins: [ createIndex, copyPolyFill, new NodePolyfillPlugin() ],
   devServer: {
     contentBase: './dist'
   },
@@ -52,7 +52,9 @@ module.exports = {
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js"],
-    alias: { 
+    alias: {
+      'parse5': path.resolve(__dirname, 'node_modules/thu-learn-lib/src/fake-parse5/'),
+      'parse5-htmlparser2-tree-adapter': path.resolve(__dirname, 'node_modules/thu-learn-lib/src/fake-parse5/'),
       // "react": "preact/compat",
       // "react-dom/test-utils": "preact/test-utils",
       // "react-dom": "preact/compat",
