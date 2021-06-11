@@ -10,3 +10,5 @@ size-report.html
 dist/BRANCH
 dist/COMMITHASH
 dist/VERSION
+dist/LASTCOMMITDATETIME
+

@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
-const GitRevisionPlugin = require('git-revision-webpack-plugin')
+const { GitRevisionPlugin } = require('git-revision-webpack-plugin')
 
 const createIndex = new HtmlWebpackPlugin({
   template: "./src/index.html",
