@@ -1,5 +1,10 @@
 # Changelog
 
+## v4.4.1
+
+* FIX possible missing current semester in semester choice dialog
+* Upgrade dependencies to mitigate security issues
+
 ## v4.4.0
 
 * FIX error when reading data from disabled functionalities (#90)
