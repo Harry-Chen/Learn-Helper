@@ -86,11 +86,19 @@ class ChangeSemesterDialog extends CommonDialog<
 
 const mapStateToProps = (state: IUiStateSlice): Partial<IChangeSemesterDialogProps> => {
   const data = state[STATE_DATA] as DataState;
+  const allSemesters = data.semesters ?? [];
+  const currentWebSemester = data.fetchedSemester.id;
+
+  // insert current semester if not fetched from API
+  if (allSemesters.indexOf(currentWebSemester) == -1) {
+    allSemesters.unshift(currentWebSemester)
+  }
+
   return {
     open: (state[STATE_UI] as UiState).showChangeSemesterDialog,
     semester: data.semester?.id ?? '',
-    semesters: data.semesters ?? [],
-    latestSemester: data.fetchedSemester.id,
+    semesters: allSemesters,
+    latestSemester: currentWebSemester,
     title: '切换学期',
     content: null,
     firstButton: '确定',
