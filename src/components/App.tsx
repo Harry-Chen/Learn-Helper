@@ -132,7 +132,7 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
                       {this.props.semesterTitle}
                     </Typography>
                     {!this.props.latestSemester ? (
-                      <Tooltip title="非最新学期">
+                      <Tooltip title="非网络学堂当前学期">
                         <IconButton
                           className={styles.sidebar_master_notify_icon}
                           onClick={this.props.openChangeSemesterDialog}

@@ -48,7 +48,7 @@ class ChangeSemesterDialog extends CommonDialog<
         当前 Learn Helper 学期：
         {formatSemesterId(this.props.semester)}
         <br />
-        当前网络学堂学期：
+        当前网络学堂学期（注册中心控制）：
         {formatSemesterId(this.props.latestSemester)}
         <br />
         <FormControl className={styles.form_control}>

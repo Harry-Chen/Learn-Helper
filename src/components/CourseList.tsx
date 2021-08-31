@@ -47,7 +47,7 @@ class CourseList extends React.PureComponent<
           </ListSubheader>
         }
       >
-        {courses.map((c) => (
+        {courses.length == 0 ? (<span className={styles.list_title}>这里什么也没有，快去选点课吧！</span>) : courses.map((c) => (
           <div key={c.id}>
             <ListItem
               className={styles.sidebar_list_item}
