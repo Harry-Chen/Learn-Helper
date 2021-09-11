@@ -1,5 +1,9 @@
 # Changelog
 
+## v4.4.2
+
+* FIX login error (update to `thu-learn-helper` 2.5.0 to support CSRF token)
+
 ## v4.4.1
 
 * FIX possible missing current semester in semester choice dialog
