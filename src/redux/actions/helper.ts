@@ -1,5 +1,5 @@
 import { Learn2018Helper } from 'thu-learn-lib/lib';
-import { ContentType, SemesterType, FailReason } from 'thu-learn-lib/lib/types';
+import { ContentType, SemesterType, FailReason, ApiError } from 'thu-learn-lib/lib/types';
 
 import {
   loginEnd,
@@ -46,17 +46,17 @@ export function login(username: string, password: string, save: boolean) {
     // wait at most 5 seconds for timeout
     const timeout = new Promise((_, reject) => {
       setTimeout(() => {
-        reject(FailReason.NOT_LOGGED_IN);
+        reject({ reason: 'TIMEOUT' });
       }, 5000);
     });
 
     try {
       await Promise.race([helper.login(username, password), timeout]);
     } catch (e) {
-      const error = e as FailReason;
+      const error = e as ApiError;
       dispatch(
         showSnackbar(
-          `登录失败：${failReasonToString(error) ?? error ?? '未知错误'}`,
+          `登录失败：${failReasonToString(error?.reason) ?? error ?? '未知错误'}`,
           SnackbarType.ERROR,
         ),
       );

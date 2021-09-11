@@ -72,10 +72,12 @@ const FAIL_REASON_MAPPING = {
   [FailReason.ERROR_FETCH_FROM_ID]: '无法从 id.tsinghua.edu.cn 获取票据',
   [FailReason.ERROR_ROAMING]: '无法使用票据漫游至 learn.tsinghua.edu.cn',
   [FailReason.NOT_IMPLEMENTED]: '功能尚未实现',
-  [FailReason.NOT_LOGGED_IN]: '登录超时',
+  [FailReason.NOT_LOGGED_IN]: '尚未登录',
   [FailReason.NO_CREDENTIAL]: '未提供用户名或密码',
+  [FailReason.UNEXPECTED_STATUS]: '非预期的 HTTP 响应状态',
+  'TIMEOUT': '请求超时',
 };
 
 export function failReasonToString(reason: FailReason): string {
-  return FAIL_REASON_MAPPING[reason];
+  return FAIL_REASON_MAPPING[reason] ?? '未知错误';
 }
