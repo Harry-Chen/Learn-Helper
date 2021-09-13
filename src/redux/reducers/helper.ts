@@ -1,4 +1,4 @@
-import { Learn2018Helper } from 'thu-learn-lib/lib';
+import { Learn2018Helper } from 'thu-learn-lib';
 import { AnyAction } from 'redux';
 
 import { HelperActionType } from '../actions/actionTypes';
