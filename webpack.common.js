@@ -7,6 +7,7 @@ import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
 import NodePolyfillPlugin from 'node-polyfill-webpack-plugin';
+import RemovePlugin from 'remove-files-webpack-plugin';
 import { GitRevisionPlugin } from 'git-revision-webpack-plugin';
 
 
@@ -28,6 +29,28 @@ const copyPolyFill = new CopyPlugin({
 const gitRevision = new GitRevisionPlugin({
   branch: true,
   versionCommand: 'describe --always --tags --dirty'
+});
+
+const removeRedundantFile = new RemovePlugin({
+  // remove output dist files
+  before: {
+    include: [
+      "./dist/background.js",
+      "./dist/index.html",
+      "./dist/browser-polyfill.min.js",
+      "./dist/index.js",
+      "./dist/welcome.js",
+    ]
+  },
+  // remove files produced by GitRevisionPlugin
+  after: {
+    include: [
+      "./dist/BRANCH",
+      "./dist/COMMITHASH",
+      "./dist/LASTCOMMITDATETIME",
+      "./dist/VERSION",
+    ]
+  }
 });
 
 const commitDate = ChildProcess
@@ -65,7 +88,7 @@ export default {
     path: resolve("./dist"),
     filename: "[name].js"
   },
-  plugins: [ createIndex, copyPolyFill, new NodePolyfillPlugin(), gitRevision, defineConstants ],
+  plugins: [ createIndex, copyPolyFill, new NodePolyfillPlugin(), gitRevision, defineConstants, removeRedundantFile ],
   devServer: {
     contentBase: './dist'
   },

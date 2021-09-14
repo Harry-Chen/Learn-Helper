@@ -4,6 +4,7 @@
   "author": "xxr3376 & Harry Chen",
   "license": "MIT",
   "private": true,
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/Harry-Chen/Learn-Helper"
@@ -40,6 +41,7 @@
     "node-polyfill-webpack-plugin": "^1.1.4",
     "null-loader": "^4.0.0",
     "prettier": "^2.3.2",
+    "remove-files-webpack-plugin": "^1.4.5",
     "style-loader": "^2.0.0",
     "ts-loader": "^9.2.5",
     "typescript": "^4.4.2",
