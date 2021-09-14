@@ -75,7 +75,7 @@ const FAIL_REASON_MAPPING = {
   [FailReason.NOT_LOGGED_IN]: '尚未登录',
   [FailReason.NO_CREDENTIAL]: '未提供用户名或密码',
   [FailReason.UNEXPECTED_STATUS]: '非预期的 HTTP 响应状态',
-  'TIMEOUT': '请求超时',
+  TIMEOUT: '请求超时',
 };
 
 export function failReasonToString(reason: FailReason): string {

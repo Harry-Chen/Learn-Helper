@@ -91,7 +91,7 @@ const mapStateToProps = (state: IUiStateSlice): Partial<IChangeSemesterDialogPro
 
   // insert current semester if not fetched from API
   if (allSemesters.indexOf(currentWebSemester) == -1) {
-    allSemesters.unshift(currentWebSemester)
+    allSemesters.unshift(currentWebSemester);
   }
 
   return {

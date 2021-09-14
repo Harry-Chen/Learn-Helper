@@ -47,46 +47,50 @@ class CourseList extends React.PureComponent<
           </ListSubheader>
         }
       >
-        {courses.length == 0 ? (<span className={styles.list_title}>这里什么也没有，快去选点课吧！</span>) : courses.map((c) => (
-          <div key={c.id}>
-            <ListItem
-              className={styles.sidebar_list_item}
-              button
-              onClick={() => this.handleClick(c.id)}
-            >
-              <ListItemIcon className={styles.list_item_icon}>
-                <FontAwesomeIcon icon={COURSE_ICON} />
-              </ListItemIcon>
-              <ListItemText primary={c.name} className={styles.course_list_item_text} />
-              <FontAwesomeIcon icon={this.state.opened[c.id] ? 'angle-up' : 'angle-down'} />
-            </ListItem>
-            <Collapse in={this.state.opened[c.id]} timeout="auto" unmountOnExit>
-              <List className={styles.subfunc_list} disablePadding>
-                {COURSE_FUNC_LIST.map((func) => (
-                  <ListItem
-                    className={styles.sidebar_list_item}
-                    button
-                    key={func.name}
-                    onClick={() => {
-                      if (func.name !== COURSE_FUNC.COURSE_HOMEPAGE.name) {
-                        // show cards
-                        dispatch(setCardFilter(func.type, c));
-                        dispatch(setCardListTitle(`${func.name}-${c.name}`));
-                      } else {
-                        dispatch(setDetailUrl(c.url));
-                      }
-                    }}
-                  >
-                    <ListItemIcon className={styles.list_item_icon}>
-                      <FontAwesomeIcon icon={func.icon} />
-                    </ListItemIcon>
-                    <ListItemText primary={func.name} className={styles.course_list_item_text} />
-                  </ListItem>
-                ))}
-              </List>
-            </Collapse>
-          </div>
-        ))}
+        {courses.length == 0 ? (
+          <span className={styles.list_title}>这里什么也没有，快去选点课吧！</span>
+        ) : (
+          courses.map((c) => (
+            <div key={c.id}>
+              <ListItem
+                className={styles.sidebar_list_item}
+                button
+                onClick={() => this.handleClick(c.id)}
+              >
+                <ListItemIcon className={styles.list_item_icon}>
+                  <FontAwesomeIcon icon={COURSE_ICON} />
+                </ListItemIcon>
+                <ListItemText primary={c.name} className={styles.course_list_item_text} />
+                <FontAwesomeIcon icon={this.state.opened[c.id] ? 'angle-up' : 'angle-down'} />
+              </ListItem>
+              <Collapse in={this.state.opened[c.id]} timeout="auto" unmountOnExit>
+                <List className={styles.subfunc_list} disablePadding>
+                  {COURSE_FUNC_LIST.map((func) => (
+                    <ListItem
+                      className={styles.sidebar_list_item}
+                      button
+                      key={func.name}
+                      onClick={() => {
+                        if (func.name !== COURSE_FUNC.COURSE_HOMEPAGE.name) {
+                          // show cards
+                          dispatch(setCardFilter(func.type, c));
+                          dispatch(setCardListTitle(`${func.name}-${c.name}`));
+                        } else {
+                          dispatch(setDetailUrl(c.url));
+                        }
+                      }}
+                    >
+                      <ListItemIcon className={styles.list_item_icon}>
+                        <FontAwesomeIcon icon={func.icon} />
+                      </ListItemIcon>
+                      <ListItemText primary={func.name} className={styles.course_list_item_text} />
+                    </ListItem>
+                  ))}
+                </List>
+              </Collapse>
+            </div>
+          ))
+        )}
       </List>
     );
   }

@@ -43,14 +43,8 @@ class CardList extends React.PureComponent<CardListProps, typeof initialState> {
   }
 
   public render() {
-    const {
-      contents,
-      threshold,
-      loadMore,
-      unreadFileCount,
-      downloadAllUnread,
-      ...rest
-    } = this.props;
+    const { contents, threshold, loadMore, unreadFileCount, downloadAllUnread, ...rest } =
+      this.props;
     const filtered = contents.slice(0, threshold);
 
     const canLoadMore = threshold < contents.length;

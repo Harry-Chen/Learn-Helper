@@ -11,7 +11,7 @@ import { ICommonDialogProps } from '../../types/dialogs';
 
 class CommonDialog<
   P extends ICommonDialogProps = ICommonDialogProps,
-  S = never
+  S = never,
 > extends React.PureComponent<P, S> {
   // could be overloaded by subclasses
   public getContent(): React.ReactNode {

@@ -5,7 +5,8 @@ fetch('/manifest.json')
       document.getElementById('version').innerHTML = `
 ${__GIT_VERSION__} (build on ${__BUILD_HOSTNAME__} at ${__BUILD_TIME__})<br />
 `;
-}});
+    }
+  });
 
 if (document.getElementById('packages') != null) {
   document.getElementById('packages').innerHTML = `

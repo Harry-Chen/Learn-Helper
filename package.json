@@ -10,7 +10,7 @@
     "url": "https://github.com/Harry-Chen/Learn-Helper"
   },
   "scripts": {
-    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\" \"src/**/*.js\"",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\" \"src/**/*.js\" \"./*.js\"",
     "build": "webpack --config webpack.prod.js",
     "dev-build": "webpack --config webpack.dev.js",
     "dev-watch": "webpack -w --config webpack.dev.js",
