@@ -1,37 +1,34 @@
 {
-	"name": "__MSG_appName__",
-	"version": "4.4.2",
-	"minimum_chrome_version": "72",
-	"manifest_version": 2,
-	"description": "__MSG_appDesc__",
-	"default_locale": "zh_CN",
-	"content_scripts": [],
-	"background": {
-        "scripts": [
-			"browser-polyfill.min.js",
-			"background.js"
-		],
-        "persistent": false
-	},
-	"permissions": [
-		"storage",
-		"tabs",
-		"downloads",
-		"https://learn.tsinghua.edu.cn/*",
-		"https://id.tsinghua.edu.cn/*"
-	],
-	"icons": {
-		"16": "icons/16.png",
-		"48": "icons/48.png",
-		"128": "icons/128.png"
-	},
-	"browser_action": {
-		"default_icon": "icons/19.png",
-		"default_title": "__MSG_appName__"
-	},
-	"browser_specific_settings": {
-		"gecko": {
-		  "update_url": "https://harrychen.xyz/learn/updates.json"
-		}
-	}
+  "name": "__MSG_appName__",
+  "version": "4.4.2",
+  "minimum_chrome_version": "72",
+  "manifest_version": 2,
+  "description": "__MSG_appDesc__",
+  "default_locale": "zh_CN",
+  "content_scripts": [],
+  "background": {
+    "scripts": ["browser-polyfill.min.js", "background.js"],
+    "persistent": false
+  },
+  "permissions": [
+    "storage",
+    "tabs",
+    "downloads",
+    "https://learn.tsinghua.edu.cn/*",
+    "https://id.tsinghua.edu.cn/*"
+  ],
+  "icons": {
+    "16": "icons/16.png",
+    "48": "icons/48.png",
+    "128": "icons/128.png"
+  },
+  "browser_action": {
+    "default_icon": "icons/19.png",
+    "default_title": "__MSG_appName__"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "update_url": "https://harrychen.xyz/learn/updates.json"
+    }
+  }
 }
