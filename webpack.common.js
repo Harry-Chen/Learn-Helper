@@ -1,9 +1,17 @@
-const path = require('path');
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
-const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
-const { GitRevisionPlugin } = require('git-revision-webpack-plugin')
+import { resolve, dirname } from 'path';
+import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url'
+import ChildProcess from 'child_process';
+
+import webpack from 'webpack';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import CopyPlugin from 'copy-webpack-plugin';
+import NodePolyfillPlugin from 'node-polyfill-webpack-plugin';
+import { GitRevisionPlugin } from 'git-revision-webpack-plugin';
+
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const learnLibInfo = JSON.parse(readFileSync('./node_modules/thu-learn-lib/package.json').toString());
 
 const createIndex = new HtmlWebpackPlugin({
   template: "./src/index.html",
@@ -22,15 +30,15 @@ const gitRevision = new GitRevisionPlugin({
   versionCommand: 'describe --always --tags --dirty'
 });
 
-const commitDate = require('child_process')
+const commitDate = ChildProcess
   .execSync('git log -1 --date=format:"%Y/%m/%d %T" --format="%ad"')
   .toString();
 
-const hostname = require('child_process')
+const hostname = ChildProcess
   .execSync('hostname')
   .toString();
 
-const buildTime = require('child_process')
+const buildTime = ChildProcess
   .execSync('date +"%Y/%m/%d %T"')
   .toString();
 
@@ -41,20 +49,20 @@ const defineConstants = new webpack.DefinePlugin({
   '__GIT_BRANCH__': JSON.stringify(gitRevision.branch().trim()),
   '__BUILD_HOSTNAME__': JSON.stringify(hostname.trim()),
   '__BUILD_TIME__': JSON.stringify(buildTime.trim()),
-  '__THU_LEARN_LIB_VERSION__': JSON.stringify(require('thu-learn-lib/package.json').version),
-  '__MUI_VERSION__': JSON.stringify(require('@material-ui/core/package.json').version),
-  '__REACT_VERSION__': JSON.stringify(require('react/package.json').version),
+  '__THU_LEARN_LIB_VERSION__': JSON.stringify(learnLibInfo.version),
+  '__MUI_VERSION__': JSON.stringify(learnLibInfo.version),
+  '__REACT_VERSION__': JSON.stringify(learnLibInfo.version),
 });
 
 
-module.exports = {
+export default {
   entry: {
     index: "./src/index.tsx",
     background: "./src/background.ts",
     welcome: "./src/welcome.js",
   },
   output: {
-    path: path.resolve("./dist"),
+    path: resolve("./dist"),
     filename: "[name].js"
   },
   plugins: [ createIndex, copyPolyFill, new NodePolyfillPlugin(), gitRevision, defineConstants ],
@@ -85,8 +93,8 @@ module.exports = {
   resolve: {
     extensions: [".ts", ".tsx", ".js"],
     alias: {
-      'parse5': path.resolve(__dirname, 'node_modules/thu-learn-lib/src/fake-parse5/'),
-      'parse5-htmlparser2-tree-adapter': path.resolve(__dirname, 'node_modules/thu-learn-lib/src/fake-parse5/'),
+      'parse5': resolve(__dirname, 'node_modules/thu-learn-lib/src/fake-parse5/'),
+      'parse5-htmlparser2-tree-adapter': resolve(__dirname, 'node_modules/thu-learn-lib/src/fake-parse5/'),
       // "react": "preact/compat",
       // "react-dom/test-utils": "preact/test-utils",
       // "react-dom": "preact/compat",

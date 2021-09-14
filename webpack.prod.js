@@ -1,10 +1,10 @@
-const { merge } = require("webpack-merge");
-const TerserPlugin = require('terser-webpack-plugin');
-const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
-const common = require("./webpack.common.js");
+import { merge } from 'webpack-merge';
+import TerserPlugin from 'terser-webpack-plugin';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import common from "./webpack.common.js";
 
 
-module.exports = merge(common, {
+export default merge(common, {
   mode: "production",
   plugins: [
     new BundleAnalyzerPlugin({
