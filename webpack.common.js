@@ -11,9 +11,7 @@ import RemovePlugin from 'remove-files-webpack-plugin';
 import { GitRevisionPlugin } from 'git-revision-webpack-plugin';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const learnLibInfo = JSON.parse(
-  readFileSync('./node_modules/thu-learn-lib/package.json').toString(),
-);
+const readVersion = (pkg) => JSON.parse(readFileSync(`./node_modules/${pkg}/package.json`).toString()).version;
 
 const createIndex = new HtmlWebpackPlugin({
   template: './src/index.html',
@@ -64,9 +62,9 @@ const defineConstants = new webpack.DefinePlugin({
   __GIT_BRANCH__: JSON.stringify(gitRevision.branch().trim()),
   __BUILD_HOSTNAME__: JSON.stringify(hostname.trim()),
   __BUILD_TIME__: JSON.stringify(buildTime.trim()),
-  __THU_LEARN_LIB_VERSION__: JSON.stringify(learnLibInfo.version),
-  __MUI_VERSION__: JSON.stringify(learnLibInfo.version),
-  __REACT_VERSION__: JSON.stringify(learnLibInfo.version),
+  __THU_LEARN_LIB_VERSION__: JSON.stringify(readVersion('thu-learn-lib')),
+  __MUI_VERSION__: JSON.stringify(readVersion('@material-ui/core')),
+  __REACT_VERSION__: JSON.stringify(readVersion('react')),
 });
 
 export default {
