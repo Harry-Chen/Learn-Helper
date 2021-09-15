@@ -1,5 +1,10 @@
 # Changelog
 
+## v4.4.3
+
+* FIX problem when opening notification or submitting homework from detail panel (#103)
+* FIX problem when certain course has disabled some functionalities of Web Learning (#104)
+
 ## v4.4.2
 
 * FIX login error (update to `thu-learn-helper` 2.5.0 to support CSRF token)
