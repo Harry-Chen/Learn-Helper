@@ -1,5 +1,11 @@
 import { Learn2018Helper } from 'thu-learn-lib/lib';
-import { ContentType, SemesterType, FailReason, ApiError, CourseType } from 'thu-learn-lib/lib/types';
+import {
+  ContentType,
+  SemesterType,
+  FailReason,
+  ApiError,
+  CourseType,
+} from 'thu-learn-lib/lib/types';
 
 import {
   loginEnd,
@@ -112,7 +118,7 @@ export function refresh() {
     const helper = helperState.helper as Learn2018Helper;
 
     let allCourseIds: string[] = [];
-    
+
     const progresses = [0, 10, 20, 38, 52, 68, 84, 100];
     const nextProgress = () => {
       const uiState = getState()[STATE_UI] as UiState;
@@ -125,7 +131,7 @@ export function refresh() {
         console.warn(`Next progress not found, current ${currentProgress}`, progresses);
       }
       dispatch(setProgressBar(nextProgress));
-    }
+    };
 
     try {
       // login on every refresh (if stored)
@@ -171,36 +177,58 @@ export function refresh() {
 
     // send all requests in parallel
     const fetchAll = [
-      async() => {
-        const res = await helper.getAllContents(allCourseIds, ContentType.NOTIFICATION, CourseType.STUDENT, true);
+      async () => {
+        const res = await helper.getAllContents(
+          allCourseIds,
+          ContentType.NOTIFICATION,
+          CourseType.STUDENT,
+          true,
+        );
         dispatch(updateNotification(res));
         nextProgress();
       },
-      async() => {
-        const res = await helper.getAllContents(allCourseIds, ContentType.HOMEWORK, CourseType.STUDENT, true);
+      async () => {
+        const res = await helper.getAllContents(
+          allCourseIds,
+          ContentType.HOMEWORK,
+          CourseType.STUDENT,
+          true,
+        );
         dispatch(updateHomework(res));
         nextProgress();
       },
-      async() => {
-        const res = await helper.getAllContents(allCourseIds, ContentType.DISCUSSION, CourseType.STUDENT, true);
+      async () => {
+        const res = await helper.getAllContents(
+          allCourseIds,
+          ContentType.DISCUSSION,
+          CourseType.STUDENT,
+          true,
+        );
         dispatch(updateDiscussion(res));
         nextProgress();
       },
-      async() => {
-        const res = await helper.getAllContents(allCourseIds, ContentType.QUESTION, CourseType.STUDENT, true);
+      async () => {
+        const res = await helper.getAllContents(
+          allCourseIds,
+          ContentType.QUESTION,
+          CourseType.STUDENT,
+          true,
+        );
         dispatch(updateQuestion(res));
         nextProgress();
       },
     ];
 
     // check results
-    const failures = (await Promise.allSettled(fetchAll.map(f => f()))).filter(p => p.status == 'rejected');
+    const failures = (await Promise.allSettled(fetchAll.map((f) => f()))).filter(
+      (p) => p.status == 'rejected',
+    );
     const allSuccess = failures.length == 0;
     if (allSuccess) {
       dispatch(showSnackbar('更新成功', SnackbarType.SUCCESS));
     } else {
       dispatch(showSnackbar('部分内容更新失败', SnackbarType.WARNING));
-      console.warn("Failures occurred in fetching data", failures);
+      console.warn('Failures occurred in fetching data', failures);
     }
 
     // finish refreshing
