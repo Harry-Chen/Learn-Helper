@@ -200,6 +200,16 @@ export function refresh() {
       async () => {
         const res = await helper.getAllContents(
           allCourseIds,
+          ContentType.FILE,
+          CourseType.STUDENT,
+          true,
+        );
+        dispatch(updateFile(res));
+        nextProgress();
+      },
+      async () => {
+        const res = await helper.getAllContents(
+          allCourseIds,
           ContentType.DISCUSSION,
           CourseType.STUDENT,
           true,
@@ -233,7 +243,6 @@ export function refresh() {
 
     // finish refreshing
     dispatch(updateFinished());
-    dispatch(setProgressBar(100));
 
     // wait some time before hiding progress bar
     new Promise((resolve) => {
