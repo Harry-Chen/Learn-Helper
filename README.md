@@ -3,8 +3,8 @@
 [![GitHub Action Build](https://github.com/Harry-Chen/Learn-Helper/workflows/Build/badge.svg)](https://github.com/Harry-Chen/Learn-Helper/actions)
 [![GitHub release](https://img.shields.io/github/v/release/Harry-Chen/Learn-Helper)](https://github.com/Harry-Chen/Learn-Helper)
 [![Chrome Web Store version](https://img.shields.io/chrome-web-store/v/mdehapphdlihjjgkhmoiknmnhcjpjall)](https://chrome.google.com/webstore/detail/learn-helper/mdehapphdlihjjgkhmoiknmnhcjpjall)
-[![Mozilla Addon version](https://img.shields.io/amo/v/thu-learn-helper)](https://addons.mozilla.org/zh-CN/firefox/addon/thu-learn-helper/)
 ![Chrome Web Store users](https://img.shields.io/chrome-web-store/users/mdehapphdlihjjgkhmoiknmnhcjpjall)
+![Chrome Web Store rating](https://img.shields.io/chrome-web-store/rating/mdehapphdlihjjgkhmoiknmnhcjpjall)
 
 A browser extension for [Web Learning](https://learn.tsinghua.edu.cn) of Tsinghua University.
 
@@ -16,6 +16,12 @@ A browser extension for [Web Learning](https://learn.tsinghua.edu.cn) of Tsinghu
 * [xxr3376](https://github.com/xxr3376)
   * original author
   * developer till v3.3.1
+
+## Install
+
+[Chrome Store](https://chrome.google.com/webstore/detail/learn-helper/mdehapphdlihjjgkhmoiknmnhcjpjall), [Self-hosted Firefox Add-on](https://harrychen.xyz/learn/), [Edge Addons](https://microsoftedge.microsoft.com/addons/detail/dhddjfhadejlhiaafnbadhaeichbkgil)  
+
+Or you can install the unpacked version from releases
 
 ## License
 
@@ -47,12 +53,6 @@ If any of these criteria is met, any usage of code, without explicit authorizati
 * provide new message reminder and highlight messages
 * provide a `Priority Inbox` like Gmail
 * provide a off-line mode, cache all message that you have already read
-
-## Install
-
-[Chrome Store](https://chrome.google.com/webstore/detail/learn-helper/mdehapphdlihjjgkhmoiknmnhcjpjall), [Firefox Add-ons](https://addons.mozilla.org/zh-CN/firefox/addon/thu-learn-helper/), [Edge Addons](https://microsoftedge.microsoft.com/addons/detail/dhddjfhadejlhiaafnbadhaeichbkgil)  
-
-Or you can install the unpacked version from releases
 
 ## Build
 
