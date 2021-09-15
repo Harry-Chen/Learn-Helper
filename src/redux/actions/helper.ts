@@ -1,5 +1,5 @@
 import { Learn2018Helper } from 'thu-learn-lib/lib';
-import { ContentType, SemesterType, FailReason, ApiError } from 'thu-learn-lib/lib/types';
+import { ContentType, SemesterType, FailReason, ApiError, CourseType } from 'thu-learn-lib/lib/types';
 
 import {
   loginEnd,
@@ -111,6 +111,22 @@ export function refresh() {
     const helperState = getState()[STATE_HELPER] as HelperState;
     const helper = helperState.helper as Learn2018Helper;
 
+    let allCourseIds: string[] = [];
+    
+    const progresses = [0, 10, 20, 38, 52, 68, 84, 100];
+    const nextProgress = () => {
+      const uiState = getState()[STATE_UI] as UiState;
+      const currentProgress = uiState.loadingProgress;
+      const index = progresses.indexOf(currentProgress);
+      let nextProgress = 100;
+      if (index >= 0 && index < progresses.length) {
+        nextProgress = progresses[index + 1];
+      } else {
+        console.warn(`Next progress not found, current ${currentProgress}`, progresses);
+      }
+      dispatch(setProgressBar(nextProgress));
+    }
+
     try {
       // login on every refresh (if stored)
       const credential = await getStoredCredential();
@@ -137,50 +153,66 @@ export function refresh() {
         return;
       }
 
-      dispatch(setProgressBar(10));
+      nextProgress();
 
       // get the latest semester id, since it can either be changed or not
       const currentSemesterId = (getState()[STATE_DATA] as DataState).semester.id;
+      // get all courses
       const courses = await helper.getCourseList(currentSemesterId);
+      allCourseIds = courses.map((c) => c.id);
       dispatch(updateCourses(courses));
-      dispatch(setProgressBar(20));
-
-      const allCourseIds = courses.map((c) => c.id);
-
-      let res = await helper.getAllContents(allCourseIds, ContentType.NOTIFICATION);
-      dispatch(updateNotification(res));
-      dispatch(setProgressBar(36));
-
-      res = await helper.getAllContents(allCourseIds, ContentType.FILE);
-      dispatch(updateFile(res));
-      dispatch(setProgressBar(52));
-
-      res = await helper.getAllContents(allCourseIds, ContentType.HOMEWORK);
-      dispatch(updateHomework(res));
-      dispatch(setProgressBar(68));
-
-      res = await helper.getAllContents(allCourseIds, ContentType.DISCUSSION);
-      dispatch(updateDiscussion(res));
-      dispatch(setProgressBar(84));
-
-      res = await helper.getAllContents(allCourseIds, ContentType.QUESTION);
-      dispatch(updateQuestion(res));
-      dispatch(updateFinished());
-      dispatch(setProgressBar(100));
-
-      dispatch(showSnackbar('更新成功', SnackbarType.SUCCESS));
-
-      // wait some time before hiding progressbar
-      await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(null); // to make tsc happy
-        }, 1000);
-      });
+      nextProgress();
     } catch (e) {
       console.error(e);
-      dispatch(toggleNetworkErrorDialog(true));
-    } finally {
       dispatch(toggleProgressBar(false));
+      dispatch(toggleNetworkErrorDialog(true));
+      return;
     }
+
+    // send all requests in parallel
+    const fetchAll = [
+      async() => {
+        const res = await helper.getAllContents(allCourseIds, ContentType.NOTIFICATION, CourseType.STUDENT, true);
+        dispatch(updateNotification(res));
+        nextProgress();
+      },
+      async() => {
+        const res = await helper.getAllContents(allCourseIds, ContentType.HOMEWORK, CourseType.STUDENT, true);
+        dispatch(updateHomework(res));
+        nextProgress();
+      },
+      async() => {
+        const res = await helper.getAllContents(allCourseIds, ContentType.DISCUSSION, CourseType.STUDENT, true);
+        dispatch(updateDiscussion(res));
+        nextProgress();
+      },
+      async() => {
+        const res = await helper.getAllContents(allCourseIds, ContentType.QUESTION, CourseType.STUDENT, true);
+        dispatch(updateQuestion(res));
+        nextProgress();
+      },
+    ];
+
+    // check results
+    const failures = (await Promise.allSettled(fetchAll.map(f => f()))).filter(p => p.status == 'rejected');
+    const allSuccess = failures.length == 0;
+    if (allSuccess) {
+      dispatch(showSnackbar('更新成功', SnackbarType.SUCCESS));
+    } else {
+      dispatch(showSnackbar('部分内容更新失败', SnackbarType.WARNING));
+      console.warn("Failures occurred in fetching data", failures);
+    }
+
+    // finish refreshing
+    dispatch(updateFinished());
+    dispatch(setProgressBar(100));
+
+    // wait some time before hiding progress bar
+    new Promise((resolve) => {
+      setTimeout(() => {
+        dispatch(toggleProgressBar(false));
+        resolve(null); // to make tsc happy
+      }, 1000);
+    });
   };
 }

@@ -191,6 +191,10 @@
     background-color: #1976d2 !important;
 }
 
+.snack_bar_warning {
+  background-color: #ff9800 !important;
+}
+
 .snack_bar_text {
     display: flex;
     align-items: center;

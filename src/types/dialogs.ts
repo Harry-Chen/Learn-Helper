@@ -5,6 +5,7 @@ export enum SnackbarType {
   ERROR = 'snack_bar_error',
   SUCCESS = 'snack_bar_success',
   NOTIFICATION = 'snack_bar_notification',
+  WARNING = 'snack_bar_warning',
 }
 
 type AnyFunc = (...args: any[]) => any;

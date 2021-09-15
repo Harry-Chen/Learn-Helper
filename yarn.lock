@@ -4144,9 +4144,9 @@ text-table@^0.2.0:
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
 thu-learn-lib@^2.5.0:
-  version "2.5.2"
-  resolved "https://registry.yarnpkg.com/thu-learn-lib/-/thu-learn-lib-2.5.2.tgz#74d5b91e5e698c611e183b98fa564cd57a3bdabf"
-  integrity sha512-jrtPGgivUmtBPmUVEcuWkQKXzpg3yJ1Bu8ImtfNqGks6iv/V8MtkcvJGDUcnSnxsXBVBsRe+cB85Ao5PruD1Lw==
+  version "2.5.3"
+  resolved "https://registry.yarnpkg.com/thu-learn-lib/-/thu-learn-lib-2.5.3.tgz#1898b0e5ab19e430823a70ffa1e93adf7606d320"
+  integrity sha512-298+VfRK5WTXdo4B+mr4OEIx0SbPS8L64XjaPw+eIOU4IoESMX94UtQaqOZGkXdnoGADcu2QBryaSNA7YJ14mg==
   dependencies:
     cheerio "^1.0.0-rc.10"
     cross-fetch "^3.0.1"
