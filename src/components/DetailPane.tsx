@@ -6,27 +6,13 @@ import { IUiStateSlice, STATE_UI, STATE_HELPER } from '../redux/reducers';
 import { UiState } from '../redux/reducers/ui';
 import { HelperState } from '../redux/reducers/helper';
 import { DetailPaneProps } from '../types/ui';
+import { addCSRFTokenToIframeUrl } from '../utils/format';
 
 import ContentIgnoreSetting from './ContentIgnoreSetting';
 import ContentDetail from './ContentDetail';
 
 import styles from '../css/main.css';
 
-declare const __LEARN_HELPER_CSRF_TOKEN_PARAM__: string;
-
-const addTokenToUrl = (csrfToken: string, url?: string): string | undefined => {
-  if (url === undefined){
-    return undefined;
-  } else {
-    const param = `${__LEARN_HELPER_CSRF_TOKEN_PARAM__}=${csrfToken}`
-    if (url.includes('?')) {
-      url += `&${param}`;
-    } else {
-      url += `?${param}`;
-    }
-    return url;
-  }
-}
 
 class DetailPane extends React.PureComponent<DetailPaneProps, { frameUrl?: string }> {
   public render() {
@@ -34,7 +20,7 @@ class DetailPane extends React.PureComponent<DetailPaneProps, { frameUrl?: strin
       return <ContentIgnoreSetting />;
     }
     if (this.props.content !== undefined) {
-      return <ContentDetail content={this.props.content} />;
+      return <ContentDetail content={this.props.content} csrfToken={this.props.csrfToken} />;
     }
 
     // When prop `url` is changed, first remove the IFrame label and then recreate it,
@@ -58,7 +44,7 @@ class DetailPane extends React.PureComponent<DetailPaneProps, { frameUrl?: strin
           <Iframe
             id="content-frame"
             className={styles.web_frame}
-            url={addTokenToUrl(this.props.csrfToken, this.state?.frameUrl)}
+            url={addCSRFTokenToIframeUrl(this.props.csrfToken, this.state?.frameUrl)}
           />
         ) : null}
       </section>

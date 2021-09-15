@@ -8,12 +8,12 @@ import Paper from '@material-ui/core/Paper';
 import styles from '../css/page.css';
 import { ContentDetailProps } from '../types/ui';
 import { HomeworkInfo, NotificationInfo, FileInfo } from '../types/data';
-import { formatDateTime } from '../utils/format';
+import { addCSRFTokenToIframeUrl, formatDateTime } from '../utils/format';
 import { setDetailUrl } from '../redux/actions/ui';
 
 class ContentDetail extends React.PureComponent<ContentDetailProps, { frameUrl?: string }> {
   public render() {
-    const { content } = this.props;
+    const { content, csrfToken } = this.props;
     const homework = content as HomeworkInfo;
     const notification = content as NotificationInfo;
     const file = content as FileInfo;
@@ -57,7 +57,7 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, { frameUrl?:
           dangerouslySetInnerHTML={{ __html: contentDetail }}
         />
         {!shouldRemoveIframeFirst && isFile && this.canFilePreview(file) ? (
-          <Iframe className={styles.content_detail_preview} url={this.state?.frameUrl} />
+          <Iframe className={styles.content_detail_preview} url={addCSRFTokenToIframeUrl(csrfToken, this.state?.frameUrl)} />
         ) : null}
       </section>
     );

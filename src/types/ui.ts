@@ -101,4 +101,8 @@ interface IContentIgnoreSettingProps extends IDispatchableComponentProps {
 
 export type ContentIgnoreSettingProps = IContentIgnoreSettingProps;
 
-export type ContentDetailProps = ICardProps;
+interface IContentDetailProps extends ICardProps {
+  csrfToken: string
+}
+
+export type ContentDetailProps = IContentDetailProps;
