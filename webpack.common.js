@@ -2,6 +2,7 @@ import { resolve, dirname } from 'path';
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import ChildProcess from 'child_process';
+import Randomstring from 'randomstring';
 
 import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -39,6 +40,7 @@ const removeRedundantFile = new RemovePlugin({
       './dist/browser-polyfill.min.js',
       './dist/index.js',
       './dist/welcome.js',
+      './dist/inject_csrf_token.js'
     ],
   },
   // remove files produced by GitRevisionPlugin
@@ -55,7 +57,9 @@ const hostname = ChildProcess.execSync('hostname').toString();
 
 const buildTime = ChildProcess.execSync('date +"%Y/%m/%d %T"').toString();
 
-const defineConstants = new webpack.DefinePlugin({
+const randomSuffix = Randomstring.generate(4);
+
+const BUILD_CONSTANTS = {
   __GIT_VERSION__: JSON.stringify(gitRevision.version().trim()),
   __GIT_COMMIT_HASH__: JSON.stringify(gitRevision.commithash().trim()),
   __GIT_COMMIT_DATE__: JSON.stringify(commitDate.trim()),
@@ -65,13 +69,20 @@ const defineConstants = new webpack.DefinePlugin({
   __THU_LEARN_LIB_VERSION__: JSON.stringify(readVersion('thu-learn-lib')),
   __MUI_VERSION__: JSON.stringify(readVersion('@material-ui/core')),
   __REACT_VERSION__: JSON.stringify(readVersion('react')),
-});
+  __LEARN_HELPER_CSRF_TOKEN_PARAM__: JSON.stringify(`__learn-helper-csrf-token-${randomSuffix}__`),
+  __LEARN_HELPER_CSRF_TOKEN_INJECTOR__: JSON.stringify(`__learn_helper_csrf_token_injector_${randomSuffix}__`),
+};
+
+console.log("Build time constants", BUILD_CONSTANTS);
+
+const defineConstants = new webpack.DefinePlugin(BUILD_CONSTANTS);
 
 export default {
   entry: {
     index: './src/index.tsx',
     background: './src/background.ts',
     welcome: './src/welcome.js',
+    inject_csrf_token: './src/inject_csrf_token.js',
   },
   output: {
     path: resolve('./dist'),

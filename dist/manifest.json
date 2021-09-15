@@ -5,7 +5,14 @@
   "manifest_version": 2,
   "description": "__MSG_appDesc__",
   "default_locale": "zh_CN",
-  "content_scripts": [],
+  "content_scripts": [
+    {
+      "matches": ["https://learn.tsinghua.edu.cn/*"],
+      "js": ["inject_csrf_token.js"],
+      "all_frames": true,
+      "run_at": "document_start"
+    }
+  ],
   "background": {
     "scripts": ["browser-polyfill.min.js", "background.js"],
     "persistent": false

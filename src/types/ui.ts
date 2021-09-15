@@ -85,6 +85,7 @@ interface IDetailPaneProps extends IDispatchableComponentProps {
   url: string;
   content?: ContentInfo;
   showIgnoreSettings: boolean;
+  csrfToken: string
 }
 
 export type DetailPaneProps = IDetailPaneProps;
