@@ -3,7 +3,7 @@ fetch('/manifest.json')
   .then((o) => {
     if (document.getElementById('version') != null) {
       document.getElementById('version').innerHTML = `
-${__GIT_VERSION__} (build on ${__BUILD_HOSTNAME__} at ${__BUILD_TIME__})<br />
+${__GIT_VERSION__} (built on ${__BUILD_HOSTNAME__} at ${__BUILD_TIME__})<br />
 `;
     }
   });

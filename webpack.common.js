@@ -61,6 +61,7 @@ const buildTime = ChildProcess.execSync('date +"%Y/%m/%d %T"').toString();
 const randomSuffix = Randomstring.generate(4);
 
 const BUILD_CONSTANTS = {
+  __HELPER_VERSION__: JSON.stringify(readVersion('..')),
   __GIT_VERSION__: JSON.stringify(gitRevision.version().trim()),
   __GIT_COMMIT_HASH__: JSON.stringify(gitRevision.commithash().trim()),
   __GIT_COMMIT_DATE__: JSON.stringify(commitDate.trim()),
