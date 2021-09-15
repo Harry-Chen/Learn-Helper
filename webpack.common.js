@@ -12,7 +12,8 @@ import RemovePlugin from 'remove-files-webpack-plugin';
 import { GitRevisionPlugin } from 'git-revision-webpack-plugin';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const readVersion = (pkg) => JSON.parse(readFileSync(`./node_modules/${pkg}/package.json`).toString()).version;
+const readVersion = (pkg) =>
+  JSON.parse(readFileSync(`./node_modules/${pkg}/package.json`).toString()).version;
 
 const createIndex = new HtmlWebpackPlugin({
   template: './src/index.html',
@@ -40,7 +41,7 @@ const removeRedundantFile = new RemovePlugin({
       './dist/browser-polyfill.min.js',
       './dist/index.js',
       './dist/welcome.js',
-      './dist/inject_csrf_token.js'
+      './dist/inject_csrf_token.js',
     ],
   },
   // remove files produced by GitRevisionPlugin
@@ -70,10 +71,12 @@ const BUILD_CONSTANTS = {
   __MUI_VERSION__: JSON.stringify(readVersion('@material-ui/core')),
   __REACT_VERSION__: JSON.stringify(readVersion('react')),
   __LEARN_HELPER_CSRF_TOKEN_PARAM__: JSON.stringify(`__learn-helper-csrf-token-${randomSuffix}__`),
-  __LEARN_HELPER_CSRF_TOKEN_INJECTOR__: JSON.stringify(`__learn_helper_csrf_token_injector_${randomSuffix}__`),
+  __LEARN_HELPER_CSRF_TOKEN_INJECTOR__: JSON.stringify(
+    `__learn_helper_csrf_token_injector_${randomSuffix}__`,
+  ),
 };
 
-console.log("Build time constants", BUILD_CONSTANTS);
+console.log('Build time constants', BUILD_CONSTANTS);
 
 const defineConstants = new webpack.DefinePlugin(BUILD_CONSTANTS);
 

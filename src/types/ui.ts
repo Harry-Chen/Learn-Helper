@@ -85,7 +85,7 @@ interface IDetailPaneProps extends IDispatchableComponentProps {
   url: string;
   content?: ContentInfo;
   showIgnoreSettings: boolean;
-  csrfToken: string
+  csrfToken: string;
 }
 
 export type DetailPaneProps = IDetailPaneProps;
@@ -102,7 +102,7 @@ interface IContentIgnoreSettingProps extends IDispatchableComponentProps {
 export type ContentIgnoreSettingProps = IContentIgnoreSettingProps;
 
 interface IContentDetailProps extends ICardProps {
-  csrfToken: string
+  csrfToken: string;
 }
 
 export type ContentDetailProps = IContentDetailProps;

@@ -57,7 +57,10 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, { frameUrl?:
           dangerouslySetInnerHTML={{ __html: contentDetail }}
         />
         {!shouldRemoveIframeFirst && isFile && this.canFilePreview(file) ? (
-          <Iframe className={styles.content_detail_preview} url={addCSRFTokenToIframeUrl(csrfToken, this.state?.frameUrl)} />
+          <Iframe
+            className={styles.content_detail_preview}
+            url={addCSRFTokenToIframeUrl(csrfToken, this.state?.frameUrl)}
+          />
         ) : null}
       </section>
     );
