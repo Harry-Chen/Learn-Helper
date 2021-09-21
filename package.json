@@ -74,6 +74,5 @@
     "webextension-polyfill": "^0.8.0"
   },
   "resolutions": {
-    "css-what": "^5.0.1"
   }
 }
