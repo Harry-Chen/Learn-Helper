@@ -6,6 +6,8 @@ import {
 } from '../constants';
 import { cipher, decipher } from './crypto';
 import { setDetailUrl } from '../redux/actions/ui';
+import { clearFetchedData } from '../redux/actions/data';
+import { MigrationResult } from '../types/data';
 
 export async function storeCredential(username: string, password: string) {
   const cipherImpl = cipher(STORAGE_SALT);
@@ -33,9 +35,15 @@ export async function removeStoredCredential() {
   await browser.storage.local.remove([STORAGE_KEY_USERNAME, STORAGE_KEY_PASSWORD]);
 }
 
-export async function versionMigrate(store) {
+export async function versionMigrate(store: any): Promise<MigrationResult> {
   const oldVersion = (await browser.storage.local.get([STORAGE_KEY_VERSION]))[STORAGE_KEY_VERSION];
   const currentVersion = (await (await fetch('/manifest.json')).json()).version;
+
+  let result: MigrationResult = {
+    migrated: false,
+    fetchedDataCleared: false,
+    allDataCleared: false,
+  };
 
   if (oldVersion === undefined) {
     // migrate from version < 4.0.0 or newly installed, clearing all data
@@ -45,6 +53,8 @@ export async function versionMigrate(store) {
       [STORAGE_KEY_VERSION]: currentVersion,
     });
     store.dispatch(setDetailUrl('readme.html'));
+    result.migrated = true;
+    result.allDataCleared = true;
   } else if (oldVersion !== currentVersion) {
     // for future migration
     store.dispatch(setDetailUrl('changelog.html'));
@@ -53,7 +63,16 @@ export async function versionMigrate(store) {
     await browser.storage.local.set({
       [STORAGE_KEY_VERSION]: currentVersion,
     });
+    result.migrated = true;
+
+    // migrate from < 4.5, clearing all data except credential & config
+    if (oldVersion < '4.5') {
+      store.dispatch(clearFetchedData());
+      result.fetchedDataCleared = true;
+    }
   } else {
     console.info('Migration not necessary.');
   }
+
+  return result;
 }

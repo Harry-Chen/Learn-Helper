@@ -70,6 +70,12 @@ export function resetContentIgnore(): DataAction {
   };
 }
 
+export function clearFetchedData(): DataAction {
+  return {
+    type: DataActionType.CLEAR_FETCHED_DATA,
+  };
+}
+
 export function updateNotification(content: CourseContent): DataAction {
   return {
     type: DataActionType.UPDATE_CONTENT,
@@ -149,7 +155,7 @@ export function toggleStarState(id: string, state: boolean, contentType: Content
 
 export function clearAllData(): DataAction {
   return {
-    type: DataActionType.CLEAR_DATA,
+    type: DataActionType.CLEAR_ALL_DATA,
   };
 }
 

@@ -39,6 +39,7 @@ export enum DataActionType {
   TOGGLE_READ_STATE = 'DATA/toggle_read_state',
   TOGGLE_STAR_STATE = 'DATA/toggle_star_state',
   TOGGLE_IGNORE_STATE = 'DATA/toggle_ignore_state',
-  CLEAR_DATA = 'DATA/clear_data',
+  CLEAR_FETCHED_DATA = 'DATA/clear_fetched_data',
+  CLEAR_ALL_DATA = 'DATA/clear_all_data',
   UPDATE_FINISHED = 'DATA/update_finished',
 }

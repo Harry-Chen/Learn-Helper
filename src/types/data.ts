@@ -35,3 +35,12 @@ export type ContentInfo =
   | FileInfo
   | DiscussionInfo
   | QuestionInfo;
+
+
+interface IMigrationResult {
+  migrated: boolean;
+  fetchedDataCleared: boolean;
+  allDataCleared: boolean;
+}
+
+export type MigrationResult = IMigrationResult;

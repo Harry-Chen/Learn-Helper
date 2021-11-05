@@ -299,8 +299,20 @@ export default function data(state: IDataState = initialState, action: DataActio
         [stateKey]: toggle(state[stateKey], action.id, 'ignored', action.state),
       };
 
-    case DataActionType.CLEAR_DATA:
+    case DataActionType.CLEAR_ALL_DATA:
       return initialState;
+
+    case DataActionType.CLEAR_FETCHED_DATA:
+      return {
+        ...state,
+        courseMap: Map<string, CourseInfo>(),
+        notificationMap: Map<string, NotificationInfo>(),
+        fileMap: Map<string, FileInfo>(),
+        homeworkMap: Map<string, HomeworkInfo>(),
+        discussionMap: Map<string, DiscussionInfo>(),
+        questionMap: Map<string, QuestionInfo>(),
+        lastUpdateTime: new Date(0),
+      };
 
     default:
       return state;
