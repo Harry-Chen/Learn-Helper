@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
-import { ContentType } from 'thu-learn-lib/lib/types';
+import { ContentType, RemoteFile } from 'thu-learn-lib/lib/types';
 
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -255,17 +255,17 @@ class ContentCard extends React.PureComponent<CardProps, never> {
       );
     }
 
-    if ((content as any).attachmentUrl) {
+    if ((content as any).attachment) {
       // could be homework or notification, anyway it has attachmentName and attachmentUrl
-      const homework = content as HomeworkInfo;
+      const f = (content as any).attachment as RemoteFile;
       attachmentButton = (
-        <Tooltip title={`附件：${homework.attachmentName}`}>
+        <Tooltip title={`附件：${f.name}`}>
           <IconButton
             color="primary"
             className={styles.card_action_button}
             component="div"
             onClick={() => {
-              initiateFileDownload(homework.attachmentUrl, homework.attachmentName);
+              initiateFileDownload(f.downloadUrl, f.name);
             }}
           >
             <FontAwesomeIcon icon="paperclip" />
@@ -282,7 +282,7 @@ class ContentCard extends React.PureComponent<CardProps, never> {
             className={styles.card_action_button}
             component="div"
             onClick={() => {
-              initiateFileDownload(file.downloadUrl);
+              initiateFileDownload(file.remoteFile.downloadUrl);
             }}
           >
             <FontAwesomeIcon icon="download" />

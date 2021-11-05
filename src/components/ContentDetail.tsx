@@ -1,7 +1,7 @@
 import React from 'react';
 import Iframe from 'react-iframe';
 import { connect } from 'react-redux';
-import { ContentType } from 'thu-learn-lib/lib/types';
+import { ContentType, RemoteFile } from 'thu-learn-lib/lib/types';
 
 import Paper from '@material-ui/core/Paper';
 
@@ -29,14 +29,16 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, { frameUrl?:
     if (contentDetail !== undefined) contentDetail = contentDetail.trim();
     if (contentDetail === undefined || contentDetail === '') contentDetail = '详情为空';
 
+    let fileToPreview: RemoteFile | undefined = (content as any).attachment ?? (content as any).remoteFile;
+
     // When `file.previewUrl` is changed (i.e file.previewUrl is not undefined and not equals to
     // this.state.frameUrl), do not set the <Iframe>'s `url` attribute immediately.
     // Instead, remove the IFrame label first, and set state `frameUrl` =`file.previewUrl`.
     // Thus, the component will be update later with correct state, to recreate the <IFrame>` label
     // rather than reuse the old one.
-    const shouldRemoveIframeFirst = file.previewUrl && this.state?.frameUrl !== file.previewUrl;
+    const shouldRemoveIframeFirst = fileToPreview?.previewUrl && this.state?.frameUrl !== fileToPreview?.previewUrl;
     if (shouldRemoveIframeFirst) {
-      setTimeout(() => this.setState({ frameUrl: file.previewUrl }), 100);
+      setTimeout(() => this.setState({ frameUrl: fileToPreview.previewUrl }), 100);
     }
 
     return (
@@ -56,7 +58,7 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, { frameUrl?:
           className={styles.content_detail_content}
           dangerouslySetInnerHTML={{ __html: contentDetail }}
         />
-        {!shouldRemoveIframeFirst && isFile && this.canFilePreview(file) ? (
+        {!shouldRemoveIframeFirst && fileToPreview && this.canFilePreview(fileToPreview) ? (
           <Iframe
             className={styles.content_detail_preview}
             url={addCSRFTokenToIframeUrl(csrfToken, this.state?.frameUrl)}
@@ -70,11 +72,29 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, { frameUrl?:
     // TODO: Translate file type to human-readable representation.
     type;
 
-  private canFilePreview = (file: FileInfo): boolean => {
+  private canFilePreview = (file: RemoteFile): boolean => {
     // TODO add type whitelist for preview
     const ALLOWED_TYPES = [];
     return file.previewUrl !== undefined;
   };
+
+  private generateFileLink = (downloadTitle: string, previewTitle: string, file?: RemoteFile): React.ReactNode => (
+    <>
+      {file ? this.generateLine(
+        downloadTitle,
+        this.generateLink(
+          file.name,
+          file.downloadUrl
+        )
+      ) : null}
+      {file && this.canFilePreview(file) ? this.generateLine(
+        previewTitle,
+        this.generateLink('在新窗口中打开',
+        file.previewUrl
+        )
+      ) : null}
+    </>
+  )
 
   private generateDetailsForFile = (file: FileInfo): React.ReactNode => (
     <>
@@ -83,10 +103,7 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, { frameUrl?:
       {this.generateLine('下载量', file.downloadCount)}
       {this.generateLine('文件大小', file.size)}
       {this.generateLine('文件类型', this.translateFileType(file.fileType))}
-      {this.generateLine('下载文件', this.generateLink(file.title, file.downloadUrl))}
-      {this.canFilePreview(file)
-        ? this.generateLine('预览文件', this.generateLink('在新窗口中打开预览', file.previewUrl))
-        : null}
+      {this.generateFileLink('文件下载', '文件预览', file.remoteFile)}
     </>
   );
 
@@ -99,12 +116,7 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, { frameUrl?:
       {homework.submittedContent !== undefined
         ? this.generateLine('提交内容', homework.submittedContent, true)
         : null}
-      {homework.submittedAttachmentName !== undefined
-        ? this.generateLine(
-            '提交附件',
-            this.generateLink(homework.submittedAttachmentName, homework.submittedAttachmentUrl),
-          )
-        : null}
+      {this.generateFileLink('提交附件', '提交附件预览', homework.submittedAttachment)}
       {homework.graded ? this.generateLine('评阅时间', formatDateTime(homework.gradeTime)) : null}
       {homework.graded ? this.generateLine('评阅者', homework.graderName) : null}
       {homework.gradeLevel
@@ -115,22 +127,13 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, { frameUrl?:
       {homework.gradeContent !== undefined
         ? this.generateLine('评阅内容', homework.gradeContent, true)
         : null}
-      {homework.gradeAttachmentName !== undefined
-        ? this.generateLine(
-            '评阅附件',
-            this.generateLink(homework.gradeAttachmentName, homework.gradeAttachmentUrl),
-          )
-        : null}
+      {this.generateFileLink('评阅附件', '评阅附件预览', homework.gradeAttachment)}
       {homework.answerContent !== undefined
         ? this.generateLine('答案内容', homework.answerContent, true)
         : null}
-      {homework.answerAttachmentName !== undefined
-        ? this.generateLine(
-            '答案附件',
-            this.generateLink(homework.answerAttachmentName, homework.answerAttachmentUrl),
-          )
-        : null}
+      {this.generateFileLink('答案附件', '答案附件预览', homework.answerAttachment)}
       {this.generateLine('查看作业', this.generateLink(homework.title, homework.url, true))}
+      {this.generateFileLink('作业附件', '作业附件预览', homework.attachment)}
     </>
   );
 
@@ -139,12 +142,7 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, { frameUrl?:
       {this.generateLine('发布时间', formatDateTime(notification.publishTime))}
       {this.generateLine('发布人', notification.publisher)}
       {this.generateLine('重要性', notification.markedImportant ? '高' : '普通')}
-      {notification.attachmentName !== undefined
-        ? this.generateLine(
-            '公告附件',
-            this.generateLink(notification.attachmentName, notification.attachmentUrl),
-          )
-        : null}
+      {this.generateFileLink('公告附件', '公告附件预览', notification.attachment)}
       {this.generateLine('公告原文', this.generateLink(notification.title, notification.url, true))}
     </>
   );
