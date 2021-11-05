@@ -4086,10 +4086,10 @@ text-table@^0.2.0:
   resolved "https://registry.npm.taobao.org/text-table/download/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
-thu-learn-lib@^2.5.4:
-  version "2.5.4"
-  resolved "https://registry.yarnpkg.com/thu-learn-lib/-/thu-learn-lib-2.5.4.tgz#532bace85521b06e1fc8d2c272a22a6b536e3cde"
-  integrity sha512-ybeMF2CdCJZJI0HaPh9ahdZ3Q9az/SEijDjJmr27VSXeP3FWdQZd3Nr2FxvDsjc52BmuJTpC03+FxE32/xpmOA==
+thu-learn-lib@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/thu-learn-lib/-/thu-learn-lib-3.0.0.tgz#18103becfee6c8d454e1d9f1de810013d7a87b55"
+  integrity sha512-gxwdIwbCDP9LR58Hgk8cz5+m7/iajheDoj3OS/dJriKBjXYcTp1xBv6C8exTZY0C5XZKR0MyxSTvtDO1+YxX+g==
   dependencies:
     cheerio "^1.0.0-rc.10"
     cross-fetch "^3.0.1"
