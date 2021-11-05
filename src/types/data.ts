@@ -36,7 +36,6 @@ export type ContentInfo =
   | DiscussionInfo
   | QuestionInfo;
 
-
 interface IMigrationResult {
   migrated: boolean;
   fetchedDataCleared: boolean;

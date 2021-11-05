@@ -35,7 +35,9 @@ const loadApp = async (result: MigrationResult) => {
   if (result.allDataCleared) {
     store.dispatch<any>(showSnackbar('升级成功，所有本地数据已经被清除', SnackbarType.WARNING));
   } else if (result.fetchedDataCleared) {
-    store.dispatch<any>(showSnackbar('升级成功，所有本地数据（除配置）已经被清除', SnackbarType.WARNING));
+    store.dispatch<any>(
+      showSnackbar('升级成功，所有本地数据（除配置）已经被清除', SnackbarType.WARNING),
+    );
   } else if (result.migrated) {
     store.dispatch<any>(showSnackbar('升级成功，数据没有受到影响', SnackbarType.NOTIFICATION));
   }

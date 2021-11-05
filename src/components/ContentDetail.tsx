@@ -29,14 +29,16 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, { frameUrl?:
     if (contentDetail !== undefined) contentDetail = contentDetail.trim();
     if (contentDetail === undefined || contentDetail === '') contentDetail = '详情为空';
 
-    let fileToPreview: RemoteFile | undefined = (content as any).attachment ?? (content as any).remoteFile;
+    let fileToPreview: RemoteFile | undefined =
+      (content as any).attachment ?? (content as any).remoteFile;
 
     // When `file.previewUrl` is changed (i.e file.previewUrl is not undefined and not equals to
     // this.state.frameUrl), do not set the <Iframe>'s `url` attribute immediately.
     // Instead, remove the IFrame label first, and set state `frameUrl` =`file.previewUrl`.
     // Thus, the component will be update later with correct state, to recreate the <IFrame>` label
     // rather than reuse the old one.
-    const shouldRemoveIframeFirst = fileToPreview?.previewUrl && this.state?.frameUrl !== fileToPreview?.previewUrl;
+    const shouldRemoveIframeFirst =
+      fileToPreview?.previewUrl && this.state?.frameUrl !== fileToPreview?.previewUrl;
     if (shouldRemoveIframeFirst) {
       setTimeout(() => this.setState({ frameUrl: fileToPreview.previewUrl }), 100);
     }
@@ -78,23 +80,20 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, { frameUrl?:
     return file.previewUrl !== undefined;
   };
 
-  private generateFileLink = (downloadTitle: string, previewTitle: string, file?: RemoteFile): React.ReactNode => (
+  private generateFileLink = (
+    downloadTitle: string,
+    previewTitle: string,
+    file?: RemoteFile,
+  ): React.ReactNode => (
     <>
-      {file ? this.generateLine(
-        downloadTitle,
-        this.generateLink(
-          file.name,
-          file.downloadUrl
-        )
-      ) : null}
-      {file && this.canFilePreview(file) ? this.generateLine(
-        previewTitle,
-        this.generateLink('在新窗口中打开',
-        file.previewUrl
-        )
-      ) : null}
+      {file
+        ? this.generateLine(downloadTitle, this.generateLink(file.name, file.downloadUrl))
+        : null}
+      {file && this.canFilePreview(file)
+        ? this.generateLine(previewTitle, this.generateLink('在新窗口中打开', file.previewUrl))
+        : null}
     </>
-  )
+  );
 
   private generateDetailsForFile = (file: FileInfo): React.ReactNode => (
     <>
