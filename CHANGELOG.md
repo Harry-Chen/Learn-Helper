@@ -1,5 +1,13 @@
 # Changelog
 
+## v4.5.0
+
+Note: User data (except configuration) will be **automatically cleared** after upgrade to `v4.5.0` from any previous version due to breaking changes of `thu-learn-lib`.
+
+* FIX problem that notifications might be (occasionally) changed to incorrect publish time (Harry-Chen/thu-learn-lib#36)
+* ADD preview frame to homework and notifications (if applicable)
+* Upgrade to latest dependencies
+
 ## v4.4.3
 
 * FIX problem when opening notification or submitting homework from detail panel (#103)
