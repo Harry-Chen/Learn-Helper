@@ -6,6 +6,8 @@ import { SnackbarType } from '../../types/dialogs';
 import { ContentInfo, FileInfo } from '../../types/data';
 import { initiateFileDownload } from '../../utils/download';
 import { toggleReadState } from './data';
+import { STATE_HELPER } from '../reducers';
+import { HelperState } from '../reducers/helper';
 
 interface IUiAction {
   type: UiActionType;
@@ -120,7 +122,15 @@ export const loadMoreCard = (): UiAction => ({
   type: UiActionType.LOAD_MORE_CARD,
 });
 
-export const downloadAllUnreadFiles = (contents: ContentInfo[]) => (dispatch, getState) => {
+export const downloadAllUnreadFiles = (contents: ContentInfo[]) => async (dispatch, getState) => {
+  // check login state before downloading
+  const helper = (getState()[STATE_HELPER] as HelperState).helper;
+  try {
+    await helper.getSemesterIdList();
+  } catch (e) {
+    dispatch(showSnackbar('登录已过期，请刷新后重试', SnackbarType.ERROR));
+    return;
+  }
   for (const c of contents) {
     if (c.type === ContentType.FILE && !c.hasRead) {
       const file = c as FileInfo;
