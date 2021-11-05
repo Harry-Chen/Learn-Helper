@@ -29,7 +29,7 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, { frameUrl?:
     if (contentDetail !== undefined) contentDetail = contentDetail.trim();
     if (contentDetail === undefined || contentDetail === '') contentDetail = '详情为空';
 
-    let fileToPreview: RemoteFile | undefined =
+    const fileToPreview: RemoteFile | undefined =
       (content as any).attachment ?? (content as any).remoteFile;
 
     // When `file.previewUrl` is changed (i.e file.previewUrl is not undefined and not equals to
@@ -149,7 +149,7 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, { frameUrl?:
   private generateLine = (
     name: string,
     content: React.ReactNode,
-    embedHtml: boolean = false,
+    embedHtml = false,
   ): React.ReactNode => (
     <tr className={styles.content_detail_line}>
       <td>{name}：</td>
@@ -161,7 +161,7 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, { frameUrl?:
     </tr>
   );
 
-  private generateLink = (name: string, url: string, inApp: boolean = false): React.ReactNode => {
+  private generateLink = (name: string, url: string, inApp = false): React.ReactNode => {
     if (inApp) {
       return (
         <a
@@ -176,7 +176,7 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, { frameUrl?:
       );
     }
     return (
-      <a href={url} target="_blank">
+      <a href={url} target="_blank" rel="noreferrer">
         {name}
       </a>
     );

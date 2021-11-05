@@ -19,11 +19,11 @@ import { toggleLoginDialog } from '../../redux/actions/ui';
 import { login, refresh } from '../../redux/actions/helper';
 
 class LoginDialog extends React.PureComponent<ILoginDialogProps, never> {
-  private username: string = '';
+  private username = '';
 
-  private password: string = '';
+  private password = '';
 
-  private save: boolean = false;
+  private save = false;
 
   constructor(prop: ILoginDialogProps) {
     super(prop);
