@@ -18,18 +18,12 @@
     ]
   },
   "plugins": [
-    "import",
     "@typescript-eslint",
     "jsx-a11y",
     "react"
   ],
   "rules": {},
   "settings": {
-    "import/resolver": {
-      "webpack": {
-        "config": "webpack.common.js"
-      }
-    },
     "react": {
       "version": "detect"
     }
