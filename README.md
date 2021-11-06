@@ -25,16 +25,16 @@ Or you can install the unpacked version from releases.
 
 ## License
 
-This project is licensed under the terms of MIT License from version 4.0.3 __EXCLUDING any of the following condition__:
+This project is licensed under the terms of MIT License from version 4.0.3 __EXCLUDING any of the following conditions__:
 
 * You are working / have worked for *Informatization Office* or *Information Technology Center* of Tsinghua University.
 * Your project is funded or supported in any way by an affiliate of Tsinghua University or any other institution associated with Tsinghua University.
 
-If any of these criteria is met, any usage of code, without explicit authorization from the authors,  from this project will be considered as infringement of copyright. The word ‘usage’ may refer to making copies of, modifying, redistributing of the source code or derivatives (such as browser extension) of this project, for either commercial or non-commercial use. However you can still install and run the browser extension released by the author without being constrained by this exception.
+If any of these criteria is met, any use of code, without explicit authorization from the authors, from this project will be considered as infringement of copyright. The word ‘use’ may refer to making copies of, modifying, redistributing of the source code or derivatives (such as browser extension) of this project, whether or not for commercial use. However you can still install and run the browser extension released by the author without being constrained by this exception.
 
 ## 版权说明
 
-本项目从 4.0.3 版本起，依照 MIT License 开源，但__不包含下列任意情况__：
+本项目从 4.0.3 版本起，依照 MIT License 开源，但 __不包含下列任意情况__：
 
 * 您过去或者目前为清华大学信息化工作办公室或信息化技术中心工作；
 * 您的项目受到清华大学的下属机构或其他任何与清华大学有关的机构的任何形式的资助或支持。
