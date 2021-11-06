@@ -9,6 +9,8 @@ import { setDetailUrl } from '../redux/actions/ui';
 import { clearFetchedData } from '../redux/actions/data';
 import { MigrationResult } from '../types/data';
 
+import { compare as compareVersion } from 'compare-versions';
+
 export async function storeCredential(username: string, password: string) {
   const cipherImpl = cipher(STORAGE_SALT);
   await browser.storage.local.set({
@@ -66,7 +68,7 @@ export async function versionMigrate(store: any): Promise<MigrationResult> {
     result.migrated = true;
 
     // migrate from < 4.5, clearing all data except credential & config
-    if (oldVersion < '4.5') {
+    if (compareVersion(oldVersion, '4.5.0', '<')) {
       store.dispatch(clearFetchedData());
       result.fetchedDataCleared = true;
     }

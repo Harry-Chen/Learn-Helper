@@ -54,6 +54,7 @@
     "@material-ui/core": "4.12.3",
     "@material-ui/styles": "4.11.4",
     "classnames": "^2.3.1",
+    "compare-versions": "^4.0.1",
     "immutable": "^4.0.0",
     "lodash": "^4.17.21",
     "react": "^17.0.2",
