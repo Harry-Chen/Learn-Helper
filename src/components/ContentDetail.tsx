@@ -15,13 +15,12 @@ import { setDetailUrl } from '../redux/actions/ui';
 const initialState = {
   frameUrl: undefined as string | undefined,
   loadPreview: false,
-}
+};
 
 const OPEN_IN_CURRENT_WINDOW = '在本窗口打开';
 const OPEN_IN_NEW_WINDOW = '在新窗口打开';
 
 class ContentDetail extends React.PureComponent<ContentDetailProps, typeof initialState> {
-
   public state = initialState;
 
   public render() {
@@ -54,10 +53,14 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, typeof initi
     // Otherwise (for homework & notification), user confirmation is required to save traffic.
     const deferPreviewLoad = showPreviewFrame && this.state?.frameUrl !== fileToPreview?.previewUrl;
     if (deferPreviewLoad) {
-      setTimeout(() => this.setState({
-        frameUrl: fileToPreview.previewUrl,
-        loadPreview: isFile,
-      }), 100);
+      setTimeout(
+        () =>
+          this.setState({
+            frameUrl: fileToPreview.previewUrl,
+            loadPreview: isFile,
+          }),
+        100,
+      );
     }
 
     return (
@@ -80,7 +83,9 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, typeof initi
         {showPreviewFrame && !this.state.loadPreview ? (
           <Button
             variant="outlined"
-            onClick={() => { this.setState({ loadPreview: true }); }}
+            onClick={() => {
+              this.setState({ loadPreview: true });
+            }}
           >
             加载预览（{fileToPreview!.size}）
           </Button>
@@ -112,7 +117,10 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, typeof initi
   ): React.ReactNode => (
     <>
       {file
-        ? this.generateLine(downloadTitle, this.generateLink(file.name + `（${file!.size}）`, file.downloadUrl))
+        ? this.generateLine(
+            downloadTitle,
+            this.generateLink(file.name + `（${file!.size}）`, file.downloadUrl),
+          )
         : null}
       {file && this.canFilePreview(file)
         ? this.generateLine(previewTitle, this.generateLink(OPEN_IN_NEW_WINDOW, file.previewUrl))
@@ -167,7 +175,10 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, typeof initi
       {this.generateLine('发布人', notification.publisher)}
       {this.generateLine('重要性', notification.markedImportant ? '高' : '普通')}
       {this.generateFileLink('公告附件', '公告附件预览', notification.attachment)}
-      {this.generateLine('公告详情', this.generateLink(OPEN_IN_CURRENT_WINDOW, notification.url, true))}
+      {this.generateLine(
+        '公告详情',
+        this.generateLink(OPEN_IN_CURRENT_WINDOW, notification.url, true),
+      )}
     </>
   );
 
