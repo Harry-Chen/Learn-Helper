@@ -3,6 +3,7 @@ import Iframe from 'react-iframe';
 import { connect } from 'react-redux';
 import { ContentType, RemoteFile } from 'thu-learn-lib/lib/types';
 
+import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 
 import styles from '../css/page.css';
@@ -11,7 +12,18 @@ import { HomeworkInfo, NotificationInfo, FileInfo } from '../types/data';
 import { addCSRFTokenToIframeUrl, formatDateTime } from '../utils/format';
 import { setDetailUrl } from '../redux/actions/ui';
 
-class ContentDetail extends React.PureComponent<ContentDetailProps, { frameUrl?: string }> {
+const initialState = {
+  frameUrl: undefined as string | undefined,
+  loadPreview: false,
+}
+
+const OPEN_IN_CURRENT_WINDOW = '在本窗口打开';
+const OPEN_IN_NEW_WINDOW = '在新窗口打开';
+
+class ContentDetail extends React.PureComponent<ContentDetailProps, typeof initialState> {
+
+  public state = initialState;
+
   public render() {
     const { content, csrfToken } = this.props;
     const homework = content as HomeworkInfo;
@@ -31,16 +43,21 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, { frameUrl?:
 
     const fileToPreview: RemoteFile | undefined =
       (content as any).attachment ?? (content as any).remoteFile;
+    const showPreviewFrame = fileToPreview && this.canFilePreview(fileToPreview);
 
     // When `file.previewUrl` is changed (i.e file.previewUrl is not undefined and not equals to
     // this.state.frameUrl), do not set the <Iframe>'s `url` attribute immediately.
     // Instead, remove the IFrame label first, and set state `frameUrl` =`file.previewUrl`.
     // Thus, the component will be update later with correct state, to recreate the <IFrame>` label
     // rather than reuse the old one.
-    const shouldRemoveIframeFirst =
-      fileToPreview?.previewUrl && this.state?.frameUrl !== fileToPreview?.previewUrl;
-    if (shouldRemoveIframeFirst) {
-      setTimeout(() => this.setState({ frameUrl: fileToPreview.previewUrl }), 100);
+    // For file, its preview frame can be loaded instantly.
+    // Otherwise (for homework & notification), user confirmation is required to save traffic.
+    const deferPreviewLoad = showPreviewFrame && this.state?.frameUrl !== fileToPreview?.previewUrl;
+    if (deferPreviewLoad) {
+      setTimeout(() => this.setState({
+        frameUrl: fileToPreview.previewUrl,
+        loadPreview: isFile,
+      }), 100);
     }
 
     return (
@@ -60,7 +77,15 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, { frameUrl?:
           className={styles.content_detail_content}
           dangerouslySetInnerHTML={{ __html: contentDetail }}
         />
-        {!shouldRemoveIframeFirst && fileToPreview && this.canFilePreview(fileToPreview) ? (
+        {showPreviewFrame && !this.state.loadPreview ? (
+          <Button
+            variant="outlined"
+            onClick={() => { this.setState({ loadPreview: true }); }}
+          >
+            加载预览（{fileToPreview!.size}）
+          </Button>
+        ) : null}
+        {showPreviewFrame && this.state.loadPreview && !deferPreviewLoad ? (
           <Iframe
             className={styles.content_detail_preview}
             url={addCSRFTokenToIframeUrl(csrfToken, this.state?.frameUrl)}
@@ -75,9 +100,9 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, { frameUrl?:
     type;
 
   private canFilePreview = (file: RemoteFile): boolean => {
-    // TODO add type whitelist for preview
-    const ALLOWED_TYPES = [];
-    return file.previewUrl !== undefined;
+    // black list for files that could not be previewed
+    const BLACK_LIST = ['.exe', '.zip', '.rar', '.7z'];
+    return !BLACK_LIST.some((suffix) => file.name.endsWith(suffix));
   };
 
   private generateFileLink = (
@@ -87,10 +112,10 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, { frameUrl?:
   ): React.ReactNode => (
     <>
       {file
-        ? this.generateLine(downloadTitle, this.generateLink(file.name, file.downloadUrl))
+        ? this.generateLine(downloadTitle, this.generateLink(file.name + `（${file!.size}）`, file.downloadUrl))
         : null}
       {file && this.canFilePreview(file)
-        ? this.generateLine(previewTitle, this.generateLink('在新窗口中打开', file.previewUrl))
+        ? this.generateLine(previewTitle, this.generateLink(OPEN_IN_NEW_WINDOW, file.previewUrl))
         : null}
     </>
   );
@@ -131,8 +156,8 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, { frameUrl?:
         ? this.generateLine('答案内容', homework.answerContent, true)
         : null}
       {this.generateFileLink('答案附件', '答案附件预览', homework.answerAttachment)}
-      {this.generateLine('查看作业', this.generateLink(homework.title, homework.url, true))}
       {this.generateFileLink('作业附件', '作业附件预览', homework.attachment)}
+      {this.generateLine('作业详情', this.generateLink(OPEN_IN_CURRENT_WINDOW, homework.url, true))}
     </>
   );
 
@@ -142,7 +167,7 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, { frameUrl?:
       {this.generateLine('发布人', notification.publisher)}
       {this.generateLine('重要性', notification.markedImportant ? '高' : '普通')}
       {this.generateFileLink('公告附件', '公告附件预览', notification.attachment)}
-      {this.generateLine('公告原文', this.generateLink(notification.title, notification.url, true))}
+      {this.generateLine('公告详情', this.generateLink(OPEN_IN_CURRENT_WINDOW, notification.url, true))}
     </>
   );
 

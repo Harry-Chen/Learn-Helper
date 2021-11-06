@@ -6,6 +6,7 @@ Note: User data (except configuration) will be **automatically cleared** after u
 
 * FIX problem that notifications might be (occasionally) changed to incorrect publish time (Harry-Chen/thu-learn-lib#36)
 * ADD preview frame to homework and notifications (if applicable)
+* ADD login status check before triggering bulk download to avoid garbage artifacts
 * Upgrade to latest dependencies
 
 ## v4.4.3
