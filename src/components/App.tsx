@@ -15,9 +15,16 @@ import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { AppProps } from '../types/ui';
+import { AppProps, CardFilterRule, CardSortRule } from '../types/ui';
 import { IUiStateSlice, STATE_DATA, STATE_HELPER, STATE_UI } from '../redux/reducers';
-import { setTitleFilter, toggleChangeSemesterDialog, togglePaneHidden } from '../redux/actions/ui';
+import {
+  addCardSelectSortRules,
+  resetCardSortRule,
+  selectCardFilterRule,
+  setTitleFilter,
+  toggleChangeSemesterDialog,
+  togglePaneHidden,
+} from '../redux/actions/ui';
 import styles from '../css/main.css';
 
 import SummaryList from './SummaryList';
@@ -40,6 +47,7 @@ import { formatSemester } from '../utils/format';
 import { HelperState } from '../redux/reducers/helper';
 import { clearAllData } from '../redux/actions/data';
 import { removeStoredCredential } from '../utils/storage';
+import { Checkbox, Menu, MenuItem } from '@material-ui/core';
 
 const initialState = {
   filterShown: false,
@@ -47,12 +55,15 @@ const initialState = {
   hasError: false,
   lastError: new Error(),
   lastErrorInfo: undefined,
+  sortMenuOpen: false,
+  cardSortRuleSelectInAsc: true,
 };
 
 class App extends React.PureComponent<AppProps, typeof initialState> {
   public state = initialState;
 
   private inputRef: React.RefObject<HTMLDivElement> = React.createRef();
+  private sortButtonRef: React.RefObject<HTMLDivElement> = React.createRef();
 
   componentDidCatch(error, info) {
     this.setState({ hasError: true, lastError: error, lastErrorInfo: info });
@@ -156,19 +167,117 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
                         className={classnames(styles.filter_btn)}
                         onClick={this.toggleFilter}
                       >
-                        <FontAwesomeIcon
-                          icon="filter"
-                          className={classnames(styles.filter_icon, {
-                            [styles.filter_icon_shown]: !this.state.filterShown,
-                          })}
-                        />
-                        <FontAwesomeIcon
-                          icon="times"
-                          className={classnames(styles.filter_icon, {
-                            [styles.filter_icon_shown]: this.state.filterShown,
-                          })}
-                        />
+                        {!this.state.filterShown ? (
+                          <FontAwesomeIcon
+                            icon="filter"
+                            className={classnames(styles.filter_icon, {
+                              [styles.filter_icon_shown]: !this.state.filterShown,
+                            })}
+                          />
+                        ) : (
+                          <FontAwesomeIcon
+                            icon="times"
+                            className={classnames(styles.filter_icon, {
+                              [styles.filter_icon_shown]: this.state.filterShown,
+                            })}
+                          />
+                        )}
                       </IconButton>
+                      {!this.state.filterShown ? (
+                        <IconButton
+                          buttonRef={this.sortButtonRef}
+                          className={classnames(styles.filter_btn)}
+                          disabled={
+                            this.props.cardSortRuleList == null &&
+                            this.props.cardFilterRuleList == null
+                          }
+                          onClick={() => this.setState({ sortMenuOpen: true })}
+                        >
+                          <FontAwesomeIcon
+                            icon="sort"
+                            className={classnames(styles.filter_icon, styles.filter_icon_shown)}
+                          />
+                        </IconButton>
+                      ) : null}
+                      {/* CardList 排序和过滤的菜单 */}
+                      <Menu
+                        id="card-sort-menu"
+                        anchorEl={this.sortButtonRef.current}
+                        open={this.state.sortMenuOpen}
+                        onClose={() => this.setState({ sortMenuOpen: false })}
+                        MenuListProps={{
+                          'aria-labelledby': 'basic-button',
+                        }}
+                      >
+                        {this.props.cardFilterRuleList?.map((rule, idx) => {
+                          return (
+                            <MenuItem
+                              key={'filterRule' + idx}
+                              onClick={() => {
+                                this.props.selectCardFilterRule(rule);
+                              }}
+                            >
+                              <Checkbox
+                                checked={
+                                  this.props.cardSelectFilterRules?.find(
+                                    (v) => v.name === rule.name,
+                                  ) != null
+                                }
+                                size="small"
+                              />
+                              {rule.name}
+                            </MenuItem>
+                          );
+                        })}
+                        {this.props.cardFilterRuleList ? <Divider /> : null}
+                        <MenuItem
+                          onClick={() =>
+                            this.setState({
+                              cardSortRuleSelectInAsc: !this.state.cardSortRuleSelectInAsc,
+                            })
+                          }
+                        >
+                          <Checkbox checked={!this.state.cardSortRuleSelectInAsc} size="small" />
+                          降序选择
+                        </MenuItem>
+                        <MenuItem onClick={() => this.props.resetCardSortRule()}>
+                          <FontAwesomeIcon
+                            icon="trash-alt"
+                            className={styles.sort_menu_item_icon}
+                          />
+                          清除选项
+                        </MenuItem>
+                        <Divider />
+                        {this.props.cardSortRuleList?.map((rule, idx) => {
+                          return (
+                            <MenuItem
+                              key={'sortRule' + idx}
+                              onClick={() => {
+                                this.props.addCardSortRule(
+                                  rule,
+                                  this.state.cardSortRuleSelectInAsc ? 'asc' : 'desc',
+                                );
+                              }}
+                            >
+                              <FontAwesomeIcon
+                                icon={rule.iconName}
+                                className={styles.sort_menu_item_icon}
+                              />
+                              {rule.name}
+                            </MenuItem>
+                          );
+                        })}
+                        <Divider />
+                        <MenuItem disabled={true}>已经选择的项目有:</MenuItem>
+                        {this.props.cardSelectSortRules?.map((rule, idx) => {
+                          return (
+                            <MenuItem key={'selectSortRule' + idx} disabled={true}>
+                              {rule.name}/
+                              {this.props.cardSelectSortOrders[idx] === 'desc' ? '降序' : '升序'}
+                            </MenuItem>
+                          );
+                        })}
+                      </Menu>
                       <div className={styles.filter_input}>
                         <InputBase
                           inputRef={this.inputRef}
@@ -278,6 +387,11 @@ const mapStateToProps = (state: IUiStateSlice): Partial<AppProps> => {
     cardListTitle: helperState.loggedIn ? uiState.cardListTitle : '加载中...',
     semesterTitle: formatSemester(dataState.semester),
     latestSemester: dataState.semester.id === dataState.fetchedSemester.id,
+    cardSortRuleList: uiState.cardSortRuleList,
+    cardSelectSortRules: uiState.cardSelectSortRules,
+    cardSelectSortOrders: uiState.cardSortOrders,
+    cardFilterRuleList: uiState.cardFilterRuleList,
+    cardSelectFilterRules: uiState.cardSelectFilterRules,
   };
 };
 
@@ -289,6 +403,13 @@ const mapDispatchToProps = (dispatch): Partial<AppProps> => ({
     const filter = s.trim();
     dispatch(setTitleFilter(filter === '' ? undefined : filter));
   },
+  addCardSortRule: (rule: CardSortRule, ord: 'asc' | 'desc') => {
+    dispatch(addCardSelectSortRules(rule, ord));
+  },
+  selectCardFilterRule: (rule: CardFilterRule) => {
+    dispatch(selectCardFilterRule(rule));
+  },
+  resetCardSortRule: () => dispatch(resetCardSortRule()),
   resetApp: async () => {
     // clear all data
     await removeStoredCredential();

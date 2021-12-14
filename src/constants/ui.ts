@@ -11,6 +11,8 @@ import {
   toggleChangeSemesterDialog,
 } from '../redux/actions/ui';
 import { markAllRead } from '../redux/actions/data';
+import { COMMON_SORT_RULES, HOMEWORK_SORT_RULES } from './sortRule';
+import { HOMEWORK_FILTER_RULES } from './filterRule';
 
 export const COURSE_MAIN_FUNC: {
   [key: string]: {
@@ -53,30 +55,37 @@ export const COURSE_FUNC: IMenuItemEnum = {
     icon: COURSE_MAIN_FUNC[ContentType.NOTIFICATION].icon,
     name: '课程公告',
     type: ContentType.NOTIFICATION,
+    sortRules: COMMON_SORT_RULES,
   },
   COURSE_SUMMARY: {
     icon: 'info-circle',
     name: '课程综合',
+    sortRules: COMMON_SORT_RULES,
   },
   COURSE_FILE: {
     icon: COURSE_MAIN_FUNC[ContentType.FILE].icon,
     name: '课程文件',
     type: ContentType.FILE,
+    sortRules: COMMON_SORT_RULES,
   },
   COURSE_HOMEWORK: {
     icon: COURSE_MAIN_FUNC[ContentType.HOMEWORK].icon,
     name: '课程作业',
     type: ContentType.HOMEWORK,
+    filterRules: HOMEWORK_FILTER_RULES,
+    sortRules: HOMEWORK_SORT_RULES,
   },
   COURSE_DISCUSSION: {
     icon: COURSE_MAIN_FUNC[ContentType.DISCUSSION].icon,
     name: '课程讨论',
     type: ContentType.DISCUSSION,
+    sortRules: COMMON_SORT_RULES,
   },
   COURSE_QUESTION: {
     icon: COURSE_MAIN_FUNC[ContentType.QUESTION].icon,
     name: '课程答疑',
     type: ContentType.QUESTION,
+    sortRules: COMMON_SORT_RULES,
   },
   COURSE_HOMEPAGE: {
     icon: 'external-link-alt',
@@ -103,26 +112,32 @@ const SUMMARY_FUNC: IMenuItemEnum = {
     icon: COURSE_MAIN_FUNC[ContentType.HOMEWORK].icon,
     name: '所有作业',
     type: ContentType.HOMEWORK,
+    filterRules: HOMEWORK_FILTER_RULES,
+    sortRules: HOMEWORK_SORT_RULES,
   },
   SUMMARY_NOTIFICATIONS: {
     icon: COURSE_MAIN_FUNC[ContentType.NOTIFICATION].icon,
     name: '所有公告',
     type: ContentType.NOTIFICATION,
+    sortRules: COMMON_SORT_RULES,
   },
   SUMMARY_FILES: {
     icon: COURSE_MAIN_FUNC[ContentType.FILE].icon,
     name: '所有文件',
     type: ContentType.FILE,
+    sortRules: COMMON_SORT_RULES,
   },
   SUMMARY_DISCUSSIONS: {
     icon: COURSE_MAIN_FUNC[ContentType.DISCUSSION].icon,
     name: '所有讨论',
     type: ContentType.DISCUSSION,
+    sortRules: COMMON_SORT_RULES,
   },
   SUMMARY_QUESTIONS: {
     icon: COURSE_MAIN_FUNC[ContentType.QUESTION].icon,
     name: '所有答疑',
     type: ContentType.QUESTION,
+    sortRules: COMMON_SORT_RULES,
   },
   SUMMARY_IGNORED: {
     icon: 'trash',

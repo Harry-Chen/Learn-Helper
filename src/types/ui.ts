@@ -4,12 +4,15 @@ import { ContentType, CourseInfo } from 'thu-learn-lib/lib/types';
 
 import { ContentInfo } from './data';
 import { SnackbarType } from './dialogs';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 export interface IMenuItem {
   name: string;
   icon: IconName;
   type?: ContentType | null;
   handler?: (any) => any;
+  filterRules?: CardFilterRule[];
+  sortRules?: CardSortRule[];
 }
 
 export interface IMenuItemEnum {
@@ -35,12 +38,39 @@ interface ICardFilter {
   course: CourseInfo;
 }
 
+// card 排序规则
+interface ICardSortRule {
+  // 规则名称
+  name: string;
+  // 排序 key 指定函数
+  func: (content: ContentInfo) => number | string | Date;
+  // fontAwesome 的图标名称
+  iconName?: IconProp;
+}
+
+export type CardSortRule = ICardSortRule;
+
+// card 排序中的过滤规则
+interface ICardFilterRule {
+  // 规则名称
+  name: string;
+  // 过滤 key 指定函数，返回 true 则为通过
+  func: (content: ContentInfo) => boolean;
+  // fontAwesome 的图标名称
+  iconName?: string;
+}
+
+export type CardFilterRule = ICardFilterRule;
+
 interface ICardListProps extends IDispatchableComponentProps, Partial<ICardFilter> {
   contents: ContentInfo[];
   threshold: number;
   unreadFileCount: number;
   loadMore: () => any;
   downloadAllUnread: (contents: ContentInfo[]) => any;
+  filterRules?: CardFilterRule[];
+  sortRules: CardSortRule[] | undefined;
+  sortOrders?: ('asc' | 'desc')[];
 }
 
 interface ICardProps extends IDispatchableComponentProps {
@@ -64,11 +94,19 @@ interface IAppProps extends IDispatchableComponentProps {
   cardListTitle: string;
   semesterTitle: string;
   latestSemester: boolean;
+  cardSortRuleList: CardSortRule[];
+  cardSelectSortRules: CardSortRule[];
+  cardSelectSortOrders: ('asc' | 'desc')[];
+  cardFilterRuleList?: CardFilterRule[];
+  cardSelectFilterRules?: CardFilterRule[];
   openSidebar: () => any;
   closeSidebar: () => any;
   resetApp: () => any;
   setTitleFilter: (filter: string) => any;
   openChangeSemesterDialog: () => any;
+  addCardSortRule: (rule: CardSortRule, ord: 'asc' | 'desc') => any;
+  resetCardSortRule: () => any;
+  selectCardFilterRule: (rule: CardFilterRule) => any;
 }
 
 export type AppProps = IAppProps;

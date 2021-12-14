@@ -5,6 +5,7 @@ import { UiActionType } from '../actions/actionTypes';
 import { UiAction } from '../actions/ui';
 import { CARD_BATCH_LOAD_SIZE } from '../../constants';
 import { ContentInfo } from '../../types/data';
+import { CardFilterRule, CardSortRule } from '../../types/ui';
 
 interface IUiState {
   showLoadingProgressBar: boolean;
@@ -24,6 +25,11 @@ interface IUiState {
   cardTypeFilter?: ContentType | null;
   cardVisibilityThreshold: number;
   cardCourseFilter?: CourseInfo;
+  cardSelectSortRules?: CardSortRule[];
+  cardSortOrders?: ('asc' | 'desc')[];
+  cardSortRuleList?: CardSortRule[];
+  cardSelectFilterRules?: CardFilterRule[];
+  cardFilterRuleList?: CardFilterRule[];
   cardListTitle: string;
   detailUrl: string;
   detailContent?: ContentInfo;
@@ -51,6 +57,11 @@ const initialState: UiState = {
   cardTypeFilter: undefined,
   cardVisibilityThreshold: CARD_BATCH_LOAD_SIZE,
   cardCourseFilter: undefined,
+  cardSelectSortRules: undefined,
+  cardSortOrders: undefined,
+  cardSortRuleList: undefined,
+  cardSelectFilterRules: undefined,
+  cardFilterRuleList: undefined,
   cardListTitle: '主页',
   detailUrl: 'welcome.html',
   detailContent: undefined,
@@ -137,6 +148,74 @@ export default function ui(state: UiState = initialState, action: UiAction): UiS
       return {
         ...state,
         cardListTitle: action.title,
+      };
+    case UiActionType.CARD_SELECT_SORT_RULE: {
+      // 增加排序规则，如果已经有了则不加
+      if (
+        state.cardSelectSortRules &&
+        state.cardSelectSortRules.find((value) => value.name === action.sortRule.name) != null
+      ) {
+        return state;
+      }
+      let newRules: CardSortRule[];
+      let newOrders: ('asc' | 'desc')[];
+      if (state.cardSelectSortRules == undefined) {
+        newRules = [action.sortRule];
+      } else {
+        newRules = [...state.cardSelectSortRules];
+        newRules.push(action.sortRule);
+      }
+      if (state.cardSortOrders == undefined) {
+        newOrders = [action.sortOrder];
+      } else {
+        newOrders = [...state.cardSortOrders];
+        newOrders.push(action.sortOrder);
+      }
+      return {
+        ...state,
+        cardSelectSortRules: newRules,
+        cardSortOrders: newOrders,
+      };
+    }
+    case UiActionType.CARD_RESET_SORT_RULE:
+      return {
+        ...state,
+        cardSelectSortRules: undefined,
+        cardSortOrders: undefined,
+      };
+    case UiActionType.CARD_SET_SORT_RULE_LIST:
+      return {
+        ...state,
+        cardSortRuleList: action.sortRuleList,
+        cardSelectSortRules: undefined,
+        cardSortOrders: undefined,
+      };
+    case UiActionType.CARD_SELECT_FILTER_RULE: {
+      // 增加过滤规则
+      let newRules: CardFilterRule[];
+      if (state.cardSelectFilterRules == undefined) {
+        newRules = [action.filterRule];
+      } else {
+        newRules = [...state.cardSelectFilterRules];
+        const findResult = newRules.find((value) => value.name === action.filterRule.name);
+        if (findResult) {
+          // 清除已有
+          newRules = newRules.filter((value) => value.name !== findResult.name);
+        } else {
+          // 新增规则
+          newRules.push(action.filterRule);
+        }
+      }
+      return {
+        ...state,
+        cardSelectFilterRules: newRules,
+      };
+    }
+    case UiActionType.CARD_SET_FILTER_RULE_LIST:
+      return {
+        ...state,
+        cardFilterRuleList: action.filterRuleList,
+        cardSelectFilterRules: undefined,
       };
     case UiActionType.LOAD_MORE_CARD:
       return {

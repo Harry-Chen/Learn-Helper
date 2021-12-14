@@ -27,6 +27,7 @@ import { faClipboardCheck } from '@fortawesome/free-solid-svg-icons/faClipboardC
 import { faClipboard } from '@fortawesome/free-solid-svg-icons/faClipboard';
 import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch';
 import { faFilter } from '@fortawesome/free-solid-svg-icons/faFilter';
+import { faSort } from '@fortawesome/free-solid-svg-icons/faSort';
 import { faBars } from '@fortawesome/free-solid-svg-icons/faBars';
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons/faAngleLeft';
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes';
@@ -35,6 +36,9 @@ import { faBan } from '@fortawesome/free-solid-svg-icons/faBan';
 import { faEnvelopeOpen } from '@fortawesome/free-solid-svg-icons/faEnvelopeOpen';
 import { faRandom } from '@fortawesome/free-solid-svg-icons/faRandom';
 import { faStarOfLife } from '@fortawesome/free-solid-svg-icons/faStarOfLife';
+import { faStopwatch } from '@fortawesome/free-solid-svg-icons/faStopwatch';
+import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons/faCalendarAlt';
+import { faFlag } from '@fortawesome/free-solid-svg-icons/faFlag';
 
 const ICON_TO_USE = [
   faThumbtack,
@@ -66,12 +70,16 @@ const ICON_TO_USE = [
   faBars,
   faAngleLeft,
   faFilter,
+  faSort,
   faTimes,
   faTrashAlt,
   faEnvelopeOpen,
   faRandom,
   faBan,
   faStarOfLife,
+  faStopwatch,
+  faCalendarAlt,
+  faFlag,
 ];
 
 ICON_TO_USE.map((i) => library.add(i));

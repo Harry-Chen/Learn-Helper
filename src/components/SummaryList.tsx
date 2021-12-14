@@ -17,7 +17,12 @@ import { DataState } from '../redux/reducers/data';
 import { COURSE_MAIN_FUNC, SUMMARY_FUNC_LIST } from '../constants/ui';
 import { ContentInfo, HomeworkInfo } from '../types/data';
 import { HelperState } from '../redux/reducers/helper';
-import { setCardFilter, setCardListTitle } from '../redux/actions/ui';
+import {
+  setCardFilter,
+  setCardFilterRuleList,
+  setCardListTitle,
+  setCardSortRuleList,
+} from '../redux/actions/ui';
 
 class SummaryList extends React.PureComponent<SummaryListProps, never> {
   render() {
@@ -42,6 +47,8 @@ class SummaryList extends React.PureComponent<SummaryListProps, never> {
             onClick={() => {
               dispatch(setCardFilter(func.type));
               dispatch(setCardListTitle(func.name));
+              dispatch(setCardFilterRuleList(func.filterRules));
+              dispatch(setCardSortRuleList(func.sortRules));
             }}
           >
             <ListItemIcon className={styles.list_item_icon}>

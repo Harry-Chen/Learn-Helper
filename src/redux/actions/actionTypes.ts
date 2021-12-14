@@ -14,6 +14,13 @@ export enum UiActionType {
   TOGGLE_CHANGE_SEMESTER_DIALOG = 'UI/toggle_change_semester_dialog',
   CARD_FILTER = 'UI/card_filter',
   CARD_LIST_TITLE = 'UI/card_list_title',
+  // CardList 排序规则
+  CARD_SELECT_SORT_RULE = 'UI/card_select_sort_rule',
+  CARD_RESET_SORT_RULE = 'UI/card_reset_sort_rule',
+  CARD_SET_SORT_RULE_LIST = 'UI/card_set_sort_rule_list',
+  // CardList 过滤规则
+  CARD_SELECT_FILTER_RULE = 'UI/card_select_filter_rule',
+  CARD_SET_FILTER_RULE_LIST = 'UI/card_set_filter_rule_list',
   LOAD_MORE_CARD = 'UI/load_more_card',
   SET_DETAIL_URL = 'UI/set_detail_url',
   SET_DETAIL_CONTENT = 'UI/set_detail_content',

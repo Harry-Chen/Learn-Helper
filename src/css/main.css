@@ -96,7 +96,7 @@
 
 .sidebar_filter_group {
   margin-right: -8px;
-  width: 48px;
+  width: 96px;
   display: flex;
   align-items: center;
 
@@ -104,12 +104,12 @@
 }
 
 .sidebar_filter_shown .sidebar_cardlist_name {
-  transform: translateX(-320px); /* 400 - 24*2 - 48 + 8*2 = 320 */
+  transform: translateX(-272px); /* 400 - 24*2 - 48*2 + 8*2 = 272 */
   opacity: 0;
 }
 
 .sidebar_filter_shown .sidebar_filter_group {
-  transform: translateX(-320px);
+  transform: translateX(-272px);
 }
 
 .filter_input {
@@ -134,10 +134,7 @@
 
   opacity: 0;
   transition: opacity .2s ease;
-}
-
-.filter_icon:last-child {
-  margin-left: -24px;
+  justify-content: center;
 }
 
 .filter_icon_shown {
@@ -211,4 +208,8 @@
 .form_control {
     margin: 10px 0 !important;
     min-width: 150px !important;
+}
+
+.sort_menu_item_icon {
+  margin-right: 10px;
 }

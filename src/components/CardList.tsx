@@ -20,6 +20,7 @@ import { HelperState } from '../redux/reducers/helper';
 import { downloadAllUnreadFiles, loadMoreCard } from '../redux/actions/ui';
 import { generateCardList } from '../redux/selectors';
 import { ContentInfo } from '../types/data';
+import _ from 'lodash';
 
 const initialState = {
   onTop: true,
@@ -43,9 +44,35 @@ class CardList extends React.PureComponent<CardListProps, typeof initialState> {
   }
 
   public render() {
-    const { contents, threshold, loadMore, unreadFileCount, downloadAllUnread, ...rest } =
-      this.props;
-    const filtered = contents.slice(0, threshold);
+    const {
+      contents,
+      threshold,
+      loadMore,
+      unreadFileCount,
+      downloadAllUnread,
+      filterRules,
+      sortRules,
+      sortOrders,
+      ...rest
+    } = this.props;
+    // 过滤内容
+    let filteredContents = contents;
+    if (filterRules) {
+      for (const filterRule of filterRules) {
+        filteredContents = filteredContents.filter(filterRule.func);
+      }
+    }
+    // 内容排序
+    let sortedContents = filteredContents;
+    if (sortRules && sortOrders) {
+      sortedContents = _.orderBy(
+        sortedContents,
+        sortRules.map((r) => r.func),
+        sortOrders,
+      );
+    }
+    // 名称的文字过滤
+    const filtered = sortedContents.slice(0, threshold);
 
     const canLoadMore = threshold < contents.length;
 
@@ -142,6 +169,9 @@ const mapStateToProps = (state): Partial<CardListProps> => {
     ...generatedCardList,
     unreadFileCount,
     threshold: ui.cardVisibilityThreshold,
+    filterRules: ui.cardSelectFilterRules,
+    sortRules: ui.cardSelectSortRules,
+    sortOrders: ui.cardSortOrders,
   };
 };
 

@@ -8,6 +8,7 @@ import { initiateFileDownload } from '../../utils/download';
 import { toggleReadState } from './data';
 import { STATE_HELPER } from '../reducers';
 import { HelperState } from '../reducers/helper';
+import { CardFilterRule, CardSortRule } from '../../types/ui';
 
 interface IUiAction {
   type: UiActionType;
@@ -20,6 +21,12 @@ interface IUiAction {
   title?: string;
   url?: string;
   content?: ContentInfo;
+  // CardList 排序规则
+  sortRule?: CardSortRule;
+  sortOrder?: 'asc' | 'desc';
+  sortRuleList?: CardSortRule[];
+  filterRule?: CardFilterRule;
+  filterRuleList?: CardFilterRule[];
 }
 
 export type UiAction = IUiAction;
@@ -116,6 +123,34 @@ export const setCardFilter = (
 export const setCardListTitle = (title: string): UiAction => ({
   type: UiActionType.CARD_LIST_TITLE,
   title,
+});
+
+export const addCardSelectSortRules = (
+  sortRule: CardSortRule,
+  sortOrder: 'asc' | 'desc',
+): UiAction => ({
+  type: UiActionType.CARD_SELECT_SORT_RULE,
+  sortRule,
+  sortOrder,
+});
+
+export const resetCardSortRule = (): UiAction => ({
+  type: UiActionType.CARD_RESET_SORT_RULE,
+});
+
+export const setCardSortRuleList = (sortRuleList?: CardSortRule[]): UiAction => ({
+  type: UiActionType.CARD_SET_SORT_RULE_LIST,
+  sortRuleList,
+});
+
+export const selectCardFilterRule = (filterRule: CardFilterRule): UiAction => ({
+  type: UiActionType.CARD_SELECT_FILTER_RULE,
+  filterRule,
+});
+
+export const setCardFilterRuleList = (filterRuleList?: CardFilterRule[]): UiAction => ({
+  type: UiActionType.CARD_SET_FILTER_RULE_LIST,
+  filterRuleList,
 });
 
 export const loadMoreCard = (): UiAction => ({

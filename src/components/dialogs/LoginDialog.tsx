@@ -60,6 +60,7 @@ class LoginDialog extends React.PureComponent<ILoginDialogProps, never> {
             id="username"
             label="用户名/学号"
             type="text"
+            autoComplete="username"
             required
             multiline={false}
             onChange={(e) => {
@@ -68,11 +69,11 @@ class LoginDialog extends React.PureComponent<ILoginDialogProps, never> {
           />
           <TextField
             fullWidth
-            autoFocus
             margin="dense"
             id="password"
             label="密码"
             type="password"
+            autoComplete="current-password"
             required
             multiline={false}
             onChange={(e) => {
