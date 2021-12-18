@@ -5,7 +5,7 @@ import { UiActionType } from '../actions/actionTypes';
 import { UiAction } from '../actions/ui';
 import { CARD_BATCH_LOAD_SIZE } from '../../constants';
 import { ContentInfo } from '../../types/data';
-import { CardFilterRule, CardSortRule } from '../../types/ui';
+import { CardFilterRule, CardSortRule, CardSortOrder } from '../../types/ui';
 
 interface IUiState {
   showLoadingProgressBar: boolean;
@@ -26,7 +26,7 @@ interface IUiState {
   cardVisibilityThreshold: number;
   cardCourseFilter?: CourseInfo;
   cardSelectSortRules?: CardSortRule[];
-  cardSortOrders?: ('asc' | 'desc')[];
+  cardSortOrders?: CardSortOrder[];
   cardSortRuleList?: CardSortRule[];
   cardSelectFilterRules?: CardFilterRule[];
   cardFilterRuleList?: CardFilterRule[];
@@ -158,7 +158,7 @@ export default function ui(state: UiState = initialState, action: UiAction): UiS
         return state;
       }
       let newRules: CardSortRule[];
-      let newOrders: ('asc' | 'desc')[];
+      let newOrders: CardSortOrder[];
       if (state.cardSelectSortRules == undefined) {
         newRules = [action.sortRule];
       } else {

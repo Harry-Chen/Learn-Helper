@@ -1,4 +1,5 @@
 import { SemesterInfo, SemesterType, FailReason } from 'thu-learn-lib/lib/types';
+import { CardSortOrder } from '../types/ui';
 
 export function formatSemester(semester: SemesterInfo): string {
   if (semester.type !== SemesterType.UNKNOWN) {
@@ -80,6 +81,10 @@ const FAIL_REASON_MAPPING = {
 
 export function failReasonToString(reason: FailReason): string {
   return FAIL_REASON_MAPPING[reason] ?? '未知错误';
+}
+
+export function sortOrderToString(order: CardSortOrder): string {
+  return order === CardSortOrder.ASCENDING ? '升序' : '降序';
 }
 
 declare const __LEARN_HELPER_CSRF_TOKEN_PARAM__: string;

@@ -8,7 +8,7 @@ import { initiateFileDownload } from '../../utils/download';
 import { toggleReadState } from './data';
 import { STATE_HELPER } from '../reducers';
 import { HelperState } from '../reducers/helper';
-import { CardFilterRule, CardSortRule } from '../../types/ui';
+import { CardFilterRule, CardSortRule, CardSortOrder } from '../../types/ui';
 
 interface IUiAction {
   type: UiActionType;
@@ -23,7 +23,7 @@ interface IUiAction {
   content?: ContentInfo;
   // CardList 排序规则
   sortRule?: CardSortRule;
-  sortOrder?: 'asc' | 'desc';
+  sortOrder?: CardSortOrder;
   sortRuleList?: CardSortRule[];
   filterRule?: CardFilterRule;
   filterRuleList?: CardFilterRule[];
@@ -127,7 +127,7 @@ export const setCardListTitle = (title: string): UiAction => ({
 
 export const addCardSelectSortRules = (
   sortRule: CardSortRule,
-  sortOrder: 'asc' | 'desc',
+  sortOrder: CardSortOrder,
 ): UiAction => ({
   type: UiActionType.CARD_SELECT_SORT_RULE,
   sortRule,

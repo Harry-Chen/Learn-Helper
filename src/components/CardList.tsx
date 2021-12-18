@@ -58,8 +58,8 @@ class CardList extends React.PureComponent<CardListProps, typeof initialState> {
     // 过滤内容
     let filteredContents = contents;
     if (filterRules) {
-      for (const filterRule of filterRules) {
-        filteredContents = filteredContents.filter(filterRule.func);
+      for (const rule of filterRules) {
+        filteredContents = filteredContents.filter(rule.predicate);
       }
     }
     // 内容排序
@@ -67,7 +67,7 @@ class CardList extends React.PureComponent<CardListProps, typeof initialState> {
     if (sortRules && sortOrders) {
       sortedContents = _.orderBy(
         sortedContents,
-        sortRules.map((r) => r.func),
+        sortRules.map((r) => r.keyExtractor),
         sortOrders,
       );
     }

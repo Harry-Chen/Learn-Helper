@@ -43,7 +43,7 @@ interface ICardSortRule {
   // 规则名称
   name: string;
   // 排序 key 指定函数
-  func: (content: ContentInfo) => number | string | Date;
+  keyExtractor: (content: ContentInfo) => number | string | Date;
   // fontAwesome 的图标名称
   iconName?: IconProp;
 }
@@ -55,12 +55,17 @@ interface ICardFilterRule {
   // 规则名称
   name: string;
   // 过滤 key 指定函数，返回 true 则为通过
-  func: (content: ContentInfo) => boolean;
+  predicate: (content: ContentInfo) => boolean;
   // fontAwesome 的图标名称
   iconName?: string;
 }
 
 export type CardFilterRule = ICardFilterRule;
+
+export enum CardSortOrder {
+  ASCENDING = 'asc',
+  DESCENDING = 'desc',
+}
 
 interface ICardListProps extends IDispatchableComponentProps, Partial<ICardFilter> {
   contents: ContentInfo[];
@@ -70,7 +75,7 @@ interface ICardListProps extends IDispatchableComponentProps, Partial<ICardFilte
   downloadAllUnread: (contents: ContentInfo[]) => any;
   filterRules?: CardFilterRule[];
   sortRules: CardSortRule[] | undefined;
-  sortOrders?: ('asc' | 'desc')[];
+  sortOrders?: CardSortOrder[];
 }
 
 interface ICardProps extends IDispatchableComponentProps {
@@ -96,7 +101,7 @@ interface IAppProps extends IDispatchableComponentProps {
   latestSemester: boolean;
   cardSortRuleList: CardSortRule[];
   cardSelectSortRules: CardSortRule[];
-  cardSelectSortOrders: ('asc' | 'desc')[];
+  cardSelectSortOrders: CardSortOrder[];
   cardFilterRuleList?: CardFilterRule[];
   cardSelectFilterRules?: CardFilterRule[];
   openSidebar: () => any;
@@ -104,7 +109,7 @@ interface IAppProps extends IDispatchableComponentProps {
   resetApp: () => any;
   setTitleFilter: (filter: string) => any;
   openChangeSemesterDialog: () => any;
-  addCardSortRule: (rule: CardSortRule, ord: 'asc' | 'desc') => any;
+  addCardSortRule: (rule: CardSortRule, ord: CardSortOrder) => any;
   resetCardSortRule: () => any;
   selectCardFilterRule: (rule: CardFilterRule) => any;
 }

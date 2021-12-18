@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 
+import Checkbox from '@material-ui/core/Checkbox';
 import Divider from '@material-ui/core/Divider';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,9 +14,12 @@ import InputBase from '@material-ui/core/InputBase';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { AppProps, CardFilterRule, CardSortRule } from '../types/ui';
+import { AppProps, CardFilterRule, CardSortRule, CardSortOrder } from '../types/ui';
 import { IUiStateSlice, STATE_DATA, STATE_HELPER, STATE_UI } from '../redux/reducers';
 import {
   addCardSelectSortRules,
@@ -43,11 +47,10 @@ import ColoredSnackbar from './ColoredSnackbar';
 import { UiState } from '../redux/reducers/ui';
 import DetailPane from './DetailPane';
 import { DataState } from '../redux/reducers/data';
-import { formatSemester } from '../utils/format';
+import { formatSemester, sortOrderToString } from '../utils/format';
 import { HelperState } from '../redux/reducers/helper';
 import { clearAllData } from '../redux/actions/data';
 import { removeStoredCredential } from '../utils/storage';
-import { Checkbox, Menu, MenuItem } from '@material-ui/core';
 
 const initialState = {
   filterShown: false,
@@ -255,7 +258,9 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
                               onClick={() => {
                                 this.props.addCardSortRule(
                                   rule,
-                                  this.state.cardSortRuleSelectInAsc ? 'asc' : 'desc',
+                                  this.state.cardSortRuleSelectInAsc
+                                    ? CardSortOrder.ASCENDING
+                                    : CardSortOrder.DESCENDING,
                                 );
                               }}
                             >
@@ -272,8 +277,7 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
                         {this.props.cardSelectSortRules?.map((rule, idx) => {
                           return (
                             <MenuItem key={'selectSortRule' + idx} disabled={true}>
-                              {rule.name}/
-                              {this.props.cardSelectSortOrders[idx] === 'desc' ? '降序' : '升序'}
+                              {rule.name}/{sortOrderToString(this.props.cardSelectSortOrders[idx])}
                             </MenuItem>
                           );
                         })}
@@ -403,7 +407,7 @@ const mapDispatchToProps = (dispatch): Partial<AppProps> => ({
     const filter = s.trim();
     dispatch(setTitleFilter(filter === '' ? undefined : filter));
   },
-  addCardSortRule: (rule: CardSortRule, ord: 'asc' | 'desc') => {
+  addCardSortRule: (rule: CardSortRule, ord: CardSortOrder) => {
     dispatch(addCardSelectSortRules(rule, ord));
   },
   selectCardFilterRule: (rule: CardFilterRule) => {
