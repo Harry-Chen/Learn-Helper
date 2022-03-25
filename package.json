@@ -17,7 +17,6 @@
     "lint": "eslint ."
   },
   "devDependencies": {
-    "@types/classnames": "^2.3.1",
     "@types/firefox-webext-browser": "^94.0.1",
     "@types/lodash": "^4.14.180",
     "@types/node": "^17.0.23",
