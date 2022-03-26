@@ -98,19 +98,21 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
                 aria-label="Open drawer"
                 className={classnames(styles.app_bar_btn)}
                 onClick={this.props.openSidebar}
-                size="large">
+                size="large"
+              >
                 <FontAwesomeIcon icon="bars" />
               </IconButton>
             </Toolbar>
           </AppBar>
           {/* progress bar */}
           <header className={styles.progress_area}>
-            <LinearProgress
-              variant="determinate"
-              color="secondary"
-              value={this.props.loadingProgress}
-              hidden={!this.props.showLoadingProgressBar}
-            />
+            {this.props.showLoadingProgressBar ? (
+              <LinearProgress
+                variant="determinate"
+                color="secondary"
+                value={this.props.loadingProgress}
+              />
+            ) : null}
           </header>
           <Drawer
             className={styles.sidebar}
@@ -125,7 +127,8 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
                     <IconButton
                       className={classnames(styles.app_bar_btn)}
                       onClick={this.props.closeSidebar}
-                      size="large">
+                      size="large"
+                    >
                       <FontAwesomeIcon icon="angle-left" />
                     </IconButton>
                     <Typography variant="subtitle1" className={styles.sidebar_master_title} noWrap>
@@ -136,7 +139,8 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
                         <IconButton
                           className={styles.sidebar_master_notify_icon}
                           onClick={this.props.openChangeSemesterDialog}
-                          size="large">
+                          size="large"
+                        >
                           <FontAwesomeIcon icon="star-of-life" />
                         </IconButton>
                       </Tooltip>
@@ -155,7 +159,8 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
                       <IconButton
                         className={classnames(styles.filter_btn)}
                         onClick={this.toggleFilter}
-                        size="large">
+                        size="large"
+                      >
                         <FontAwesomeIcon
                           icon="filter"
                           className={classnames(styles.filter_icon, {

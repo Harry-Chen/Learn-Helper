@@ -192,7 +192,8 @@ class ContentCard extends React.PureComponent<CardProps, never> {
             ev.stopPropagation();
           }}
           onMouseDown={(ev) => ev.stopPropagation()}
-          size="large">
+          size="large"
+        >
           <FontAwesomeIcon icon="star" />
         </IconButton>
       </Tooltip>
@@ -209,7 +210,8 @@ class ContentCard extends React.PureComponent<CardProps, never> {
             ev.stopPropagation();
           }}
           onMouseDown={(ev) => ev.stopPropagation()}
-          size="large">
+          size="large"
+        >
           <FontAwesomeIcon icon={content.hasRead ? 'clipboard' : 'clipboard-check'} />
         </IconButton>
       </Tooltip>
@@ -226,7 +228,8 @@ class ContentCard extends React.PureComponent<CardProps, never> {
             ev.stopPropagation();
           }}
           onMouseDown={(ev) => ev.stopPropagation()}
-          size="large">
+          size="large"
+        >
           <FontAwesomeIcon icon={content.ignored ? 'trash' : 'trash-alt'} />
         </IconButton>
       </Tooltip>
@@ -248,7 +251,8 @@ class ContentCard extends React.PureComponent<CardProps, never> {
               ev.stopPropagation();
             }}
             onMouseDown={(ev) => ev.stopPropagation()}
-            size="large">
+            size="large"
+          >
             <FontAwesomeIcon icon="upload" />
           </IconButton>
         </Tooltip>
@@ -267,7 +271,8 @@ class ContentCard extends React.PureComponent<CardProps, never> {
             onClick={() => {
               initiateFileDownload(f.downloadUrl, f.name);
             }}
-            size="large">
+            size="large"
+          >
             <FontAwesomeIcon icon="paperclip" />
           </IconButton>
         </Tooltip>
@@ -284,7 +289,8 @@ class ContentCard extends React.PureComponent<CardProps, never> {
             onClick={() => {
               initiateFileDownload(file.remoteFile.downloadUrl);
             }}
-            size="large">
+            size="large"
+          >
             <FontAwesomeIcon icon="download" />
           </IconButton>
         </Tooltip>
