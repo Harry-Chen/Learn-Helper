@@ -3,15 +3,15 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 import { ContentType, RemoteFile } from 'thu-learn-lib/lib/types';
 
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import IconButton from '@material-ui/core/IconButton';
-import Chip from '@material-ui/core/Chip';
-import Badge from '@material-ui/core/Badge';
-import Avatar from '@material-ui/core/Avatar';
-import Tooltip from '@material-ui/core/Tooltip';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardActionArea from '@mui/material/CardActionArea';
+import CardActions from '@mui/material/CardActions';
+import IconButton from '@mui/material/IconButton';
+import Chip from '@mui/material/Chip';
+import Badge from '@mui/material/Badge';
+import Avatar from '@mui/material/Avatar';
+import Tooltip from '@mui/material/Tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import styles from '../css/card.css';
@@ -192,7 +192,7 @@ class ContentCard extends React.PureComponent<CardProps, never> {
             ev.stopPropagation();
           }}
           onMouseDown={(ev) => ev.stopPropagation()}
-        >
+          size="large">
           <FontAwesomeIcon icon="star" />
         </IconButton>
       </Tooltip>
@@ -209,7 +209,7 @@ class ContentCard extends React.PureComponent<CardProps, never> {
             ev.stopPropagation();
           }}
           onMouseDown={(ev) => ev.stopPropagation()}
-        >
+          size="large">
           <FontAwesomeIcon icon={content.hasRead ? 'clipboard' : 'clipboard-check'} />
         </IconButton>
       </Tooltip>
@@ -226,7 +226,7 @@ class ContentCard extends React.PureComponent<CardProps, never> {
             ev.stopPropagation();
           }}
           onMouseDown={(ev) => ev.stopPropagation()}
-        >
+          size="large">
           <FontAwesomeIcon icon={content.ignored ? 'trash' : 'trash-alt'} />
         </IconButton>
       </Tooltip>
@@ -248,7 +248,7 @@ class ContentCard extends React.PureComponent<CardProps, never> {
               ev.stopPropagation();
             }}
             onMouseDown={(ev) => ev.stopPropagation()}
-          >
+            size="large">
             <FontAwesomeIcon icon="upload" />
           </IconButton>
         </Tooltip>
@@ -267,7 +267,7 @@ class ContentCard extends React.PureComponent<CardProps, never> {
             onClick={() => {
               initiateFileDownload(f.downloadUrl, f.name);
             }}
-          >
+            size="large">
             <FontAwesomeIcon icon="paperclip" />
           </IconButton>
         </Tooltip>
@@ -284,7 +284,7 @@ class ContentCard extends React.PureComponent<CardProps, never> {
             onClick={() => {
               initiateFileDownload(file.remoteFile.downloadUrl);
             }}
-          >
+            size="large">
             <FontAwesomeIcon icon="download" />
           </IconButton>
         </Tooltip>

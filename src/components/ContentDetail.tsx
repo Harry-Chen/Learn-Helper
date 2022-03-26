@@ -3,8 +3,8 @@ import Iframe from 'react-iframe';
 import { connect } from 'react-redux';
 import { ContentType, RemoteFile } from 'thu-learn-lib/lib/types';
 
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
+import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
 
 import styles from '../css/page.css';
 import { ContentDetailProps } from '../types/ui';

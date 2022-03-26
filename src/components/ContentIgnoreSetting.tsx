@@ -2,14 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { ContentType } from 'thu-learn-lib/lib/types';
 
-import Button from '@material-ui/core/Button';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import Switch from '@material-ui/core/Switch';
+import Button from '@mui/material/Button';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import Switch from '@mui/material/Switch';
 
 import styles from '../css/page.css';
 import { ContentIgnoreSettingProps } from '../types/ui';

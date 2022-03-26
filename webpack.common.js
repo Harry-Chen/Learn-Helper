@@ -69,7 +69,7 @@ const BUILD_CONSTANTS = {
   __BUILD_HOSTNAME__: JSON.stringify(hostname.trim()),
   __BUILD_TIME__: JSON.stringify(buildTime.trim()),
   __THU_LEARN_LIB_VERSION__: JSON.stringify(readVersion('thu-learn-lib')),
-  __MUI_VERSION__: JSON.stringify(readVersion('@material-ui/core')),
+  __MUI_VERSION__: JSON.stringify(readVersion('@mui/material')),
   __REACT_VERSION__: JSON.stringify(readVersion('react')),
   __LEARN_HELPER_CSRF_TOKEN_PARAM__: JSON.stringify(`__learn-helper-csrf-token-${randomSuffix}__`),
   __LEARN_HELPER_CSRF_TOKEN_INJECTOR__: JSON.stringify(

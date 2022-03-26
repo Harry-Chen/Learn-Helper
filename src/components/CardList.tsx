@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 
 import cn from 'classnames';
 
-import List from '@material-ui/core/List';
-import Button from '@material-ui/core/Button';
-import ListSubheader from '@material-ui/core/ListSubheader';
+import List from '@mui/material/List';
+import Button from '@mui/material/Button';
+import ListSubheader from '@mui/material/ListSubheader';
 
 import { ContentType } from 'thu-learn-lib/lib/types';
 import { CardListProps } from '../types/ui';

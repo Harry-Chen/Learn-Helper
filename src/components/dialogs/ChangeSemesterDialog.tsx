@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 
 import { ICommonDialogProps } from '../../types/dialogs';
 import { toggleChangeSemesterDialog, toggleIgnoreWrongSemester } from '../../redux/actions/ui';

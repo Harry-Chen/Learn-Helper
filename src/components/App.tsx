@@ -2,17 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 
-import Divider from '@material-ui/core/Divider';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Drawer from '@material-ui/core/Drawer';
-import InputBase from '@material-ui/core/InputBase';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import Tooltip from '@material-ui/core/Tooltip';
+import Divider from '@mui/material/Divider';
+import LinearProgress from '@mui/material/LinearProgress';
+import CssBaseline from '@mui/material/CssBaseline';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Drawer from '@mui/material/Drawer';
+import InputBase from '@mui/material/InputBase';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { AppProps } from '../types/ui';
@@ -98,7 +98,7 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
                 aria-label="Open drawer"
                 className={classnames(styles.app_bar_btn)}
                 onClick={this.props.openSidebar}
-              >
+                size="large">
                 <FontAwesomeIcon icon="bars" />
               </IconButton>
             </Toolbar>
@@ -125,7 +125,7 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
                     <IconButton
                       className={classnames(styles.app_bar_btn)}
                       onClick={this.props.closeSidebar}
-                    >
+                      size="large">
                       <FontAwesomeIcon icon="angle-left" />
                     </IconButton>
                     <Typography variant="subtitle1" className={styles.sidebar_master_title} noWrap>
@@ -136,7 +136,7 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
                         <IconButton
                           className={styles.sidebar_master_notify_icon}
                           onClick={this.props.openChangeSemesterDialog}
-                        >
+                          size="large">
                           <FontAwesomeIcon icon="star-of-life" />
                         </IconButton>
                       </Tooltip>
@@ -155,7 +155,7 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
                       <IconButton
                         className={classnames(styles.filter_btn)}
                         onClick={this.toggleFilter}
-                      >
+                        size="large">
                         <FontAwesomeIcon
                           icon="filter"
                           className={classnames(styles.filter_icon, {
