@@ -1,5 +1,9 @@
 # Changelog
 
+## v4.5.1
+
+* Upgrade to latest dependencies (TypeScript 4.6.1, MUI 5.5.2)
+
 ## v4.5.0
 
 Note: User data (except configuration) will be **automatically cleared** after upgrade to `v4.5.0` from any previous version due to breaking changes of `thu-learn-lib`.

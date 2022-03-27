@@ -12,6 +12,6 @@ if (document.getElementById('packages') != null) {
   document.getElementById('packages').innerHTML = `
 thu-learn-lib: v${__THU_LEARN_LIB_VERSION__} <br />
 React: v${__REACT_VERSION__} <br />
-Material-UI: v${__MUI_VERSION__} <br />
+MUI: v${__MUI_VERSION__} <br />
 `;
 }

@@ -1,7 +1,7 @@
 {
   "name": "learn-helper",
-  "version": "4.5.0",
-  "author": "xxr3376 & Harry Chen",
+  "version": "4.5.1",
+  "author": "Harry Chen",
   "license": "MIT",
   "private": true,
   "type": "module",
