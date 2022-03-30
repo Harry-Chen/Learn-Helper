@@ -58,4 +58,4 @@ const loadApp = async (result: MigrationResult) => {
 };
 
 const root = createRoot(document.querySelector('#main'));
-root.render(<LearnHelper />);
+root.render(<React.StrictMode><LearnHelper /></React.StrictMode>);
