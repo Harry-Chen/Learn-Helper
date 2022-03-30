@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/es/integration/react';
@@ -57,4 +57,5 @@ const loadApp = async (result: MigrationResult) => {
   }
 };
 
-ReactDOM.render(<LearnHelper />, document.querySelector('#main'));
+const root = createRoot(document.querySelector('#main'));
+root.render(<LearnHelper />);
