@@ -19,7 +19,6 @@
   },
   "permissions": [
     "storage",
-    "tabs",
     "downloads",
     "https://learn.tsinghua.edu.cn/*",
     "https://id.tsinghua.edu.cn/*"
