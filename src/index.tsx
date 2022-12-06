@@ -41,19 +41,24 @@ const loadApp = async (result: MigrationResult) => {
   } else if (result.migrated) {
     store.dispatch<any>(showSnackbar('升级成功，数据没有受到影响', SnackbarType.NOTIFICATION));
   }
-  // load saved credential and try to login
-  const res = await getStoredCredential();
-  if (res === null) {
-    store.dispatch(toggleLoginDialog(true));
-  } else {
-    try {
-      await store.dispatch<any>(login(res.username, res.password, false));
-      await store.dispatch<any>(refreshIfNeeded());
-    } catch (e) {
-      // here we catch only login problems
-      // for refresh() has a try-catch block in itself
-      store.dispatch(toggleNetworkErrorDialog(true));
-    }
+  tryLoginSilently();
+  // keep login state
+  setInterval(tryLoginSilently, 14 * 60 * 1000); // < 15 minutes and as long as possible
+};
+
+const tryLoginSilently = async () => {
+  const credential = await getStoredCredential();
+  if (credential === null) {
+    store.dispatch<any>(toggleLoginDialog(true));
+    return;
+  }
+  try {
+    await store.dispatch<any>(login(credential.username, credential.password, false));
+    await store.dispatch<any>(refreshIfNeeded());
+  } catch (e) {
+    // here we catch only login problems
+    // for refresh() has a try-catch block in itself
+    store.dispatch(toggleNetworkErrorDialog(true));
   }
 };
 
