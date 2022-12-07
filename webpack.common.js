@@ -6,7 +6,6 @@ import Randomstring from 'randomstring';
 
 import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import CopyPlugin from 'copy-webpack-plugin';
 import NodePolyfillPlugin from 'node-polyfill-webpack-plugin';
 import RemovePlugin from 'remove-files-webpack-plugin';
 import { GitRevisionPlugin } from 'git-revision-webpack-plugin';
@@ -21,12 +20,6 @@ const createIndex = new HtmlWebpackPlugin({
   excludeChunks: ['background'],
 });
 
-const copyPolyFill = new CopyPlugin({
-  patterns: [
-    { from: './node_modules/webextension-polyfill/dist/browser-polyfill.min.js', to: './' },
-  ],
-});
-
 const gitRevision = new GitRevisionPlugin({
   branch: true,
   versionCommand: 'describe --always --tags --dirty',
@@ -36,7 +29,7 @@ const removeRedundantFile = new RemovePlugin({
   // remove output dist files
   before: {
     include: [
-      './dist/background.js',
+      './dist/background.ts',
       './dist/index.html',
       './dist/browser-polyfill.min.js',
       './dist/index.js',
@@ -94,7 +87,7 @@ export default {
   },
   plugins: [
     createIndex,
-    copyPolyFill,
+    // copyPolyFill,
     new NodePolyfillPlugin(),
     gitRevision,
     defineConstants,

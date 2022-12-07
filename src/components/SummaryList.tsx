@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { action as browserAction } from 'webextension-polyfill';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Badge } from '@mui/material';
@@ -87,7 +88,7 @@ const mapStateToProps = (state): SummaryListProps => {
     numbers[type] = count;
     total += count;
   }
-  browser.browserAction.setBadgeText({ text: total === 0 ? '' : String(total) });
+  browserAction.setBadgeText({ text: total === 0 ? '' : String(total) });
   return { numbers };
 };
 

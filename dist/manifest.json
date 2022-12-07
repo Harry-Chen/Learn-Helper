@@ -1,8 +1,8 @@
 {
   "name": "__MSG_appName__",
-  "version": "4.5.1.1",
+  "version": "4.6.0",
   "minimum_chrome_version": "72",
-  "manifest_version": 2,
+  "manifest_version": 3,
   "description": "__MSG_appDesc__",
   "default_locale": "zh_CN",
   "content_scripts": [
@@ -14,12 +14,13 @@
     }
   ],
   "background": {
-    "scripts": ["browser-polyfill.min.js", "background.js"],
-    "persistent": false
+    "service_worker": "background.js"
   },
   "permissions": [
     "storage",
-    "downloads",
+    "downloads"
+  ],
+  "host_permissions": [
     "https://learn.tsinghua.edu.cn/*",
     "https://id.tsinghua.edu.cn/*"
   ],
@@ -28,7 +29,7 @@
     "48": "icons/48.png",
     "128": "icons/128.png"
   },
-  "browser_action": {
+  "action": {
     "default_icon": "icons/19.png",
     "default_title": "__MSG_appName__"
   },

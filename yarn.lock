@@ -444,11 +444,6 @@
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.51.tgz#cfd70924a25a3fd32b218e5e420e6897e1ac4f40"
   integrity sha512-CuPgU6f3eT/XgKKPqKd/gLZV1Xmvf1a2R5POBOGQa6uv82xpls89HU5zKeVoyR8XzHd1RGNOlQlvUe3CFkjWNQ==
 
-"@types/firefox-webext-browser@^94.0.1":
-  version "94.0.1"
-  resolved "https://registry.yarnpkg.com/@types/firefox-webext-browser/-/firefox-webext-browser-94.0.1.tgz#52afb975253dc0fd350d5d58c7fe9fd1a01f64a1"
-  integrity sha512-I6iHRQJSTZ+gYt2IxdH2RRAMvcUyK8v5Ig7fHQR0IwUNYP7hz9+cziBVIKxLCO6XI7fiyRsNOWObfl3/4Js2Lg==
-
 "@types/hoist-non-react-statics@^3.3.0", "@types/hoist-non-react-statics@^3.3.1":
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.1.tgz#1124aafe5118cb591977aeb1ceaaed1070eb039f"
@@ -541,6 +536,11 @@
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/@types/use-sync-external-store/-/use-sync-external-store-0.0.3.tgz#b6725d5f4af24ace33b36fafd295136e75509f43"
   integrity sha512-EwmlvuaxPNej9+T4v5AuBPJa2x2UOJVdjCtDHgcDqitUeOtjnJKJ+apYjVcAoBEMjKW1VVFGZLUb5+qqa09XFA==
+
+"@types/webextension-polyfill@^0.9.2":
+  version "0.9.2"
+  resolved "https://registry.yarnpkg.com/@types/webextension-polyfill/-/webextension-polyfill-0.9.2.tgz#4459174d25e83b38fd6d2b2cacb0fc87ad99dfa4"
+  integrity sha512-op8YeoK60K6/GIx3snWs3JowBZ+/aeSnZzZuuwynA7VARWfzr3st9aQNk9RWfoBx5xqlNZjAsh2QttPUZnabCw==
 
 "@types/webpack@5.28.0":
   version "5.28.0"
