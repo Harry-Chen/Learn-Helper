@@ -11,7 +11,7 @@ import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 
 import styles from '../css/list.css';
-import '../constants/fontAwesome.ts';
+import '../constants/fontAwesome';
 import { SummaryListProps } from '../types/ui';
 import { STATE_DATA, STATE_HELPER } from '../redux/reducers';
 import { DataState } from '../redux/reducers/data';

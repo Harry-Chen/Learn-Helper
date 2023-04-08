@@ -10,7 +10,7 @@ import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 
 import styles from '../css/list.css';
-import '../constants/fontAwesome.ts';
+import '../constants/fontAwesome';
 import { CourseListProps } from '../types/ui';
 import { COURSE_FUNC, COURSE_FUNC_LIST, COURSE_ICON } from '../constants/ui';
 import { STATE_DATA, STATE_HELPER } from '../redux/reducers';
