@@ -6,7 +6,7 @@ import { ContentType, RemoteFile } from 'thu-learn-lib/lib/types';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 
-import styles from '../css/page.css';
+import styles from '../css/page.module.css';
 import { ContentDetailProps } from '../types/ui';
 import { HomeworkInfo, NotificationInfo, FileInfo } from '../types/data';
 import { addCSRFTokenToIframeUrl, formatDateTime } from '../utils/format';

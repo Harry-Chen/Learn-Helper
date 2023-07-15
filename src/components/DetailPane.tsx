@@ -11,7 +11,7 @@ import { addCSRFTokenToIframeUrl } from '../utils/format';
 import ContentIgnoreSetting from './ContentIgnoreSetting';
 import ContentDetail from './ContentDetail';
 
-import styles from '../css/main.css';
+import styles from '../css/main.module.css';
 
 class DetailPane extends React.PureComponent<DetailPaneProps, { frameUrl?: string }> {
   public render() {

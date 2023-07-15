@@ -11,7 +11,7 @@ import { ContentType } from 'thu-learn-lib/lib/types';
 import { CardListProps } from '../types/ui';
 import ContentCard from './ContentCard';
 
-import styles from '../css/list.css';
+import styles from '../css/list.module.css';
 
 import { STATE_DATA, STATE_HELPER, STATE_UI } from '../redux/reducers';
 import { DataState } from '../redux/reducers/data';

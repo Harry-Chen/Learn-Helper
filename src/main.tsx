@@ -1,3 +1,4 @@
+import './enableDevHmr';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
@@ -63,4 +64,8 @@ const tryLoginSilently = async () => {
 };
 
 const root = createRoot(document.querySelector('#main'));
-root.render(<React.StrictMode><LearnHelper /></React.StrictMode>);
+root.render(
+  <React.StrictMode>
+    <LearnHelper />
+  </React.StrictMode>,
+);

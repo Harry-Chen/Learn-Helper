@@ -9,7 +9,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 
-import styles from '../css/list.css';
+import styles from '../css/list.module.css';
 import '../constants/fontAwesome';
 import { CourseListProps } from '../types/ui';
 import { COURSE_FUNC, COURSE_FUNC_LIST, COURSE_ICON } from '../constants/ui';

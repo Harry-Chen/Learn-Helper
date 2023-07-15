@@ -1,15 +1,14 @@
 {
-    "compilerOptions": {
-        "target": "es2018",
-        "module": "esnext",
-        "moduleResolution": "bundler",
-        "rootDir": "src",
-        "outDir": "dist/js",
-        "sourceMap": true,
-        "jsx": "react",
-        "experimentalDecorators": true,
-        "allowSyntheticDefaultImports": true,
-        "esModuleInterop": true,
-        "noImplicitThis": true
-    }
+  "compilerOptions": {
+    "target": "es2018",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "outDir": "dist/js",
+    "sourceMap": true,
+    "jsx": "react",
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "noImplicitThis": true
+  }
 }

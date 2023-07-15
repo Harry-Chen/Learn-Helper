@@ -52,7 +52,7 @@ const initialState: UiState = {
   cardVisibilityThreshold: CARD_BATCH_LOAD_SIZE,
   cardCourseFilter: undefined,
   cardListTitle: '主页',
-  detailUrl: 'welcome.html',
+  detailUrl: 'src/welcome.html',
   detailContent: undefined,
   showContentIgnoreSetting: false,
   titleFilter: undefined,

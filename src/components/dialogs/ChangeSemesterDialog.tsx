@@ -15,7 +15,7 @@ import { DataState } from '../../redux/reducers/data';
 import { UiState } from '../../redux/reducers/ui';
 
 import CommonDialog from './CommonDialog';
-import styles from '../../css/main.css';
+import styles from '../../css/main.module.css';
 
 interface IChangeSemesterDialogProps extends ICommonDialogProps {
   semester: string;

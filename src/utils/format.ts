@@ -82,13 +82,11 @@ export function failReasonToString(reason: FailReason): string {
   return FAIL_REASON_MAPPING[reason] ?? '未知错误';
 }
 
-declare const __LEARN_HELPER_CSRF_TOKEN_PARAM__: string;
-
 export const addCSRFTokenToIframeUrl = (csrfToken: string, url?: string): string | undefined => {
   if (url === undefined) {
     return undefined;
   } else {
-    const param = `${__LEARN_HELPER_CSRF_TOKEN_PARAM__}=${csrfToken}`;
+    const param = `__LEARN_HELPER_CSRF_TOKEN_PARAM__=${csrfToken}`;
     if (url.includes('?')) {
       url += `&${param}`;
     } else {

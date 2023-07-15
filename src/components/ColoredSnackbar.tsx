@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Snackbar from '@mui/material/Snackbar';
 import SnackbarContent from '@mui/material/SnackbarContent';
 
-import styles from '../css/main.css';
+import styles from '../css/main.module.css';
 import { SnackbarType } from '../types/dialogs';
 
 import { toggleSnackbar } from '../redux/actions/ui';

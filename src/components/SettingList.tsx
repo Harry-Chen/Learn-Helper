@@ -8,7 +8,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 
-import styles from '../css/list.css';
+import styles from '../css/list.module.css';
 import '../constants/fontAwesome';
 import { SettingListProps } from '../types/ui';
 import { SETTINGS_FUNC_LIST } from '../constants/ui';

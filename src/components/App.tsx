@@ -18,7 +18,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { AppProps } from '../types/ui';
 import { IUiStateSlice, STATE_DATA, STATE_HELPER, STATE_UI } from '../redux/reducers';
 import { setTitleFilter, toggleChangeSemesterDialog, togglePaneHidden } from '../redux/actions/ui';
-import styles from '../css/main.css';
+import styles from '../css/main.module.css';
 
 import SummaryList from './SummaryList';
 import CourseList from './CourseList';

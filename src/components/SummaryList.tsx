@@ -10,7 +10,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 
-import styles from '../css/list.css';
+import styles from '../css/list.module.css';
 import '../constants/fontAwesome';
 import { SummaryListProps } from '../types/ui';
 import { STATE_DATA, STATE_HELPER } from '../redux/reducers';

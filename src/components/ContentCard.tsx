@@ -14,7 +14,7 @@ import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import styles from '../css/card.css';
+import styles from '../css/card.module.css';
 import { formatDate } from '../utils/format';
 import { DiscussionInfo, FileInfo, HomeworkInfo, NotificationInfo } from '../types/data';
 import { CardProps } from '../types/ui';

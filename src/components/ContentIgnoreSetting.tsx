@@ -11,7 +11,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Switch from '@mui/material/Switch';
 
-import styles from '../css/page.css';
+import styles from '../css/page.module.css';
 import { ContentIgnoreSettingProps } from '../types/ui';
 import { STATE_DATA } from '../redux/reducers';
 import { DataState } from '../redux/reducers/data';

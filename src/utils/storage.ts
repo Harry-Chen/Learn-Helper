@@ -8,6 +8,7 @@ import { cipher, decipher } from './crypto';
 import { setDetailUrl } from '../redux/actions/ui';
 import { clearFetchedData } from '../redux/actions/data';
 import { MigrationResult } from '../types/data';
+import { version as currentVersion } from '../../package.json';
 
 import { compare as compareVersion } from 'compare-versions';
 import { storage } from 'webextension-polyfill';
@@ -40,7 +41,6 @@ export async function removeStoredCredential() {
 
 export async function versionMigrate(store: any): Promise<MigrationResult> {
   const oldVersion = (await storage.local.get([STORAGE_KEY_VERSION]))[STORAGE_KEY_VERSION];
-  const currentVersion = (await (await fetch('/manifest.json')).json()).version;
 
   const result: MigrationResult = {
     migrated: false,
@@ -55,12 +55,12 @@ export async function versionMigrate(store: any): Promise<MigrationResult> {
     await storage.local.set({
       [STORAGE_KEY_VERSION]: currentVersion,
     });
-    store.dispatch(setDetailUrl('readme.html'));
+    store.dispatch(setDetailUrl('src/readme.html'));
     result.migrated = true;
     result.allDataCleared = true;
   } else if (oldVersion !== currentVersion) {
     // for future migration
-    store.dispatch(setDetailUrl('changelog.html'));
+    store.dispatch(setDetailUrl('src/changelog.html'));
     // set stored version to current one
     console.info(`Migrating from version ${oldVersion} to ${currentVersion}`);
     await storage.local.set({
