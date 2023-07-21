@@ -17,6 +17,7 @@ import { ILoginDialogProps } from '../../types/dialogs';
 import { IUiStateSlice, STATE_UI } from '../../redux/reducers';
 import { toggleLoginDialog } from '../../redux/actions/ui';
 import { login, refresh } from '../../redux/actions/helper';
+import { requestPermission } from '../../utils/permission';
 
 class LoginDialog extends React.PureComponent<ILoginDialogProps, never> {
   private username = '';
@@ -100,6 +101,7 @@ class LoginDialog extends React.PureComponent<ILoginDialogProps, never> {
             disabled={this.props.inLoginProgress}
             onClick={async () => {
               try {
+                await requestPermission();
                 await this.props.dispatch<any>(login(this.username, this.password, this.save));
                 await this.props.dispatch<any>(refresh());
               } catch (e) {

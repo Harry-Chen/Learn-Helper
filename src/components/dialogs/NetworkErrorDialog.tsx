@@ -6,6 +6,7 @@ import { toggleLoginDialog, toggleNetworkErrorDialog } from '../../redux/actions
 import { IUiStateSlice, STATE_UI } from '../../redux/reducers';
 import { loggedIn, refresh } from '../../redux/actions/helper';
 import { UiState } from '../../redux/reducers/ui';
+import { requestPermission } from '../../utils/permission';
 
 import CommonDialog from './CommonDialog';
 
@@ -33,7 +34,8 @@ const mapStateToProps = (state: IUiStateSlice): Partial<ICommonDialogProps> => (
 });
 
 const mapDispatchToProps = (dispatch): Partial<ICommonDialogProps> => ({
-  firstButtonOnClick: () => {
+  firstButtonOnClick: async () => {
+    await requestPermission();
     dispatch(toggleNetworkErrorDialog(false));
     dispatch(refresh());
   },

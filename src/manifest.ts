@@ -23,7 +23,7 @@ export function getManifest(isFirefox = false): Manifest.WebExtensionManifest {
     content_scripts: [
       {
         js: ['src/injectCsrfToken.ts'],
-        matches: ['https://learn.tsinghua.edu.cn/*'],
+        matches: ['*://learn.tsinghua.edu.cn/*'],
         all_frames: true,
         run_at: 'document_start',
       },
