@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Snackbar from '@mui/material/Snackbar';
-import SnackbarContent from '@mui/material/SnackbarContent';
+import { Snackbar, SnackbarContent } from '@mui/material';
 
 import styles from '../css/main.module.css';
 import { SnackbarType } from '../types/dialogs';

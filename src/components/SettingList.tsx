@@ -1,12 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { List, ListItemButton, ListItemIcon, ListItemText, ListSubheader } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import ListSubheader from '@mui/material/ListSubheader';
 
 import styles from '../css/list.module.css';
 import '../constants/fontAwesome';
@@ -31,9 +27,8 @@ class SettingList extends React.PureComponent<SettingListProps, never> {
         }
       >
         {SETTINGS_FUNC_LIST.map((i) => (
-          <ListItem
+          <ListItemButton
             className={styles.sidebar_list_item}
-            button
             key={i.name}
             onClick={() => {
               i.handler(this.props.dispatch);
@@ -43,7 +38,7 @@ class SettingList extends React.PureComponent<SettingListProps, never> {
               <FontAwesomeIcon icon={i.icon} />
             </ListItemIcon>
             <ListItemText primary={i.name} className={styles.settings_list_item_text} />
-          </ListItem>
+          </ListItemButton>
         ))}
       </List>
     );

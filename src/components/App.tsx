@@ -2,17 +2,19 @@ import React from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 
-import Divider from '@mui/material/Divider';
-import LinearProgress from '@mui/material/LinearProgress';
-import CssBaseline from '@mui/material/CssBaseline';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Drawer from '@mui/material/Drawer';
-import InputBase from '@mui/material/InputBase';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
+import {
+  AppBar,
+  Button,
+  Toolbar,
+  Divider,
+  LinearProgress,
+  CssBaseline,
+  IconButton,
+  Drawer,
+  InputBase,
+  Typography,
+  Tooltip,
+} from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { AppProps } from '../types/ui';
@@ -239,7 +241,7 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
           variant="contained"
           className={styles.app_error_text}
           onClick={() => {
-            window.location = window.location;
+            window.location.replace(window.location.href);
           }}
         >
           刷新
@@ -299,7 +301,7 @@ const mapDispatchToProps = (dispatch): Partial<AppProps> => ({
     await removeStoredCredential();
     dispatch(clearAllData());
     // refresh page
-    window.location = window.location;
+    window.location.replace(window.location.href);
   },
 });
 

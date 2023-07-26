@@ -2,13 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { action as browserAction } from 'webextension-polyfill';
 
+import {
+  Badge,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  ListSubheader,
+} from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Badge } from '@mui/material';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import ListSubheader from '@mui/material/ListSubheader';
 
 import styles from '../css/list.module.css';
 import '../constants/fontAwesome';
@@ -36,9 +38,8 @@ class SummaryList extends React.PureComponent<SummaryListProps, never> {
         }
       >
         {SUMMARY_FUNC_LIST.map((func) => (
-          <ListItem
+          <ListItemButton
             className={styles.sidebar_list_item}
-            button
             key={func.name}
             onClick={() => {
               dispatch(setCardFilter(func.type));
@@ -55,7 +56,7 @@ class SummaryList extends React.PureComponent<SummaryListProps, never> {
             >
               <ListItemText className={styles.summary_list_item_text} primary={func.name} />
             </Badge>
-          </ListItem>
+          </ListItemButton>
         ))}
       </List>
     );
@@ -73,7 +74,7 @@ const mapStateToProps = (state): SummaryListProps => {
     const mapName = `${type}Map`;
     const map = data[mapName] as Map<string, ContentInfo>;
     let count = 0;
-    for (const [_, c] of map.entries()) {
+    for (const [, c] of map.entries()) {
       if (
         !c.ignored &&
         data.contentIgnore[c.courseId]?.[type] === false &&

@@ -1,13 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import {
+  Collapse,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  ListSubheader,
+} from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Collapse from '@mui/material/Collapse';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import ListSubheader from '@mui/material/ListSubheader';
 
 import styles from '../css/list.module.css';
 import '../constants/fontAwesome';
@@ -21,16 +23,12 @@ import { HelperState } from '../redux/reducers/helper';
 class CourseList extends React.PureComponent<
   CourseListProps,
   {
-    opened: {
-      [key: string]: boolean;
-    };
+    opened: string | undefined;
   }
 > {
-  public state = { opened: {} };
-
-  constructor(props) {
+  constructor(props: CourseListProps) {
     super(props);
-    this.closeAllItems();
+    this.state = { opened: undefined };
   }
 
   render() {
@@ -52,23 +50,21 @@ class CourseList extends React.PureComponent<
         ) : (
           courses.map((c) => (
             <div key={c.id}>
-              <ListItem
+              <ListItemButton
                 className={styles.sidebar_list_item}
-                button
                 onClick={() => this.handleClick(c.id)}
               >
                 <ListItemIcon className={styles.list_item_icon}>
                   <FontAwesomeIcon icon={COURSE_ICON} />
                 </ListItemIcon>
                 <ListItemText primary={c.name} className={styles.course_list_item_text} />
-                <FontAwesomeIcon icon={this.state.opened[c.id] ? 'angle-up' : 'angle-down'} />
-              </ListItem>
-              <Collapse in={this.state.opened[c.id]} timeout="auto" unmountOnExit>
+                <FontAwesomeIcon icon={this.state.opened === c.id ? 'angle-up' : 'angle-down'} />
+              </ListItemButton>
+              <Collapse in={this.state.opened === c.id} timeout="auto" unmountOnExit>
                 <List className={styles.subfunc_list} disablePadding>
                   {COURSE_FUNC_LIST.map((func) => (
-                    <ListItem
+                    <ListItemButton
                       className={styles.sidebar_list_item}
-                      button
                       key={func.name}
                       onClick={() => {
                         if (func.name !== COURSE_FUNC.COURSE_HOMEPAGE.name) {
@@ -84,7 +80,7 @@ class CourseList extends React.PureComponent<
                         <FontAwesomeIcon icon={func.icon} />
                       </ListItemIcon>
                       <ListItemText primary={func.name} className={styles.course_list_item_text} />
-                    </ListItem>
+                    </ListItemButton>
                   ))}
                 </List>
               </Collapse>
@@ -95,15 +91,9 @@ class CourseList extends React.PureComponent<
     );
   }
 
-  private closeAllItems = () => {
-    this.props.courses.map((i) => (this.state.opened[i.id] = false));
-  };
-
-  private handleClick = (id) => {
-    const nextState = !this.state.opened[id];
-    this.closeAllItems();
+  private handleClick = (id: string) => {
     this.setState({
-      opened: { ...this.state.opened, [id]: nextState },
+      opened: this.state.opened === id ? undefined : id,
     });
   };
 }

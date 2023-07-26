@@ -2,14 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { ContentType } from 'thu-learn-lib/lib/types';
 
-import Button from '@mui/material/Button';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Switch from '@mui/material/Switch';
+import {
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Paper,
+  Switch,
+} from '@mui/material';
 
 import styles from '../css/page.module.css';
 import { ContentIgnoreSettingProps } from '../types/ui';

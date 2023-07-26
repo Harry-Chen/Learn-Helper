@@ -3,8 +3,7 @@ import Iframe from 'react-iframe';
 import { connect } from 'react-redux';
 import { ContentType, RemoteFile } from 'thu-learn-lib/lib/types';
 
-import Button from '@mui/material/Button';
-import Paper from '@mui/material/Paper';
+import { Button, Paper } from '@mui/material';
 
 import styles from '../css/page.module.css';
 import { ContentDetailProps } from '../types/ui';
@@ -41,7 +40,7 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, typeof initi
     if (contentDetail === undefined || contentDetail === '') contentDetail = '详情为空';
 
     const fileToPreview: RemoteFile | undefined =
-      (content as any).attachment ?? (content as any).remoteFile;
+      (content as NotificationInfo | HomeworkInfo).attachment ?? (content as FileInfo).remoteFile;
     const showPreviewFrame = fileToPreview && this.canFilePreview(fileToPreview);
 
     // When `file.previewUrl` is changed (i.e file.previewUrl is not undefined and not equals to

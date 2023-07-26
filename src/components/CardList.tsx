@@ -3,9 +3,7 @@ import { connect } from 'react-redux';
 
 import cn from 'classnames';
 
-import List from '@mui/material/List';
-import Button from '@mui/material/Button';
-import ListSubheader from '@mui/material/ListSubheader';
+import { List, Button, ListSubheader } from '@mui/material';
 
 import { ContentType } from 'thu-learn-lib/lib/types';
 import { CardListProps } from '../types/ui';
@@ -99,6 +97,7 @@ class CardList extends React.PureComponent<CardListProps, typeof initialState> {
           ) : null}
 
           {canLoadMore ? (
+            // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
             <div className={styles.card_list_load_more} onClick={loadMore}>
               加载更多
             </div>

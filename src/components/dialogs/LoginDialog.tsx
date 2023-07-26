@@ -1,16 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import TextField from '@mui/material/TextField';
-import Checkbox from '@mui/material/Checkbox';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import CircularProgress from '@mui/material/CircularProgress';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import {
+  Button,
+  Checkbox,
+  CircularProgress,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  FormControlLabel,
+  TextField,
+} from '@mui/material';
 
 import { ILoginDialogProps } from '../../types/dialogs';
 

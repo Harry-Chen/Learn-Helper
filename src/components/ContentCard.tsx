@@ -3,15 +3,17 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 import { ContentType, RemoteFile } from 'thu-learn-lib/lib/types';
 
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardActionArea from '@mui/material/CardActionArea';
-import CardActions from '@mui/material/CardActions';
-import IconButton from '@mui/material/IconButton';
-import Chip from '@mui/material/Chip';
-import Badge from '@mui/material/Badge';
-import Avatar from '@mui/material/Avatar';
-import Tooltip from '@mui/material/Tooltip';
+import {
+  Card,
+  CardContent,
+  CardActionArea,
+  CardActions,
+  IconButton,
+  Chip,
+  Badge,
+  Avatar,
+  Tooltip,
+} from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import styles from '../css/card.module.css';
@@ -59,8 +61,7 @@ class ContentCard extends React.PureComponent<CardProps, never> {
       // navigate iframe in DetailPane to given url
       case ContentType.DISCUSSION:
       case ContentType.QUESTION:
-        const { url } = content as DiscussionInfo;
-        this.props.dispatch(setDetailUrl(url));
+        this.props.dispatch(setDetailUrl((content as DiscussionInfo).url));
     }
     // mark card as read
     this.props.dispatch(toggleReadState(content.id, true, content.type));
@@ -259,9 +260,9 @@ class ContentCard extends React.PureComponent<CardProps, never> {
       );
     }
 
-    if ((content as any).attachment) {
+    if ((content as NotificationInfo | HomeworkInfo).attachment) {
       // could be homework or notification, anyway it has attachmentName and attachmentUrl
-      const f = (content as any).attachment as RemoteFile;
+      const f = (content as NotificationInfo | HomeworkInfo).attachment as RemoteFile;
       attachmentButton = (
         <Tooltip title={`附件：${f.name}`}>
           <IconButton
