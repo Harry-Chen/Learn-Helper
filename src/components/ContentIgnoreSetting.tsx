@@ -19,23 +19,22 @@ import { STATE_DATA } from '../redux/reducers';
 import { DataState } from '../redux/reducers/data';
 import { resetContentIgnore, toggleContentIgnore } from '../redux/actions/data';
 import { COURSE_FUNC } from '../constants/ui';
+import { t, tr } from '../utils/i18n';
 
 class ContentIgnoreSetting extends React.PureComponent<ContentIgnoreSettingProps, never> {
   public render() {
     return (
       <section className={styles.ignore_setting}>
-        <span className={styles.ignore_setting_title}>管理隐藏项</span>
+        <span className={styles.ignore_setting_title}>{t('Settings_ManageIgnored')}</span>
         <header className={styles.ignore_setting_description}>
-          此处的更改在下一次刷新时生效，并且只在汇总功能中起作用。
-          <br />
-          如果您重新启用一个隐藏的项目，原本的项目属性（是否已读、加星标）不会发生变化。
+          {tr('Settings_ManageIgnored_Content')}
         </header>
         <section className={styles.ignore_setting_container}>
           <Paper>
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>课程名称</TableCell>
+                  <TableCell>{t('Content_CourseName')}</TableCell>
                   {Object.keys(ContentType).map((type) => (
                     <TableCell key={type} align="center">
                       {COURSE_FUNC[`COURSE_${type}`].name}
@@ -74,7 +73,7 @@ class ContentIgnoreSetting extends React.PureComponent<ContentIgnoreSettingProps
                 this.props.dispatch(resetContentIgnore());
               }}
             >
-              重置
+              {t('Common_Reset')}
             </Button>
           </div>
         </section>

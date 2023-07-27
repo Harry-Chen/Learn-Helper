@@ -10,14 +10,12 @@ import { ContentDetailProps } from '../types/ui';
 import { HomeworkInfo, NotificationInfo, FileInfo } from '../types/data';
 import { addCSRFTokenToIframeUrl, formatDateTime } from '../utils/format';
 import { setDetailUrl } from '../redux/actions/ui';
+import { t } from '../utils/i18n';
 
 const initialState = {
   frameUrl: undefined as string | undefined,
   loadPreview: false,
 };
-
-const OPEN_IN_CURRENT_WINDOW = '在本窗口打开';
-const OPEN_IN_NEW_WINDOW = '在新窗口打开';
 
 class ContentDetail extends React.PureComponent<ContentDetailProps, typeof initialState> {
   public state = initialState;
@@ -37,7 +35,8 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, typeof initi
       ? file.description
       : notification.content;
     if (contentDetail !== undefined) contentDetail = contentDetail.trim();
-    if (contentDetail === undefined || contentDetail === '') contentDetail = '详情为空';
+    if (contentDetail === undefined || contentDetail === '')
+      contentDetail = t('Content_DetailEmpty');
 
     const fileToPreview: RemoteFile | undefined =
       (content as NotificationInfo | HomeworkInfo).attachment ?? (content as FileInfo).remoteFile;
@@ -68,7 +67,7 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, typeof initi
         <section className={styles.content_detail_lines}>
           <table>
             <tbody>
-              {this.generateLine('课程名称', content.courseName)}
+              {this.generateLine(t('Content_CourseName'), content.courseName)}
               {isHomework ? this.generateDetailsForHomework(homework) : null}
               {isNotification ? this.generateDetailsForNotification(notification) : null}
               {isFile ? this.generateDetailsForFile(file) : null}
@@ -86,7 +85,7 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, typeof initi
               this.setState({ loadPreview: true });
             }}
           >
-            加载预览（{fileToPreview!.size}）
+            {t('Content_LoadPreview', [fileToPreview!.size])}
           </Button>
         ) : null}
         {showPreviewFrame && this.state.loadPreview && !deferPreviewLoad ? (
@@ -118,65 +117,114 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, typeof initi
       {file
         ? this.generateLine(
             downloadTitle,
-            this.generateLink(file.name + `（${file!.size}）`, file.downloadUrl),
+            this.generateLink(t('Content_File_Link', [file.name, file.size]), file.downloadUrl),
           )
         : null}
       {file && this.canFilePreview(file)
-        ? this.generateLine(previewTitle, this.generateLink(OPEN_IN_NEW_WINDOW, file.previewUrl))
+        ? this.generateLine(
+            previewTitle,
+            this.generateLink(t('Content_OpenInNewWindow'), file.previewUrl),
+          )
         : null}
     </>
   );
 
   private generateDetailsForFile = (file: FileInfo): React.ReactNode => (
     <>
-      {this.generateLine('上传时间', formatDateTime(file.uploadTime))}
-      {this.generateLine('访问量', file.visitCount)}
-      {this.generateLine('下载量', file.downloadCount)}
-      {this.generateLine('文件大小', file.size)}
-      {this.generateLine('文件类型', this.translateFileType(file.fileType))}
-      {this.generateFileLink('文件下载', '文件预览', file.remoteFile)}
+      {this.generateLine(t('Content_File_UploadedAt'), formatDateTime(file.uploadTime))}
+      {this.generateLine(t('Content_File_VisitCount'), file.visitCount)}
+      {this.generateLine(t('Content_File_DownloadCount'), file.downloadCount)}
+      {this.generateLine(t('Content_File_Size'), file.size)}
+      {this.generateLine(t('Content_File_Type'), this.translateFileType(file.fileType))}
+      {this.generateFileLink(
+        t('Content_File_Download'),
+        t('Content_File_Preview'),
+        file.remoteFile,
+      )}
     </>
   );
 
   private generateDetailsForHomework = (homework: HomeworkInfo): React.ReactNode => (
     <>
-      {this.generateLine('截止时间', formatDateTime(homework.deadline))}
+      {this.generateLine(t('Content_Homework_Deadline'), formatDateTime(homework.deadline))}
       {homework.submitted
-        ? this.generateLine('提交时间', formatDateTime(homework.submitTime))
+        ? this.generateLine(t('Content_Homework_SubmittedAt'), formatDateTime(homework.submitTime))
         : null}
       {homework.submittedContent !== undefined
-        ? this.generateLine('提交内容', homework.submittedContent, true)
+        ? this.generateLine(
+            t('Content_Homework_SubmissionContent'),
+            homework.submittedContent,
+            true,
+          )
         : null}
-      {this.generateFileLink('提交附件', '提交附件预览', homework.submittedAttachment)}
-      {homework.graded ? this.generateLine('评阅时间', formatDateTime(homework.gradeTime)) : null}
-      {homework.graded ? this.generateLine('评阅者', homework.graderName) : null}
+      {this.generateFileLink(
+        t('Content_Homework_SubmissionAttachment'),
+        t('Content_Homework_SubmissionAttachmentPreview'),
+        homework.submittedAttachment,
+      )}
+      {homework.graded
+        ? this.generateLine(t('Content_Homework_GradedAt'), formatDateTime(homework.gradeTime))
+        : null}
+      {homework.graded
+        ? this.generateLine(t('Content_Homework_Grader'), homework.graderName)
+        : null}
       {homework.gradeLevel
-        ? this.generateLine('成绩', homework.gradeLevel)
+        ? this.generateLine(t('Content_Homework_Grade'), homework.gradeLevel)
         : homework.graded
-        ? this.generateLine('成绩', homework.grade ? homework.grade : '无评分')
+        ? this.generateLine(
+            t('Content_Homework_Grader'),
+            homework.grade ? homework.grade : t('Content_Homework_NoGrade'),
+          )
         : null}
       {homework.gradeContent !== undefined
-        ? this.generateLine('评阅内容', homework.gradeContent, true)
+        ? this.generateLine(t('Content_Homework_GradeContent'), homework.gradeContent, true)
         : null}
-      {this.generateFileLink('评阅附件', '评阅附件预览', homework.gradeAttachment)}
+      {this.generateFileLink(
+        t('Content_Homework_GradeAttachment'),
+        t('Content_Homework_GradeAttachmentPreview'),
+        homework.gradeAttachment,
+      )}
       {homework.answerContent !== undefined
-        ? this.generateLine('答案内容', homework.answerContent, true)
+        ? this.generateLine(t('Content_Homework_AnswerContent'), homework.answerContent, true)
         : null}
-      {this.generateFileLink('答案附件', '答案附件预览', homework.answerAttachment)}
-      {this.generateFileLink('作业附件', '作业附件预览', homework.attachment)}
-      {this.generateLine('作业详情', this.generateLink(OPEN_IN_CURRENT_WINDOW, homework.url, true))}
+      {this.generateFileLink(
+        t('Content_Homework_AnswerAttachment'),
+        t('Content_Homework_AnswerAttachmentPreview'),
+        homework.answerAttachment,
+      )}
+      {this.generateFileLink(
+        t('Content_Homework_Attachment'),
+        t('Content_Homework_AttachmentPreview'),
+        homework.attachment,
+      )}
+      {this.generateLine(
+        t('Content_Homework_Detail'),
+        this.generateLink(t('Content_OpenInCurrentWindow'), homework.url, true),
+      )}
     </>
   );
 
   private generateDetailsForNotification = (notification: NotificationInfo): React.ReactNode => (
     <>
-      {this.generateLine('发布时间', formatDateTime(notification.publishTime))}
-      {this.generateLine('发布人', notification.publisher)}
-      {this.generateLine('重要性', notification.markedImportant ? '高' : '普通')}
-      {this.generateFileLink('公告附件', '公告附件预览', notification.attachment)}
       {this.generateLine(
-        '公告详情',
-        this.generateLink(OPEN_IN_CURRENT_WINDOW, notification.url, true),
+        t('Content_Notification_PublishedAt'),
+        formatDateTime(notification.publishTime),
+      )}
+      {this.generateLine(t('Content_Notification_Publisher'), notification.publisher)}
+      {this.generateLine(
+        t('Content_Notification_Severity'),
+        notification.markedImportant
+          ? t('Content_Notification_SeverityHigh')
+          : t('Content_Notification_SeverityNormal'),
+      )}
+      {this.generateFileLink(
+        t('Content_Notification_Attachment'),
+        t('Content_Notification_AttachmentPreview'),
+        notification.attachment,
+      )}
+      {this.generateLine(
+        t('Content_Notification_Detail'),
+        this.generateLink(t('Content_OpenInCurrentWindow'), notification.url, true),
       )}
     </>
   );

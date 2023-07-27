@@ -7,6 +7,7 @@ import { IUiStateSlice, STATE_UI } from '../../redux/reducers';
 import { loggedIn, refresh } from '../../redux/actions/helper';
 import { UiState } from '../../redux/reducers/ui';
 import { requestPermission } from '../../utils/permission';
+import { t, tr } from '../../utils/i18n';
 
 import CommonDialog from './CommonDialog';
 
@@ -14,23 +15,11 @@ class NetworkErrorDialog extends CommonDialog {}
 
 const mapStateToProps = (state: IUiStateSlice): Partial<ICommonDialogProps> => ({
   open: (state[STATE_UI] as UiState).showNetworkErrorDialog,
-  title: '刷新课程信息失败',
-  content: (
-    <span>
-      可能原因有：
-      <br />
-      · 网络不太给力
-      <br />
-      · 服务器去思考人生了
-      <br />
-      · 保存的用户凭据不正确（最近修改过密码？）
-      <br />
-      您可以选择重试、放弃刷新，或者更换新的凭据。
-    </span>
-  ),
-  firstButton: '重试刷新',
-  secondButton: '离线查看',
-  thirdButton: '更新凭据',
+  title: t('NetworkErrorDialog_Title'),
+  content: tr('NetworkErrorDialog_Content'),
+  firstButton: t('NetworkErrorDialog_Refresh'),
+  secondButton: t('NetworkErrorDialog_Offline'),
+  thirdButton: t('NetworkErrorDialog_UpdateCredential'),
 });
 
 const mapDispatchToProps = (dispatch): Partial<ICommonDialogProps> => ({

@@ -42,6 +42,7 @@ import { formatSemester } from '../utils/format';
 import { HelperState } from '../redux/reducers/helper';
 import { clearAllData } from '../redux/actions/data';
 import { removeStoredCredential } from '../utils/storage';
+import { t } from '../utils/i18n';
 
 const initialState = {
   filterShown: false,
@@ -137,7 +138,7 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
                       {this.props.semesterTitle}
                     </Typography>
                     {!this.props.latestSemester ? (
-                      <Tooltip title="非网络学堂当前学期">
+                      <Tooltip title={t('App_NotLearnSemester')}>
                         <IconButton
                           className={styles.sidebar_master_notify_icon}
                           onClick={this.props.openChangeSemesterDialog}
@@ -180,7 +181,7 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
                         <InputBase
                           inputRef={this.inputRef}
                           className={styles.filter_input_inner}
-                          placeholder="筛选"
+                          placeholder={t('App_Filter')}
                           value={this.state.filter}
                           onChange={this.handleFilter}
                           inputProps={{
@@ -231,10 +232,10 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
     return (
       <main className={styles.app_error_section}>
         <Typography variant="h5" className={styles.app_error_text} noWrap>
-          <b>哎呀，出错了！</b>
+          <b>{t('App_Error_Title')}</b>
         </Typography>
         <Typography variant="body1" className={styles.app_error_text} noWrap>
-          发生了不可恢复的错误，请尝试刷新页面。如果错误继续出现，请清除数据重新来过。
+          {t('App_Error_Content')}
         </Typography>
         <Button
           color="secondary"
@@ -244,7 +245,7 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
             window.location.replace(window.location.href);
           }}
         >
-          刷新
+          {t('App_Error_Refresh')}
         </Button>
         <Button
           color="secondary"
@@ -252,13 +253,13 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
           className={styles.app_error_text}
           onClick={this.props.resetApp}
         >
-          清除数据
+          {t('App_Error_ClearData')}
         </Button>
         <Typography variant="body1" className={styles.app_error_text}>
-          <b>请将下面的错误信息发送给开发者，以协助解决问题，感谢支持！</b>
+          <b>{t('App_Error_Support')}</b>
         </Typography>
         <Typography variant="body1" className={styles.app_error_text}>
-          错误信息：
+          {t('App_Error_Info')}
           <br />
           <code>
             {this.state.lastError.stack ??
@@ -266,8 +267,8 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
           </code>
         </Typography>
         <Typography variant="body1" className={styles.app_error_text}>
-          错误组件：
-          <code>{this.state.lastErrorInfo?.componentStack ?? '无此信息'}</code>
+          {t('App_Error_Component')}
+          <code>{this.state.lastErrorInfo?.componentStack ?? t('App_Error_ComponentMissing')}</code>
         </Typography>
       </main>
     );
@@ -282,7 +283,7 @@ const mapStateToProps = (state: IUiStateSlice): Partial<AppProps> => {
     showLoadingProgressBar: uiState.showLoadingProgressBar,
     loadingProgress: uiState.loadingProgress,
     paneHidden: uiState.paneHidden,
-    cardListTitle: helperState.loggedIn ? uiState.cardListTitle : '加载中...',
+    cardListTitle: helperState.loggedIn ? uiState.cardListTitle : t('App_Loading'),
     semesterTitle: formatSemester(dataState.semester),
     latestSemester: dataState.semester.id === dataState.fetchedSemester.id,
   };

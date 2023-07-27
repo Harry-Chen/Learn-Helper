@@ -10,6 +10,7 @@ import { insistSemester, updateSemester } from '../../redux/actions/data';
 import { refresh } from '../../redux/actions/helper';
 import { DataState } from '../../redux/reducers/data';
 import { UiState } from '../../redux/reducers/ui';
+import { tr, t } from '../../utils/i18n';
 
 import CommonDialog from './CommonDialog';
 import styles from '../../css/main.module.css';
@@ -40,16 +41,13 @@ class ChangeSemesterDialog extends CommonDialog<
   public getContent(): React.ReactNode {
     return (
       <span>
-        切换学期将导致所有配置（隐藏）和状态（已读、星标）丢失，请三思！
-        <br />
-        当前 Learn Helper 学期：
-        {formatSemesterId(this.props.semester)}
-        <br />
-        当前网络学堂学期（注册中心控制）：
-        {formatSemesterId(this.props.latestSemester)}
+        {tr('ChangeSemesterDialog_Content', [
+          formatSemesterId(this.props.semester),
+          formatSemesterId(this.props.latestSemester),
+        ])}
         <br />
         <FormControl className={styles.form_control}>
-          <InputLabel id="select-semester">选择学期</InputLabel>
+          <InputLabel id="select-semester">{t('ChangeSemesterDialog_SelectSemester')}</InputLabel>
           <Select
             labelId="select-semester"
             value={this.state.newSemester}
@@ -96,10 +94,10 @@ const mapStateToProps = (state: IUiStateSlice): Partial<IChangeSemesterDialogPro
     semester: data.semester?.id ?? '',
     semesters: allSemesters,
     latestSemester: currentWebSemester,
-    title: '切换学期',
+    title: t('ChangeSemesterDialog_Title'),
     content: null,
-    firstButton: '确定',
-    secondButton: '取消',
+    firstButton: t('Common_Ok'),
+    secondButton: t('Common_Cancel'),
   };
 };
 

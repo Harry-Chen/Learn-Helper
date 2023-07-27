@@ -1,4 +1,3 @@
-import React from 'react';
 import { connect } from 'react-redux';
 
 import { ICommonDialogProps } from '../../types/dialogs';
@@ -9,6 +8,7 @@ import { insistSemester, updateSemester } from '../../redux/actions/data';
 import { refresh } from '../../redux/actions/helper';
 import { DataState } from '../../redux/reducers/data';
 import { UiState } from '../../redux/reducers/ui';
+import { t, tr } from '../../utils/i18n';
 
 import CommonDialog from './CommonDialog';
 
@@ -18,25 +18,14 @@ const mapStateToProps = (state: IUiStateSlice): Partial<ICommonDialogProps> => {
   const data = state[STATE_DATA] as DataState;
   return {
     open: (state[STATE_UI] as UiState).showNewSemesterDialog,
-    title: '检测到新学期',
-    content: (
-      <span>
-        当前 Learn Helper 学期：
-        {formatSemester(data.semester)}
-        <br />
-        当前网络学堂学期：
-        {formatSemester(data.fetchedSemester)}
-        <br />
-        是否要进行学期切换（本学期已读、星标等状态将会被清空）？
-        <br />
-        如果选择“否”，则在下一次打开 Learn Helper 前都将保持当前学期。
-        <br />
-        如果选择“不再询问”，则需要手动进行学期切换。
-      </span>
-    ),
-    firstButton: '是',
-    secondButton: '否',
-    thirdButton: '不再询问',
+    title: t('NewSemesterDialog_Title'),
+    content: tr('NewSemesterDialog_Content', [
+      formatSemester(data.semester),
+      formatSemester(data.fetchedSemester),
+    ]),
+    firstButton: t('Common_Yes'),
+    secondButton: t('Common_No'),
+    thirdButton: t('Common_NoAskAgain'),
   };
 };
 

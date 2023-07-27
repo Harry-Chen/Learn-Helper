@@ -19,6 +19,7 @@ import { STATE_DATA, STATE_HELPER } from '../redux/reducers';
 import { DataState } from '../redux/reducers/data';
 import { setCardFilter, setCardListTitle, setDetailUrl } from '../redux/actions/ui';
 import { HelperState } from '../redux/reducers/helper';
+import { t } from '../utils/i18n';
 
 class CourseList extends React.PureComponent<
   CourseListProps,
@@ -41,12 +42,12 @@ class CourseList extends React.PureComponent<
         subheader={
           <ListSubheader component="div" disableSticky>
             <FontAwesomeIcon icon="inbox" />
-            <span className={styles.list_title}>本学期课程</span>
+            <span className={styles.list_title}>{t('CourseList_CurrentSemester')}</span>
           </ListSubheader>
         }
       >
         {courses.length == 0 ? (
-          <span className={styles.list_title}>这里什么也没有，快去选点课吧！</span>
+          <span className={styles.list_title}>{t('CourseList_Nothing')}</span>
         ) : (
           courses.map((c) => (
             <div key={c.id}>

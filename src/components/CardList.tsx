@@ -18,6 +18,7 @@ import { HelperState } from '../redux/reducers/helper';
 import { downloadAllUnreadFiles, loadMoreCard } from '../redux/actions/ui';
 import { generateCardList } from '../redux/selectors';
 import { ContentInfo } from '../types/data';
+import { t } from '../utils/i18n';
 
 const initialState = {
   onTop: true,
@@ -80,9 +81,7 @@ class CardList extends React.PureComponent<CardListProps, typeof initialState> {
                     downloadAllUnread(contents);
                   }}
                 >
-                  下载所有未读文件（共
-                  {unreadFileCount}
-                  个）
+                  {t('Content_DownloadUnreadFiles', unreadFileCount?.toString())}
                 </Button>
               )}
             </ListSubheader>
@@ -93,13 +92,13 @@ class CardList extends React.PureComponent<CardListProps, typeof initialState> {
           ))}
 
           {filtered.length === 0 ? (
-            <div className={styles.card_list_load_more}>这里什么也没有</div>
+            <div className={styles.card_list_load_more}>{t('Common_Nothing')}</div>
           ) : null}
 
           {canLoadMore ? (
             // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
             <div className={styles.card_list_load_more} onClick={loadMore}>
-              加载更多
+              {t('Common_LoadMore')}
             </div>
           ) : null}
         </List>

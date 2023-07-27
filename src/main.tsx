@@ -10,6 +10,7 @@ import { login, refreshIfNeeded } from './redux/actions/helper';
 import { getStoredCredential, versionMigrate } from './utils/storage';
 import { printWelcomeMessage } from './utils/console';
 import { createStore, reducer } from './redux/store';
+import { t } from './utils/i18n';
 
 import App from './components/App';
 import { MigrationResult } from './types/data';
@@ -34,13 +35,11 @@ const LearnHelper = () => (
 const loadApp = async (result: MigrationResult) => {
   // show banner according to migration result
   if (result.allDataCleared) {
-    store.dispatch<any>(showSnackbar('升级成功，所有本地数据已经被清除', SnackbarType.WARNING));
+    store.dispatch<any>(showSnackbar(t('Migration_AllDataCleared'), SnackbarType.WARNING));
   } else if (result.fetchedDataCleared) {
-    store.dispatch<any>(
-      showSnackbar('升级成功，所有本地数据（除配置）已经被清除', SnackbarType.WARNING),
-    );
+    store.dispatch<any>(showSnackbar(t('Migration_FetchedDataCleared'), SnackbarType.WARNING));
   } else if (result.migrated) {
-    store.dispatch<any>(showSnackbar('升级成功，数据没有受到影响', SnackbarType.NOTIFICATION));
+    store.dispatch<any>(showSnackbar(t('Migration_Migrated'), SnackbarType.NOTIFICATION));
   }
   tryLoginSilently();
   // keep login state

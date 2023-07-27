@@ -8,6 +8,7 @@ import styles from '../css/list.module.css';
 import '../constants/fontAwesome';
 import { SettingListProps } from '../types/ui';
 import { SETTINGS_FUNC_LIST } from '../constants/ui';
+import { t } from '../utils/i18n';
 
 class SettingList extends React.PureComponent<SettingListProps, never> {
   constructor(props) {
@@ -22,7 +23,7 @@ class SettingList extends React.PureComponent<SettingListProps, never> {
         subheader={
           <ListSubheader component="div" disableSticky>
             <FontAwesomeIcon icon="wrench" />
-            <span className={styles.list_title}>设置</span>
+            <span className={styles.list_title}>{t('Settings')}</span>
           </ListSubheader>
         }
       >

@@ -21,6 +21,7 @@ import { COURSE_MAIN_FUNC, SUMMARY_FUNC_LIST } from '../constants/ui';
 import { ContentInfo, HomeworkInfo } from '../types/data';
 import { HelperState } from '../redux/reducers/helper';
 import { setCardFilter, setCardListTitle } from '../redux/actions/ui';
+import { t } from '../utils/i18n';
 
 class SummaryList extends React.PureComponent<SummaryListProps, never> {
   render() {
@@ -33,7 +34,7 @@ class SummaryList extends React.PureComponent<SummaryListProps, never> {
         subheader={
           <ListSubheader component="div" disableSticky>
             <FontAwesomeIcon icon="thumbtack" />
-            <span className={styles.list_title}>项目汇总</span>
+            <span className={styles.list_title}>{t('Summary')}</span>
           </ListSubheader>
         }
       >

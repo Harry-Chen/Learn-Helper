@@ -7,6 +7,7 @@ import { clearAllData } from '../../redux/actions/data';
 import { loggedOut } from '../../redux/actions/helper';
 import { UiState } from '../../redux/reducers/ui';
 import { removeStoredCredential } from '../../utils/storage';
+import { t } from '../../utils/i18n';
 
 import CommonDialog from './CommonDialog';
 
@@ -14,11 +15,11 @@ class LogoutDialog extends CommonDialog {}
 
 const mapStateToProps = (state: IUiStateSlice): Partial<ICommonDialogProps> => ({
   open: (state[STATE_UI] as UiState).showLogoutDialog,
-  title: '退出登录',
-  content: '您确认要退出登录吗？如果只是更换登录密码，请不要选择清除数据。',
-  firstButton: '退出',
-  secondButton: '退出并清除数据',
-  thirdButton: '取消',
+  title: t('LogoutDialog_Title'),
+  content: t('LogoutDialog_Content'),
+  firstButton: t('LogoutDialog_Logout'),
+  secondButton: t('LogoutDialog_LogoutAndClearData'),
+  thirdButton: t('Common_Cancel'),
 });
 
 const mapDispatchToProps = (dispatch): Partial<ICommonDialogProps> => ({

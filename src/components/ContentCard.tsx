@@ -24,6 +24,7 @@ import { COURSE_MAIN_FUNC } from '../constants/ui';
 import { toggleReadState, toggleIgnoreState, toggleStarState } from '../redux/actions/data';
 import { setDetailContent, setDetailUrl } from '../redux/actions/ui';
 import { initiateFileDownload } from '../utils/download';
+import { t } from '../utils/i18n';
 
 class ContentCard extends React.PureComponent<CardProps, never> {
   public render(): React.ReactNode {
@@ -69,15 +70,17 @@ class ContentCard extends React.PureComponent<CardProps, never> {
 
   private generateHomeworkGradeStatus = (homework: HomeworkInfo) => {
     if (!homework.graded) {
-      return '未批阅';
+      return t('Content_Homework_NotGraded');
     }
     let grade = '';
     if (homework.grade === undefined) {
-      grade = '无评分';
+      grade = t('Content_Homework_NoGrade');
     } else {
-      grade = homework.gradeLevel ? homework.gradeLevel : `${homework.grade}分`;
+      grade = homework.gradeLevel
+        ? homework.gradeLevel
+        : t('Content_Homework_GradeDetail', [homework.grade.toString()]);
     }
-    grade += `（${homework.graderName}）`;
+    grade += t('Content_Homework_GraderDetail', [homework.graderName]);
     return grade;
   };
 
@@ -88,16 +91,16 @@ class ContentCard extends React.PureComponent<CardProps, never> {
 
     if (content.type === ContentType.HOMEWORK) {
       const homework = content as HomeworkInfo;
-      const submitted = homework.submitted ? '已提交' : '未提交';
+      const submitted = homework.submitted ? t('Content_Homework_Submitted') : t('Content_Homework_NotSubmitted');
       const grade = this.generateHomeworkGradeStatus(homework);
       suffix = ` · ${submitted} · ${grade}`;
     } else if (content.type === ContentType.NOTIFICATION || content.type === ContentType.FILE) {
       const notification = content as NotificationInfo;
       if (notification.markedImportant) {
-        suffix += ' · 重要';
+        suffix += ' · ' + t('Content_Notification_Important');
       }
       if (content.type === ContentType.NOTIFICATION) {
-        suffix += ` · 发布者:${notification.publisher}`;
+        suffix += ' · ' + t('Content_Notification_PublisherDetail', [notification.publisher]);
       } else if (content.type === ContentType.FILE) {
         const file = content as FileInfo;
         suffix += ` · ${file.size}`;
@@ -107,9 +110,9 @@ class ContentCard extends React.PureComponent<CardProps, never> {
       }
     } else if (content.type === ContentType.DISCUSSION || content.type === ContentType.QUESTION) {
       const discussion = content as DiscussionInfo;
-      suffix = ` · 回复:${discussion.replyCount}`;
+      suffix = ' · ' + t('Content_Discussion_RepliesCount', [discussion.replyCount.toString()]);
       if (discussion.replyCount !== 0) {
-        suffix += ` · 最后回复:${discussion.lastReplierName}`;
+        suffix += ' · ' + t('Content_Discussion_LastReplier', [discussion.lastReplierName]);
       }
     }
 
@@ -181,7 +184,7 @@ class ContentCard extends React.PureComponent<CardProps, never> {
     const { content, dispatch } = this.props;
 
     const starButton = (
-      <Tooltip title={content.starred ? '取消星标' : '加星标'}>
+      <Tooltip title={content.starred ? t('Content_Unstar') : t('Content_Star')}>
         <IconButton
           color="primary"
           className={classnames(styles.card_action_button, {
@@ -201,7 +204,7 @@ class ContentCard extends React.PureComponent<CardProps, never> {
     );
 
     const markReadButton = (
-      <Tooltip title={content.hasRead ? '标记为未读' : '标记为已读'}>
+      <Tooltip title={content.hasRead ? t('Content_MarkAsUnread') : t('Content_MarkAsRead')}>
         <IconButton
           color="primary"
           className={styles.card_action_button}
@@ -219,7 +222,7 @@ class ContentCard extends React.PureComponent<CardProps, never> {
     );
 
     const ignoreButton = (
-      <Tooltip title={content.ignored ? '取消忽略此项' : '忽略此项'}>
+      <Tooltip title={content.ignored ? t('Content_Unignore') : t('Content_Ignore')}>
         <IconButton
           color="primary"
           className={styles.card_action_button}
@@ -242,7 +245,7 @@ class ContentCard extends React.PureComponent<CardProps, never> {
     if (content.type === ContentType.HOMEWORK) {
       const homework = content as HomeworkInfo;
       submitButton = (
-        <Tooltip title="提交作业">
+        <Tooltip title={t('Content_Homework_SubmitHomework')}>
           <IconButton
             color="primary"
             className={styles.card_action_button}
@@ -264,7 +267,7 @@ class ContentCard extends React.PureComponent<CardProps, never> {
       // could be homework or notification, anyway it has attachmentName and attachmentUrl
       const f = (content as NotificationInfo | HomeworkInfo).attachment as RemoteFile;
       attachmentButton = (
-        <Tooltip title={`附件：${f.name}`}>
+        <Tooltip title={t('Content_Attachment', [f.name])}>
           <IconButton
             color="primary"
             className={styles.card_action_button}
@@ -282,7 +285,7 @@ class ContentCard extends React.PureComponent<CardProps, never> {
     if (content.type === ContentType.FILE) {
       const file = content as FileInfo;
       downloadButton = (
-        <Tooltip title="下载文件">
+        <Tooltip title={t('Content_File_DownloadFile')}>
           <IconButton
             color="primary"
             className={styles.card_action_button}
