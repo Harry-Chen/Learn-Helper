@@ -44,7 +44,13 @@ export default defineConfig(async () => {
       webExtension({
         manifest: getManifest(process.env.BROWSER === 'firefox') as chrome.runtime.Manifest,
         additionalInputs: {
-          html: ['index.html', 'src/about.html', 'src/changelog.html', 'src/readme.html', 'src/welcome.html'],
+          html: [
+            'index.html',
+            'src/about.html',
+            'src/changelog.html',
+            'src/readme.html',
+            'src/welcome.html',
+          ],
         },
         useDynamicUrlWebAccessibleResources: process.env.BROWSER !== 'firefox',
       }),

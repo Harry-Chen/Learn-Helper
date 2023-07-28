@@ -2,6 +2,12 @@ html {
   background: url('../image/creampaper.png');
 }
 
+@media (prefers-color-scheme: dark) {
+  html {
+    background: url('../image/creampaper_black.png');
+  }
+}
+
 body {
   font: 16px / 1.5 Helvetica, "Source Han Sans SC", "Noto Sans CJK SC", "Microsoft Yahei", "Hiragino Sans GB", sans-serif;
 }

@@ -4,6 +4,10 @@ import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/es/integration/react';
+import {
+  Experimental_CssVarsProvider as CssVarsProvider,
+  experimental_extendTheme as extendTheme,
+} from '@mui/material';
 
 import { showSnackbar, toggleLoginDialog, toggleNetworkErrorDialog } from './redux/actions/ui';
 import { login, refreshIfNeeded } from './redux/actions/helper';
@@ -24,10 +28,14 @@ const persistor = persistStore(store, null, async () => {
   await loadApp(result);
 });
 
+const theme = extendTheme({});
+
 const LearnHelper = () => (
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <App />
+      <CssVarsProvider defaultMode="system" theme={theme}>
+        <App />
+      </CssVarsProvider>
     </PersistGate>
   </Provider>
 );

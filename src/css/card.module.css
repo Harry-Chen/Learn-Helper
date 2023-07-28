@@ -1,127 +1,128 @@
 .detail_card {
-    margin: 5px;
+  margin: 5px;
 }
 
 .card_func_icon {
-    width: 32px !important;
-    height: 32px !important;
-    background-color: rgba(0,0,0,.3) !important;
-    color: inherit !important;
-    font-size: 1rem !important;
-    margin-left: 0 !important;
-    margin-left: 0 !important;
+  width: 32px !important;
+  height: 32px !important;
+  background-color: rgba(0, 0, 0, 0.3) !important;
+  color: inherit !important;
+  font-size: 1rem !important;
+  margin-left: 0 !important;
+  margin-left: 0 !important;
 }
 
 .card_first_line {
-    width: 100%;
-    display: flex;
-    align-items: center;
+  width: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .card_func_chip {
-    float: left;
+  float: left;
 }
 
 .card_chip_text {
-    min-width: 26px;
-    text-align: center;
+  min-width: 26px;
+  text-align: center;
 }
 
 .card_title {
-    flex: 1;
-    margin-left: 8px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    font-size: larger;
+  flex: 1;
+  margin-left: 8px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: larger;
 }
 
 .card_second_line {
-    margin-top: 8px;
-    margin-bottom: -8px;
-    font-size: 1.0em;
-    color: #777777;
+  margin-top: 8px;
+  margin-bottom: -8px;
+  font-size: 1em;
+  color: #777777;
 }
 
 .card_status {
-    float: left;
-    text-align: left;
-    max-width: 65%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+  float: left;
+  text-align: left;
+  max-width: 65%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .card_course {
-    float: right;
-    text-align: right;
-    max-width: 35%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+  float: right;
+  text-align: right;
+  max-width: 35%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .card_action_line {
-    margin: -8px 4px -4px 4px !important;
-    display: inline-block;
-    width: 100%;
+  margin: -8px 4px -4px 4px !important;
+  display: inline-block;
+  width: 100%;
 }
 
 .card_action_button {
-    padding: 12px !important;
-    width: 6px !important;
-    height: 6px !important;
-    font-size: 1.0em !important;
+  padding: 12px !important;
+  width: 6px !important;
+  height: 6px !important;
+  font-size: 1em !important;
 }
 
 .card_starred {
-    color: #eeee00 !important;
+  color: #eeee00 !important;
 }
 
 .chip_file {
-    color: #fad1e5 !important;
-    background-color: #e91981 !important;
-    text-shadow: 0 -1px 0 #bc1267;
+  color: #fad1e5 !important;
+  background-color: #e91981 !important;
+  text-shadow: 0 -1px 0 #bc1267;
 }
 
-.chip_discussion, .chip_notification {
-    color: #e5cdf2 !important;
-    background-color: #7e08be !important;
-    text-shadow: 0 -1px 0 #650698;
+.chip_discussion,
+.chip_notification {
+  color: #e5cdf2 !important;
+  background-color: #7e08be !important;
+  text-shadow: 0 -1px 0 #650698;
 }
 
 .chip_homework_far {
-    color: #d2e7ff !important;
-    text-shadow: 0 -1px 0 #006be7;
-    background-color: #28f !important;
+  color: #d2e7ff !important;
+  text-shadow: 0 -1px 0 #006be7;
+  background-color: #28f !important;
 }
 
 .chip_homework_near {
-    color: #2f2f00 !important;
-    background-color: #ee0 !important;
-    text-shadow: 0 1px 0 #ffff25;
+  color: #2f2f00 !important;
+  background-color: #ee0 !important;
+  text-shadow: 0 1px 0 #ffff25;
 }
 
 .chip_homework_close {
-    color: #d9eed9 !important;
-    background-color: #e60 !important;
-    text-shadow: 0 -1px 0 #be5200;
+  color: #d9eed9 !important;
+  background-color: #e60 !important;
+  text-shadow: 0 -1px 0 #be5200;
 }
 
 .chip_homework_urgent {
-    color: #fbcccc !important;
-    background-color: #e00 !important;
-    text-shadow: 0 -1px 0 #be0000;
+  color: #fbcccc !important;
+  background-color: #e00 !important;
+  text-shadow: 0 -1px 0 #be0000;
 }
 
 .chip_homework_submitted {
-    color: #d9eed9 !important;
-    background-color: #4a4 !important;
-    text-shadow: 0 -1px 0 #368836;
+  color: #d9eed9 !important;
+  background-color: #4a4 !important;
+  text-shadow: 0 -1px 0 #368836;
 }
 
 .chip_homework_due {
-    color: #e0e0e0 !important;
-    background-color: #666 !important;
-    text-shadow: 0 -1px 0 #525252;
+  color: #e0e0e0 !important;
+  background-color: #666 !important;
+  text-shadow: 0 -1px 0 #525252;
 }
