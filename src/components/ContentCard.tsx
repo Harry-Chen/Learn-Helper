@@ -91,7 +91,7 @@ class ContentCard extends React.PureComponent<CardProps, never> {
 
     if (content.type === ContentType.HOMEWORK) {
       const homework = content as HomeworkInfo;
-      const submitted = homework.submitted ? t('Content_Homework_Submitted') : t('Content_Homework_NotSubmitted');
+      const submitted = homework.submitted ? t('Content_Homework_Submitted') : t('Content_Homework_Unsubmitted');
       const grade = this.generateHomeworkGradeStatus(homework);
       suffix = ` · ${submitted} · ${grade}`;
     } else if (content.type === ContentType.NOTIFICATION || content.type === ContentType.FILE) {

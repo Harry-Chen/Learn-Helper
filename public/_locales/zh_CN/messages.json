@@ -99,10 +99,10 @@
     "message": "文件"
   },
   "Content_File_Download": {
-    "message": "文件下载"
+    "message": "文件下载："
   },
   "Content_File_DownloadCount": {
-    "message": "下载量"
+    "message": "下载量："
   },
   "Content_File_DownloadFile": {
     "message": "下载文件"
@@ -111,31 +111,31 @@
     "message": "$1（$2）"
   },
   "Content_File_Preview": {
-    "message": "文件预览"
+    "message": "文件预览："
   },
   "Content_File_Size": {
-    "message": "文件大小"
+    "message": "文件大小："
   },
   "Content_File_Type": {
-    "message": "文件类型"
+    "message": "文件类型："
   },
   "Content_File_UploadedAt": {
-    "message": "上传时间"
+    "message": "上传时间："
   },
   "Content_File_VisitCount": {
-    "message": "访问量"
+    "message": "访问量："
   },
   "Content_Homework": {
     "message": "作业"
   },
   "Content_Homework_AnswerAttachment": {
-    "message": "答案附件"
+    "message": "答案附件："
   },
   "Content_Homework_AnswerAttachmentPreview": {
-    "message": "答案附件预览"
+    "message": "答案附件预览："
   },
   "Content_Homework_AnswerContent": {
-    "message": "答案内容"
+    "message": "答案内容："
   },
   "Content_Homework_Attachment": {
     "message": "作业附件"
@@ -144,31 +144,31 @@
     "message": "作业附件预览"
   },
   "Content_Homework_Deadline": {
-    "message": "截止时间"
+    "message": "截止时间："
   },
   "Content_Homework_Detail": {
     "message": "作业详情"
   },
   "Content_Homework_Grade": {
-    "message": "成绩"
+    "message": "成绩："
   },
   "Content_Homework_GradeAttachment": {
-    "message": "评阅附件"
+    "message": "评阅附件："
   },
   "Content_Homework_GradeAttachmentPreview": {
-    "message": "评阅附件预览"
+    "message": "评阅附件预览："
   },
   "Content_Homework_GradeContent": {
-    "message": "评阅内容"
+    "message": "评阅内容："
   },
   "Content_Homework_GradeDetail": {
     "message": "$1分"
   },
   "Content_Homework_GradedAt": {
-    "message": "评阅时间"
+    "message": "评阅时间："
   },
   "Content_Homework_Grader": {
-    "message": "评阅者"
+    "message": "评阅者："
   },
   "Content_Homework_GraderDetail": {
     "message": "（$1）"
@@ -179,17 +179,14 @@
   "Content_Homework_NotGraded": {
     "message": "未批阅"
   },
-  "Content_Homework_NotSubmitted": {
-    "message": "未提交"
-  },
   "Content_Homework_SubmissionAttachment": {
-    "message": "提交附件"
+    "message": "提交附件："
   },
   "Content_Homework_SubmissionAttachmentPreview": {
-    "message": "提交附件预览"
+    "message": "提交附件预览："
   },
   "Content_Homework_SubmissionContent": {
-    "message": "提交内容"
+    "message": "提交内容："
   },
   "Content_Homework_SubmitHomework": {
     "message": "提交作业"
@@ -198,7 +195,10 @@
     "message": "已提交"
   },
   "Content_Homework_SubmittedAt": {
-    "message": "提交时间"
+    "message": "提交时间："
+  },
+  "Content_Homework_Unsubmitted": {
+    "message": "未提交"
   },
   "Content_Ignore": {
     "message": "忽略此项"
@@ -318,7 +318,7 @@
     "message": "未知错误"
   },
   "LoginDialog_Content": {
-    "message": "请输入您的学号/用户名和密码以登录到网络学堂。 <br /> 请注意，本插件默认不会保存您的凭据；每次打开新的学堂助手页面时，您都需要重新输入。 如果您选择保存凭据，则本插件会将其 <b>保存在本地</b> ，并启用自动登录功能。 <br /> 我们对凭据进行了简单的加密，但并不能完全防止其被第三方读取。 在长时间不使用或者出借计算机时，请务必退出登录，以免您的凭据被泄露。 <br /> 如果您选择登录，则视为您已经阅读并同意 <a href=\"about.html\" target=\"_blank\"> 此页面 </a> 中的所有内容。 否则，请立刻停止使用并从浏览器中卸载本插件。"
+    "message": "请输入您的学号/用户名和密码以登录到网络学堂。 <br /> 请注意，本插件默认不会保存您的凭据；每次打开新的学堂助手页面时，您都需要重新输入。 如果您选择保存凭据，则本插件会将其 <b>保存在本地</b> ，并启用自动登录功能。 <br /> 我们对凭据进行了简单的加密，但并不能完全防止其被第三方读取。 在长时间不使用或者出借计算机时，请务必退出登录，以免您的凭据被泄露。 <br /> 如果您选择登录，则视为您已经阅读并同意 <a href=\"src/about.html\" target=\"_blank\"> 此页面 </a> 中的所有内容。 否则，请立刻停止使用并从浏览器中卸载本插件。"
   },
   "LoginDialog_Password": {
     "message": "密码"
@@ -391,6 +391,27 @@
   },
   "Settings_Refresh": {
     "message": "手动刷新"
+  },
+  "Settings_SwitchColorMode": {
+    "message": "切换颜色主题"
+  },
+  "Snackbar_LoginFailed": {
+    "message": "登录失败：$1"
+  },
+  "Snackbar_LoginSuccess": {
+    "message": "登录成功"
+  },
+  "Snackbar_NotRefreshed": {
+    "message": "离上次成功刷新不足15分钟，若需要可手动刷新"
+  },
+  "Snackbar_UnknownError": {
+    "message": "未知错误"
+  },
+  "Snackbar_UpdatePartialSuccess": {
+    "message": "部分内容更新失败"
+  },
+  "Snackbar_UpdateSuccess": {
+    "message": "更新成功"
   },
   "Summary": {
     "message": "项目汇总"

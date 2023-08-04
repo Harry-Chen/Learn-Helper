@@ -1,17 +1,10 @@
 import { Learn2018Helper } from 'thu-learn-lib/lib';
-import {
-  ContentType,
-  SemesterType,
-  FailReason,
-  ApiError,
-  CourseType,
-} from 'thu-learn-lib/lib/types';
+import { ContentType, SemesterType, ApiError, CourseType } from 'thu-learn-lib/lib/types';
 
 import {
   loginEnd,
   setProgressBar,
   showSnackbar,
-  toggleLoginDialog,
   toggleLoginDialogProgress,
   toggleNetworkErrorDialog,
   toggleNewSemesterDialog,
@@ -39,6 +32,7 @@ import { UiState } from '../reducers/ui';
 import { SnackbarType } from '../../types/dialogs';
 import { failReasonToString } from '../../utils/format';
 import { getStoredCredential, storeCredential } from '../../utils/storage';
+import { t } from '../../utils/i18n';
 
 // here we don't catch errors in login(), for there are two cases:
 // 1. silent login when starting, then NetworkErrorDialog should be shown
@@ -62,7 +56,9 @@ export function login(username: string, password: string, save: boolean) {
       const error = e as ApiError;
       dispatch(
         showSnackbar(
-          `登录失败：${failReasonToString(error?.reason) ?? error ?? '未知错误'}`,
+          t('Snackbar_LoginFailed', [
+            (failReasonToString(error?.reason) ?? error).toString() ?? t('Snackbar_UnknownError'),
+          ]),
           SnackbarType.ERROR,
         ),
       );
@@ -72,7 +68,7 @@ export function login(username: string, password: string, save: boolean) {
 
     // login succeeded
     // hide login dialog (if shown), show success notice
-    dispatch(showSnackbar('登录成功', SnackbarType.SUCCESS));
+    dispatch(showSnackbar(t('Snackbar_LoginSuccess'), SnackbarType.SUCCESS));
     // save salted user credential if asked
     if (save) {
       await storeCredential(username, password);
@@ -101,9 +97,7 @@ export function refreshIfNeeded() {
     const data = getState()[STATE_DATA] as DataState;
     const justUpdated = new Date().getTime() - data.lastUpdateTime.getTime() <= 15 * 60 * 1000;
     if (data.updateFinished && justUpdated) {
-      dispatch(
-        showSnackbar('离上次成功刷新不足15分钟，若需要可手动刷新', SnackbarType.NOTIFICATION),
-      );
+      dispatch(showSnackbar(t('Snackbar_NotRefreshed'), SnackbarType.NOTIFICATION));
     } else {
       dispatch(refresh());
     }
@@ -235,9 +229,9 @@ export function refresh() {
     );
     const allSuccess = failures.length == 0;
     if (allSuccess) {
-      dispatch(showSnackbar('更新成功', SnackbarType.SUCCESS));
+      dispatch(showSnackbar(t('Snackbar_UpdateSuccess'), SnackbarType.SUCCESS));
     } else {
-      dispatch(showSnackbar('部分内容更新失败', SnackbarType.WARNING));
+      dispatch(showSnackbar(t('Snackbar_UpdatePartialSuccess'), SnackbarType.WARNING));
       console.warn('Failures occurred in fetching data', failures);
     }
 

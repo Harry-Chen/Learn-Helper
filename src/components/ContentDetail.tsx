@@ -172,7 +172,7 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, typeof initi
         ? this.generateLine(t('Content_Homework_Grade'), homework.gradeLevel)
         : homework.graded
         ? this.generateLine(
-            t('Content_Homework_Grader'),
+            t('Content_Homework_Grade'),
             homework.grade ? homework.grade : t('Content_Homework_NoGrade'),
           )
         : null}
@@ -235,7 +235,7 @@ class ContentDetail extends React.PureComponent<ContentDetailProps, typeof initi
     embedHtml = false,
   ): React.ReactNode => (
     <tr className={styles.content_detail_line}>
-      <td>{name}：</td>
+      <td>{name}</td>
       {embedHtml ? (
         <td dangerouslySetInnerHTML={{ __html: content as string }} />
       ) : (

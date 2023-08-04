@@ -1,0 +1,446 @@
+{
+  "App_Error_ClearData": {
+    "message": "Clear data"
+  },
+  "App_Error_Component": {
+    "message": "Error component: "
+  },
+  "App_Error_ComponentMissing": {
+    "message": "no information"
+  },
+  "App_Error_Content": {
+    "message": "An unrecoverable error has occurred, please try refreshing the page. If the error recurs, please clear the data and try again."
+  },
+  "App_Error_Info": {
+    "message": "Error message: "
+  },
+  "App_Error_Refresh": {
+    "message": "Refresh"
+  },
+  "App_Error_Support": {
+    "message": "Please send the error message below to the developer to help solve the problem. Thanks for your support!"
+  },
+  "App_Error_Title": {
+    "message": "Oops, something went wrong!"
+  },
+  "App_Filter": {
+    "message": "Filter"
+  },
+  "App_Loading": {
+    "message": "Loading..."
+  },
+  "App_NotLearnSemester": {
+    "message": "Not current semester of Web Learning"
+  },
+  "ChangeSemesterDialog_Content": {
+    "message": "Switching semesters will result in loss of all configuration (hidden) and status (read, starred), think twice! <br /> Current semester of Learn Helper: $1 <br /> Current semester of Web Learning (controlled by Registration Center): $2"
+  },
+  "ChangeSemesterDialog_SelectSemester": {
+    "message": "Select semester"
+  },
+  "ChangeSemesterDialog_Title": {
+    "message": "Switch semester"
+  },
+  "ClearDataDialog_Content": {
+    "message": "Are you sure to clear? All cached data will be cleared and read status will be reset."
+  },
+  "ClearDataDialog_Title": {
+    "message": "Clear data"
+  },
+  "Common_Cancel": {
+    "message": "Cancel"
+  },
+  "Common_LoadMore": {
+    "message": "Load more"
+  },
+  "Common_No": {
+    "message": "No"
+  },
+  "Common_NoAskAgain": {
+    "message": "Don't ask again"
+  },
+  "Common_None": {
+    "message": "None"
+  },
+  "Common_Nothing": {
+    "message": "Nothing here"
+  },
+  "Common_Ok": {
+    "message": "Ok"
+  },
+  "Common_Reset": {
+    "message": "Reset"
+  },
+  "Common_Yes": {
+    "message": "Yes"
+  },
+  "Content_Attachment": {
+    "message": "Attachment: $1"
+  },
+  "Content_CourseName": {
+    "message": "Course name"
+  },
+  "Content_DetailEmpty": {
+    "message": "Detail is empty"
+  },
+  "Content_Discussion": {
+    "message": "Discussion"
+  },
+  "Content_Discussion_LastReplier": {
+    "message": "Latest replier:$1"
+  },
+  "Content_Discussion_RepliesCount": {
+    "message": "Replies count:$1"
+  },
+  "Content_DownloadUnreadFiles": {
+    "message": "Download all unread files ($1 total)"
+  },
+  "Content_File": {
+    "message": "File"
+  },
+  "Content_File_Download": {
+    "message": "File download:"
+  },
+  "Content_File_DownloadCount": {
+    "message": "Downloads:"
+  },
+  "Content_File_DownloadFile": {
+    "message": "Download file"
+  },
+  "Content_File_Link": {
+    "message": "$1 ($2)"
+  },
+  "Content_File_Preview": {
+    "message": "File preview:"
+  },
+  "Content_File_Size": {
+    "message": "File size:"
+  },
+  "Content_File_Type": {
+    "message": "File type:"
+  },
+  "Content_File_UploadedAt": {
+    "message": "Uploaded at:"
+  },
+  "Content_File_VisitCount": {
+    "message": "Views:"
+  },
+  "Content_Homework": {
+    "message": "Homework"
+  },
+  "Content_Homework_AnswerAttachment": {
+    "message": "Answer attachment:"
+  },
+  "Content_Homework_AnswerAttachmentPreview": {
+    "message": "Answer attachment preview:"
+  },
+  "Content_Homework_AnswerContent": {
+    "message": "Answer content:"
+  },
+  "Content_Homework_Attachment": {
+    "message": "Homework attachment"
+  },
+  "Content_Homework_AttachmentPreview": {
+    "message": "Homework attachment preview"
+  },
+  "Content_Homework_Deadline": {
+    "message": "Deadline:"
+  },
+  "Content_Homework_Detail": {
+    "message": "Homework detail"
+  },
+  "Content_Homework_Grade": {
+    "message": "Grade:"
+  },
+  "Content_Homework_GradeAttachment": {
+    "message": "Review attachment:"
+  },
+  "Content_Homework_GradeAttachmentPreview": {
+    "message": "Review attachment preview:"
+  },
+  "Content_Homework_GradeContent": {
+    "message": "Review content:"
+  },
+  "Content_Homework_GradeDetail": {
+    "message": "$1"
+  },
+  "Content_Homework_GradedAt": {
+    "message": "Reviewed at:"
+  },
+  "Content_Homework_Grader": {
+    "message": "Reviewer:"
+  },
+  "Content_Homework_GraderDetail": {
+    "message": "($1)"
+  },
+  "Content_Homework_NoGrade": {
+    "message": "No grade"
+  },
+  "Content_Homework_NotGraded": {
+    "message": "Not graded"
+  },
+  "Content_Homework_SubmissionAttachment": {
+    "message": "Submission attachment:"
+  },
+  "Content_Homework_SubmissionAttachmentPreview": {
+    "message": "Submission attachment preview:"
+  },
+  "Content_Homework_SubmissionContent": {
+    "message": "Submission content:"
+  },
+  "Content_Homework_SubmitHomework": {
+    "message": "Submit homework"
+  },
+  "Content_Homework_Submitted": {
+    "message": "Submitted"
+  },
+  "Content_Homework_SubmittedAt": {
+    "message": "Submitted at:"
+  },
+  "Content_Homework_Unsubmitted": {
+    "message": "Unsubmitted"
+  },
+  "Content_Ignore": {
+    "message": "Ignore"
+  },
+  "Content_LoadPreview": {
+    "message": "Load preview ($1)"
+  },
+  "Content_MarkAsRead": {
+    "message": "Mark as read"
+  },
+  "Content_MarkAsUnread": {
+    "message": "Mark as unread"
+  },
+  "Content_Notification": {
+    "message": "Notice"
+  },
+  "Content_Notification_Attachment": {
+    "message": "Notice attachment"
+  },
+  "Content_Notification_AttachmentPreview": {
+    "message": "Notice attachment preview"
+  },
+  "Content_Notification_Detail": {
+    "message": "Notice detail"
+  },
+  "Content_Notification_Important": {
+    "message": "Important"
+  },
+  "Content_Notification_PublishedAt": {
+    "message": "Published at"
+  },
+  "Content_Notification_Publisher": {
+    "message": "Publisher"
+  },
+  "Content_Notification_PublisherDetail": {
+    "message": "Publisher: $1"
+  },
+  "Content_Notification_Severity": {
+    "message": "Severity"
+  },
+  "Content_Notification_SeverityHigh": {
+    "message": "High"
+  },
+  "Content_Notification_SeverityNormal": {
+    "message": "Normal"
+  },
+  "Content_OpenInCurrentWindow": {
+    "message": "Open in current window"
+  },
+  "Content_OpenInNewWindow": {
+    "message": "Open in new window"
+  },
+  "Content_Question": {
+    "message": "Q&A"
+  },
+  "Content_Star": {
+    "message": "Star"
+  },
+  "Content_Unignore": {
+    "message": "Unignore"
+  },
+  "Content_Unstar": {
+    "message": "Unstar"
+  },
+  "CourseList_CurrentSemester": {
+    "message": "Courses for this semester"
+  },
+  "CourseList_Nothing": {
+    "message": "Nothing here, pick some courses!"
+  },
+  "Course_Discussion": {
+    "message": "Course discussions"
+  },
+  "Course_File": {
+    "message": "Course files"
+  },
+  "Course_Homepage": {
+    "message": "Course homepage"
+  },
+  "Course_Homework": {
+    "message": "Course homeworks"
+  },
+  "Course_Notification": {
+    "message": "Course notices"
+  },
+  "Course_Question": {
+    "message": "Course Qs&As"
+  },
+  "Course_Summary": {
+    "message": "Course summary"
+  },
+  "FailReason_BadCredential": {
+    "message": "Incorrect username or password"
+  },
+  "FailReason_ErrorFetchFromID": {
+    "message": "Unable to fetch ticket from id.tsinghua.edu.cn"
+  },
+  "FailReason_ErrorRoaming": {
+    "message": "Unable to use tickets to roam to learn.tsinghua.edu.cn"
+  },
+  "FailReason_NoCredential": {
+    "message": "No username or password provided"
+  },
+  "FailReason_NotImplemented": {
+    "message": "Feature not yet implemented"
+  },
+  "FailReason_NotLoggedIn": {
+    "message": "Not logged in"
+  },
+  "FailReason_Timeout": {
+    "message": "Request timed out"
+  },
+  "FailReason_UnexpectedStatus": {
+    "message": "Unexpected HTTP response status"
+  },
+  "FailReason_Unknown": {
+    "message": "Unknown error"
+  },
+  "LoginDialog_Content": {
+    "message": "Please enter your student ID/username and password to log into Web Learning. <br /> Note that this plugin does not save your credentials by default; you will need to re-enter them each time you open a new page. If you choose to save your credentials, the plugin will <b>save them locally</b> and enable automatic login. <br /> We simply encrypt the credentials, but that doesn't completely prevent them from being read by third parties. When not using the computer for a long time or lending it out, please be sure to log out to prevent your credentials from being leaked. <br /> If you choose to log in, you are deemed to have read and agree to all the contents of <a href=\"src/about.html\" target=\"_blank\">this page</a>. Otherwise, please stop using it immediately and uninstall this extension from your browser."
+  },
+  "LoginDialog_Password": {
+    "message": "Password"
+  },
+  "LoginDialog_SaveCredential": {
+    "message": "Save credentials to log in automatically"
+  },
+  "LoginDialog_Title": {
+    "message": "Log in to Web Learning"
+  },
+  "LoginDialog_Username": {
+    "message": "Username/Student ID"
+  },
+  "LogoutDialog_Content": {
+    "message": "Are you sure to log out? If you just want to update the password, please do not clear data."
+  },
+  "LogoutDialog_Logout": {
+    "message": "Logout"
+  },
+  "LogoutDialog_LogoutAndClearData": {
+    "message": "Logout and clear data"
+  },
+  "LogoutDialog_Title": {
+    "message": "Logout out"
+  },
+  "Migration_AllDataCleared": {
+    "message": "Upgrade successfully and all local data is cleared"
+  },
+  "Migration_FetchedDataCleared": {
+    "message": "Upgrade successfully and all local data (except configuration) is cleared"
+  },
+  "Migration_Migrated": {
+    "message": "Upgrade successfully and local data is kept"
+  },
+  "NetworkErrorDialog_Content": {
+    "message": "Possible reasons are: <br /> · Bad internet <br /> · Server down <br /> · Saved credentials are incorrect (maybe you changed the password recently?) <br /> You can choose to try again, view offline, or update credentials."
+  },
+  "NetworkErrorDialog_Offline": {
+    "message": "View offline"
+  },
+  "NetworkErrorDialog_Refresh": {
+    "message": "Refresh"
+  },
+  "NetworkErrorDialog_Title": {
+    "message": "Failed to fetch course information"
+  },
+  "NetworkErrorDialog_UpdateCredential": {
+    "message": "Update credentials"
+  },
+  "NewSemesterDialog_Content": {
+    "message": "Current Learn Helper semester: $1 <br /> Current Web Learning semester: $2 <br /> Do you want to switch semesters? The status of read, star, etc. in this semester will be cleared! <br /> If you select No, you will be asked again the next time you open Learn Helper. <br /> If you choose \"Don't ask again\", you will need to switch semester manually."
+  },
+  "NewSemesterDialog_Title": {
+    "message": "New semester"
+  },
+  "Settings": {
+    "message": "Settings"
+  },
+  "Settings_ClearCache": {
+    "message": "Clear data"
+  },
+  "Settings_ManageIgnored": {
+    "message": "Manage ignored items"
+  },
+  "Settings_ManageIgnored_Content": {
+    "message": "This only works for summaries, and changes will take effect on the next refresh. <br /> If you unhide a hidden item, the original item properties (read, starred) will not change."
+  },
+  "Settings_MarkAllAsRead": {
+    "message": "Mark all as read"
+  },
+  "Settings_Refresh": {
+    "message": "Refresh"
+  },
+  "Settings_SwitchColorMode": {
+    "message": "Switch color mode"
+  },
+  "Snackbar_LoginFailed": {
+    "message": "Failed to login: "
+  },
+  "Snackbar_LoginSuccess": {
+    "message": "Login successfully"
+  },
+  "Snackbar_NotRefreshed": {
+    "message": "Refresh skipped because the last successful refresh was less than 15 minutes ago. Refresh manually if necessary."
+  },
+  "Snackbar_UnknownError": {
+    "message": "Unknown error"
+  },
+  "Snackbar_UpdatePartialSuccess": {
+    "message": "Update failed for partial content"
+  },
+  "Snackbar_UpdateSuccess": {
+    "message": "Update successfully"
+  },
+  "Summary": {
+    "message": "Summary"
+  },
+  "Summary_Discussion": {
+    "message": "All discussions"
+  },
+  "Summary_File": {
+    "message": "All files"
+  },
+  "Summary_Homepage": {
+    "message": "Homepage"
+  },
+  "Summary_Homework": {
+    "message": "All homeworks"
+  },
+  "Summary_Ignored": {
+    "message": "All ignored"
+  },
+  "Summary_Notification": {
+    "message": "All notices"
+  },
+  "Summary_Question": {
+    "message": "All Qs&As"
+  },
+  "appDesc": {
+    "message": "Helper of Web Learning of Tsinghua University, showing course notices, homeworks, deadlines and other information in one page, providing one-stop service"
+  },
+  "appName": {
+    "message": "Learn Helper"
+  }
+}
