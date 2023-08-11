@@ -374,6 +374,15 @@
   "NewSemesterDialog_Title": {
     "message": "检测到新学期"
   },
+  "SemesterType_fall": {
+    "message": "秋季学期"
+  },
+  "SemesterType_spring": {
+    "message": "春季学期"
+  },
+  "SemesterType_summer": {
+    "message": "夏季学期"
+  },
   "Settings": {
     "message": "设置"
   },
@@ -403,6 +412,9 @@
   },
   "Snackbar_NotRefreshed": {
     "message": "离上次成功刷新不足15分钟，若需要可手动刷新"
+  },
+  "Snackbar_SetLangFailed": {
+    "message": "设置网络学堂语言失败：$1"
   },
   "Snackbar_UnknownError": {
     "message": "未知错误"

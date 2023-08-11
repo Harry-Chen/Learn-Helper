@@ -1,5 +1,6 @@
 import { Learn2018Helper } from 'thu-learn-lib/lib';
-import { ContentType, SemesterType, ApiError, CourseType } from 'thu-learn-lib/lib/types';
+import { ContentType, SemesterType, ApiError, CourseType, Language } from 'thu-learn-lib/lib/types';
+import { i18n } from 'webextension-polyfill';
 
 import {
   loginEnd,
@@ -75,6 +76,27 @@ export function login(username: string, password: string, save: boolean) {
     }
     dispatch(loggedIn());
     dispatch(loginEnd());
+    // try to sync language with Web Learning
+    try {
+      const langMap = {
+        'zh-CN': Language.ZH_CN,
+        'en-US': Language.EN_US,
+      };
+      const lang = langMap[i18n.getUILanguage()];
+      if (lang) {
+        await helper.setLanguage(lang);
+      }
+    } catch (e) {
+      const error = e as ApiError;
+      dispatch(
+        showSnackbar(
+          t('Snackbar_SetLangFailed', [
+            (failReasonToString(error?.reason) ?? error).toString() ?? t('Snackbar_UnknownError'),
+          ]),
+          SnackbarType.WARNING,
+        ),
+      );
+    }
     return Promise.resolve();
   };
 }

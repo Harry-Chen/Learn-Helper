@@ -3,7 +3,7 @@ import { t } from './i18n';
 
 export function formatSemester(semester: SemesterInfo): string {
   if (semester.type !== SemesterType.UNKNOWN) {
-    return `${semester.startYear}-${semester.endYear}-${semester.type}`;
+    return `${semester.startYear}-${semester.endYear}-${t(`SemesterType_${semester.type}`)}`;
   }
   return SemesterType.UNKNOWN;
 }
@@ -25,8 +25,8 @@ export function semesterFromId(id: string): SemesterInfo {
     id,
     startDate: new Date(),
     endDate: new Date(),
-    startYear: parseInt(id.substr(0, 4)),
-    endYear: parseInt(id.substr(5, 4)),
+    startYear: parseInt(id.substring(0, 4)),
+    endYear: parseInt(id.substring(5, 9)),
     type,
   };
 }
