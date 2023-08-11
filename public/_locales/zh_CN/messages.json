@@ -1,4 +1,13 @@
 {
+  "App_ColorMode_dark": {
+    "message": "暗"
+  },
+  "App_ColorMode_light": {
+    "message": "亮"
+  },
+  "App_ColorMode_system": {
+    "message": "跟随系统"
+  },
   "App_Error_ClearData": {
     "message": "清除数据"
   },

@@ -35,6 +35,9 @@ import { faBan } from '@fortawesome/free-solid-svg-icons/faBan';
 import { faEnvelopeOpen } from '@fortawesome/free-solid-svg-icons/faEnvelopeOpen';
 import { faRandom } from '@fortawesome/free-solid-svg-icons/faRandom';
 import { faStarOfLife } from '@fortawesome/free-solid-svg-icons/faStarOfLife';
+import { faCircleHalfStroke } from '@fortawesome/free-solid-svg-icons/faCircleHalfStroke';
+import { faSun } from '@fortawesome/free-solid-svg-icons/faSun';
+import { faMoon } from '@fortawesome/free-solid-svg-icons/faMoon';
 
 const ICON_TO_USE = [
   faThumbtack,
@@ -72,6 +75,9 @@ const ICON_TO_USE = [
   faRandom,
   faBan,
   faStarOfLife,
+  faCircleHalfStroke,
+  faSun,
+  faMoon,
 ];
 
 ICON_TO_USE.map((i) => library.add(i));

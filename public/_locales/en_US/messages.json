@@ -1,4 +1,13 @@
 {
+  "App_ColorMode_dark": {
+    "message": "Dark"
+  },
+  "App_ColorMode_light": {
+    "message": "Light"
+  },
+  "App_ColorMode_system": {
+    "message": "System"
+  },
   "App_Error_ClearData": {
     "message": "Clear data"
   },
@@ -412,6 +421,9 @@
   },
   "Snackbar_NotRefreshed": {
     "message": "Refresh skipped because the last successful refresh was less than 15 minutes ago. Refresh manually if necessary."
+  },
+  "Snackbar_SetLangFailed": {
+    "message": "Failed to set language of Web Learning: $1"
   },
   "Snackbar_UnknownError": {
     "message": "Unknown error"

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 
 import {
-  AppBar,
+  AppBar as MuiAppBar,
   Button,
   Toolbar,
   Divider,
@@ -14,8 +14,15 @@ import {
   InputBase,
   Typography,
   Tooltip,
+  Menu,
+  MenuItem,
+  useColorScheme,
+  ListItemIcon,
+  ListItemText,
 } from '@mui/material';
+import { Mode as ColorMode } from '@mui/system/cssVars/useCurrentColorScheme';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { bindMenu, bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
 
 import { AppProps } from '../types/ui';
 import { IUiStateSlice, STATE_DATA, STATE_HELPER, STATE_UI } from '../redux/reducers';
@@ -50,6 +57,74 @@ const initialState = {
   hasError: false,
   lastError: new Error(),
   lastErrorInfo: undefined,
+};
+
+const AppBar = (props: { openSidebar: AppProps['openSidebar'] }) => {
+  const popupState = usePopupState({ variant: 'popover', popupId: 'colorModeMenu' });
+  const { mode, setMode } = useColorScheme();
+  const handleColorModeClick = (m: ColorMode) => {
+    setMode(m);
+    popupState.close();
+  };
+
+  return (
+    <MuiAppBar position="fixed">
+      <Toolbar>
+        <IconButton
+          color="inherit"
+          aria-label="Open drawer"
+          className={classnames(styles.app_bar_btn)}
+          onClick={props.openSidebar}
+          size="large"
+        >
+          <FontAwesomeIcon icon="bars" />
+        </IconButton>
+        <Typography component="div" sx={{ flexGrow: 1 }}></Typography>
+        <div>
+          <IconButton
+            color="inherit"
+            aria-label="Set color mode"
+            size="large"
+            {...bindTrigger(popupState)}
+          >
+            <FontAwesomeIcon icon="circle-half-stroke" />
+          </IconButton>
+          <Menu {...bindMenu(popupState)}>
+            <MenuItem
+              key="system"
+              selected={mode === 'system'}
+              onClick={() => handleColorModeClick('system')}
+            >
+              <ListItemIcon>
+                <FontAwesomeIcon icon="circle-half-stroke" />
+              </ListItemIcon>
+              <ListItemText>{t(`App_ColorMode_system`)}</ListItemText>
+            </MenuItem>
+            <MenuItem
+              key="light"
+              selected={mode === 'light'}
+              onClick={() => handleColorModeClick('light')}
+            >
+              <ListItemIcon>
+                <FontAwesomeIcon icon="sun" />
+              </ListItemIcon>
+              <ListItemText>{t(`App_ColorMode_light`)}</ListItemText>
+            </MenuItem>
+            <MenuItem
+              key="dark"
+              selected={mode === 'dark'}
+              onClick={() => handleColorModeClick('dark')}
+            >
+              <ListItemIcon>
+                <FontAwesomeIcon icon="moon" />
+              </ListItemIcon>
+              <ListItemText>{t(`App_ColorMode_dark`)}</ListItemText>
+            </MenuItem>
+          </Menu>
+        </div>
+      </Toolbar>
+    </MuiAppBar>
+  );
 };
 
 class App extends React.PureComponent<AppProps, typeof initialState> {
@@ -94,19 +169,7 @@ class App extends React.PureComponent<AppProps, typeof initialState> {
         <main>
           <CssBaseline />
           {/* sidebar */}
-          <AppBar position="fixed">
-            <Toolbar>
-              <IconButton
-                color="inherit"
-                aria-label="Open drawer"
-                className={classnames(styles.app_bar_btn)}
-                onClick={this.props.openSidebar}
-                size="large"
-              >
-                <FontAwesomeIcon icon="bars" />
-              </IconButton>
-            </Toolbar>
-          </AppBar>
+          <AppBar openSidebar={this.props.openSidebar} />
           {/* progress bar */}
           <header className={styles.progress_area}>
             {this.props.showLoadingProgressBar ? (
