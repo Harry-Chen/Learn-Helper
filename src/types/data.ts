@@ -1,9 +1,9 @@
 import {
-  Notification,
-  Homework,
-  File,
-  Discussion,
-  Question,
+  type Notification,
+  type Homework,
+  type File,
+  type Discussion,
+  type Question,
   ContentType,
 } from 'thu-learn-lib/lib/types';
 

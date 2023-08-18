@@ -1,24 +1,21 @@
 import {
   ContentType,
-  CourseContent,
-  CourseInfo,
-  Homework,
-  SemesterInfo,
+  type CourseContent,
+  type CourseInfo,
+  type Homework,
+  type SemesterInfo,
   SemesterType,
 } from 'thu-learn-lib/lib/types';
-import { Map } from 'immutable';
-import orderBy from 'lodash/orderBy';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 import {
-  ContentInfo,
-  DiscussionInfo,
-  FileInfo,
-  HomeworkInfo,
-  NotificationInfo,
-  QuestionInfo,
+  type ContentInfo,
+  type DiscussionInfo,
+  type FileInfo,
+  type HomeworkInfo,
+  type NotificationInfo,
+  type QuestionInfo,
 } from '../../types/data';
-import { DataAction } from '../actions/data';
-import { DataActionType } from '../actions/actionTypes';
 
 interface IContentIgnore {
   [courseId: string]: {
@@ -26,7 +23,7 @@ interface IContentIgnore {
   };
 }
 
-interface IDataState {
+export interface DataState {
   semesters: string[]; // all available semesters return by Web Learning
   semester: SemesterInfo; // current semester of Learn Helper
   fetchedSemester: SemesterInfo; // current semester of Web Learning
@@ -42,8 +39,6 @@ interface IDataState {
   contentIgnore: IContentIgnore;
 }
 
-export type DataState = IDataState;
-
 const semesterPlaceholder: SemesterInfo = {
   id: '',
   startDate: new Date(),
@@ -53,30 +48,30 @@ const semesterPlaceholder: SemesterInfo = {
   type: SemesterType.UNKNOWN,
 };
 
-const initialState: IDataState = {
+const initialState: DataState = {
   semesters: [],
   semester: semesterPlaceholder,
   fetchedSemester: semesterPlaceholder,
   insistSemester: false,
-  courseMap: Map<string, CourseInfo>(),
-  notificationMap: Map<string, NotificationInfo>(),
-  fileMap: Map<string, FileInfo>(),
-  homeworkMap: Map<string, HomeworkInfo>(),
-  discussionMap: Map<string, DiscussionInfo>(),
-  questionMap: Map<string, QuestionInfo>(),
+  courseMap: new Map<string, CourseInfo>(),
+  notificationMap: new Map<string, NotificationInfo>(),
+  fileMap: new Map<string, FileInfo>(),
+  homeworkMap: new Map<string, HomeworkInfo>(),
+  discussionMap: new Map<string, DiscussionInfo>(),
+  questionMap: new Map<string, QuestionInfo>(),
   lastUpdateTime: new Date(0),
   updateFinished: false,
   contentIgnore: {},
 };
 
 function update<T extends ContentInfo>(
-  oldMap: Map<string, T>,
+  map: Map<string, T>,
   contentType: ContentType,
   fetched: CourseContent,
   courseMap: Map<string, CourseInfo>,
-  contentIgnore: IContentIgnore,
+  _contentIgnore: IContentIgnore,
 ): Map<string, T> {
-  let result = Map<string, ContentInfo>();
+  let result = new Map<string, T>();
 
   const dateKey = {
     [ContentType.NOTIFICATION]: 'publishTime',
@@ -91,7 +86,7 @@ function update<T extends ContentInfo>(
     for (const c of content) {
       // compare the time of two contents (including undefined)
       // if they differ, mark the content as unread
-      const oldContent = oldMap.get(c.id) as ContentInfo;
+      const oldContent = map.get(c.id) as T;
       const newDate = c[dateKey[contentType]];
       let updated = true;
       if (oldContent !== undefined) {
@@ -116,7 +111,7 @@ function update<T extends ContentInfo>(
         }
       }
       // copy other attributes either way
-      const newContent: ContentInfo = {
+      const newContent = {
         ...c,
         courseId,
         ignored: oldContent === undefined ? false : oldContent.ignored,
@@ -125,36 +120,18 @@ function update<T extends ContentInfo>(
         date: newDate,
         hasRead: oldContent === undefined ? false : !updated && oldContent.hasRead,
         starred: oldContent === undefined ? false : oldContent.starred,
-      };
+      } as T;
       result = result.set(c.id, newContent);
     }
   }
 
-  // the upcast is necessary
-  return result as Map<string, T>;
+  return result;
 }
 
-function toggle<T extends ContentInfo>(
-  oldMap: Map<string, T>,
-  id: string,
-  key: string,
-  status: boolean,
-): Map<string, T> {
-  return oldMap.update(id, (c: any) => ({
-    ...c,
-    [key]: status,
-  }));
-}
-
-function markAllRead<T extends ContentInfo>(oldMap: Map<string, T>): Map<string, T> {
-  let map = oldMap;
-  for (const k of oldMap.keys()) {
-    map = map.update(k, (c: any) => ({
-      ...c,
-      hasRead: true,
-    }));
-  }
-  return map;
+interface ToggleStatePayload {
+  id: string;
+  type: ContentType;
+  state: boolean;
 }
 
 const IGNORE_UNSET_ALL = {
@@ -165,156 +142,150 @@ const IGNORE_UNSET_ALL = {
   [ContentType.DISCUSSION]: false,
 };
 
-export default function data(state: IDataState = initialState, action: DataAction): IDataState {
-  const stateKey = `${action.contentType}Map`;
-
-  switch (action.type) {
-    case DataActionType.UPDATE_SEMESTER_LIST:
-      return {
-        ...state,
-        semesters: action.semesters,
-      };
-
-    case DataActionType.NEW_SEMESTER:
-      // save the new semester for querying user
-      return {
-        ...state,
-        fetchedSemester: action.semester,
-      };
-
-    case DataActionType.INSIST_SEMESTER:
-      return {
-        ...state,
-        insistSemester: action.insist,
-      };
-
-    case DataActionType.UPDATE_SEMESTER:
-      // switch to new semester, remove all content
-      return {
-        ...initialState,
-        semesters: state.semesters,
-        fetchedSemester: state.fetchedSemester,
-        semester: action.semester,
-      };
-
-    case DataActionType.UPDATE_COURSES: {
-      // update course list and ignoring list
-      // any content that belongs to removed courses will be removed in following steps
-      let courseMap = Map<string, CourseInfo>();
-      const { contentIgnore } = state;
-      for (const c of orderBy(action.courseList, ['id'])) {
-        courseMap = courseMap.set(c.id, c);
-        if (contentIgnore[c.id] === undefined) {
-          contentIgnore[c.id] = {
-            ...IGNORE_UNSET_ALL,
-          };
-        }
-      }
-      // remove courses that do not exist any more
-      // otherwise the app will crash after dropping any course
-      for (const k of [...Object.keys(contentIgnore)]) {
-        if (!courseMap.has(k)) {
-          delete contentIgnore[k];
-        }
-      }
-      return {
-        ...state,
-        contentIgnore,
-        courseMap,
-      };
-    }
-
-    case DataActionType.UPDATE_CONTENT:
-      return {
-        ...state,
-        [stateKey]: update(
-          state[stateKey],
-          action.contentType,
-          action.content,
-          state.courseMap,
-          state.contentIgnore,
-        ),
-        lastUpdateTime: new Date(),
-        updateFinished: false,
-      };
-
-    case DataActionType.UPDATE_FINISHED:
-      return {
-        ...state,
-        updateFinished: true,
-      };
-
-    case DataActionType.TOGGLE_CONTENT_IGNORE:
-      return {
-        ...state,
-        contentIgnore: {
-          ...state.contentIgnore,
-          [action.id]: {
-            ...state.contentIgnore[action.id],
-            [action.contentType]: action.state,
-          },
-        },
-        updateFinished: false,
-      };
-
-    case DataActionType.RESET_CONTENT_IGNORE: {
-      const contentIgnore = {};
-      for (const c of [...state.courseMap.keys()].sort()) {
-        contentIgnore[c] = {
-          ...IGNORE_UNSET_ALL,
-        };
-      }
-      return {
-        ...state,
-        contentIgnore,
-        updateFinished: false,
-      };
-    }
-
-    case DataActionType.MARK_ALL_READ:
-      return {
-        ...state,
-        notificationMap: markAllRead(state.notificationMap),
-        fileMap: markAllRead(state.fileMap),
-        homeworkMap: markAllRead(state.homeworkMap),
-        discussionMap: markAllRead(state.discussionMap),
-        questionMap: markAllRead(state.questionMap),
-      };
-
-    case DataActionType.TOGGLE_READ_STATE:
-      return {
-        ...state,
-        [stateKey]: toggle(state[stateKey], action.id, 'hasRead', action.state),
-      };
-
-    case DataActionType.TOGGLE_STAR_STATE:
-      return {
-        ...state,
-        [stateKey]: toggle(state[stateKey], action.id, 'starred', action.state),
-      };
-
-    case DataActionType.TOGGLE_IGNORE_STATE:
-      return {
-        ...state,
-        [stateKey]: toggle(state[stateKey], action.id, 'ignored', action.state),
-      };
-
-    case DataActionType.CLEAR_ALL_DATA:
+export const dataSlice = createSlice({
+  name: 'data',
+  initialState,
+  reducers: {
+    newSemester: (state, action: PayloadAction<SemesterInfo>) => {
+      state.fetchedSemester = action.payload;
+    },
+    insistSemester: (state, action: PayloadAction<boolean>) => {
+      state.insistSemester = action.payload;
+    },
+    updateSemesterList: (state, action: PayloadAction<string[]>) => {
+      state.semesters = action.payload;
+    },
+    updateSemester: (state, action: PayloadAction<SemesterInfo>) => {
+      state.semester = action.payload;
+    },
+    updateCourses: (state, action: PayloadAction<CourseInfo[]>) => {
+      action.payload.sort((a, b) => a.id.localeCompare(b.id));
+      state.courseMap = new Map(action.payload.map((course) => [course.id, course]));
+      Object.keys(state.contentIgnore).forEach((k) => {
+        if (!state.courseMap.has(k)) delete state.contentIgnore[k];
+      });
+      state.courseMap.forEach((course) => {
+        state.contentIgnore[course.id] ??= { ...IGNORE_UNSET_ALL };
+      });
+    },
+    updateNotification: (state, action: PayloadAction<CourseContent>) => {
+      state.notificationMap = update(
+        state.notificationMap,
+        ContentType.NOTIFICATION,
+        action.payload,
+        state.courseMap,
+        state.contentIgnore,
+      );
+      state.lastUpdateTime = new Date();
+      state.updateFinished = false;
+    },
+    updateFile: (state, action: PayloadAction<CourseContent>) => {
+      state.fileMap = update(
+        state.fileMap,
+        ContentType.FILE,
+        action.payload,
+        state.courseMap,
+        state.contentIgnore,
+      );
+      state.lastUpdateTime = new Date();
+      state.updateFinished = false;
+    },
+    updateHomework: (state, action: PayloadAction<CourseContent>) => {
+      state.homeworkMap = update(
+        state.homeworkMap,
+        ContentType.HOMEWORK,
+        action.payload,
+        state.courseMap,
+        state.contentIgnore,
+      );
+      state.lastUpdateTime = new Date();
+      state.updateFinished = false;
+    },
+    updateDiscussion: (state, action: PayloadAction<CourseContent>) => {
+      state.discussionMap = update(
+        state.discussionMap,
+        ContentType.DISCUSSION,
+        action.payload,
+        state.courseMap,
+        state.contentIgnore,
+      );
+      state.lastUpdateTime = new Date();
+      state.updateFinished = false;
+    },
+    updateQuestion: (state, action: PayloadAction<CourseContent>) => {
+      state.questionMap = update(
+        state.questionMap,
+        ContentType.QUESTION,
+        action.payload,
+        state.courseMap,
+        state.contentIgnore,
+      );
+      state.lastUpdateTime = new Date();
+      state.updateFinished = false;
+    },
+    updateFinished: (state) => {
+      state.updateFinished = true;
+    },
+    toggleReadState: (state, action: PayloadAction<ToggleStatePayload>) => {
+      state[`${action.payload.type}Map`].get(action.payload.id).hasRead = action.payload.state;
+    },
+    toggleStarState: (state, action: PayloadAction<ToggleStatePayload>) => {
+      state[`${action.payload.type}Map`].get(action.payload.id).starred = action.payload.state;
+    },
+    toggleIgnoreState: (state, action: PayloadAction<ToggleStatePayload>) => {
+      state[`${action.payload.type}Map`].get(action.payload.id).ignored = action.payload.state;
+    },
+    toggleContentIgnore: (state, action: PayloadAction<ToggleStatePayload>) => {
+      state.contentIgnore[action.payload.id][action.payload.type] = action.payload.state;
+    },
+    resetContentIgnore: (state) => {
+      state.contentIgnore = Object.fromEntries(
+        [...state.courseMap.keys()].map((c) => [c, { ...IGNORE_UNSET_ALL }]),
+      );
+      state.updateFinished = false;
+    },
+    markAllRead: (state) => {
+      state.notificationMap.forEach((value) => void (value.hasRead = true));
+      state.fileMap.forEach((value) => void (value.hasRead = true));
+      state.homeworkMap.forEach((value) => void (value.hasRead = true));
+      state.discussionMap.forEach((value) => void (value.hasRead = true));
+      state.questionMap.forEach((value) => void (value.hasRead = true));
+    },
+    clearAllData: () => {
       return initialState;
+    },
+    clearFetchedData: (state) => {
+      state.courseMap = new Map<string, CourseInfo>();
+      state.notificationMap = new Map<string, NotificationInfo>();
+      state.fileMap = new Map<string, FileInfo>();
+      state.homeworkMap = new Map<string, HomeworkInfo>();
+      state.discussionMap = new Map<string, DiscussionInfo>();
+      state.questionMap = new Map<string, QuestionInfo>();
+      state.lastUpdateTime = new Date(0);
+    },
+  },
+});
 
-    case DataActionType.CLEAR_FETCHED_DATA:
-      return {
-        ...state,
-        courseMap: Map<string, CourseInfo>(),
-        notificationMap: Map<string, NotificationInfo>(),
-        fileMap: Map<string, FileInfo>(),
-        homeworkMap: Map<string, HomeworkInfo>(),
-        discussionMap: Map<string, DiscussionInfo>(),
-        questionMap: Map<string, QuestionInfo>(),
-        lastUpdateTime: new Date(0),
-      };
+export const {
+  newSemester,
+  insistSemester,
+  updateSemesterList,
+  updateSemester,
+  updateCourses,
+  updateNotification,
+  updateFile,
+  updateHomework,
+  updateDiscussion,
+  updateQuestion,
+  updateFinished,
+  toggleReadState,
+  toggleStarState,
+  toggleIgnoreState,
+  toggleContentIgnore,
+  resetContentIgnore,
+  markAllRead,
+  clearAllData,
+  clearFetchedData,
+} = dataSlice.actions;
 
-    default:
-      return state;
-  }
-}
+export default dataSlice.reducer;

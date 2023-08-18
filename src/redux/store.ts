@@ -1,23 +1,20 @@
-import { applyMiddleware, createStore } from 'redux';
-import { persistReducer } from 'redux-persist';
-import thunk from 'redux-thunk';
+import { configureStore } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
 
-import { localStorage, syncStorage } from 'redux-persist-webextension-storage';
-import { PersistConfig } from 'redux-persist/es/types';
-import immutableTransform from 'redux-persist-transform-immutable';
+import data from './reducers/data';
+import helper from './reducers/helper';
+import ui from './reducers/ui';
 
-import reducers, { STATE_HELPER, STATE_UI } from './reducers';
-import { STORAGE_KEY_REDUX } from '../constants';
+export const store = configureStore({
+  reducer: {
+    data,
+    helper,
+    ui,
+  },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
+});
 
-const config: PersistConfig<any> = {
-  storage: localStorage,
-  transforms: [immutableTransform()],
-  key: STORAGE_KEY_REDUX,
-  blacklist: [STATE_UI, STATE_HELPER],
-};
-
-const persistedReducer = persistReducer(config, reducers);
-const createStoreWithMiddleware = applyMiddleware(thunk, logger)(createStore);
-
-export { createStoreWithMiddleware as createStore, persistedReducer as reducer };
+// Infer the `RootState` and `AppDispatch` types from the store itself
+export type RootState = ReturnType<typeof store.getState>;
+// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
+export type AppDispatch = typeof store.dispatch;

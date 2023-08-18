@@ -9,6 +9,7 @@
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "noImplicitThis": true
+    "noImplicitThis": true,
+    "verbatimModuleSyntax": true
   }
 }

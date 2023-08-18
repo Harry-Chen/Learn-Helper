@@ -20,11 +20,11 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
-import { Mode as ColorMode } from '@mui/system/cssVars/useCurrentColorScheme';
+import { type Mode as ColorMode } from '@mui/system/cssVars/useCurrentColorScheme';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { bindMenu, bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
 
-import { AppProps } from '../types/ui';
+import { type AppProps } from '../types/ui';
 import { IUiStateSlice, STATE_DATA, STATE_HELPER, STATE_UI } from '../redux/reducers';
 import { setTitleFilter, toggleChangeSemesterDialog, togglePaneHidden } from '../redux/actions/ui';
 import styles from '../css/main.module.css';
@@ -42,11 +42,11 @@ import {
   NewSemesterDialog,
 } from './dialogs';
 import ColoredSnackbar from './ColoredSnackbar';
-import { UiState } from '../redux/reducers/ui';
+import { type UiState } from '../redux/reducers/ui';
 import DetailPane from './DetailPane';
-import { DataState } from '../redux/reducers/data';
+import { type DataState } from '../redux/reducers/data';
 import { formatSemester } from '../utils/format';
-import { HelperState } from '../redux/reducers/helper';
+import { type HelperState } from '../redux/reducers/helper';
 import { clearAllData } from '../redux/actions/data';
 import { removeStoredCredential } from '../utils/storage';
 import { t } from '../utils/i18n';

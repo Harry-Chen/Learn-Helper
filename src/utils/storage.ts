@@ -5,9 +5,9 @@ import {
   STORAGE_SALT,
 } from '../constants';
 import { cipher, decipher } from './crypto';
-import { setDetailUrl } from '../redux/actions/ui';
-import { clearFetchedData } from '../redux/actions/data';
-import { MigrationResult } from '../types/data';
+import { setDetailUrl } from '../redux/reducers/ui';
+import { clearFetchedData } from '../redux/reducers/data';
+import type { MigrationResult } from '../types/data';
 import { version as currentVersion } from '../../package.json';
 
 import { compare as compareVersion } from 'compare-versions';

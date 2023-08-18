@@ -22,7 +22,9 @@
     "jsx-a11y",
     "react"
   ],
-  "rules": {},
+  "rules": {
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
+  },
   "settings": {
     "react": {
       "version": "detect"

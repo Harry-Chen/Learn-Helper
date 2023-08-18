@@ -2,52 +2,57 @@ import './enableDevHmr';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { persistStore } from 'redux-persist';
-import { PersistGate } from 'redux-persist/es/integration/react';
+// import { persistStore } from 'redux-persist';
+// import { PersistGate } from 'redux-persist/es/integration/react';
 import {
   Experimental_CssVarsProvider as CssVarsProvider,
   experimental_extendTheme as extendTheme,
 } from '@mui/material';
 
-import { showSnackbar, toggleLoginDialog, toggleNetworkErrorDialog } from './redux/actions/ui';
-import { login, refreshIfNeeded } from './redux/actions/helper';
+import { showSnackbar, toggleLoginDialog, toggleNetworkErrorDialog } from './redux/reducers/ui';
+import { login, refreshIfNeeded } from './redux/thunks';
 import { getStoredCredential, versionMigrate } from './utils/storage';
 import { printWelcomeMessage } from './utils/console';
-import { createStore, reducer } from './redux/store';
+import { store } from './redux/store';
 import { t } from './utils/i18n';
 
 import App from './components/App';
-import { MigrationResult } from './types/data';
+import type { MigrationResult } from './types/data';
 import { SnackbarType } from './types/dialogs';
 
 printWelcomeMessage();
 
-const store = createStore(reducer);
-const persistor = persistStore(store, null, async () => {
-  const result = await versionMigrate(store);
-  await loadApp(result);
-});
+// const persistor = persistStore(store, null, async () => {
+//   const result = await versionMigrate(store);
+//   await loadApp(result);
+// });
 
 const theme = extendTheme({});
 
 const LearnHelper = () => (
   <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <CssVarsProvider defaultMode="system" theme={theme}>
-        <App />
-      </CssVarsProvider>
-    </PersistGate>
+    {/* <PersistGate loading={null} persistor={persistor}> */}
+    <CssVarsProvider defaultMode="system" theme={theme}>
+      <App />
+    </CssVarsProvider>
+    {/* </PersistGate> */}
   </Provider>
 );
 
 const loadApp = async (result: MigrationResult) => {
   // show banner according to migration result
   if (result.allDataCleared) {
-    store.dispatch<any>(showSnackbar(t('Migration_AllDataCleared'), SnackbarType.WARNING));
+    store.dispatch(
+      showSnackbar({ content: t('Migration_AllDataCleared'), type: SnackbarType.WARNING }),
+    );
   } else if (result.fetchedDataCleared) {
-    store.dispatch<any>(showSnackbar(t('Migration_FetchedDataCleared'), SnackbarType.WARNING));
+    store.dispatch(
+      showSnackbar({ content: t('Migration_FetchedDataCleared'), type: SnackbarType.WARNING }),
+    );
   } else if (result.migrated) {
-    store.dispatch<any>(showSnackbar(t('Migration_Migrated'), SnackbarType.NOTIFICATION));
+    store.dispatch(
+      showSnackbar({ content: t('Migration_Migrated'), type: SnackbarType.NOTIFICATION }),
+    );
   }
   tryLoginSilently();
   // keep login state
@@ -57,12 +62,12 @@ const loadApp = async (result: MigrationResult) => {
 const tryLoginSilently = async () => {
   const credential = await getStoredCredential();
   if (credential === null) {
-    store.dispatch<any>(toggleLoginDialog(true));
+    store.dispatch(toggleLoginDialog(true));
     return;
   }
   try {
-    await store.dispatch<any>(login(credential.username, credential.password, false));
-    await store.dispatch<any>(refreshIfNeeded());
+    await store.dispatch(login(credential.username, credential.password, false));
+    await store.dispatch(refreshIfNeeded());
   } catch (e) {
     // here we catch only login problems
     // for refresh() has a try-catch block in itself

@@ -1,8 +1,8 @@
-import { ContentType, CourseInfo, Homework } from 'thu-learn-lib/lib/types';
+import { ContentType, type CourseInfo, type Homework } from 'thu-learn-lib/lib/types';
 
-import { DataState } from './reducers/data';
-import { ContentInfo } from '../types/data';
-import { CardListProps } from '../types/ui';
+import type { DataState } from './reducers/data';
+import type { ContentInfo } from '../types/data';
+import type { CardListProps } from '../types/ui';
 
 let oldType: ContentType;
 let oldCourse: CourseInfo;
