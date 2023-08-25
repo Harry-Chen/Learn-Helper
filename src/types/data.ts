@@ -23,11 +23,21 @@ interface ICardStatus {
 
 type ICardData = ICourseRef & ICardStatus;
 
-export type NotificationInfo = Notification & ICardData;
-export type HomeworkInfo = Homework & ICardData;
-export type FileInfo = File & ICardData;
-export type DiscussionInfo = Discussion & ICardData;
-export type QuestionInfo = Question & ICardData;
+export interface NotificationInfo extends Notification, ICardData {
+  type: ContentType.NOTIFICATION;
+}
+export interface HomeworkInfo extends Homework, ICardData {
+  type: ContentType.HOMEWORK;
+}
+export interface FileInfo extends File, ICardData {
+  type: ContentType.FILE;
+}
+export interface DiscussionInfo extends Discussion, ICardData {
+  type: ContentType.DISCUSSION;
+}
+export interface QuestionInfo extends Question, ICardData {
+  type: ContentType.QUESTION;
+}
 
 export type ContentInfo =
   | NotificationInfo
@@ -35,11 +45,3 @@ export type ContentInfo =
   | FileInfo
   | DiscussionInfo
   | QuestionInfo;
-
-interface IMigrationResult {
-  migrated: boolean;
-  fetchedDataCleared: boolean;
-  allDataCleared: boolean;
-}
-
-export type MigrationResult = IMigrationResult;

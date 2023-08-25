@@ -2,7 +2,6 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import webExtension from '@samrum/vite-plugin-web-extension';
 import { visualizer } from 'rollup-plugin-visualizer';
-import ignore from 'rollup-plugin-ignore';
 import Randomstring from 'randomstring';
 import { execSync } from 'node:child_process';
 import path from 'node:path';
@@ -54,7 +53,6 @@ export default defineConfig(async () => {
         },
         useDynamicUrlWebAccessibleResources: process.env.BROWSER !== 'firefox',
       }),
-      ignore(['parse5']),
       visualizer(),
     ],
     resolve: {
@@ -81,8 +79,7 @@ export default defineConfig(async () => {
               'redux-logger',
               'react-redux',
               '@emotion/react',
-              '@fortawesome/react-fontawesome',
-              'immutable',
+              '@fortawesome/react-fontawesome'
             ],
             'mui-vendor': ['@mui/material'],
           },

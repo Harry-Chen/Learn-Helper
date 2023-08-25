@@ -1,9 +1,19 @@
-import { configureStore } from '@reduxjs/toolkit';
+import {
+  configureStore,
+  createListenerMiddleware,
+  type Action,
+  type AnyAction,
+  type TypedStartListening,
+} from '@reduxjs/toolkit';
 import logger from 'redux-logger';
+import { storage } from 'webextension-polyfill';
 
+import { STORAGE_KEY_REDUX } from '../constants';
 import data from './reducers/data';
 import helper from './reducers/helper';
 import ui from './reducers/ui';
+
+const listenerMiddleware = createListenerMiddleware();
 
 export const store = configureStore({
   reducer: {
@@ -11,10 +21,23 @@ export const store = configureStore({
     helper,
     ui,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({ serializableCheck: false })
+      .prepend(listenerMiddleware.middleware)
+      .concat(logger),
 });
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
+
+export type AppStartListening = TypedStartListening<RootState, AppDispatch>;
+export const startAppListening = listenerMiddleware.startListening as AppStartListening;
+
+startAppListening({
+  matcher: (action: AnyAction): action is Action<string> =>
+    typeof action.type === 'string' && action.type.startsWith('data/'),
+  effect: (_action, { getState }) => {
+    const { data } = getState();
+    storage.local.set({ [STORAGE_KEY_REDUX]: JSON.stringify(data) });
+  },
+});

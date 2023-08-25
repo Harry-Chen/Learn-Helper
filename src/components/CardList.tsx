@@ -1,155 +1,94 @@
-import React from 'react';
-import { connect } from 'react-redux';
-
+import React, { useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 
 import { List, Button, ListSubheader } from '@mui/material';
 
-import { ContentType } from 'thu-learn-lib/lib/types';
-import { CardListProps } from '../types/ui';
-import ContentCard from './ContentCard';
-
-import styles from '../css/list.module.css';
-
-import { STATE_DATA, STATE_HELPER, STATE_UI } from '../redux/reducers';
-import { DataState } from '../redux/reducers/data';
-import { UiState } from '../redux/reducers/ui';
-import { HelperState } from '../redux/reducers/helper';
-import { downloadAllUnreadFiles, loadMoreCard } from '../redux/actions/ui';
-import { generateCardList } from '../redux/selectors';
-import { ContentInfo } from '../types/data';
+import { downloadAllUnreadFiles, loadMoreCard } from '../redux/actions';
+import { selectFilteredCardList } from '../redux/selectors';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { t } from '../utils/i18n';
 
-const initialState = {
-  onTop: true,
-};
+import styles from '../css/list.module.css';
+import ContentCard from './ContentCard';
+import { ContentType } from 'thu-learn-lib/lib/types';
 
-class CardList extends React.PureComponent<CardListProps, typeof initialState> {
-  private readonly scrollRef: React.RefObject<HTMLDivElement>;
+const CardList = () => {
+  const dispatch = useAppDispatch();
+  const threshold = useAppSelector((state) => state.ui.cardVisibilityThreshold);
+  const cards = useAppSelector(selectFilteredCardList);
 
-  public state = initialState;
+  const [_onTop, setOnTop] = useState(true);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-  constructor(props) {
-    super(props);
-    this.scrollRef = React.createRef();
-  }
-
-  componentDidUpdate(prevProps: CardListProps) {
-    if (prevProps.type !== this.props.type || prevProps.course !== this.props.course) {
-      this.scrollRef.current.scrollTop = 0;
-      this.setState({ onTop: true });
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = 0;
+      setOnTop(true);
     }
-  }
+  }, [cards]);
 
-  public render() {
-    const { contents, threshold, loadMore, unreadFileCount, downloadAllUnread, ...rest } =
-      this.props;
-    const filtered = contents.slice(0, threshold);
+  const filtered = cards.slice(0, threshold);
+  const unreadFileCount = cards.reduce((count, c) => {
+    if (c.type === ContentType.FILE && !c.hasRead) count += 1;
+    return count;
+  }, 0);
+  const canLoadMore = threshold < cards.length;
 
-    const canLoadMore = threshold < contents.length;
+  return (
+    <div
+      className={styles.card_list}
+      onScroll={(ev) => {
+        const self = ev.target as HTMLDivElement;
+        setOnTop(self.scrollTop === 0);
 
-    return (
-      <div
-        className={styles.card_list}
-        onScroll={(ev) => {
-          const self = ev.target as HTMLDivElement;
-          this.setState({ onTop: self.scrollTop === 0 });
-
-          if (!canLoadMore) return;
-          const bottomLine = self.scrollTop + self.clientHeight;
-          if (bottomLine + 180 > self.scrollHeight) {
-            // 80 px on load more hint
-            loadMore();
-          }
-        }}
-        ref={this.scrollRef}
-        {...rest}
+        if (!canLoadMore) return;
+        const bottomLine = self.scrollTop + self.clientHeight;
+        if (bottomLine + 180 > self.scrollHeight) {
+          // 80 px on load more hint
+          dispatch(loadMoreCard());
+        }
+      }}
+      ref={scrollRef}
+    >
+      <List
+        className={styles.card_list_inner}
+        component="nav"
+        subheader={
+          <ListSubheader
+            component="div"
+            className={cn(styles.card_list_header, styles.card_list_header_floating)}
+          >
+            {unreadFileCount !== 0 && (
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  dispatch(downloadAllUnreadFiles(cards));
+                }}
+              >
+                {t('Content_DownloadUnreadFiles', unreadFileCount?.toString())}
+              </Button>
+            )}
+          </ListSubheader>
+        }
       >
-        <List
-          className={styles.card_list_inner}
-          component="nav"
-          subheader={
-            <ListSubheader
-              component="div"
-              className={cn(styles.card_list_header, styles.card_list_header_floating)}
-            >
-              {unreadFileCount === 0 ? null : (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => {
-                    downloadAllUnread(contents);
-                  }}
-                >
-                  {t('Content_DownloadUnreadFiles', unreadFileCount?.toString())}
-                </Button>
-              )}
-            </ListSubheader>
-          }
-        >
-          {filtered.map((c) => (
-            <ContentCard key={c.id} content={c} />
-          ))}
+        {filtered.map((c) => (
+          <ContentCard key={c.id} content={c} />
+        ))}
 
-          {filtered.length === 0 ? (
-            <div className={styles.card_list_load_more}>{t('Common_Nothing')}</div>
-          ) : null}
+        {filtered.length === 0 && (
+          <div className={styles.card_list_load_more}>{t('Common_Nothing')}</div>
+        )}
 
-          {canLoadMore ? (
-            // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-            <div className={styles.card_list_load_more} onClick={loadMore}>
-              {t('Common_LoadMore')}
-            </div>
-          ) : null}
-        </List>
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = (state): Partial<CardListProps> => {
-  const data = state[STATE_DATA] as DataState;
-  const ui = state[STATE_UI] as UiState;
-  const { loggedIn } = state[STATE_HELPER] as HelperState;
-
-  if (!loggedIn) {
-    return {
-      contents: [],
-    };
-  }
-
-  const generatedCardList = generateCardList(
-    data,
-    data.lastUpdateTime,
-    ui.cardTypeFilter,
-    ui.cardCourseFilter,
-    ui.titleFilter,
+        {canLoadMore && (
+          // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+          <div className={styles.card_list_load_more} onClick={() => dispatch(loadMoreCard())}>
+            {t('Common_LoadMore')}
+          </div>
+        )}
+      </List>
+    </div>
   );
-
-  let unreadFileCount = 0;
-
-  generatedCardList.contents.forEach((c) => {
-    if (c.type === ContentType.FILE && !c.hasRead) {
-      unreadFileCount += 1;
-    }
-  });
-
-  return {
-    type: ui.cardTypeFilter,
-    course: ui.cardCourseFilter,
-    ...generatedCardList,
-    unreadFileCount,
-    threshold: ui.cardVisibilityThreshold,
-  };
 };
 
-const mapDispatchToProps = (dispatch): Partial<CardListProps> => ({
-  loadMore: () => {
-    dispatch(loadMoreCard());
-  },
-  downloadAllUnread: (contents: ContentInfo[]) => {
-    dispatch(downloadAllUnreadFiles(contents));
-  },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(CardList);
+export default CardList;

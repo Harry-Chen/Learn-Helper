@@ -147,16 +147,16 @@
     "message": "答案内容："
   },
   "Content_Homework_Attachment": {
-    "message": "作业附件"
+    "message": "作业附件："
   },
   "Content_Homework_AttachmentPreview": {
-    "message": "作业附件预览"
+    "message": "作业附件预览："
   },
   "Content_Homework_Deadline": {
     "message": "截止时间："
   },
   "Content_Homework_Detail": {
-    "message": "作业详情"
+    "message": "作业详情："
   },
   "Content_Homework_Grade": {
     "message": "成绩："

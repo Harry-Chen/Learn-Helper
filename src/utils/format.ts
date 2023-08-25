@@ -1,4 +1,4 @@
-import { SemesterInfo, SemesterType, FailReason } from 'thu-learn-lib/lib/types';
+import { type SemesterInfo, SemesterType, FailReason } from 'thu-learn-lib/lib/types';
 import { t } from './i18n';
 
 export function formatSemester(semester: SemesterInfo): string {
@@ -84,16 +84,12 @@ export function failReasonToString(reason: FailReason): string {
   return FAIL_REASON_MAPPING[reason] ?? FAIL_REASON_MAPPING.UNKNOWN;
 }
 
-export const addCSRFTokenToIframeUrl = (csrfToken: string, url?: string): string | undefined => {
-  if (url === undefined) {
-    return undefined;
+export const addCSRFTokenToIframeUrl = (csrfToken: string, url): string => {
+  const param = `__LEARN_HELPER_CSRF_TOKEN_PARAM__=${csrfToken}`;
+  if (url.includes('?')) {
+    url += `&${param}`;
   } else {
-    const param = `__LEARN_HELPER_CSRF_TOKEN_PARAM__=${csrfToken}`;
-    if (url.includes('?')) {
-      url += `&${param}`;
-    } else {
-      url += `?${param}`;
-    }
-    return url;
+    url += `?${param}`;
   }
+  return url;
 };

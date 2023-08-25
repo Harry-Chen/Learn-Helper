@@ -9,7 +9,7 @@ export const cipher = (salt: string) => (text: string) =>
 
 export const decipher = (salt: string) => (encoded: string) =>
   encoded
-    .match(/.{1,2}/g)
+    .match(/.{1,2}/g)!
     .map((hex) => parseInt(hex, 16))
     .map(applySaltToChar(salt))
     .map((charCode) => String.fromCharCode(charCode))

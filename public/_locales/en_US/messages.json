@@ -147,16 +147,16 @@
     "message": "Answer content:"
   },
   "Content_Homework_Attachment": {
-    "message": "Homework attachment"
+    "message": "Homework attachment: "
   },
   "Content_Homework_AttachmentPreview": {
-    "message": "Homework attachment preview"
+    "message": "Homework attachment preview:"
   },
   "Content_Homework_Deadline": {
     "message": "Deadline:"
   },
   "Content_Homework_Detail": {
-    "message": "Homework detail"
+    "message": "Homework detail:"
   },
   "Content_Homework_Grade": {
     "message": "Grade:"

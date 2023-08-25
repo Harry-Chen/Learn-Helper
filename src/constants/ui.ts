@@ -1,16 +1,16 @@
-import { IconName } from '@fortawesome/fontawesome-common-types';
+import type { IconName } from '@fortawesome/fontawesome-common-types';
 
-import { Dispatch } from 'redux';
 import { ContentType } from 'thu-learn-lib/lib/types';
-import { IMenuItem, IMenuItemEnum } from '../types/ui';
-import { refresh } from '../redux/actions/helper';
+import type { IMenuItem, IMenuItemEnum } from '../types/ui';
 import {
+  refresh,
   showContentIgnoreSetting,
   toggleClearDataDialog,
   toggleLogoutDialog,
   toggleChangeSemesterDialog,
-} from '../redux/actions/ui';
-import { markAllRead } from '../redux/actions/data';
+  markAllRead,
+} from '../redux/actions';
+import type { AppDispatch } from '../redux/store';
 import { t } from '../utils/i18n';
 
 export const COURSE_MAIN_FUNC: {
@@ -146,42 +146,42 @@ const SETTINGS_FUNC: IMenuItemEnum = {
   SETTINGS_IGNORE: {
     icon: 'ban',
     name: t('Settings_ManageIgnored'),
-    handler: (dispatch: Dispatch<any>) => {
+    handler: (dispatch: AppDispatch) => {
       dispatch(showContentIgnoreSetting());
     },
   },
   SETTINGS_MARK_READ: {
     icon: 'envelope-open',
     name: t('Settings_MarkAllAsRead'),
-    handler: (dispatch: Dispatch<any>) => {
+    handler: (dispatch: AppDispatch) => {
       dispatch(markAllRead());
     },
   },
   SETTINGS_REFRESH: {
     icon: 'sync',
     name: t('Settings_Refresh'),
-    handler: (dispatch: Dispatch<any>) => {
+    handler: (dispatch: AppDispatch) => {
       dispatch(refresh());
     },
   },
   SETTINGS_CHANGE_SEMESTER: {
     icon: 'random',
     name: t('ChangeSemesterDialog_Title'),
-    handler: (dispatch: Dispatch<any>) => {
+    handler: (dispatch: AppDispatch) => {
       dispatch(toggleChangeSemesterDialog(true));
     },
   },
   SETTINGS_CHANGE_USER: {
     icon: 'user',
     name: t('LogoutDialog_Title'),
-    handler: (dispatch: Dispatch<any>) => {
+    handler: (dispatch: AppDispatch) => {
       dispatch(toggleLogoutDialog(true));
     },
   },
   SETTINGS_CLEAR_CACHE: {
     icon: 'trash',
     name: t('Settings_ClearCache'),
-    handler: (dispatch: Dispatch<any>) => {
+    handler: (dispatch: AppDispatch) => {
       dispatch(toggleClearDataDialog(true));
     },
   },

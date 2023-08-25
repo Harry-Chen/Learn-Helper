@@ -1,36 +1,28 @@
 import React from 'react';
-import Iframe from 'react-iframe';
-import { connect } from 'react-redux';
 
-import { IUiStateSlice, STATE_UI, STATE_HELPER } from '../redux/reducers';
-import { UiState } from '../redux/reducers/ui';
-import { HelperState } from '../redux/reducers/helper';
-import { DetailPaneProps } from '../types/ui';
-import { addCSRFTokenToIframeUrl } from '../utils/format';
+import { useAppSelector } from '../redux/hooks';
 
 import ContentIgnoreSetting from './ContentIgnoreSetting';
 import ContentDetail from './ContentDetail';
 
 import styles from '../css/main.module.css';
+import IframeWrapper from './IframeWrapper';
 
-class DetailPane extends React.PureComponent<DetailPaneProps, { frameUrl?: string }> {
-  public render() {
-    if (this.props.showIgnoreSettings) {
+const DetailPane = () => {
+  const detailPane = useAppSelector((state) => state.ui.detailPane);
+  const content = useAppSelector((state) =>
+    detailPane.type === 'content'
+      ? state.data[`${detailPane.contentType}Map`][detailPane.contentId]
+      : undefined,
+  );
+
+  if (detailPane.type === 'page') {
+    if (detailPane.page === 'content-ignore-setting') {
       return <ContentIgnoreSetting />;
     }
-    if (this.props.content !== undefined) {
-      return <ContentDetail content={this.props.content} csrfToken={this.props.csrfToken} />;
-    }
-
-    // When prop `url` is changed, first remove the IFrame label and then recreate it,
-    // rather than reuse the old one.
-    const shouldRemoveIframeFirst = this.props.url && this.state?.frameUrl !== this.props.url;
-    if (shouldRemoveIframeFirst) {
-      if (shouldRemoveIframeFirst) {
-        setTimeout(() => this.setState({ frameUrl: this.props.url }), 100);
-      }
-    }
-
+  } else if (detailPane.type === 'content' && content) {
+    return <ContentDetail content={content} />;
+  } else if (detailPane.type === 'url')
     return (
       <section
         style={{
@@ -39,27 +31,9 @@ class DetailPane extends React.PureComponent<DetailPaneProps, { frameUrl?: strin
           position: 'relative',
         }}
       >
-        {!shouldRemoveIframeFirst ? (
-          <Iframe
-            id="content-frame"
-            className={styles.web_frame}
-            url={addCSRFTokenToIframeUrl(this.props.csrfToken, this.state?.frameUrl)}
-          />
-        ) : null}
+        <IframeWrapper id="content-frame" className={styles.web_frame} url={detailPane.url} />
       </section>
     );
-  }
-}
-
-const mapStateToProps = (state: IUiStateSlice): DetailPaneProps => {
-  const uiState = state[STATE_UI] as UiState;
-  const helperState = state[STATE_HELPER] as HelperState;
-  return {
-    url: uiState.detailUrl,
-    content: uiState.detailContent,
-    showIgnoreSettings: uiState.showContentIgnoreSetting,
-    csrfToken: helperState.helper.getCSRFToken(),
-  };
 };
 
-export default connect(mapStateToProps)(DetailPane);
+export default DetailPane;

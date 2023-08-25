@@ -31,6 +31,4 @@ export const helperSlice = createSlice({
   },
 });
 
-export const { loggedIn, loggedOut } = helperSlice.actions;
-
 export default helperSlice.reducer;

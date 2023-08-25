@@ -6,39 +6,71 @@ import {
   SemesterType,
 } from 'thu-learn-lib/lib/types';
 import type { ThunkAction, AnyAction } from '@reduxjs/toolkit';
-import { i18n } from 'webextension-polyfill';
+import { i18n, storage } from 'webextension-polyfill';
+import { compare as compareVersion } from 'compare-versions';
 
 import type { ContentInfo, FileInfo } from '../types/data';
-import { SnackbarType } from '../types/dialogs';
+import { SnackbarType } from '../types/ui';
 import { initiateFileDownload } from '../utils/download';
 import { failReasonToString } from '../utils/format';
 import { t } from '../utils/i18n';
 import { getStoredCredential, storeCredential } from '../utils/storage';
+import { STORAGE_KEY_REDUX, STORAGE_KEY_VERSION } from '../constants';
+import { version as currentVersion } from '../../package.json';
 
+import { dataSlice } from './reducers/data';
+import { helperSlice } from './reducers/helper';
+import { uiSlice } from './reducers/ui';
 import type { RootState } from './store';
-import {
-  loginEnd,
-  setLoadingProgress,
-  showSnackbar,
-  toggleLoadingProgressBar,
-  toggleLoginDialogProgress,
-  toggleNetworkErrorDialog,
-  toggleNewSemesterDialog,
-} from './reducers/ui';
-import { loggedIn } from './reducers/helper';
-import {
-  updateSemesterList,
+import { selectContentIgnore, selectDataLists } from './selectors';
+
+export const {
   newSemester,
+  insistSemester,
+  updateSemesterList,
   updateSemester,
+  syncSemester,
   updateCourses,
   updateNotification,
-  updateHomework,
   updateFile,
+  updateHomework,
   updateDiscussion,
   updateQuestion,
   updateFinished,
   toggleReadState,
-} from './reducers/data';
+  toggleStarState,
+  toggleIgnoreState,
+  toggleContentIgnore,
+  resetContentIgnore,
+  markAllRead,
+  clearAllData,
+  clearFetchedData,
+  loadData,
+} = dataSlice.actions;
+export const { loggedIn, loggedOut } = helperSlice.actions;
+export const {
+  setLoadingProgress,
+  togglePaneHidden,
+  setSnackbar,
+  toggleLoginDialog,
+  toggleLoginDialogProgress,
+  loginEnd,
+  toggleNetworkErrorDialog,
+  toggleNewSemesterDialog,
+  toggleIgnoreWrongSemester,
+  toggleLogoutDialog,
+  toggleClearDataDialog,
+  toggleChangeSemesterDialog,
+  resetCardVisibilityThreshold,
+  loadMoreCard,
+  setCardListTitle,
+  setCardList,
+  setCardFilter,
+  setDetailUrl,
+  setDetailContent,
+  showContentIgnoreSetting,
+  setTitleFilter,
+} = uiSlice.actions;
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, AnyAction>;
 
@@ -46,7 +78,7 @@ export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unk
 // 1. silent login when starting, then NetworkErrorDialog should be shown
 // 2. explicit login in LoginDialog, then login dialog should still be shown
 export const login =
-  (username: string, password: string, save: boolean): AppThunk =>
+  (username: string, password: string, save: boolean): AppThunk<Promise<void>> =>
   async (dispatch, getState) => {
     dispatch(toggleLoginDialogProgress(true));
     const helperState = getState().helper;
@@ -64,7 +96,7 @@ export const login =
     } catch (e) {
       const error = e as ApiError;
       dispatch(
-        showSnackbar({
+        setSnackbar({
           content: t('Snackbar_LoginFailed', [
             (failReasonToString(error?.reason) ?? error).toString() ?? t('Snackbar_UnknownError'),
           ]),
@@ -77,7 +109,7 @@ export const login =
 
     // login succeeded
     // hide login dialog (if shown), show success notice
-    dispatch(showSnackbar({ content: t('Snackbar_LoginSuccess'), type: SnackbarType.SUCCESS }));
+    dispatch(setSnackbar({ content: t('Snackbar_LoginSuccess'), type: SnackbarType.SUCCESS }));
     // save salted user credential if asked
     if (save) {
       await storeCredential(username, password);
@@ -97,7 +129,7 @@ export const login =
     } catch (e) {
       const error = e as ApiError;
       dispatch(
-        showSnackbar({
+        setSnackbar({
           content: t('Snackbar_SetLangFailed', [
             (failReasonToString(error?.reason) ?? error).toString() ?? t('Snackbar_UnknownError'),
           ]),
@@ -108,20 +140,18 @@ export const login =
     return Promise.resolve();
   };
 
-export const refreshIfNeeded = (): AppThunk => (dispatch, getState) => {
+export const refreshIfNeeded = (): AppThunk<Promise<void>> => async (dispatch, getState) => {
   const data = getState().data;
   const justUpdated = new Date().getTime() - data.lastUpdateTime.getTime() <= 15 * 60 * 1000;
   if (data.updateFinished && justUpdated) {
-    dispatch(
-      showSnackbar({ content: t('Snackbar_NotRefreshed'), type: SnackbarType.NOTIFICATION }),
-    );
+    dispatch(setSnackbar({ content: t('Snackbar_NotRefreshed'), type: SnackbarType.NOTIFICATION }));
+    dispatch(refreshCardList());
   } else {
-    dispatch(refresh());
+    await dispatch(refresh());
   }
 };
 
-export const refresh = (): AppThunk => async (dispatch, getState) => {
-  dispatch(toggleLoadingProgressBar(true));
+export const refresh = (): AppThunk<Promise<void>> => async (dispatch, getState) => {
   dispatch(setLoadingProgress(0));
   const helperState = getState().helper;
   const helper = helperState.helper;
@@ -131,7 +161,7 @@ export const refresh = (): AppThunk => async (dispatch, getState) => {
   const progresses = [0, 10, 20, 38, 52, 68, 84, 100];
   const nextProgress = () => {
     const uiState = getState().ui;
-    const currentProgress = uiState.loadingProgress;
+    const currentProgress = uiState.loadingProgress!;
     const index = progresses.indexOf(currentProgress);
     let nextProgress = 100;
     if (index >= 0 && index < progresses.length) {
@@ -179,7 +209,7 @@ export const refresh = (): AppThunk => async (dispatch, getState) => {
     nextProgress();
   } catch (e) {
     console.error(e);
-    dispatch(toggleLoadingProgressBar(false));
+    dispatch(setLoadingProgress());
     dispatch(toggleNetworkErrorDialog(true));
     return;
   }
@@ -244,34 +274,88 @@ export const refresh = (): AppThunk => async (dispatch, getState) => {
   );
   const allSuccess = failures.length == 0;
   if (allSuccess) {
-    dispatch(showSnackbar({ content: t('Snackbar_UpdateSuccess'), type: SnackbarType.SUCCESS }));
+    dispatch(setSnackbar({ content: t('Snackbar_UpdateSuccess'), type: SnackbarType.SUCCESS }));
   } else {
     dispatch(
-      showSnackbar({ content: t('Snackbar_UpdatePartialSuccess'), type: SnackbarType.WARNING }),
+      setSnackbar({ content: t('Snackbar_UpdatePartialSuccess'), type: SnackbarType.WARNING }),
     );
     console.warn('Failures occurred in fetching data', failures);
   }
 
   // finish refreshing
   dispatch(updateFinished());
+  dispatch(refreshCardList());
 
   // wait some time before hiding progress bar
-  new Promise((resolve) => {
+  new Promise<void>((resolve) => {
     setTimeout(() => {
-      dispatch(toggleLoadingProgressBar(false));
-      resolve(null); // to make tsc happy
+      dispatch(setLoadingProgress());
+      resolve();
     }, 1000);
   });
 };
 
+const compareBoolean = (a: boolean, b: boolean) => {
+  if (a === b) return 0;
+  if (a) return -1;
+  if (b) return 1;
+};
+
+export const refreshCardList = (): AppThunk<void> => (dispatch, getState) => {
+  const state = getState();
+  const data = selectDataLists(state);
+  const contentIgnore = selectContentIgnore(state);
+  const { type, courseId } = state.ui.cardFilter;
+
+  let contents: ContentInfo[];
+  if (type) {
+    contents = data[`${type}List`].slice(0);
+  } else {
+    contents = ([] as ContentInfo[]).concat(
+      data.notificationList,
+      data.fileList,
+      data.homeworkList,
+      data.discussionList,
+      data.questionList,
+    );
+  }
+
+  dispatch(
+    setCardList(
+      contents
+        .filter((c) =>
+          type === null
+            ? c.ignored
+            : courseId
+            ? c.courseId === courseId
+            : !contentIgnore[c.courseId]?.[c.type] && !c.ignored,
+        )
+        .sort((a, b) => {
+          const aNotDue =
+            a.type === ContentType.HOMEWORK && a.date.getTime() > new Date().getTime();
+          const bNotDue =
+            b.type === ContentType.HOMEWORK && b.date.getTime() > new Date().getTime();
+          return (
+            compareBoolean(a.starred, b.starred) ||
+            compareBoolean(!a.hasRead, !b.hasRead) ||
+            compareBoolean(aNotDue, bNotDue) ||
+            (a.date.getTime() - b.date.getTime()) * (aNotDue && bNotDue ? 1 : -1)
+          );
+        })
+        .map(({ type, id }) => ({ type, id })),
+    ),
+  );
+  dispatch(resetCardVisibilityThreshold());
+};
+
 export const downloadAllUnreadFiles =
-  (contents: ContentInfo[]): AppThunk =>
+  (contents: ContentInfo[]): AppThunk<Promise<void>> =>
   async (dispatch, getState) => {
     const helper = getState().helper.helper;
     try {
       await helper.getSemesterIdList();
     } catch (e) {
-      dispatch(showSnackbar({ content: '登录已过期，请刷新后重试', type: SnackbarType.ERROR }));
+      dispatch(setSnackbar({ content: '登录已过期，请刷新后重试', type: SnackbarType.ERROR }));
       return;
     }
     for (const c of contents) {
@@ -282,3 +366,75 @@ export const downloadAllUnreadFiles =
       }
     }
   };
+
+export const loadApp = (): AppThunk<Promise<void>> => async (dispatch) => {
+  const { [STORAGE_KEY_VERSION]: oldVersion, [STORAGE_KEY_REDUX]: oldData } =
+    await storage.local.get([STORAGE_KEY_VERSION, STORAGE_KEY_REDUX]);
+
+  if (oldVersion === undefined) {
+    // migrate from version < 4.0.0 or newly installed, clearing all data
+    console.info('Migrating from legacy version, all data cleaned');
+    await storage.local.clear();
+    await storage.local.set({
+      [STORAGE_KEY_VERSION]: currentVersion,
+    });
+    dispatch(setDetailUrl('src/readme.html'));
+    dispatch(setSnackbar({ content: t('Migration_AllDataCleared'), type: SnackbarType.WARNING }));
+  } else if (oldVersion !== currentVersion) {
+    // for future migration
+    dispatch(setDetailUrl('src/changelog.html'));
+    // set stored version to current one
+    console.info(`Migrating from version ${oldVersion} to ${currentVersion}`);
+    await storage.local.set({
+      [STORAGE_KEY_VERSION]: currentVersion,
+    });
+
+    // migrate from < 4.5, clearing all data except credential & config
+    if (compareVersion(oldVersion, '4.5.0', '<')) {
+      dispatch(clearFetchedData());
+      dispatch(
+        setSnackbar({ content: t('Migration_FetchedDataCleared'), type: SnackbarType.WARNING }),
+      );
+    } else {
+      // TODO: migration
+      dispatch(setSnackbar({ content: t('Migration_Migrated'), type: SnackbarType.NOTIFICATION }));
+    }
+  } else {
+    console.info('Migration not necessary.');
+
+    if (oldData !== undefined) {
+      try {
+        dispatch(
+          loadData(
+            JSON.parse(oldData, (key, value) => {
+              if (key === 'date' || key === 'deadline' || key.endsWith('Time'))
+                return new Date(value);
+              return value;
+            }),
+          ),
+        );
+        dispatch(refreshCardList());
+      } catch (e) {
+        // skip loading
+      }
+    }
+  }
+
+  dispatch(tryLoginSilently());
+};
+
+export const tryLoginSilently = (): AppThunk<Promise<void>> => async (dispatch) => {
+  const credential = await getStoredCredential();
+  if (!credential) {
+    dispatch(toggleLoginDialog(true));
+    return;
+  }
+  try {
+    await dispatch(login(credential.username, credential.password, false));
+    await dispatch(refreshIfNeeded());
+  } catch (e) {
+    // here we catch only login problems
+    // for refresh() has a try-catch block in itself
+    dispatch(toggleNetworkErrorDialog(true));
+  }
+};

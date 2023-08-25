@@ -1,17 +1,43 @@
-import { ContentType, type CourseInfo } from 'thu-learn-lib/lib/types';
+import { ContentType } from 'thu-learn-lib/lib/types';
 import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-import { SnackbarType } from '../../types/dialogs';
 import { CARD_BATCH_LOAD_SIZE } from '../../constants';
 import { type ContentInfo } from '../../types/data';
+import type { SnackbarType } from '../../types/ui';
+
+interface SnackbarState {
+  type: SnackbarType;
+  content: string;
+}
+
+interface CardEntry {
+  type: ContentType;
+  id: string;
+}
+interface CardFilter {
+  type?: ContentType | null;
+  courseId?: string;
+}
+
+interface DetailPaneUrl {
+  type: 'url';
+  url: string;
+}
+interface DetailPaneContent {
+  type: 'content';
+  contentType: ContentType;
+  contentId: string;
+}
+interface DetailPanePage {
+  type: 'page';
+  page: 'content-ignore-setting';
+}
+type DetailPane = DetailPaneUrl | DetailPaneContent | DetailPanePage;
 
 export interface UiState {
-  showLoadingProgressBar: boolean;
-  loadingProgress: number;
+  loadingProgress?: number;
   paneHidden: boolean;
-  showSnackbar: boolean;
-  snackbarContent: string;
-  snackbarType: SnackbarType;
+  snackbar?: SnackbarState;
   showLoginDialog: boolean;
   inLoginProgress: boolean;
   showNetworkErrorDialog: boolean;
@@ -20,23 +46,18 @@ export interface UiState {
   ignoreWrongSemester: boolean;
   showLogoutDialog: boolean;
   showClearDataDialog: boolean;
-  cardTypeFilter?: ContentType;
   cardVisibilityThreshold: number;
-  cardCourseFilter?: CourseInfo;
   cardListTitle: string;
-  detailUrl: string;
-  detailContent?: ContentInfo;
-  showContentIgnoreSetting: boolean;
+  cardList: CardEntry[];
+  cardFilter: CardFilter;
+  detailPane: DetailPane;
   titleFilter?: string;
 }
 
 const initialState: UiState = {
-  showLoadingProgressBar: false,
-  loadingProgress: 0,
+  loadingProgress: undefined,
   paneHidden: false,
-  showSnackbar: false,
-  snackbarContent: '',
-  snackbarType: SnackbarType.NOTIFICATION,
+  snackbar: undefined,
   showLoginDialog: false,
   inLoginProgress: false,
   showNetworkErrorDialog: false,
@@ -45,13 +66,11 @@ const initialState: UiState = {
   showLogoutDialog: false,
   showClearDataDialog: false,
   showChangeSemesterDialog: false,
-  cardTypeFilter: undefined,
   cardVisibilityThreshold: CARD_BATCH_LOAD_SIZE,
-  cardCourseFilter: undefined,
   cardListTitle: '主页',
-  detailUrl: 'src/welcome.html',
-  detailContent: undefined,
-  showContentIgnoreSetting: false,
+  cardList: [],
+  cardFilter: {},
+  detailPane: { type: 'url', url: 'src/welcome.html' },
   titleFilter: undefined,
 };
 
@@ -59,26 +78,14 @@ export const uiSlice = createSlice({
   name: 'ui',
   initialState,
   reducers: {
-    toggleLoadingProgressBar: (state, action: PayloadAction<boolean>) => {
-      state.showLoadingProgressBar = action.payload;
-    },
-    setLoadingProgress: (state, action: PayloadAction<number>) => {
+    setLoadingProgress: (state, action: PayloadAction<number | undefined>) => {
       state.loadingProgress = action.payload;
     },
-    togglePane: (state, action: PayloadAction<boolean>) => {
+    togglePaneHidden: (state, action: PayloadAction<boolean>) => {
       state.paneHidden = action.payload;
     },
-    toggleSnackbar: (state, action: PayloadAction<boolean>) => {
-      state.showSnackbar = action.payload;
-    },
-    setSnackbar: (state, action: PayloadAction<{ type: SnackbarType; content: string }>) => {
-      state.snackbarType = action.payload.type;
-      state.snackbarContent = action.payload.content;
-    },
-    showSnackbar: (state, action: PayloadAction<{ type: SnackbarType; content: string }>) => {
-      state.snackbarType = action.payload.type;
-      state.snackbarContent = action.payload.content;
-      state.showSnackbar = true;
+    setSnackbar: (state, action: PayloadAction<SnackbarState | undefined>) => {
+      state.snackbar = action.payload;
     },
     toggleLoginDialog: (state, action: PayloadAction<boolean>) => {
       state.showLoginDialog = action.payload;
@@ -108,9 +115,7 @@ export const uiSlice = createSlice({
     toggleChangeSemesterDialog: (state, action: PayloadAction<boolean>) => {
       state.showChangeSemesterDialog = action.payload;
     },
-    setCardFilter: (state, action: PayloadAction<{ type?: ContentType; course?: CourseInfo }>) => {
-      state.cardTypeFilter = action.payload.type;
-      state.cardCourseFilter = action.payload.course;
+    resetCardVisibilityThreshold: (state) => {
       state.cardVisibilityThreshold = CARD_BATCH_LOAD_SIZE;
     },
     loadMoreCard: (state) => {
@@ -119,47 +124,32 @@ export const uiSlice = createSlice({
     setCardListTitle: (state, action: PayloadAction<string>) => {
       state.cardListTitle = action.payload;
     },
+    setCardList: (state, action: PayloadAction<CardEntry[]>) => {
+      state.cardList = action.payload;
+    },
+    setCardFilter: (state, action: PayloadAction<CardFilter>) => {
+      state.cardFilter = action.payload;
+    },
     setDetailUrl: (state, action: PayloadAction<string>) => {
-      state.detailUrl = action.payload;
-      state.detailContent = undefined;
-      state.showContentIgnoreSetting = false;
+      state.detailPane = { type: 'url', url: action.payload };
     },
     setDetailContent: (state, action: PayloadAction<ContentInfo>) => {
-      state.detailContent = action.payload;
-      state.showContentIgnoreSetting = false;
+      state.detailPane = {
+        type: 'content',
+        contentType: action.payload.type,
+        contentId: action.payload.id,
+      };
     },
     showContentIgnoreSetting: (state) => {
-      state.showContentIgnoreSetting = true;
+      state.detailPane = {
+        type: 'page',
+        page: 'content-ignore-setting',
+      };
     },
-    setTitleFilter: (state, action: PayloadAction<string>) => {
+    setTitleFilter: (state, action: PayloadAction<string | undefined>) => {
       state.titleFilter = action.payload;
     },
   },
 });
-
-export const {
-  toggleLoadingProgressBar,
-  setLoadingProgress,
-  togglePane,
-  toggleSnackbar,
-  setSnackbar,
-  showSnackbar,
-  toggleLoginDialog,
-  toggleLoginDialogProgress,
-  loginEnd,
-  toggleNetworkErrorDialog,
-  toggleNewSemesterDialog,
-  toggleIgnoreWrongSemester,
-  toggleLogoutDialog,
-  toggleClearDataDialog,
-  toggleChangeSemesterDialog,
-  setCardFilter,
-  loadMoreCard,
-  setCardListTitle,
-  setDetailUrl,
-  setDetailContent,
-  showContentIgnoreSetting,
-  setTitleFilter,
-} = uiSlice.actions;
 
 export default uiSlice.reducer;
