@@ -39,7 +39,7 @@ import { faCircleHalfStroke } from '@fortawesome/free-solid-svg-icons/faCircleHa
 import { faSun } from '@fortawesome/free-solid-svg-icons/faSun';
 import { faMoon } from '@fortawesome/free-solid-svg-icons/faMoon';
 
-const ICON_TO_USE = [
+library.add(
   faThumbtack,
   faHome,
   faPencilAlt,
@@ -78,6 +78,4 @@ const ICON_TO_USE = [
   faCircleHalfStroke,
   faSun,
   faMoon,
-];
-
-ICON_TO_USE.map((i) => library.add(i));
+);

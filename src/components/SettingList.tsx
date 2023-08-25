@@ -7,7 +7,6 @@ import { SETTINGS_FUNC_LIST } from '../constants/ui';
 import { t } from '../utils/i18n';
 import { useAppDispatch } from '../redux/hooks';
 
-import '../constants/fontAwesome';
 import styles from '../css/list.module.css';
 
 const SettingList = () => {

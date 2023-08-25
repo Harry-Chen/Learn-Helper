@@ -7,6 +7,7 @@ import {
   experimental_extendTheme as extendTheme,
 } from '@mui/material';
 
+import './fontAwesome';
 import { store } from './redux/store';
 import App from './components/App';
 

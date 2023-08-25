@@ -16,7 +16,6 @@ import { refreshCardList, setCardFilter, setCardListTitle } from '../redux/actio
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { t } from '../utils/i18n';
 
-import '../constants/fontAwesome';
 import styles from '../css/list.module.css';
 import { selectUnreadMap } from '../redux/selectors';
 

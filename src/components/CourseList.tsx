@@ -16,7 +16,6 @@ import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { selectCourseList } from '../redux/selectors';
 import { t } from '../utils/i18n';
 
-import '../constants/fontAwesome';
 import styles from '../css/list.module.css';
 
 const CourseList = () => {
