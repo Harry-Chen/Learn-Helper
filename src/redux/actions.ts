@@ -355,7 +355,7 @@ export const downloadAllUnreadFiles =
     try {
       await helper.getSemesterIdList();
     } catch (e) {
-      dispatch(setSnackbar({ content: '登录已过期，请刷新后重试', type: SnackbarType.ERROR }));
+      dispatch(setSnackbar({ content: t('Snackbar_Expired'), type: SnackbarType.ERROR }));
       return;
     }
     for (const c of contents) {

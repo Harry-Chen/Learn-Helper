@@ -413,6 +413,9 @@
   "Settings_SwitchColorMode": {
     "message": "Switch color mode"
   },
+  "Snackbar_Expired": {
+    "message": "Login has expired, please refresh and try again."
+  },
   "Snackbar_LoginFailed": {
     "message": "Failed to login: "
   },

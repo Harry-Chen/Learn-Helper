@@ -413,6 +413,9 @@
   "Settings_SwitchColorMode": {
     "message": "切换颜色主题"
   },
+  "Snackbar_Expired": {
+    "message": "登录已过期，请刷新后重试"
+  },
   "Snackbar_LoginFailed": {
     "message": "登录失败：$1"
   },
