@@ -245,7 +245,7 @@ const App = () => {
                 <Toolbar className={styles.sidebar_header_left}>
                   <IconButton
                     className={classnames(styles.app_bar_btn)}
-                    onClick={() => dispatch(togglePaneHidden(false))}
+                    onClick={() => dispatch(togglePaneHidden(true))}
                     size="large"
                   >
                     <FontAwesomeIcon icon="angle-left" />
