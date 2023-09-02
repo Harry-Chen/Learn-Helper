@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import webExtension from '@samrum/vite-plugin-web-extension';
 import { visualizer } from 'rollup-plugin-visualizer';
+import stripBanner from 'rollup-plugin-strip-banner';
 import Randomstring from 'randomstring';
 import { execSync } from 'node:child_process';
 import path from 'node:path';
@@ -47,6 +48,7 @@ export default defineConfig(async () => {
         },
         useDynamicUrlWebAccessibleResources: process.env.BROWSER !== 'firefox',
       }),
+      stripBanner({}),
       visualizer(),
     ],
     resolve: {
