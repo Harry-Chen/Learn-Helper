@@ -68,7 +68,7 @@ export const {
   setCardFilter,
   setDetailUrl,
   setDetailContent,
-  showContentIgnoreSetting,
+  setDetailPage,
   setTitleFilter,
 } = uiSlice.actions;
 
@@ -378,11 +378,11 @@ export const loadApp = (): AppThunk<Promise<void>> => async (dispatch) => {
     await storage.local.set({
       [STORAGE_KEY_VERSION]: currentVersion,
     });
-    dispatch(setDetailUrl('src/readme.html'));
+    dispatch(setDetailPage('readme'));
     dispatch(setSnackbar({ content: t('Migration_AllDataCleared'), type: SnackbarType.WARNING }));
   } else if (oldVersion !== currentVersion) {
     // for future migration
-    dispatch(setDetailUrl('src/changelog.html'));
+    dispatch(setDetailPage('changelog'));
     // set stored version to current one
     console.info(`Migrating from version ${oldVersion} to ${currentVersion}`);
     await storage.local.set({

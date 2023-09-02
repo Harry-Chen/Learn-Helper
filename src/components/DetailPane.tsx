@@ -2,11 +2,15 @@ import React from 'react';
 
 import { useAppSelector } from '../redux/hooks';
 
-import ContentIgnoreSetting from './ContentIgnoreSetting';
 import ContentDetail from './ContentDetail';
+import IframeWrapper from './IframeWrapper';
+import ContentIgnoreSetting from './pages/ContentIgnoreSetting';
+import About from './pages/About';
+import ChangeLog from './pages/ChangeLog';
+import Readme from './pages/Readme';
+import Welcome from './pages/Welcome';
 
 import styles from '../css/main.module.css';
-import IframeWrapper from './IframeWrapper';
 
 const DetailPane = () => {
   const detailPane = useAppSelector((state) => state.ui.detailPane);
@@ -17,8 +21,17 @@ const DetailPane = () => {
   );
 
   if (detailPane.type === 'page') {
-    if (detailPane.page === 'content-ignore-setting') {
-      return <ContentIgnoreSetting />;
+    switch (detailPane.page) {
+      case 'content-ignore-setting':
+        return <ContentIgnoreSetting />;
+      case 'about':
+        return <About />;
+      case 'changelog':
+        return <ChangeLog />;
+      case 'readme':
+        return <Readme />;
+      case 'welcome':
+        return <Welcome />;
     }
   } else if (detailPane.type === 'content' && content) {
     return <ContentDetail content={content} />;

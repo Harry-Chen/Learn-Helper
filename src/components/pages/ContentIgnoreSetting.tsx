@@ -12,11 +12,11 @@ import {
   Switch,
 } from '@mui/material';
 
-import styles from '../css/page.module.css';
-import { resetContentIgnore, toggleContentIgnore } from '../redux/actions';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { COURSE_FUNC } from '../constants/ui';
-import { t, tr } from '../utils/i18n';
+import styles from '../../css/page.module.css';
+import { resetContentIgnore, toggleContentIgnore } from '../../redux/actions';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { COURSE_FUNC } from '../../constants/ui';
+import { t, tr } from '../../utils/i18n';
 
 const ContentIgnoreSetting = () => {
   const dispatch = useAppDispatch();

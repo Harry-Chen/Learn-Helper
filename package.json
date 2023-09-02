@@ -50,6 +50,7 @@
     "@reduxjs/toolkit": "^1.9.5",
     "classnames": "^2.3.2",
     "compare-versions": "^6.0.0",
+    "fake-parse5": "^0.0.1",
     "material-ui-popup-state": "^5.0.9",
     "proxy-memoize": "^2.0.4",
     "react": "^18.2.0",

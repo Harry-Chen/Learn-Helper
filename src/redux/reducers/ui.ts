@@ -28,9 +28,11 @@ interface DetailPaneContent {
   contentType: ContentType;
   contentId: string;
 }
+
+type DetailPage = 'content-ignore-setting' | 'about' | 'changelog' | 'readme' | 'welcome';
 interface DetailPanePage {
   type: 'page';
-  page: 'content-ignore-setting';
+  page: DetailPage;
 }
 type DetailPane = DetailPaneUrl | DetailPaneContent | DetailPanePage;
 
@@ -70,7 +72,7 @@ const initialState: UiState = {
   cardListTitle: '主页',
   cardList: [],
   cardFilter: {},
-  detailPane: { type: 'url', url: 'src/welcome.html' },
+  detailPane: { type: 'page', page: 'welcome' },
   titleFilter: undefined,
 };
 
@@ -140,10 +142,10 @@ export const uiSlice = createSlice({
         contentId: action.payload.id,
       };
     },
-    showContentIgnoreSetting: (state) => {
+    setDetailPage: (state, action: PayloadAction<DetailPage>) => {
       state.detailPane = {
         type: 'page',
-        page: 'content-ignore-setting',
+        page: action.payload,
       };
     },
     setTitleFilter: (state, action: PayloadAction<string | undefined>) => {

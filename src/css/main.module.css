@@ -51,10 +51,8 @@
   background: #f6f6f6;
 }
 
-[data-mui-color-scheme="dark"] {
-  .sidebar_cards {
-    background: #0a0a0a;
-  }
+[data-mui-color-scheme='dark'] .sidebar_cards {
+  background: #0a0a0a;
 }
 
 .sidebar_header {
@@ -167,10 +165,8 @@
   background-color: #eee;
 }
 
-[data-mui-color-scheme="dark"] {
-  .pane_content {
-    background-color: #111;
-  }
+[data-mui-color-scheme='dark'] .pane_content {
+  background-color: #111;
 }
 
 @media (max-width: 1024px) {

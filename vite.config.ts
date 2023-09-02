@@ -43,13 +43,7 @@ export default defineConfig(async () => {
       webExtension({
         manifest: getManifest(process.env.BROWSER === 'firefox') as chrome.runtime.Manifest,
         additionalInputs: {
-          html: [
-            'index.html',
-            'src/about.html',
-            'src/changelog.html',
-            'src/readme.html',
-            'src/welcome.html',
-          ],
+          html: ['index.html'],
         },
         useDynamicUrlWebAccessibleResources: process.env.BROWSER !== 'firefox',
       }),
@@ -58,11 +52,8 @@ export default defineConfig(async () => {
     resolve: {
       alias: {
         '~': path.resolve(__dirname, 'src'),
-        parse5: path.resolve(__dirname, 'node_modules/thu-learn-lib/src/fake-parse5/'),
-        'parse5-htmlparser2-tree-adapter': path.resolve(
-          __dirname,
-          'node_modules/thu-learn-lib/src/fake-parse5/',
-        ),
+        parse5: path.resolve(__dirname, 'node_modules/fake-parse5/'),
+        'parse5-htmlparser2-tree-adapter': path.resolve(__dirname, 'node_modules/fake-parse5/'),
       },
     },
     build: {
@@ -79,7 +70,7 @@ export default defineConfig(async () => {
               'redux-logger',
               'react-redux',
               '@emotion/react',
-              '@fortawesome/react-fontawesome'
+              '@fortawesome/react-fontawesome',
             ],
             'mui-vendor': ['@mui/material'],
           },

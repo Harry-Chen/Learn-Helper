@@ -4,7 +4,7 @@ import { ContentType } from 'thu-learn-lib/lib/types';
 import type { IMenuItem, IMenuItemEnum } from '../types/ui';
 import {
   refresh,
-  showContentIgnoreSetting,
+  setDetailPage,
   toggleClearDataDialog,
   toggleLogoutDialog,
   toggleChangeSemesterDialog,
@@ -147,7 +147,7 @@ const SETTINGS_FUNC: IMenuItemEnum = {
     icon: 'ban',
     name: t('Settings_ManageIgnored'),
     handler: (dispatch: AppDispatch) => {
-      dispatch(showContentIgnoreSetting());
+      dispatch(setDetailPage('content-ignore-setting'));
     },
   },
   SETTINGS_MARK_READ: {
