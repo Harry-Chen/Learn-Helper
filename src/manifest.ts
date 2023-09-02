@@ -10,7 +10,9 @@ export function getManifest(isFirefox = false): Manifest.WebExtensionManifest {
     version: version,
     manifest_version: 3,
     action: {
-      default_icon: 'icons/19.png',
+      default_icon: {
+        '19': 'icons/19.png',
+      },
       default_title: '__MSG_appName__',
     },
     background: isFirefox
@@ -35,10 +37,12 @@ export function getManifest(isFirefox = false): Manifest.WebExtensionManifest {
       '128': 'icons/128.png',
     },
     permissions: ['storage', 'downloads'],
-    browser_specific_settings: {
-      gecko: {
-        update_url: 'https://harrychen.xyz/learn/updates.json',
+    ...(isFirefox && {
+      browser_specific_settings: {
+        gecko: {
+          update_url: 'https://harrychen.xyz/learn/updates.json',
+        },
       },
-    },
+    }),
   };
 }

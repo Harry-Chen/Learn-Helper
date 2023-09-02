@@ -10,7 +10,7 @@
     "url": "https://github.com/Harry-Chen/Learn-Helper"
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "yarn serve:chrome & vite",
     "build:chrome": "vite build",
     "build:firefox": "BROWSER=firefox vite build",
     "serve:chrome": "web-ext run -t chromium --start-url \"https://example.com\" --source-dir ./dist/",
