@@ -10,24 +10,6 @@
   background: url('../image/creampaper_black.png');
 }
 
-.wrapper ::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
-}
-
-.wrapper ::-webkit-scrollbar-thumb {
-  border-radius: 2px;
-  background-color: #999;
-}
-
-.wrapper ::-webkit-scrollbar-button {
-  display: none;
-}
-
-.wrapper ::-webkit-scrollbar-track {
-  background-color: #ddd;
-}
-
 .wrapper a {
   color: #28f;
   text-decoration: none;

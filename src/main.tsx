@@ -8,6 +8,7 @@ import {
 } from '@mui/material';
 
 import './fontAwesome';
+import './css/scrollbar.css';
 import { store } from './redux/store';
 import App from './components/App';
 
