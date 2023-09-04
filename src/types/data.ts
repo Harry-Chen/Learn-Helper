@@ -5,7 +5,7 @@ import {
   type Discussion,
   type Question,
   ContentType,
-} from 'thu-learn-lib/lib/types';
+} from 'thu-learn-lib';
 
 interface ICourseRef {
   courseId: string;

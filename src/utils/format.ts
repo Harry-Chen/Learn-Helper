@@ -1,4 +1,4 @@
-import { type SemesterInfo, SemesterType, FailReason } from 'thu-learn-lib/lib/types';
+import { type SemesterInfo, SemesterType, FailReason } from 'thu-learn-lib';
 import { t } from './i18n';
 
 export function formatSemester(semester: SemesterInfo): string {

@@ -1,7 +1,6 @@
 import React, { useState, type ReactNode } from 'react';
-import { ContentType, type RemoteFile } from 'thu-learn-lib/lib/types';
-
 import { Button, Paper } from '@mui/material';
+import { ContentType, type RemoteFile } from 'thu-learn-lib';
 
 import type { HomeworkInfo, NotificationInfo, FileInfo, ContentInfo } from '../types/data';
 import { formatDateTime } from '../utils/format';

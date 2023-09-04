@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
-
 import { List, Button, ListSubheader } from '@mui/material';
+import { ContentType } from 'thu-learn-lib';
 
 import { downloadAllUnreadFiles, loadMoreCard } from '../redux/actions';
 import { selectFilteredCardList } from '../redux/selectors';
@@ -10,7 +10,6 @@ import { t } from '../utils/i18n';
 
 import styles from '../css/list.module.css';
 import ContentCard from './ContentCard';
-import { ContentType } from 'thu-learn-lib/lib/types';
 
 const CardList = () => {
   const dispatch = useAppDispatch();

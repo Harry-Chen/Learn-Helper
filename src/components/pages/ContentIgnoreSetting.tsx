@@ -1,6 +1,4 @@
 import React from 'react';
-import { ContentType } from 'thu-learn-lib/lib/types';
-
 import {
   Button,
   Table,
@@ -11,6 +9,7 @@ import {
   Paper,
   Switch,
 } from '@mui/material';
+import { ContentType } from 'thu-learn-lib';
 
 import styles from '../../css/page.module.css';
 import { resetContentIgnore, toggleContentIgnore } from '../../redux/actions';

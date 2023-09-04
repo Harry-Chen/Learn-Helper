@@ -1,3 +1,4 @@
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import {
   ContentType,
   type CourseContent,
@@ -5,8 +6,7 @@ import {
   type Homework,
   type SemesterInfo,
   SemesterType,
-} from 'thu-learn-lib/lib/types';
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+} from 'thu-learn-lib';
 
 import {
   type DiscussionInfo,

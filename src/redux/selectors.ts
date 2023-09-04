@@ -1,5 +1,5 @@
 import { memoize } from 'proxy-memoize';
-import { ContentType } from 'thu-learn-lib/lib/types';
+import { ContentType } from 'thu-learn-lib';
 
 import type { ContentInfo } from '../types/data';
 import type { RootState } from './store';

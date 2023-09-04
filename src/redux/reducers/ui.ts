@@ -1,5 +1,5 @@
-import { ContentType } from 'thu-learn-lib/lib/types';
 import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { ContentType } from 'thu-learn-lib';
 
 import { CARD_BATCH_LOAD_SIZE } from '../../constants';
 import { type ContentInfo } from '../../types/data';

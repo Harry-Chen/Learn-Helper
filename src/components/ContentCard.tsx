@@ -1,6 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
-import { ContentType } from 'thu-learn-lib/lib/types';
+import { ContentType } from 'thu-learn-lib';
 
 import {
   Card,

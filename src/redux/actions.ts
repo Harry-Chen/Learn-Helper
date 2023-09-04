@@ -1,13 +1,7 @@
-import {
-  ContentType,
-  Language,
-  type ApiError,
-  CourseType,
-  SemesterType,
-} from 'thu-learn-lib/lib/types';
 import type { ThunkAction, AnyAction } from '@reduxjs/toolkit';
 import { i18n, storage } from 'webextension-polyfill';
 import { compare as compareVersion } from 'compare-versions';
+import { ContentType, Language, type ApiError, CourseType, SemesterType } from 'thu-learn-lib';
 
 import type { ContentInfo, FileInfo } from '../types/data';
 import { SnackbarType } from '../types/ui';
@@ -119,8 +113,8 @@ export const login =
     // try to sync language with Web Learning
     try {
       const langMap = {
-        'zh-CN': Language.ZH_CN,
-        'en-US': Language.EN_US,
+        'zh-CN': Language.ZH,
+        'en-US': Language.EN,
       };
       const lang = langMap[i18n.getUILanguage()];
       if (lang) {

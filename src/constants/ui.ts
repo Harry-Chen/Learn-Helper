@@ -1,6 +1,6 @@
 import type { IconName } from '@fortawesome/fontawesome-common-types';
+import { ContentType } from 'thu-learn-lib';
 
-import { ContentType } from 'thu-learn-lib/lib/types';
 import type { IMenuItem, IMenuItemEnum } from '../types/ui';
 import {
   refresh,
