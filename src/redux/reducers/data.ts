@@ -230,8 +230,8 @@ export const dataSlice = createSlice({
       state.questionMap = {};
       state.lastUpdateTime = new Date(0);
     },
-    loadData: (_state, action: PayloadAction<DataState>) => {
-      return action.payload;
+    loadData: (_state, action: PayloadAction<Partial<DataState>>) => {
+      return { ...initialState, ...action.payload };
     },
   },
 });

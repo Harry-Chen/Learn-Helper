@@ -359,6 +359,12 @@
   "Migration_FetchedDataCleared": {
     "message": "Upgrade successfully and all local data (except configuration) is cleared"
   },
+  "Migration_LoadFailed": {
+    "message": "Failed to load data, data has been cleared"
+  },
+  "Migration_MigrateFailed": {
+    "message": "Migration failed, all data has been cleared"
+  },
   "Migration_Migrated": {
     "message": "Upgrade successfully and local data is kept"
   },

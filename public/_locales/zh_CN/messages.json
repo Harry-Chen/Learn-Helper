@@ -243,7 +243,7 @@
     "message": "发布人"
   },
   "Content_Notification_PublisherDetail": {
-    "message": "发布者：$1"
+    "message": "发布者:$1"
   },
   "Content_Notification_Severity": {
     "message": "重要性"
@@ -358,6 +358,12 @@
   },
   "Migration_FetchedDataCleared": {
     "message": "升级成功，所有本地数据（除配置）已经被清除"
+  },
+  "Migration_LoadFailed": {
+    "message": "加载数据失败，已清除数据"
+  },
+  "Migration_MigrateFailed": {
+    "message": "迁移失败，已清除全部数据"
   },
   "Migration_Migrated": {
     "message": "升级成功，数据没有受到影响"

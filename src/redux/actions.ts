@@ -9,7 +9,7 @@ import { initiateFileDownload } from '../utils/download';
 import { failReasonToString } from '../utils/format';
 import { t } from '../utils/i18n';
 import { getStoredCredential, storeCredential } from '../utils/storage';
-import { STORAGE_KEY_REDUX, STORAGE_KEY_VERSION } from '../constants';
+import { STORAGE_KEY_REDUX, STORAGE_KEY_REDUX_LEGACY, STORAGE_KEY_VERSION } from '../constants';
 import { version as currentVersion } from '../../package.json';
 
 import { dataSlice } from './reducers/data';
@@ -139,7 +139,6 @@ export const refreshIfNeeded = (): AppThunk<Promise<void>> => async (dispatch, g
   const justUpdated = new Date().getTime() - data.lastUpdateTime.getTime() <= 15 * 60 * 1000;
   if (data.updateFinished && justUpdated) {
     dispatch(setSnackbar({ content: t('Snackbar_NotRefreshed'), type: SnackbarType.NOTIFICATION }));
-    dispatch(refreshCardList());
   } else {
     await dispatch(refresh());
   }
@@ -390,8 +389,40 @@ export const loadApp = (): AppThunk<Promise<void>> => async (dispatch) => {
         setSnackbar({ content: t('Migration_FetchedDataCleared'), type: SnackbarType.WARNING }),
       );
     } else {
-      // TODO: migration
-      dispatch(setSnackbar({ content: t('Migration_Migrated'), type: SnackbarType.NOTIFICATION }));
+      try {
+        if (compareVersion(oldVersion, '4.6.0', '<')) {
+          dispatch(
+            loadData(
+              JSON.parse(
+                JSON.parse(
+                  JSON.parse(
+                    (await storage.local.get([STORAGE_KEY_REDUX_LEGACY]))[STORAGE_KEY_REDUX_LEGACY],
+                  ).data,
+                ),
+                (key, value) => {
+                  if (typeof value === 'object' && '$jsan' in value) {
+                    // parse jsan
+                    // from https://github.com/kolodny/jsan/blob/7216568a9a7969dfa81b834236595e862fdde984/lib/utils.js#L23C48-L23C48
+                    const type = value['$jsan'][0];
+                    const rest = value['$jsan'].slice(1);
+                    if (type === 'd') return new Date(+rest);
+                    if (type === 'u') return undefined;
+                    // other types is not needed;
+                  }
+                  if (key.endsWith('Map')) return value.data;
+                  return value;
+                },
+              ),
+            ),
+          );
+        }
+        dispatch(
+          setSnackbar({ content: t('Migration_Migrated'), type: SnackbarType.NOTIFICATION }),
+        );
+      } catch (e) {
+        await storage.local.clear();
+        dispatch(setSnackbar({ content: t('Migration_MigrateFailed'), type: SnackbarType.ERROR }));
+      }
     }
   } else {
     console.info('Migration not necessary.');
@@ -401,19 +432,25 @@ export const loadApp = (): AppThunk<Promise<void>> => async (dispatch) => {
         dispatch(
           loadData(
             JSON.parse(oldData, (key, value) => {
-              if (key === 'date' || key === 'deadline' || key.endsWith('Time'))
+              if (
+                key === 'date' ||
+                key === 'deadline' ||
+                key.endsWith('Date') ||
+                key.endsWith('Time')
+              )
                 return new Date(value);
               return value;
             }),
           ),
         );
-        dispatch(refreshCardList());
       } catch (e) {
-        // skip loading
+        await storage.local.remove(STORAGE_KEY_REDUX);
+        dispatch(setSnackbar({ content: t('Migration_LoadFailed'), type: SnackbarType.ERROR }));
       }
     }
   }
 
+  dispatch(refreshCardList());
   dispatch(tryLoginSilently());
 };
 
