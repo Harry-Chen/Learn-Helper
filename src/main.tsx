@@ -6,6 +6,7 @@ import {
   Experimental_CssVarsProvider as CssVarsProvider,
   experimental_extendTheme as extendTheme,
 } from '@mui/material';
+import { SnackbarProvider } from 'notistack';
 
 import './fontAwesome';
 import './css/scrollbar.css';
@@ -19,6 +20,12 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <CssVarsProvider defaultMode="system" theme={theme}>
+        <SnackbarProvider
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+          }}
+        />
         <App />
       </CssVarsProvider>
     </Provider>

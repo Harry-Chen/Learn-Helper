@@ -4,7 +4,6 @@ import { compare as compareVersion } from 'compare-versions';
 import { ContentType, Language, type ApiError, CourseType, SemesterType } from 'thu-learn-lib';
 
 import type { ContentInfo, FileInfo } from '../types/data';
-import { SnackbarType } from '../types/ui';
 import { initiateFileDownload } from '../utils/download';
 import { failReasonToString } from '../utils/format';
 import { t } from '../utils/i18n';
@@ -17,6 +16,7 @@ import { helperSlice } from './reducers/helper';
 import { uiSlice } from './reducers/ui';
 import type { RootState } from './store';
 import { selectContentIgnore, selectDataLists } from './selectors';
+import { enqueueSnackbar } from 'notistack';
 
 export const {
   newSemester,
@@ -45,7 +45,6 @@ export const { loggedIn, loggedOut } = helperSlice.actions;
 export const {
   setLoadingProgress,
   togglePaneHidden,
-  setSnackbar,
   toggleLoginDialog,
   toggleLoginDialogProgress,
   loginEnd,
@@ -89,13 +88,11 @@ export const login =
       await Promise.race([helper.login(username, password), timeout]);
     } catch (e) {
       const error = e as ApiError;
-      dispatch(
-        setSnackbar({
-          content: t('Snackbar_LoginFailed', [
-            (failReasonToString(error?.reason) ?? error).toString() ?? t('Snackbar_UnknownError'),
-          ]),
-          type: SnackbarType.ERROR,
-        }),
+      enqueueSnackbar(
+        t('Snackbar_LoginFailed', [
+          (failReasonToString(error?.reason) ?? error).toString() ?? t('Snackbar_UnknownError'),
+        ]),
+        { variant: 'error' },
       );
       dispatch(loginEnd());
       return Promise.reject(`login failed: ${error}`);
@@ -103,7 +100,7 @@ export const login =
 
     // login succeeded
     // hide login dialog (if shown), show success notice
-    dispatch(setSnackbar({ content: t('Snackbar_LoginSuccess'), type: SnackbarType.SUCCESS }));
+    enqueueSnackbar(t('Snackbar_LoginSuccess'), { variant: 'success' });
     // save salted user credential if asked
     if (save) {
       await storeCredential(username, password);
@@ -122,13 +119,11 @@ export const login =
       }
     } catch (e) {
       const error = e as ApiError;
-      dispatch(
-        setSnackbar({
-          content: t('Snackbar_SetLangFailed', [
-            (failReasonToString(error?.reason) ?? error).toString() ?? t('Snackbar_UnknownError'),
-          ]),
-          type: SnackbarType.WARNING,
-        }),
+      enqueueSnackbar(
+        t('Snackbar_SetLangFailed', [
+          (failReasonToString(error?.reason) ?? error).toString() ?? t('Snackbar_UnknownError'),
+        ]),
+        { variant: 'error' },
       );
     }
     return Promise.resolve();
@@ -138,7 +133,7 @@ export const refreshIfNeeded = (): AppThunk<Promise<void>> => async (dispatch, g
   const data = getState().data;
   const justUpdated = new Date().getTime() - data.lastUpdateTime.getTime() <= 15 * 60 * 1000;
   if (data.updateFinished && justUpdated) {
-    dispatch(setSnackbar({ content: t('Snackbar_NotRefreshed'), type: SnackbarType.NOTIFICATION }));
+    enqueueSnackbar(t('Snackbar_NotRefreshed'), { variant: 'info' });
   } else {
     await dispatch(refresh());
   }
@@ -267,11 +262,9 @@ export const refresh = (): AppThunk<Promise<void>> => async (dispatch, getState)
   );
   const allSuccess = failures.length == 0;
   if (allSuccess) {
-    dispatch(setSnackbar({ content: t('Snackbar_UpdateSuccess'), type: SnackbarType.SUCCESS }));
+    enqueueSnackbar(t('Snackbar_UpdateSuccess'), { variant: 'success' });
   } else {
-    dispatch(
-      setSnackbar({ content: t('Snackbar_UpdatePartialSuccess'), type: SnackbarType.WARNING }),
-    );
+    enqueueSnackbar(t('Snackbar_UpdatePartialSuccess'), { variant: 'warning' });
     console.warn('Failures occurred in fetching data', failures);
   }
 
@@ -348,7 +341,7 @@ export const downloadAllUnreadFiles =
     try {
       await helper.getSemesterIdList();
     } catch (e) {
-      dispatch(setSnackbar({ content: t('Snackbar_Expired'), type: SnackbarType.ERROR }));
+      enqueueSnackbar(t('Snackbar_Expired'), { variant: 'error' });
       return;
     }
     for (const c of contents) {
@@ -372,7 +365,7 @@ export const loadApp = (): AppThunk<Promise<void>> => async (dispatch) => {
       [STORAGE_KEY_VERSION]: currentVersion,
     });
     dispatch(setDetailPage('readme'));
-    dispatch(setSnackbar({ content: t('Migration_AllDataCleared'), type: SnackbarType.WARNING }));
+    enqueueSnackbar(t('Migration_AllDataCleared'), { variant: 'warning' });
   } else if (oldVersion !== currentVersion) {
     // for future migration
     dispatch(setDetailPage('changelog'));
@@ -385,9 +378,7 @@ export const loadApp = (): AppThunk<Promise<void>> => async (dispatch) => {
     // migrate from < 4.5, clearing all data except credential & config
     if (compareVersion(oldVersion, '4.5.0', '<')) {
       dispatch(clearFetchedData());
-      dispatch(
-        setSnackbar({ content: t('Migration_FetchedDataCleared'), type: SnackbarType.WARNING }),
-      );
+      enqueueSnackbar(t('Migration_FetchedDataCleared'), { variant: 'warning' });
     } else {
       try {
         if (compareVersion(oldVersion, '4.6.0', '<')) {
@@ -416,12 +407,10 @@ export const loadApp = (): AppThunk<Promise<void>> => async (dispatch) => {
             ),
           );
         }
-        dispatch(
-          setSnackbar({ content: t('Migration_Migrated'), type: SnackbarType.NOTIFICATION }),
-        );
+        enqueueSnackbar(t('Migration_Migrated'), { variant: 'info' });
       } catch (e) {
         await storage.local.clear();
-        dispatch(setSnackbar({ content: t('Migration_MigrateFailed'), type: SnackbarType.ERROR }));
+        enqueueSnackbar(t('Migration_MigrateFailed'), { variant: 'error' });
       }
     }
   } else {
@@ -445,7 +434,7 @@ export const loadApp = (): AppThunk<Promise<void>> => async (dispatch) => {
         );
       } catch (e) {
         await storage.local.remove(STORAGE_KEY_REDUX);
-        dispatch(setSnackbar({ content: t('Migration_LoadFailed'), type: SnackbarType.ERROR }));
+        enqueueSnackbar(t('Migration_LoadFailed'), { variant: 'error' });
       }
     }
   }

@@ -50,7 +50,6 @@ import {
   NetworkErrorDialog,
   NewSemesterDialog,
 } from './dialogs';
-import ColoredSnackbar from './ColoredSnackbar';
 import DetailPane from './DetailPane';
 
 import styles from '../css/main.module.css';
@@ -345,8 +344,6 @@ const App = () => {
         <ChangeSemesterDialog />
         <ClearDataDialog />
         <LogoutDialog />
-        {/* snackbar for notification */}
-        <ColoredSnackbar />
       </main>
     </ErrorBoundary>
   );

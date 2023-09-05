@@ -3,12 +3,6 @@ import { ContentType } from 'thu-learn-lib';
 
 import { CARD_BATCH_LOAD_SIZE } from '../../constants';
 import { type ContentInfo } from '../../types/data';
-import type { SnackbarType } from '../../types/ui';
-
-interface SnackbarState {
-  type: SnackbarType;
-  content: string;
-}
 
 interface CardEntry {
   type: ContentType;
@@ -39,7 +33,6 @@ type DetailPane = DetailPaneUrl | DetailPaneContent | DetailPanePage;
 export interface UiState {
   loadingProgress?: number;
   paneHidden: boolean;
-  snackbar?: SnackbarState;
   showLoginDialog: boolean;
   inLoginProgress: boolean;
   showNetworkErrorDialog: boolean;
@@ -59,7 +52,6 @@ export interface UiState {
 const initialState: UiState = {
   loadingProgress: undefined,
   paneHidden: false,
-  snackbar: undefined,
   showLoginDialog: false,
   inLoginProgress: false,
   showNetworkErrorDialog: false,
@@ -85,9 +77,6 @@ export const uiSlice = createSlice({
     },
     togglePaneHidden: (state, action: PayloadAction<boolean>) => {
       state.paneHidden = action.payload;
-    },
-    setSnackbar: (state, action: PayloadAction<SnackbarState | undefined>) => {
-      state.snackbar = action.payload;
     },
     toggleLoginDialog: (state, action: PayloadAction<boolean>) => {
       state.showLoginDialog = action.payload;
