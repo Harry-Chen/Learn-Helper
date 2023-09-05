@@ -8,10 +8,12 @@ import {
 } from '@mui/material';
 import { SnackbarProvider } from 'notistack';
 
+import { store } from './redux/store';
+import { loadApp } from './redux/actions';
+import App from './components/App';
+import { printWelcomeMessage } from './utils/console';
 import './fontAwesome';
 import './css/scrollbar.css';
-import { store } from './redux/store';
-import App from './components/App';
 
 const theme = extendTheme({});
 
@@ -31,3 +33,6 @@ root.render(
     </Provider>
   </React.StrictMode>,
 );
+
+printWelcomeMessage();
+store.dispatch(loadApp());

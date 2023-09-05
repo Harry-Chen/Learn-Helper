@@ -30,12 +30,10 @@ import {
   toggleChangeSemesterDialog,
   togglePaneHidden,
   clearAllData,
-  loadApp,
   tryLoginSilently,
 } from '../redux/actions';
 import { formatSemester } from '../utils/format';
 import { removeStoredCredential } from '../utils/storage';
-import { printWelcomeMessage } from '../utils/console';
 import { t } from '../utils/i18n';
 
 import SummaryList from './SummaryList';
@@ -126,6 +124,128 @@ const AppBar = () => {
   );
 };
 
+const AppDrawer = () => {
+  const dispatch = useAppDispatch();
+
+  const paneHidden = useAppSelector((state) => state.ui.paneHidden);
+  const cardListTitle = useAppSelector((state) =>
+    state.helper.loggedIn ? state.ui.cardListTitle : t('App_Loading'),
+  );
+  const semesterTitle = useAppSelector((state) => formatSemester(state.data.semester));
+  const isLatestSemester = useAppSelector(
+    (state) => state.data.semester.id === state.data.fetchedSemester.id,
+  );
+
+  const inputRef = useRef<HTMLInputElement>();
+  const [filterShown, setFilterShown] = useState(false);
+  const [filter, setFilter] = useState('');
+
+  const toggleFilter = () => {
+    if (filterShown) {
+      setFilterShown(false);
+      setFilter('');
+      dispatch(setTitleFilter(undefined));
+    } else {
+      setTimeout(() => inputRef.current?.focus(), 250);
+      setFilterShown(true);
+    }
+  };
+
+  return (
+    <Drawer className={styles.sidebar} variant="persistent" anchor="left" open={!paneHidden}>
+      <nav className={styles.sidebar_wrapper}>
+        <header className={styles.sidebar_header}>
+          <div className={styles.sidebar_header_content}>
+            <Toolbar className={styles.sidebar_header_left}>
+              <IconButton
+                className={classnames(styles.app_bar_btn)}
+                onClick={() => dispatch(togglePaneHidden(true))}
+                size="large"
+              >
+                <FontAwesomeIcon icon="angle-left" />
+              </IconButton>
+              <Typography variant="subtitle1" className={styles.sidebar_master_title} noWrap>
+                {semesterTitle}
+              </Typography>
+              {!isLatestSemester && (
+                <Tooltip title={t('App_NotLearnSemester')}>
+                  <IconButton
+                    className={styles.sidebar_master_notify_icon}
+                    onClick={() => dispatch(toggleChangeSemesterDialog(true))}
+                    size="large"
+                  >
+                    <FontAwesomeIcon icon="star-of-life" />
+                  </IconButton>
+                </Tooltip>
+              )}
+            </Toolbar>
+            <Toolbar
+              className={classnames(styles.sidebar_header_right, {
+                [styles.sidebar_filter_shown]: filterShown,
+              })}
+            >
+              <Typography variant="h6" className={styles.sidebar_cardlist_name} noWrap>
+                {cardListTitle}
+              </Typography>
+
+              <div className={styles.sidebar_filter_group}>
+                <IconButton
+                  className={classnames(styles.filter_btn)}
+                  onClick={toggleFilter}
+                  size="large"
+                >
+                  <FontAwesomeIcon
+                    icon="filter"
+                    className={classnames(styles.filter_icon, {
+                      [styles.filter_icon_shown]: !filterShown,
+                    })}
+                  />
+                  <FontAwesomeIcon
+                    icon="times"
+                    className={classnames(styles.filter_icon, {
+                      [styles.filter_icon_shown]: filterShown,
+                    })}
+                  />
+                </IconButton>
+                <div className={styles.filter_input}>
+                  <InputBase
+                    inputRef={inputRef}
+                    className={styles.filter_input_inner}
+                    placeholder={t('App_Filter')}
+                    value={filter}
+                    onChange={(ev) => {
+                      setFilter(ev.target.value);
+                      dispatch(setTitleFilter(ev.target.value.trim() || undefined));
+                    }}
+                    inputProps={{
+                      onBlur: () => {
+                        if (!filterShown && filter === '') setFilterShown(false);
+                      },
+                    }}
+                  />
+                </div>
+              </div>
+            </Toolbar>
+          </div>
+        </header>
+        <section className={styles.sidebar_content}>
+          <nav className={classnames(styles.sidebar_component, styles.sidebar_folder)}>
+            <SummaryList />
+            <Divider />
+            <CourseList />
+            <Divider />
+            <SettingList />
+          </nav>
+          {/* list of cards */}
+          <nav className={classnames(styles.sidebar_component, styles.sidebar_cards)}>
+            <CardList />
+          </nav>
+        </section>
+      </nav>
+    </Drawer>
+  );
+};
+
 const Fallback = ({ error, errorInfo }: FallbackProps & { errorInfo: ErrorInfo | null }) => {
   const dispatch = useAppDispatch();
 
@@ -184,38 +304,14 @@ const App = () => {
 
   const dispatch = useAppDispatch();
 
+  const loadingProgress = useAppSelector((state) => state.ui.loadingProgress);
+  const paneHidden = useAppSelector((state) => state.ui.paneHidden);
+
   useEffect(() => {
-    printWelcomeMessage();
-    dispatch(loadApp());
     // keep login state
     const handle = window.setInterval(() => dispatch(tryLoginSilently()), 14 * 60 * 1000); // < 15 minutes and as long as possible
     return () => window.clearInterval(handle);
   }, []);
-
-  const loadingProgress = useAppSelector((state) => state.ui.loadingProgress);
-  const paneHidden = useAppSelector((state) => state.ui.paneHidden);
-  const cardListTitle = useAppSelector((state) =>
-    state.helper.loggedIn ? state.ui.cardListTitle : t('App_Loading'),
-  );
-  const semesterTitle = useAppSelector((state) => formatSemester(state.data.semester));
-  const isLatestSemester = useAppSelector(
-    (state) => state.data.semester.id === state.data.fetchedSemester.id,
-  );
-
-  const inputRef = useRef<HTMLInputElement>();
-  const [filterShown, setFilterShown] = useState(false);
-  const [filter, setFilter] = useState('');
-
-  const toggleFilter = () => {
-    if (filterShown) {
-      setFilterShown(false);
-      setFilter('');
-      dispatch(setTitleFilter(undefined));
-    } else {
-      setTimeout(() => inputRef.current?.focus(), 250);
-      setFilterShown(true);
-    }
-  };
 
   return (
     <ErrorBoundary
@@ -223,9 +319,7 @@ const App = () => {
         setErrorInfo(info);
         console.error(error);
       }}
-      fallbackRender={(fallbackProps) => {
-        return <Fallback {...fallbackProps} errorInfo={errorInfo} />;
-      }}
+      fallbackRender={(fallbackProps) => <Fallback {...fallbackProps} errorInfo={errorInfo} />}
     >
       <main>
         <CssBaseline />
@@ -237,97 +331,7 @@ const App = () => {
             <LinearProgress variant="determinate" color="secondary" value={loadingProgress} />
           )}
         </header>
-        <Drawer className={styles.sidebar} variant="persistent" anchor="left" open={!paneHidden}>
-          <nav className={styles.sidebar_wrapper}>
-            <header className={styles.sidebar_header}>
-              <div className={styles.sidebar_header_content}>
-                <Toolbar className={styles.sidebar_header_left}>
-                  <IconButton
-                    className={classnames(styles.app_bar_btn)}
-                    onClick={() => dispatch(togglePaneHidden(true))}
-                    size="large"
-                  >
-                    <FontAwesomeIcon icon="angle-left" />
-                  </IconButton>
-                  <Typography variant="subtitle1" className={styles.sidebar_master_title} noWrap>
-                    {semesterTitle}
-                  </Typography>
-                  {!isLatestSemester && (
-                    <Tooltip title={t('App_NotLearnSemester')}>
-                      <IconButton
-                        className={styles.sidebar_master_notify_icon}
-                        onClick={() => dispatch(toggleChangeSemesterDialog(true))}
-                        size="large"
-                      >
-                        <FontAwesomeIcon icon="star-of-life" />
-                      </IconButton>
-                    </Tooltip>
-                  )}
-                </Toolbar>
-                <Toolbar
-                  className={classnames(styles.sidebar_header_right, {
-                    [styles.sidebar_filter_shown]: filterShown,
-                  })}
-                >
-                  <Typography variant="h6" className={styles.sidebar_cardlist_name} noWrap>
-                    {cardListTitle}
-                  </Typography>
-
-                  <div className={styles.sidebar_filter_group}>
-                    <IconButton
-                      className={classnames(styles.filter_btn)}
-                      onClick={toggleFilter}
-                      size="large"
-                    >
-                      <FontAwesomeIcon
-                        icon="filter"
-                        className={classnames(styles.filter_icon, {
-                          [styles.filter_icon_shown]: !filterShown,
-                        })}
-                      />
-                      <FontAwesomeIcon
-                        icon="times"
-                        className={classnames(styles.filter_icon, {
-                          [styles.filter_icon_shown]: filterShown,
-                        })}
-                      />
-                    </IconButton>
-                    <div className={styles.filter_input}>
-                      <InputBase
-                        inputRef={inputRef}
-                        className={styles.filter_input_inner}
-                        placeholder={t('App_Filter')}
-                        value={filter}
-                        onChange={(ev) => {
-                          setFilter(ev.target.value);
-                          dispatch(setTitleFilter(ev.target.value.trim() || undefined));
-                        }}
-                        inputProps={{
-                          onBlur: () => {
-                            if (!filterShown && filter === '') setFilterShown(false);
-                          },
-                        }}
-                      />
-                    </div>
-                  </div>
-                </Toolbar>
-              </div>
-            </header>
-            <section className={styles.sidebar_content}>
-              <nav className={classnames(styles.sidebar_component, styles.sidebar_folder)}>
-                <SummaryList />
-                <Divider />
-                <CourseList />
-                <Divider />
-                <SettingList />
-              </nav>
-              {/* list of cards */}
-              <nav className={classnames(styles.sidebar_component, styles.sidebar_cards)}>
-                <CardList />
-              </nav>
-            </section>
-          </nav>
-        </Drawer>
+        <AppDrawer />
         {/* detail area */}
         <aside
           className={classnames(styles.pane_content, {
