@@ -61,7 +61,7 @@
     "react-iframe": "^1.8.5",
     "react-redux": "^8.1.2",
     "redux-logger": "^3.0.6",
-    "thu-learn-lib": "^3.0.4",
+    "thu-learn-lib": "^3.1.0",
     "webextension-polyfill": "^0.10.0"
   },
   "resolutions": {}

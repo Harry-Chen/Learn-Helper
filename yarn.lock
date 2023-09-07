@@ -5067,18 +5067,17 @@ through@2:
   resolved "https://registry.yarnpkg.com/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5"
   integrity sha512-w89qg7PI8wAdvX60bMDP+bFoD5Dvhm9oLheFp5O4a2QF0cSBGsBX4qZmadPMvVqlLJBBci+WqGGOAPvcDeNSVg==
 
-thu-learn-lib@^3.0.4:
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/thu-learn-lib/-/thu-learn-lib-3.0.4.tgz#07b6b609a253ab8460c58b97bea223a8397f9920"
-  integrity sha512-WGRqnwwzDYnfI3LHnFysiCk9joRrZ8XMNBuAB7BdQBC/1ve8A+g7fch5z7gK0HNbC60HV+x8Yi+VxRBSrWeiKQ==
+thu-learn-lib@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/thu-learn-lib/-/thu-learn-lib-3.1.0.tgz#745b028ae7eebd59a02791c2a226ece01b169204"
+  integrity sha512-zTRMrhp+IbMXrQjzx+KqeQvjR1TViS5Aa/Ddo8Kr5Y8l6OQBRF1n/mSZRlVDs4A71hCorz9yBKwX4F7Ij4JIHw==
   dependencies:
-    cheerio "^1.0.0-rc.10"
-    cross-fetch "^3.1.5"
-    entities "^4.4.0"
-    es6-denodeify "^0.1.5"
-    form-data "^4.0.0"
+    cheerio "^1.0.0-rc.12"
+    entities "^4.5.0"
+    fetch-cookie "^2.1.0"
     js-base64 "^3.7.5"
-    real-isomorphic-fetch "^3.0.0"
+    node-fetch-native "^1.4.0"
+    tough-cookie "^4.1.3"
 
 tmp@0.2.1:
   version "0.2.1"
