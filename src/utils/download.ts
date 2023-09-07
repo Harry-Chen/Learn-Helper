@@ -1,4 +1,4 @@
-import { Downloads, downloads } from 'webextension-polyfill';
+import { type Downloads, downloads } from 'webextension-polyfill';
 
 export async function initiateFileDownload(url: string, filename?: string) {
   try {

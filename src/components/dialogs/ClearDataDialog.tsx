@@ -1,34 +1,36 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 
-import { ICommonDialogProps } from '../../types/dialogs';
-import { toggleClearDataDialog } from '../../redux/actions/ui';
-import { IUiStateSlice, STATE_UI } from '../../redux/reducers';
-import { clearAllData } from '../../redux/actions/data';
-import { refresh } from '../../redux/actions/helper';
-import { UiState } from '../../redux/reducers/ui';
+import { toggleClearDataDialog, clearAllData, refresh } from '../../redux/actions';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { t } from '../../utils/i18n';
 
-import CommonDialog from './CommonDialog';
+const ClearDataDialog = () => {
+  const dispatch = useAppDispatch();
 
-class ClearDataDialog extends CommonDialog {}
+  const open = useAppSelector((state) => state.ui.showClearDataDialog);
 
-const mapStateToProps = (state: IUiStateSlice): Partial<ICommonDialogProps> => ({
-  open: (state[STATE_UI] as UiState).showClearDataDialog,
-  title: '清除所有缓存',
-  content: '确认要清除吗？所有缓存的数据和已读状态将会被清除。',
-  firstButton: '是',
-  secondButton: '否',
-});
+  return (
+    <Dialog open={open} keepMounted>
+      <DialogTitle>{t('ClearDataDialog_Title')}</DialogTitle>
+      <DialogContent>{t('ClearDataDialog_Content')}</DialogContent>
+      <DialogActions>
+        <Button
+          color="primary"
+          onClick={() => {
+            dispatch(toggleClearDataDialog(false));
+            dispatch(clearAllData());
+            dispatch(refresh());
+          }}
+        >
+          {t('Common_Yes')}
+        </Button>
+        <Button color="primary" onClick={() => dispatch(toggleClearDataDialog(false))}>
+          {t('Common_No')}
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
 
-const mapDispatchToProps = (dispatch): Partial<ICommonDialogProps> => ({
-  firstButtonOnClick: () => {
-    dispatch(toggleClearDataDialog(false));
-    dispatch(clearAllData());
-    dispatch(refresh());
-  },
-  secondButtonOnClick: () => {
-    dispatch(toggleClearDataDialog(false));
-  },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ClearDataDialog);
+export default ClearDataDialog;

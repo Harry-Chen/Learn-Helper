@@ -1,14 +1,7 @@
 .idea
-dist/index.html
-dist/*.js
 node_modules
 legacy
 *.css.d.ts
 yarn-error.log
-.vscode/
-size-report.html
-dist/BRANCH
-dist/COMMITHASH
-dist/VERSION
-dist/LASTCOMMITDATETIME
-
+dist
+stats.html

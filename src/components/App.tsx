@@ -1,24 +1,40 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useState, type ErrorInfo, useRef, useEffect } from 'react';
+import { ErrorBoundary, type FallbackProps } from 'react-error-boundary';
 import classnames from 'classnames';
 
-import Divider from '@mui/material/Divider';
-import LinearProgress from '@mui/material/LinearProgress';
-import CssBaseline from '@mui/material/CssBaseline';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Drawer from '@mui/material/Drawer';
-import InputBase from '@mui/material/InputBase';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
+import {
+  AppBar as MuiAppBar,
+  Button,
+  Toolbar,
+  Divider,
+  LinearProgress,
+  CssBaseline,
+  IconButton,
+  Drawer,
+  InputBase,
+  Typography,
+  Tooltip,
+  Menu,
+  MenuItem,
+  useColorScheme,
+  ListItemIcon,
+  ListItemText,
+} from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { bindMenu, bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
 
-import { AppProps } from '../types/ui';
-import { IUiStateSlice, STATE_DATA, STATE_HELPER, STATE_UI } from '../redux/reducers';
-import { setTitleFilter, toggleChangeSemesterDialog, togglePaneHidden } from '../redux/actions/ui';
-import styles from '../css/main.css';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import {
+  setTitleFilter,
+  toggleChangeSemesterDialog,
+  togglePaneHidden,
+  clearAllData,
+  tryLoginSilently,
+} from '../redux/actions';
+import { formatSemester } from '../utils/format';
+import { removeStoredCredential } from '../utils/storage';
+import { t } from '../utils/i18n';
+import type { ColorMode } from '../types/ui';
 
 import SummaryList from './SummaryList';
 import CourseList from './CourseList';
@@ -32,275 +48,309 @@ import {
   NetworkErrorDialog,
   NewSemesterDialog,
 } from './dialogs';
-import ColoredSnackbar from './ColoredSnackbar';
-import { UiState } from '../redux/reducers/ui';
 import DetailPane from './DetailPane';
-import { DataState } from '../redux/reducers/data';
-import { formatSemester } from '../utils/format';
-import { HelperState } from '../redux/reducers/helper';
-import { clearAllData } from '../redux/actions/data';
-import { removeStoredCredential } from '../utils/storage';
 
-const initialState = {
-  filterShown: false,
-  filter: '',
-  hasError: false,
-  lastError: new Error(),
-  lastErrorInfo: undefined,
+import styles from '../css/main.module.css';
+
+const AppBar = () => {
+  const dispatch = useAppDispatch();
+
+  const openSidebar = () => dispatch(togglePaneHidden(false));
+
+  const popupState = usePopupState({ variant: 'popover', popupId: 'colorModeMenu' });
+  const { mode, setMode } = useColorScheme();
+  const handleColorModeClick = (m: ColorMode) => {
+    setMode(m);
+    popupState.close();
+  };
+
+  return (
+    <MuiAppBar position="fixed">
+      <Toolbar>
+        <IconButton
+          color="inherit"
+          aria-label="Open drawer"
+          className={classnames(styles.app_bar_btn)}
+          onClick={openSidebar}
+          size="large"
+        >
+          <FontAwesomeIcon icon="bars" />
+        </IconButton>
+        <Typography component="div" sx={{ flexGrow: 1 }}></Typography>
+        <div>
+          <IconButton
+            color="inherit"
+            aria-label="Set color mode"
+            size="large"
+            {...bindTrigger(popupState)}
+          >
+            <FontAwesomeIcon icon="circle-half-stroke" />
+          </IconButton>
+          <Menu {...bindMenu(popupState)}>
+            <MenuItem
+              key="system"
+              selected={mode === 'system'}
+              onClick={() => handleColorModeClick('system')}
+            >
+              <ListItemIcon>
+                <FontAwesomeIcon icon="circle-half-stroke" />
+              </ListItemIcon>
+              <ListItemText>{t(`App_ColorMode_system`)}</ListItemText>
+            </MenuItem>
+            <MenuItem
+              key="light"
+              selected={mode === 'light'}
+              onClick={() => handleColorModeClick('light')}
+            >
+              <ListItemIcon>
+                <FontAwesomeIcon icon="sun" />
+              </ListItemIcon>
+              <ListItemText>{t(`App_ColorMode_light`)}</ListItemText>
+            </MenuItem>
+            <MenuItem
+              key="dark"
+              selected={mode === 'dark'}
+              onClick={() => handleColorModeClick('dark')}
+            >
+              <ListItemIcon>
+                <FontAwesomeIcon icon="moon" />
+              </ListItemIcon>
+              <ListItemText>{t(`App_ColorMode_dark`)}</ListItemText>
+            </MenuItem>
+          </Menu>
+        </div>
+      </Toolbar>
+    </MuiAppBar>
+  );
 };
 
-class App extends React.PureComponent<AppProps, typeof initialState> {
-  public state = initialState;
+const AppDrawer = () => {
+  const dispatch = useAppDispatch();
 
-  private inputRef: React.RefObject<HTMLDivElement> = React.createRef();
+  const paneHidden = useAppSelector((state) => state.ui.paneHidden);
+  const cardListTitle = useAppSelector((state) =>
+    state.helper.loggedIn ? state.ui.cardListTitle : t('App_Loading'),
+  );
+  const semesterTitle = useAppSelector((state) => formatSemester(state.data.semester));
+  const isLatestSemester = useAppSelector(
+    (state) => state.data.semester.id === state.data.fetchedSemester.id,
+  );
 
-  componentDidCatch(error, info) {
-    this.setState({ hasError: true, lastError: error, lastErrorInfo: info });
-    console.error(error);
-  }
+  const inputRef = useRef<HTMLInputElement>();
+  const [filterShown, setFilterShown] = useState(false);
+  const [filter, setFilter] = useState('');
 
-  private toggleFilter = () => {
-    if (this.state.filterShown) {
-      this.setState({
-        filterShown: false,
-        filter: '',
-      });
-      this.props.setTitleFilter('');
+  const toggleFilter = () => {
+    if (filterShown) {
+      setFilterShown(false);
+      setFilter('');
+      dispatch(setTitleFilter(undefined));
     } else {
-      setTimeout(() => this.inputRef.current.focus(), 250);
-      this.setState({
-        filterShown: true,
-      });
+      setTimeout(() => inputRef.current?.focus(), 250);
+      setFilterShown(true);
     }
   };
 
-  private handleFilter = (ev) => {
-    this.setState({ filter: ev.target.value });
-    this.props.setTitleFilter(ev.target.value);
-  };
-
-  private filterBlur = () => {
-    if (this.state.filterShown && this.state.filter === '') {
-      this.setState({ filterShown: false });
-    }
-  };
-
-  public render() {
-    if (!this.state.hasError) {
-      return (
-        <main>
-          <CssBaseline />
-          {/* sidebar */}
-          <AppBar position="fixed">
-            <Toolbar>
+  return (
+    <Drawer className={styles.sidebar} variant="persistent" anchor="left" open={!paneHidden}>
+      <nav className={styles.sidebar_wrapper}>
+        <header className={styles.sidebar_header}>
+          <div className={styles.sidebar_header_content}>
+            <Toolbar className={styles.sidebar_header_left}>
               <IconButton
-                color="inherit"
-                aria-label="Open drawer"
                 className={classnames(styles.app_bar_btn)}
-                onClick={this.props.openSidebar}
+                onClick={() => dispatch(togglePaneHidden(true))}
                 size="large"
               >
-                <FontAwesomeIcon icon="bars" />
+                <FontAwesomeIcon icon="angle-left" />
               </IconButton>
-            </Toolbar>
-          </AppBar>
-          {/* progress bar */}
-          <header className={styles.progress_area}>
-            {this.props.showLoadingProgressBar ? (
-              <LinearProgress
-                variant="determinate"
-                color="secondary"
-                value={this.props.loadingProgress}
-              />
-            ) : null}
-          </header>
-          <Drawer
-            className={styles.sidebar}
-            variant="persistent"
-            anchor="left"
-            open={!this.props.paneHidden}
-          >
-            <nav className={styles.sidebar_wrapper}>
-              <header className={styles.sidebar_header}>
-                <div className={styles.sidebar_header_content}>
-                  <Toolbar className={styles.sidebar_header_left}>
-                    <IconButton
-                      className={classnames(styles.app_bar_btn)}
-                      onClick={this.props.closeSidebar}
-                      size="large"
-                    >
-                      <FontAwesomeIcon icon="angle-left" />
-                    </IconButton>
-                    <Typography variant="subtitle1" className={styles.sidebar_master_title} noWrap>
-                      {this.props.semesterTitle}
-                    </Typography>
-                    {!this.props.latestSemester ? (
-                      <Tooltip title="非网络学堂当前学期">
-                        <IconButton
-                          className={styles.sidebar_master_notify_icon}
-                          onClick={this.props.openChangeSemesterDialog}
-                          size="large"
-                        >
-                          <FontAwesomeIcon icon="star-of-life" />
-                        </IconButton>
-                      </Tooltip>
-                    ) : null}
-                  </Toolbar>
-                  <Toolbar
-                    className={classnames(styles.sidebar_header_right, {
-                      [styles.sidebar_filter_shown]: this.state.filterShown,
-                    })}
+              <Typography variant="subtitle1" className={styles.sidebar_master_title} noWrap>
+                {semesterTitle}
+              </Typography>
+              {!isLatestSemester && (
+                <Tooltip title={t('App_NotLearnSemester')}>
+                  <IconButton
+                    className={styles.sidebar_master_notify_icon}
+                    onClick={() => dispatch(toggleChangeSemesterDialog(true))}
+                    size="large"
                   >
-                    <Typography variant="h6" className={styles.sidebar_cardlist_name} noWrap>
-                      {this.props.cardListTitle}
-                    </Typography>
+                    <FontAwesomeIcon icon="star-of-life" />
+                  </IconButton>
+                </Tooltip>
+              )}
+            </Toolbar>
+            <Toolbar
+              className={classnames(styles.sidebar_header_right, {
+                [styles.sidebar_filter_shown]: filterShown,
+              })}
+            >
+              <Typography variant="h6" className={styles.sidebar_cardlist_name} noWrap>
+                {cardListTitle}
+              </Typography>
 
-                    <div className={styles.sidebar_filter_group}>
-                      <IconButton
-                        className={classnames(styles.filter_btn)}
-                        onClick={this.toggleFilter}
-                        size="large"
-                      >
-                        <FontAwesomeIcon
-                          icon="filter"
-                          className={classnames(styles.filter_icon, {
-                            [styles.filter_icon_shown]: !this.state.filterShown,
-                          })}
-                        />
-                        <FontAwesomeIcon
-                          icon="times"
-                          className={classnames(styles.filter_icon, {
-                            [styles.filter_icon_shown]: this.state.filterShown,
-                          })}
-                        />
-                      </IconButton>
-                      <div className={styles.filter_input}>
-                        <InputBase
-                          inputRef={this.inputRef}
-                          className={styles.filter_input_inner}
-                          placeholder="筛选"
-                          value={this.state.filter}
-                          onChange={this.handleFilter}
-                          inputProps={{
-                            onBlur: this.filterBlur,
-                          }}
-                        />
-                      </div>
-                    </div>
-                  </Toolbar>
+              <div className={styles.sidebar_filter_group}>
+                <IconButton
+                  className={classnames(styles.filter_btn)}
+                  onClick={toggleFilter}
+                  size="large"
+                >
+                  <FontAwesomeIcon
+                    icon="filter"
+                    className={classnames(styles.filter_icon, {
+                      [styles.filter_icon_shown]: !filterShown,
+                    })}
+                  />
+                  <FontAwesomeIcon
+                    icon="times"
+                    className={classnames(styles.filter_icon, {
+                      [styles.filter_icon_shown]: filterShown,
+                    })}
+                  />
+                </IconButton>
+                <div className={styles.filter_input}>
+                  <InputBase
+                    inputRef={inputRef}
+                    className={styles.filter_input_inner}
+                    placeholder={t('App_Filter')}
+                    value={filter}
+                    onChange={(ev) => {
+                      setFilter(ev.target.value);
+                      dispatch(setTitleFilter(ev.target.value.trim() || undefined));
+                    }}
+                    inputProps={{
+                      onBlur: () => {
+                        if (!filterShown && filter === '') setFilterShown(false);
+                      },
+                    }}
+                  />
                 </div>
-              </header>
-              <section className={styles.sidebar_content}>
-                <nav className={classnames(styles.sidebar_component, styles.sidebar_folder)}>
-                  <SummaryList />
-                  <Divider />
-                  <CourseList />
-                  <Divider />
-                  <SettingList />
-                </nav>
-                {/* list of cards */}
-                <nav className={classnames(styles.sidebar_component, styles.sidebar_cards)}>
-                  <CardList />
-                </nav>
-              </section>
-            </nav>
-          </Drawer>
-          {/* detail area */}
-          <aside
-            className={classnames(styles.pane_content, {
-              [styles.pane_fullscreen]: this.props.paneHidden,
-            })}
-          >
-            <Toolbar />
-            <DetailPane />
-          </aside>
-          {/* dialogs */}
-          <LoginDialog />
-          <NetworkErrorDialog />
-          <NewSemesterDialog />
-          <ChangeSemesterDialog />
-          <ClearDataDialog />
-          <LogoutDialog />
-          {/* snackbar for notification */}
-          <ColoredSnackbar />
-        </main>
-      );
-    }
-    return (
-      <main className={styles.app_error_section}>
-        <Typography variant="h5" className={styles.app_error_text} noWrap>
-          <b>哎呀，出错了！</b>
-        </Typography>
-        <Typography variant="body1" className={styles.app_error_text} noWrap>
-          发生了不可恢复的错误，请尝试刷新页面。如果错误继续出现，请清除数据重新来过。
-        </Typography>
-        <Button
-          color="secondary"
-          variant="contained"
-          className={styles.app_error_text}
-          onClick={() => {
-            window.location = window.location;
-          }}
-        >
-          刷新
-        </Button>
-        <Button
-          color="secondary"
-          variant="contained"
-          className={styles.app_error_text}
-          onClick={this.props.resetApp}
-        >
-          清除数据
-        </Button>
-        <Typography variant="body1" className={styles.app_error_text}>
-          <b>请将下面的错误信息发送给开发者，以协助解决问题，感谢支持！</b>
-        </Typography>
-        <Typography variant="body1" className={styles.app_error_text}>
-          错误信息：
-          <br />
-          <code>
-            {this.state.lastError.stack ??
-              `${this.state.lastError.name}: ${this.state.lastError.message}`}
-          </code>
-        </Typography>
-        <Typography variant="body1" className={styles.app_error_text}>
-          错误组件：
-          <code>{this.state.lastErrorInfo?.componentStack ?? '无此信息'}</code>
-        </Typography>
-      </main>
-    );
-  }
-}
-
-const mapStateToProps = (state: IUiStateSlice): Partial<AppProps> => {
-  const uiState = state[STATE_UI] as UiState;
-  const dataState = state[STATE_DATA] as DataState;
-  const helperState = state[STATE_HELPER] as HelperState;
-  return {
-    showLoadingProgressBar: uiState.showLoadingProgressBar,
-    loadingProgress: uiState.loadingProgress,
-    paneHidden: uiState.paneHidden,
-    cardListTitle: helperState.loggedIn ? uiState.cardListTitle : '加载中...',
-    semesterTitle: formatSemester(dataState.semester),
-    latestSemester: dataState.semester.id === dataState.fetchedSemester.id,
-  };
+              </div>
+            </Toolbar>
+          </div>
+        </header>
+        <section className={styles.sidebar_content}>
+          <nav className={classnames(styles.sidebar_component, styles.sidebar_folder)}>
+            <SummaryList />
+            <Divider />
+            <CourseList />
+            <Divider />
+            <SettingList />
+          </nav>
+          {/* list of cards */}
+          <nav className={classnames(styles.sidebar_component, styles.sidebar_cards)}>
+            <CardList />
+          </nav>
+        </section>
+      </nav>
+    </Drawer>
+  );
 };
 
-const mapDispatchToProps = (dispatch): Partial<AppProps> => ({
-  openSidebar: () => dispatch(togglePaneHidden(false)),
-  closeSidebar: () => dispatch(togglePaneHidden(true)),
-  openChangeSemesterDialog: () => dispatch(toggleChangeSemesterDialog(true)),
-  setTitleFilter: (s: string) => {
-    const filter = s.trim();
-    dispatch(setTitleFilter(filter === '' ? undefined : filter));
-  },
-  resetApp: async () => {
+const Fallback = ({ error, errorInfo }: FallbackProps & { errorInfo: ErrorInfo | null }) => {
+  const dispatch = useAppDispatch();
+
+  const resetApp = async () => {
     // clear all data
     await removeStoredCredential();
     dispatch(clearAllData());
     // refresh page
-    window.location = window.location;
-  },
-});
+    window.location.replace(window.location.href);
+  };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+  return (
+    <main className={styles.app_error_section}>
+      <Typography variant="h5" className={styles.app_error_text} noWrap>
+        <b>{t('App_Error_Title')}</b>
+      </Typography>
+      <Typography variant="body1" className={styles.app_error_text} noWrap>
+        {t('App_Error_Content')}
+      </Typography>
+      <Button
+        color="secondary"
+        variant="contained"
+        className={styles.app_error_text}
+        onClick={() => {
+          window.location.replace(window.location.href);
+        }}
+      >
+        {t('App_Error_Refresh')}
+      </Button>
+      <Button
+        color="secondary"
+        variant="contained"
+        className={styles.app_error_text}
+        onClick={resetApp}
+      >
+        {t('App_Error_ClearData')}
+      </Button>
+      <Typography variant="body1" className={styles.app_error_text}>
+        <b>{t('App_Error_Support')}</b>
+      </Typography>
+      <Typography variant="body1" className={styles.app_error_text}>
+        {t('App_Error_Info')}
+        <br />
+        <code>{error.stack ?? `${error.name}: ${error.message}`}</code>
+      </Typography>
+      <Typography variant="body1" className={styles.app_error_text}>
+        {t('App_Error_Component')}
+        <code>{errorInfo?.componentStack ?? t('App_Error_ComponentMissing')}</code>
+      </Typography>
+    </main>
+  );
+};
+
+const App = () => {
+  const [errorInfo, setErrorInfo] = useState<ErrorInfo | null>(null);
+
+  const dispatch = useAppDispatch();
+
+  const loadingProgress = useAppSelector((state) => state.ui.loadingProgress);
+  const paneHidden = useAppSelector((state) => state.ui.paneHidden);
+
+  useEffect(() => {
+    // keep login state
+    const handle = window.setInterval(() => dispatch(tryLoginSilently()), 14 * 60 * 1000); // < 15 minutes and as long as possible
+    return () => window.clearInterval(handle);
+  }, []);
+
+  return (
+    <ErrorBoundary
+      onError={(error, info) => {
+        setErrorInfo(info);
+        console.error(error);
+      }}
+      fallbackRender={(fallbackProps) => <Fallback {...fallbackProps} errorInfo={errorInfo} />}
+    >
+      <main>
+        <CssBaseline />
+        {/* sidebar */}
+        <AppBar />
+        {/* progress bar */}
+        <header className={styles.progress_area}>
+          {loadingProgress !== undefined && (
+            <LinearProgress variant="determinate" color="secondary" value={loadingProgress} />
+          )}
+        </header>
+        <AppDrawer />
+        {/* detail area */}
+        <aside
+          className={classnames(styles.pane_content, {
+            [styles.pane_fullscreen]: paneHidden,
+          })}
+        >
+          <Toolbar />
+          <DetailPane />
+        </aside>
+        {/* dialogs */}
+        <LoginDialog />
+        <NetworkErrorDialog />
+        <NewSemesterDialog />
+        <ChangeSemesterDialog />
+        <ClearDataDialog />
+        <LogoutDialog />
+      </main>
+    </ErrorBoundary>
+  );
+};
+
+export default App;

@@ -1,50 +1,57 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 
-import { ICommonDialogProps } from '../../types/dialogs';
-import { toggleLoginDialog, toggleNetworkErrorDialog } from '../../redux/actions/ui';
-import { IUiStateSlice, STATE_UI } from '../../redux/reducers';
-import { loggedIn, refresh } from '../../redux/actions/helper';
-import { UiState } from '../../redux/reducers/ui';
+import {
+  toggleLoginDialog,
+  toggleNetworkErrorDialog,
+  loggedIn,
+  refresh,
+} from '../../redux/actions';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { requestPermission } from '../../utils/permission';
+import { t, tr } from '../../utils/i18n';
 
-import CommonDialog from './CommonDialog';
+const NetworkErrorDialog = () => {
+  const dispatch = useAppDispatch();
 
-class NetworkErrorDialog extends CommonDialog {}
+  const open = useAppSelector((state) => state.ui.showNetworkErrorDialog);
 
-const mapStateToProps = (state: IUiStateSlice): Partial<ICommonDialogProps> => ({
-  open: (state[STATE_UI] as UiState).showNetworkErrorDialog,
-  title: '刷新课程信息失败',
-  content: (
-    <span>
-      可能原因有：
-      <br />
-      · 网络不太给力
-      <br />
-      · 服务器去思考人生了
-      <br />
-      · 保存的用户凭据不正确（最近修改过密码？）
-      <br />
-      您可以选择重试、放弃刷新，或者更换新的凭据。
-    </span>
-  ),
-  firstButton: '重试刷新',
-  secondButton: '离线查看',
-  thirdButton: '更新凭据',
-});
+  return (
+    <Dialog open={open} keepMounted>
+      <DialogTitle>{t('NetworkErrorDialog_Title')}</DialogTitle>
+      <DialogContent>{tr('NetworkErrorDialog_Content')}</DialogContent>
+      <DialogActions>
+        <Button
+          color="primary"
+          onClick={async () => {
+            await requestPermission();
+            dispatch(toggleNetworkErrorDialog(false));
+            dispatch(refresh());
+          }}
+        >
+          {t('NetworkErrorDialog_Refresh')}
+        </Button>
+        <Button
+          color="primary"
+          onClick={() => {
+            dispatch(toggleNetworkErrorDialog(false));
+            dispatch(loggedIn());
+          }}
+        >
+          {t('NetworkErrorDialog_Offline')}
+        </Button>
+        <Button
+          color="primary"
+          onClick={() => {
+            dispatch(toggleNetworkErrorDialog(false));
+            dispatch(toggleLoginDialog(true));
+          }}
+        >
+          {t('NetworkErrorDialog_UpdateCredential')}
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
 
-const mapDispatchToProps = (dispatch): Partial<ICommonDialogProps> => ({
-  firstButtonOnClick: () => {
-    dispatch(toggleNetworkErrorDialog(false));
-    dispatch(refresh());
-  },
-  secondButtonOnClick: () => {
-    dispatch(toggleNetworkErrorDialog(false));
-    dispatch(loggedIn());
-  },
-  thirdButtonOnClick: () => {
-    dispatch(toggleNetworkErrorDialog(false));
-    dispatch(toggleLoginDialog(true));
-  },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(NetworkErrorDialog);
+export default NetworkErrorDialog;

@@ -1,222 +1,230 @@
-import React from 'react';
-import Iframe from 'react-iframe';
-import { connect } from 'react-redux';
-import { ContentType, RemoteFile } from 'thu-learn-lib/lib/types';
+import React, { useState, type ReactNode } from 'react';
+import { Button, Paper } from '@mui/material';
+import { ContentType, type RemoteFile } from 'thu-learn-lib';
 
-import Button from '@mui/material/Button';
-import Paper from '@mui/material/Paper';
+import type { HomeworkInfo, NotificationInfo, FileInfo, ContentInfo } from '../types/data';
+import { formatDateTime } from '../utils/format';
+import { useAppDispatch } from '../redux/hooks';
+import { setDetailUrl } from '../redux/actions';
+import { t } from '../utils/i18n';
+import { renderHTML } from '../utils/html';
+import styles from '../css/page.module.css';
+import IframeWrapper from './IframeWrapper';
 
-import styles from '../css/page.css';
-import { ContentDetailProps } from '../types/ui';
-import { HomeworkInfo, NotificationInfo, FileInfo } from '../types/data';
-import { addCSRFTokenToIframeUrl, formatDateTime } from '../utils/format';
-import { setDetailUrl } from '../redux/actions/ui';
+// const initialState = {
+//   frameUrl: undefined as string | undefined,
+//   loadPreview: false,
+// };
 
-const initialState = {
-  frameUrl: undefined as string | undefined,
-  loadPreview: false,
-};
-
-const OPEN_IN_CURRENT_WINDOW = '在本窗口打开';
-const OPEN_IN_NEW_WINDOW = '在新窗口打开';
-
-class ContentDetail extends React.PureComponent<ContentDetailProps, typeof initialState> {
-  public state = initialState;
-
-  public render() {
-    const { content, csrfToken } = this.props;
-    const homework = content as HomeworkInfo;
-    const notification = content as NotificationInfo;
-    const file = content as FileInfo;
-    const isHomework = content.type === ContentType.HOMEWORK;
-    const isNotification = content.type === ContentType.NOTIFICATION;
-    const isFile = content.type === ContentType.FILE;
-
-    let contentDetail = isHomework
-      ? homework.description
-      : isFile
-      ? file.description
-      : notification.content;
-    if (contentDetail !== undefined) contentDetail = contentDetail.trim();
-    if (contentDetail === undefined || contentDetail === '') contentDetail = '详情为空';
-
-    const fileToPreview: RemoteFile | undefined =
-      (content as any).attachment ?? (content as any).remoteFile;
-    const showPreviewFrame = fileToPreview && this.canFilePreview(fileToPreview);
-
-    // When `file.previewUrl` is changed (i.e file.previewUrl is not undefined and not equals to
-    // this.state.frameUrl), do not set the <Iframe>'s `url` attribute immediately.
-    // Instead, remove the IFrame label first, and set state `frameUrl` =`file.previewUrl`.
-    // Thus, the component will be update later with correct state, to recreate the <IFrame>` label
-    // rather than reuse the old one.
-    // For file, its preview frame can be loaded instantly.
-    // Otherwise (for homework & notification), user confirmation is required to save traffic.
-    const deferPreviewLoad = showPreviewFrame && this.state?.frameUrl !== fileToPreview?.previewUrl;
-    if (deferPreviewLoad) {
-      setTimeout(
-        () =>
-          this.setState({
-            frameUrl: fileToPreview.previewUrl,
-            loadPreview: isFile,
-          }),
-        100,
-      );
-    }
-
-    return (
-      <section className={styles.content_detail}>
-        <p className={styles.content_detail_title}>{content.title}</p>
-        <section className={styles.content_detail_lines}>
-          <table>
-            <tbody>
-              {this.generateLine('课程名称', content.courseName)}
-              {isHomework ? this.generateDetailsForHomework(homework) : null}
-              {isNotification ? this.generateDetailsForNotification(notification) : null}
-              {isFile ? this.generateDetailsForFile(file) : null}
-            </tbody>
-          </table>
-        </section>
-        <Paper
-          className={styles.content_detail_content}
-          dangerouslySetInnerHTML={{ __html: contentDetail }}
-        />
-        {showPreviewFrame && !this.state.loadPreview ? (
-          <Button
-            variant="outlined"
-            onClick={() => {
-              this.setState({ loadPreview: true });
-            }}
-          >
-            加载预览（{fileToPreview!.size}）
-          </Button>
-        ) : null}
-        {showPreviewFrame && this.state.loadPreview && !deferPreviewLoad ? (
-          <Iframe
-            className={styles.content_detail_preview}
-            url={addCSRFTokenToIframeUrl(csrfToken, this.state?.frameUrl)}
-          />
-        ) : null}
-      </section>
-    );
-  }
-
-  private translateFileType = (type: string): string =>
-    // TODO: Translate file type to human-readable representation.
-    type;
-
-  private canFilePreview = (file: RemoteFile): boolean => {
-    // black list for files that could not be previewed
-    const BLACK_LIST = ['.exe', '.zip', '.rar', '.7z'];
-    return !BLACK_LIST.some((suffix) => file.name.endsWith(suffix));
-  };
-
-  private generateFileLink = (
-    downloadTitle: string,
-    previewTitle: string,
-    file?: RemoteFile,
-  ): React.ReactNode => (
-    <>
-      {file
-        ? this.generateLine(
-            downloadTitle,
-            this.generateLink(file.name + `（${file!.size}）`, file.downloadUrl),
-          )
-        : null}
-      {file && this.canFilePreview(file)
-        ? this.generateLine(previewTitle, this.generateLink(OPEN_IN_NEW_WINDOW, file.previewUrl))
-        : null}
-    </>
-  );
-
-  private generateDetailsForFile = (file: FileInfo): React.ReactNode => (
-    <>
-      {this.generateLine('上传时间', formatDateTime(file.uploadTime))}
-      {this.generateLine('访问量', file.visitCount)}
-      {this.generateLine('下载量', file.downloadCount)}
-      {this.generateLine('文件大小', file.size)}
-      {this.generateLine('文件类型', this.translateFileType(file.fileType))}
-      {this.generateFileLink('文件下载', '文件预览', file.remoteFile)}
-    </>
-  );
-
-  private generateDetailsForHomework = (homework: HomeworkInfo): React.ReactNode => (
-    <>
-      {this.generateLine('截止时间', formatDateTime(homework.deadline))}
-      {homework.submitted
-        ? this.generateLine('提交时间', formatDateTime(homework.submitTime))
-        : null}
-      {homework.submittedContent !== undefined
-        ? this.generateLine('提交内容', homework.submittedContent, true)
-        : null}
-      {this.generateFileLink('提交附件', '提交附件预览', homework.submittedAttachment)}
-      {homework.graded ? this.generateLine('评阅时间', formatDateTime(homework.gradeTime)) : null}
-      {homework.graded ? this.generateLine('评阅者', homework.graderName) : null}
-      {homework.gradeLevel
-        ? this.generateLine('成绩', homework.gradeLevel)
-        : homework.graded
-        ? this.generateLine('成绩', homework.grade ? homework.grade : '无评分')
-        : null}
-      {homework.gradeContent !== undefined
-        ? this.generateLine('评阅内容', homework.gradeContent, true)
-        : null}
-      {this.generateFileLink('评阅附件', '评阅附件预览', homework.gradeAttachment)}
-      {homework.answerContent !== undefined
-        ? this.generateLine('答案内容', homework.answerContent, true)
-        : null}
-      {this.generateFileLink('答案附件', '答案附件预览', homework.answerAttachment)}
-      {this.generateFileLink('作业附件', '作业附件预览', homework.attachment)}
-      {this.generateLine('作业详情', this.generateLink(OPEN_IN_CURRENT_WINDOW, homework.url, true))}
-    </>
-  );
-
-  private generateDetailsForNotification = (notification: NotificationInfo): React.ReactNode => (
-    <>
-      {this.generateLine('发布时间', formatDateTime(notification.publishTime))}
-      {this.generateLine('发布人', notification.publisher)}
-      {this.generateLine('重要性', notification.markedImportant ? '高' : '普通')}
-      {this.generateFileLink('公告附件', '公告附件预览', notification.attachment)}
-      {this.generateLine(
-        '公告详情',
-        this.generateLink(OPEN_IN_CURRENT_WINDOW, notification.url, true),
-      )}
-    </>
-  );
-
-  private generateLine = (
-    name: string,
-    content: React.ReactNode,
-    embedHtml = false,
-  ): React.ReactNode => (
-    <tr className={styles.content_detail_line}>
-      <td>{name}：</td>
-      {embedHtml ? (
-        <td dangerouslySetInnerHTML={{ __html: content as string }} />
-      ) : (
-        <td>{content}</td>
-      )}
-    </tr>
-  );
-
-  private generateLink = (name: string, url: string, inApp = false): React.ReactNode => {
-    if (inApp) {
-      return (
-        <a
-          href={url}
-          onClick={(ev) => {
-            this.props.dispatch(setDetailUrl(url));
-            ev.preventDefault();
-          }}
-        >
-          {name}
-        </a>
-      );
-    }
-    return (
-      <a href={url} target="_blank" rel="noreferrer">
-        {name}
-      </a>
-    );
-  };
+interface LineProps {
+  title: string;
+  children?: ReactNode;
 }
 
-export default connect()(ContentDetail);
+const Line = ({ title, children }: LineProps) => (
+  <tr className={styles.content_detail_line}>
+    <td>{title}</td>
+    <td>{children}</td>
+  </tr>
+);
+
+interface LinkProps {
+  url: string;
+  inApp?: boolean;
+  children: string;
+}
+
+const Link = ({ url, inApp, children }: LinkProps) => {
+  const dispatch = useAppDispatch();
+
+  return (
+    <a
+      href={url}
+      onClick={(ev) => {
+        if (inApp) {
+          dispatch(setDetailUrl(url));
+          ev.preventDefault();
+        }
+      }}
+    >
+      {children}
+    </a>
+  );
+};
+
+const canFilePreview = (file: RemoteFile): boolean => {
+  // black list for files that could not be previewed
+  const BLACK_LIST = ['.exe', '.zip', '.rar', '.7z'];
+  return !BLACK_LIST.some((suffix) => file.name.endsWith(suffix));
+};
+
+interface FileLinkProps {
+  downloadTitle: string;
+  previewTitle: string;
+  file: RemoteFile;
+}
+
+const FileLinks = ({ downloadTitle, previewTitle, file }: FileLinkProps) => (
+  <>
+    <Line title={downloadTitle}>
+      <Link url={file.downloadUrl}>{t('Content_File_Link', [file.name, file.size])}</Link>
+    </Line>
+    {canFilePreview(file) && (
+      <Line title={previewTitle}>
+        <Link url={file.previewUrl}>{t('Content_OpenInNewWindow')}</Link>
+      </Line>
+    )}
+  </>
+);
+
+const translateFileType = (type: string): string =>
+  // TODO: Translate file type to human-readable representation.
+  type;
+
+interface ContentDetailProps<T extends ContentInfo = ContentInfo> {
+  content: T;
+}
+
+const FileDetails = ({ content: file }: ContentDetailProps<FileInfo>) => (
+  <>
+    <Line title={t('Content_File_UploadedAt')}>{formatDateTime(file.uploadTime)}</Line>
+    <Line title={t('Content_File_VisitCount')}>{file.visitCount}</Line>
+    <Line title={t('Content_File_DownloadCount')}>{file.downloadCount}</Line>
+    <Line title={t('Content_File_Size')}>{file.size}</Line>
+    <Line title={t('Content_File_Type')}>{translateFileType(file.type)}</Line>
+    <FileLinks
+      downloadTitle={t('Content_File_Download')}
+      previewTitle={t('Content_File_Preview')}
+      file={file.remoteFile}
+    />
+  </>
+);
+
+const HomeworkDetails = ({ content: homework }: ContentDetailProps<HomeworkInfo>) => (
+  <>
+    <Line title={t('Content_Homework_Deadline')}>{formatDateTime(homework.deadline)}</Line>
+    {homework.submitted && (
+      <Line title={t('Content_Homework_SubmittedAt')}>{formatDateTime(homework.submitTime)}</Line>
+    )}
+    {homework.submittedContent && (
+      <Line title={t('Content_Homework_SubmissionContent')}>
+        {renderHTML(homework.submittedContent)}
+      </Line>
+    )}
+    {homework.submittedAttachment && (
+      <FileLinks
+        downloadTitle={t('Content_Homework_SubmissionAttachment')}
+        previewTitle={t('Content_Homework_SubmissionAttachmentPreview')}
+        file={homework.submittedAttachment}
+      />
+    )}
+    {homework.graded && (
+      <>
+        <Line title={t('Content_Homework_GradedAt')}>{formatDateTime(homework.gradeTime)}</Line>
+        <Line title={t('Content_Homework_Grader')}>{homework.graderName}</Line>
+        <Line title={t('Content_Homework_Grade')}>
+          {homework.gradeLevel ?? homework.grade ?? t('Content_Homework_NoGrade')}
+        </Line>
+        <Line title={t('Content_Homework_GradeContent')}>{renderHTML(homework.gradeContent)}</Line>
+        {homework.gradeAttachment && (
+          <FileLinks
+            downloadTitle={t('Content_Homework_GradeAttachment')}
+            previewTitle={t('Content_Homework_GradeAttachmentPreview')}
+            file={homework.gradeAttachment}
+          />
+        )}
+      </>
+    )}
+    {homework.answerContent && (
+      <Line title={t('Content_Homework_AnswerContent')}>{renderHTML(homework.answerContent)}</Line>
+    )}
+    {homework.answerAttachment && (
+      <FileLinks
+        downloadTitle={t('Content_Homework_AnswerAttachment')}
+        previewTitle={t('Content_Homework_AnswerAttachmentPreview')}
+        file={homework.answerAttachment}
+      />
+    )}
+    {homework.attachment && (
+      <FileLinks
+        downloadTitle={t('Content_Homework_Attachment')}
+        previewTitle={t('Content_Homework_AttachmentPreview')}
+        file={homework.attachment}
+      />
+    )}
+    <Line title={t('Content_Homework_Detail')}>
+      <Link url={homework.url} inApp={true}>
+        {t('Content_OpenInCurrentWindow')}
+      </Link>
+    </Line>
+  </>
+);
+
+const NotificationDetails = ({ content: notification }: ContentDetailProps<NotificationInfo>) => (
+  <>
+    <Line title={t('Content_Notification_PublishedAt')}>
+      {formatDateTime(notification.publishTime)}
+    </Line>
+    <Line title={t('Content_Notification_Publisher')}>{notification.publisher}</Line>
+    <Line title={t('Content_Notification_Severity')}>
+      {notification.markedImportant
+        ? t('Content_Notification_SeverityHigh')
+        : t('Content_Notification_SeverityNormal')}
+    </Line>
+    {notification.attachment && (
+      <FileLinks
+        downloadTitle={t('Content_Notification_Attachment')}
+        previewTitle={t('Content_Notification_AttachmentPreview')}
+        file={notification.attachment}
+      />
+    )}
+  </>
+);
+
+const ContentDetail = ({ content }: ContentDetailProps) => {
+  const contentDetail =
+    (content.type === ContentType.HOMEWORK
+      ? content.description
+      : content.type === ContentType.FILE
+      ? content.description
+      : content.type === ContentType.NOTIFICATION
+      ? content.content
+      : undefined
+    )?.trim() || t('Content_DetailEmpty');
+
+  const fileToPreview: RemoteFile | undefined =
+    (content as NotificationInfo | HomeworkInfo).attachment ?? (content as FileInfo).remoteFile;
+  const showPreviewFrame = fileToPreview && canFilePreview(fileToPreview);
+
+  const [preview, setPreview] = useState(content.type === ContentType.FILE);
+
+  return (
+    <section className={styles.content_detail}>
+      <p className={styles.content_detail_title}>{content.title}</p>
+      <section className={styles.content_detail_lines}>
+        <table>
+          <tbody>
+            <Line title={t('Content_CourseName')}>{content.courseName}</Line>
+            {content.type === ContentType.FILE && <FileDetails content={content} />}
+            {content.type === ContentType.HOMEWORK && <HomeworkDetails content={content} />}
+            {content.type === ContentType.NOTIFICATION && <NotificationDetails content={content} />}
+          </tbody>
+        </table>
+      </section>
+      <Paper
+        className={styles.content_detail_content}
+        dangerouslySetInnerHTML={{ __html: contentDetail }}
+      />
+      {showPreviewFrame && !preview && (
+        <Button variant="outlined" onClick={() => setPreview(true)}>
+          {t('Content_LoadPreview', [fileToPreview!.size])}
+        </Button>
+      )}
+      {showPreviewFrame && preview && (
+        <IframeWrapper className={styles.content_detail_preview} url={fileToPreview.previewUrl} />
+      )}
+    </section>
+  );
+};
+
+export default ContentDetail;

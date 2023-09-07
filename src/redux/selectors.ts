@@ -1,102 +1,88 @@
-import { ContentType, CourseInfo, Homework } from 'thu-learn-lib/lib/types';
+import { memoize } from 'proxy-memoize';
+import { ContentType } from 'thu-learn-lib';
 
-import { DataState } from './reducers/data';
-import { ContentInfo } from '../types/data';
-import { CardListProps } from '../types/ui';
+import type { ContentInfo } from '../types/data';
+import type { RootState } from './store';
 
-let oldType: ContentType;
-let oldCourse: CourseInfo;
-let allContent: ContentInfo[];
-let oldCards: ContentInfo[];
-let lastRegenerateTime: Date;
+export const selectCourseList = memoize((state: RootState) => Object.values(state.data.courseMap));
 
-export const generateCardList = (
-  data: DataState,
-  lastUpdateTime: Date,
-  type?: ContentType,
-  course?: CourseInfo,
-  title?: string,
-): Partial<CardListProps> => {
-  let newCards: ContentInfo[] = [];
+export const selectNotificationList = memoize((state: RootState) =>
+  Object.values(state.data.notificationMap),
+);
+export const selectFileList = memoize((state: RootState) => Object.values(state.data.fileMap));
+export const selectHomeworkList = memoize((state: RootState) =>
+  Object.values(state.data.homeworkMap),
+);
+export const selectDiscussionList = memoize((state: RootState) =>
+  Object.values(state.data.discussionMap),
+);
+export const selectQuestionList = memoize((state: RootState) =>
+  Object.values(state.data.questionMap),
+);
+export const selectDataLists = memoize((state: RootState) => ({
+  notificationList: selectNotificationList(state),
+  fileList: selectFileList(state),
+  homeworkList: selectHomeworkList(state),
+  discussionList: selectDiscussionList(state),
+  questionList: selectQuestionList(state),
+}));
 
-  if (
-    type === oldType &&
-    course === oldCourse &&
-    oldCards !== undefined &&
-    lastRegenerateTime === lastUpdateTime
-  ) {
-    // filter and data not changed, use filtered & sorted sequence
-    // just fetch the latest state
-    newCards = oldCards.map((l) => data[`${l.type}Map`].get(l.id));
-  } else {
-    // filter or data changed, re-calculate visibility and sequence
+export const selectContentIgnore = (state: RootState) => state.data.contentIgnore;
 
-    if (lastUpdateTime !== lastRegenerateTime) {
-      // data updated from network, generate data from scratch
-      allContent = [];
-      for (const [key, content] of Object.entries(data)) {
-        if (key.startsWith('course') || !key.endsWith('Map')) continue;
-        const source = content as Map<string, ContentInfo>;
-        for (const item of source.values()) {
-          allContent.push(item);
-        }
-      }
-      lastRegenerateTime = lastUpdateTime;
-    }
+export const selectUnreadMap = memoize((state: RootState) => {
+  const { notificationList, fileList, homeworkList, discussionList, questionList } =
+    selectDataLists(state);
+  const contentIgnore = selectContentIgnore(state);
 
-    // filter cards to show
-    newCards = allContent.map((l) => data[`${l.type}Map`].get(l.id));
-    if (type === null) {
-      // show ignored items
-      newCards = newCards.filter((l) => l.ignored);
-    } else {
-      // normal items
-      if (type !== undefined) newCards = newCards.filter((l) => l.type === type);
-      if (course !== undefined) {
-        newCards = newCards.filter((l) => l.courseId === course.id);
-      } else {
-        // in summary list, respect all ignore marks
-        newCards = newCards.filter(
-          (l) => data.contentIgnore[l.courseId]?.[l.type] === false && !l.ignored,
-        );
-      }
-    }
-
-    const compareBoolean = (a: boolean, b: boolean) => {
-      if (a === b) return 0;
-      if (a) return -1;
-      if (b) return 1;
-    };
-
-    // sort by starred, hasRead, notDue (homework only), and time
-    newCards.sort((a, b) => {
-      let result = compareBoolean(a.starred, b.starred);
-      if (result !== 0) return result;
-      result = compareBoolean(!a.hasRead, !b.hasRead);
-      if (result !== 0) return result;
-      const aNotDue = a.type === ContentType.HOMEWORK && a.date.getTime() > new Date().getTime();
-      const bNotDue = b.type === ContentType.HOMEWORK && b.date.getTime() > new Date().getTime();
-      result = compareBoolean(aNotDue, bNotDue);
-      if (result !== 0) return result;
-      if (aNotDue && bNotDue) {
-        // homework not due: show the one with earliest deadline first
-        return a.date.getTime() - b.date.getTime();
-      } // otherwise: sort by time naturally
-      return b.date.getTime() - a.date.getTime();
-    });
-  }
-
-  oldType = type;
-  oldCourse = course;
-  oldCards = newCards;
-
-  if (title !== undefined) {
-    newCards = newCards.filter((l) =>
-      l.title.toLocaleLowerCase().includes(title.toLocaleLowerCase()),
+  const count = (type: ContentType, list: ContentInfo[]) =>
+    list.reduce(
+      (cnt, c) =>
+        cnt +
+        Number(
+          !c.ignored &&
+            contentIgnore[c.courseId]?.[type] === false &&
+            (!c.hasRead || // all unread content
+              // unfinished homework before deadline
+              (c.type === ContentType.HOMEWORK &&
+                !c.submitted &&
+                c?.deadline?.getTime() > new Date().getTime())),
+        ),
+      0,
     );
-  }
 
-  return {
-    contents: newCards,
-  };
-};
+  return state.helper.loggedIn
+    ? {
+        notification: count(ContentType.NOTIFICATION, notificationList),
+        file: count(ContentType.FILE, fileList),
+        homework: count(ContentType.HOMEWORK, homeworkList),
+        discussion: count(ContentType.DISCUSSION, discussionList),
+        question: count(ContentType.QUESTION, questionList),
+      }
+    : {};
+});
+
+export const selectCardList = memoize((state: RootState) =>
+  state.ui.cardList
+    .map(({ type, id }): ContentInfo => state.data[`${type}Map`][id])
+    .filter((v) => !!v),
+);
+
+export const selectFilteredCardList = memoize((state: RootState) => {
+  const contents = selectCardList(state);
+  if (state.helper.loggedIn) {
+    if (state.ui.titleFilter) {
+      const title = state.ui.titleFilter.toLocaleLowerCase();
+      return contents.filter((c) => c.title.toLocaleLowerCase().includes(title));
+    } else {
+      return contents;
+    }
+  } else {
+    return [];
+  }
+});
+
+export const selectSemesters = memoize((state: RootState) => {
+  const { semesters, fetchedSemester } = state.data;
+  if (!semesters.includes(fetchedSemester.id)) return [fetchedSemester.id, ...semesters];
+  return semesters;
+});

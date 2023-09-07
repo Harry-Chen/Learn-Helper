@@ -1,23 +1,43 @@
-import { applyMiddleware, createStore } from 'redux';
-import { persistReducer } from 'redux-persist';
-import thunk from 'redux-thunk';
+import {
+  configureStore,
+  createListenerMiddleware,
+  type Action,
+  type AnyAction,
+  type TypedStartListening,
+} from '@reduxjs/toolkit';
 import logger from 'redux-logger';
+import { storage } from 'webextension-polyfill';
 
-import { localStorage, syncStorage } from 'redux-persist-webextension-storage';
-import { PersistConfig } from 'redux-persist/es/types';
-import immutableTransform from 'redux-persist-transform-immutable';
-
-import reducers, { STATE_HELPER, STATE_UI } from './reducers';
 import { STORAGE_KEY_REDUX } from '../constants';
+import data from './reducers/data';
+import helper from './reducers/helper';
+import ui from './reducers/ui';
 
-const config: PersistConfig<any> = {
-  storage: localStorage,
-  transforms: [immutableTransform()],
-  key: STORAGE_KEY_REDUX,
-  blacklist: [STATE_UI, STATE_HELPER],
-};
+const listenerMiddleware = createListenerMiddleware();
 
-const persistedReducer = persistReducer(config, reducers);
-const createStoreWithMiddleware = applyMiddleware(thunk, logger)(createStore);
+export const store = configureStore({
+  reducer: {
+    data,
+    helper,
+    ui,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({ serializableCheck: false })
+      .prepend(listenerMiddleware.middleware)
+      .concat(logger),
+});
 
-export { createStoreWithMiddleware as createStore, persistedReducer as reducer };
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
+export type AppStartListening = TypedStartListening<RootState, AppDispatch>;
+export const startAppListening = listenerMiddleware.startListening as AppStartListening;
+
+startAppListening({
+  matcher: (action: AnyAction): action is Action<string> =>
+    typeof action.type === 'string' && action.type.startsWith('data/'),
+  effect: (_action, { getState }) => {
+    const { data } = getState();
+    storage.local.set({ [STORAGE_KEY_REDUX]: JSON.stringify(data) });
+  },
+});

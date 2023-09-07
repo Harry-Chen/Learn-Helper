@@ -1,48 +1,57 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 
-import { ICommonDialogProps } from '../../types/dialogs';
-import { toggleLoginDialog, toggleLogoutDialog } from '../../redux/actions/ui';
-import { IUiStateSlice, STATE_UI } from '../../redux/reducers';
-import { clearAllData } from '../../redux/actions/data';
-import { loggedOut } from '../../redux/actions/helper';
-import { UiState } from '../../redux/reducers/ui';
+import {
+  toggleLoginDialog,
+  toggleLogoutDialog,
+  clearAllData,
+  loggedOut,
+  refreshCardList,
+} from '../../redux/actions';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { removeStoredCredential } from '../../utils/storage';
+import { t } from '../../utils/i18n';
 
-import CommonDialog from './CommonDialog';
+const LogoutDialog = () => {
+  const dispatch = useAppDispatch();
 
-class LogoutDialog extends CommonDialog {}
+  const open = useAppSelector((state) => state.ui.showLogoutDialog);
 
-const mapStateToProps = (state: IUiStateSlice): Partial<ICommonDialogProps> => ({
-  open: (state[STATE_UI] as UiState).showLogoutDialog,
-  title: '退出登录',
-  content: '您确认要退出登录吗？如果只是更换登录密码，请不要选择清除数据。',
-  firstButton: '退出',
-  secondButton: '退出并清除数据',
-  thirdButton: '取消',
-});
+  return (
+    <Dialog open={open} keepMounted>
+      <DialogTitle>{t('LogoutDialog_Title')}</DialogTitle>
+      <DialogContent>{t('LogoutDialog_Content')}</DialogContent>
+      <DialogActions>
+        <Button
+          color="primary"
+          onClick={async () => {
+            await removeStoredCredential();
+            dispatch(toggleLogoutDialog(false));
+            dispatch(loggedOut());
+            dispatch(toggleLoginDialog(true));
+          }}
+        >
+          {t('LogoutDialog_Logout')}
+        </Button>
+        <Button
+          color="primary"
+          onClick={async () => {
+            await removeStoredCredential();
+            dispatch(toggleLogoutDialog(false));
+            dispatch(loggedOut());
+            dispatch(clearAllData());
+            dispatch(refreshCardList());
+            dispatch(toggleLoginDialog(true));
+          }}
+        >
+          {t('LogoutDialog_LogoutAndClearData')}
+        </Button>
+        <Button color="primary" onClick={() => dispatch(toggleLogoutDialog(false))}>
+          {t('Common_Cancel')}
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
 
-const mapDispatchToProps = (dispatch): Partial<ICommonDialogProps> => ({
-  firstButtonOnClick: () => {
-    dispatch(async (_dispatch) => {
-      await removeStoredCredential();
-      _dispatch(toggleLogoutDialog(false));
-      _dispatch(loggedOut());
-      _dispatch(toggleLoginDialog(true));
-    });
-  },
-  secondButtonOnClick: () => {
-    dispatch(async (_dispatch) => {
-      await removeStoredCredential();
-      _dispatch(toggleLogoutDialog(false));
-      _dispatch(loggedOut());
-      _dispatch(clearAllData());
-      _dispatch(toggleLoginDialog(true));
-    });
-  },
-  thirdButtonOnClick: () => {
-    dispatch(toggleLogoutDialog(false));
-  },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(LogoutDialog);
+export default LogoutDialog;

@@ -1,8 +1,9 @@
-import { SemesterInfo, SemesterType, FailReason } from 'thu-learn-lib/lib/types';
+import { type SemesterInfo, SemesterType, FailReason } from 'thu-learn-lib';
+import { t } from './i18n';
 
 export function formatSemester(semester: SemesterInfo): string {
   if (semester.type !== SemesterType.UNKNOWN) {
-    return `${semester.startYear}-${semester.endYear}-${semester.type}`;
+    return `${semester.startYear}-${semester.endYear}-${t(`SemesterType_${semester.type}`)}`;
   }
   return SemesterType.UNKNOWN;
 }
@@ -24,8 +25,8 @@ export function semesterFromId(id: string): SemesterInfo {
     id,
     startDate: new Date(),
     endDate: new Date(),
-    startYear: parseInt(id.substr(0, 4)),
-    endYear: parseInt(id.substr(5, 4)),
+    startYear: parseInt(id.substring(0, 4)),
+    endYear: parseInt(id.substring(5, 9)),
     type,
   };
 }
@@ -55,45 +56,40 @@ function toTimeString(date: Date): string {
 
 export function formatDate(date?: Date): string {
   if (date === undefined) {
-    return '无';
+    return t('Common_None');
   }
   return `${toDateString(date, false)}`;
 }
 
 export function formatDateTime(date?: Date): string {
   if (date === undefined) {
-    return '无';
+    return t('Common_None');
   }
   return `${toDateString(date, true)} ${toTimeString(date)}`;
 }
 
 const FAIL_REASON_MAPPING = {
-  [FailReason.BAD_CREDENTIAL]: '用户名或密码错误',
-  [FailReason.ERROR_FETCH_FROM_ID]: '无法从 id.tsinghua.edu.cn 获取票据',
-  [FailReason.ERROR_ROAMING]: '无法使用票据漫游至 learn.tsinghua.edu.cn',
-  [FailReason.NOT_IMPLEMENTED]: '功能尚未实现',
-  [FailReason.NOT_LOGGED_IN]: '尚未登录',
-  [FailReason.NO_CREDENTIAL]: '未提供用户名或密码',
-  [FailReason.UNEXPECTED_STATUS]: '非预期的 HTTP 响应状态',
-  TIMEOUT: '请求超时',
+  [FailReason.BAD_CREDENTIAL]: t('FailReason_BadCredential'),
+  [FailReason.ERROR_FETCH_FROM_ID]: t('FailReason_ErrorFetchFromID'),
+  [FailReason.ERROR_ROAMING]: t('FailReason_ErrorRoaming'),
+  [FailReason.NOT_IMPLEMENTED]: t('FailReason_NotImplemented'),
+  [FailReason.NOT_LOGGED_IN]: t('FailReason_NotLoggedIn'),
+  [FailReason.NO_CREDENTIAL]: t('FailReason_NoCredential'),
+  [FailReason.UNEXPECTED_STATUS]: t('FailReason_UnexpectedStatus'),
+  TIMEOUT: t('FailReason_Timeout'),
+  UNKNOWN: t('FailReason_Unknown'),
 };
 
 export function failReasonToString(reason: FailReason): string {
-  return FAIL_REASON_MAPPING[reason] ?? '未知错误';
+  return FAIL_REASON_MAPPING[reason] ?? FAIL_REASON_MAPPING.UNKNOWN;
 }
 
-declare const __LEARN_HELPER_CSRF_TOKEN_PARAM__: string;
-
-export const addCSRFTokenToIframeUrl = (csrfToken: string, url?: string): string | undefined => {
-  if (url === undefined) {
-    return undefined;
+export const addCSRFTokenToIframeUrl = (csrfToken: string, url): string => {
+  const param = `__LEARN_HELPER_CSRF_TOKEN_PARAM__=${csrfToken}`;
+  if (url.includes('?')) {
+    url += `&${param}`;
   } else {
-    const param = `${__LEARN_HELPER_CSRF_TOKEN_PARAM__}=${csrfToken}`;
-    if (url.includes('?')) {
-      url += `&${param}`;
-    } else {
-      url += `?${param}`;
-    }
-    return url;
+    url += `?${param}`;
   }
+  return url;
 };
