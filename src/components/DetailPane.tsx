@@ -6,7 +6,7 @@ import ContentDetail from './ContentDetail';
 import IframeWrapper from './IframeWrapper';
 import ContentIgnoreSetting from './pages/ContentIgnoreSetting';
 import About from './pages/About';
-import ChangeLog from './pages/ChangeLog';
+import Changelog from './pages/Changelog';
 import Readme from './pages/Readme';
 import Welcome from './pages/Welcome';
 
@@ -27,7 +27,7 @@ const DetailPane = () => {
       case 'about':
         return <About />;
       case 'changelog':
-        return <ChangeLog />;
+        return <Changelog />;
       case 'readme':
         return <Readme />;
       case 'welcome':
@@ -37,13 +37,7 @@ const DetailPane = () => {
     return <ContentDetail content={content} />;
   } else if (detailPane.type === 'url')
     return (
-      <section
-        style={{
-          height: 'calc(100% - 64px)',
-          width: '100%',
-          position: 'relative',
-        }}
-      >
+      <section className={styles.web_frame_wrapper}>
         <IframeWrapper id="content-frame" className={styles.web_frame} url={detailPane.url} />
       </section>
     );

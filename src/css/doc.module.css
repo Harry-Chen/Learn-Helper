@@ -1,6 +1,5 @@
 .wrapper {
-  min-height: calc(100vh - 64px);
-  width: 100%;
+  flex-grow: 1;
   font: 16px / 1.5 Helvetica, 'Source Han Sans SC', 'Noto Sans CJK SC', 'Microsoft Yahei',
     'Hiragino Sans GB', sans-serif;
   background: url('../image/creampaper.png');
@@ -141,9 +140,14 @@
 }
 
 .doc_text_block {
-  color: var(--mui-palette-secondary-main);
+  color: var(--mui-palette-primary-main);
   padding: 10px;
   font-weight: bold;
+}
+
+.doc_text_block h2,
+.doc_text_block ul {
+  margin: 5px;
 }
 
 .doc_image_block {
@@ -161,6 +165,10 @@
 
 [data-mui-color-scheme='dark'] .doc_image_block h2 {
   color: #ccc;
+}
+
+.doc_image_block p {
+  margin: 0;
 }
 
 .doc_image_block img {
@@ -199,7 +207,7 @@
 }
 
 .doc_image_block {
-  *zoom: 1;
+  zoom: 1;
 }
 
 .doc_back_link {

@@ -3,6 +3,9 @@ import react from '@vitejs/plugin-react';
 import webExtension from '@samrum/vite-plugin-web-extension';
 import { visualizer } from 'rollup-plugin-visualizer';
 import stripBanner from 'rollup-plugin-strip-banner';
+import mdx from '@mdx-js/rollup';
+import remarkMdxImages from 'remark-mdx-images';
+import remarkUnwrapImages from 'remark-unwrap-images';
 import Randomstring from 'randomstring';
 import { execSync } from 'node:child_process';
 import path from 'node:path';
@@ -40,11 +43,14 @@ export default defineConfig(async () => {
       ),
     },
     plugins: [
+      mdx({
+        remarkPlugins: [remarkMdxImages, remarkUnwrapImages],
+      }),
       react(),
       webExtension({
         manifest: getManifest(process.env.BROWSER === 'firefox') as chrome.runtime.Manifest,
         additionalInputs: {
-          html: ['index.html'],
+          html: ['index.html', 'about.html'],
         },
         useDynamicUrlWebAccessibleResources: process.env.BROWSER !== 'firefox',
       }),

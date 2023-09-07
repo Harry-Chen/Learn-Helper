@@ -20,7 +20,6 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
-import { type Mode as ColorMode } from '@mui/system/cssVars/useCurrentColorScheme';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { bindMenu, bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
 
@@ -35,6 +34,7 @@ import {
 import { formatSemester } from '../utils/format';
 import { removeStoredCredential } from '../utils/storage';
 import { t } from '../utils/i18n';
+import type { ColorMode } from '../types/ui';
 
 import SummaryList from './SummaryList';
 import CourseList from './CourseList';

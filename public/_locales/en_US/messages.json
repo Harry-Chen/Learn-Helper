@@ -56,6 +56,9 @@
   "ClearDataDialog_Title": {
     "message": "Clear data"
   },
+  "Common_Back": {
+    "message": "Back"
+  },
   "Common_Cancel": {
     "message": "Cancel"
   },
@@ -327,7 +330,7 @@
     "message": "Unknown error"
   },
   "LoginDialog_Content": {
-    "message": "Please enter your student ID/username and password to log into Web Learning. <br /> Note that this plugin does not save your credentials by default; you will need to re-enter them each time you open a new page. If you choose to save your credentials, the plugin will <b>save them locally</b> and enable automatic login. <br /> We simply encrypt the credentials, but that doesn't completely prevent them from being read by third parties. When not using the computer for a long time or lending it out, please be sure to log out to prevent your credentials from being leaked. <br /> If you choose to log in, you are deemed to have read and agree to all the contents of <a href=\"src/about.html\" target=\"_blank\">this page</a>. Otherwise, please stop using it immediately and uninstall this extension from your browser."
+    "message": "Please enter your student ID/username and password to log into Web Learning. <br /> Note that this plugin does not save your credentials by default; you will need to re-enter them each time you open a new page. If you choose to save your credentials, the plugin will <b>save them locally</b> and enable automatic login. <br /> We simply encrypt the credentials, but that doesn't completely prevent them from being read by third parties. When not using the computer for a long time or lending it out, please be sure to log out to prevent your credentials from being leaked. <br /> If you choose to log in, you are deemed to have read and agree to all the contents of <a href=\"about.html\" target=\"_blank\">this page</a>. Otherwise, please stop using it immediately and uninstall this extension from your browser."
   },
   "LoginDialog_Password": {
     "message": "Password"
@@ -466,6 +469,15 @@
   },
   "Summary_Question": {
     "message": "All Qs&As"
+  },
+  "Welcome_About": {
+    "message": "About"
+  },
+  "Welcome_Changelog": {
+    "message": "Changelog"
+  },
+  "Welcome_Readme": {
+    "message": "Manual"
   },
   "appDesc": {
     "message": "Helper of Web Learning of Tsinghua University, showing course notices, homeworks, deadlines and other information in one page, providing one-stop service"

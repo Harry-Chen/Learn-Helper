@@ -2,11 +2,12 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { useAppDispatch } from '../../redux/hooks';
+import { setDetailPage } from '../../redux/actions';
+import { t } from '../../utils/i18n';
 
 import styles from '../../css/doc.module.css';
 import bg from '../../image/bg.png';
 import bgDark from '../../image/bg_dark.png';
-import { setDetailPage } from '../../redux/actions';
 
 const Welcome = () => {
   const dispatch = useAppDispatch();
@@ -23,21 +24,21 @@ const Welcome = () => {
             className={styles.welcome_navigation}
             onClick={() => dispatch(setDetailPage('readme'))}
           >
-            使用手册
+            {t('Welcome_Readme')}
           </button>
           {' | '}
           <button
             className={styles.welcome_navigation}
             onClick={() => dispatch(setDetailPage('about'))}
           >
-            关于我们
+            {t('Welcome_About')}
           </button>
           {' | '}
           <button
             className={styles.welcome_navigation}
             onClick={() => dispatch(setDetailPage('changelog'))}
           >
-            更新记录
+            {t('Welcome_Changelog')}
           </button>
           <br />
           <a

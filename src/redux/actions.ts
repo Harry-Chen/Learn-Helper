@@ -1,12 +1,12 @@
 import type { ThunkAction, AnyAction } from '@reduxjs/toolkit';
-import { i18n, storage } from 'webextension-polyfill';
+import { storage } from 'webextension-polyfill';
 import { compare as compareVersion } from 'compare-versions';
-import { ContentType, Language, type ApiError, CourseType, SemesterType } from 'thu-learn-lib';
+import { ContentType, type ApiError, CourseType, SemesterType } from 'thu-learn-lib';
 
 import type { ContentInfo, FileInfo } from '../types/data';
 import { initiateFileDownload } from '../utils/download';
 import { failReasonToString } from '../utils/format';
-import { t } from '../utils/i18n';
+import { t, weblearning_language } from '../utils/i18n';
 import { getStoredCredential, storeCredential } from '../utils/storage';
 import { STORAGE_KEY_REDUX, STORAGE_KEY_REDUX_LEGACY, STORAGE_KEY_VERSION } from '../constants';
 import { version as currentVersion } from '../../package.json';
@@ -109,13 +109,8 @@ export const login =
     dispatch(loginEnd());
     // try to sync language with Web Learning
     try {
-      const langMap = {
-        'zh-CN': Language.ZH,
-        'en-US': Language.EN,
-      };
-      const lang = langMap[i18n.getUILanguage()];
-      if (lang) {
-        await helper.setLanguage(lang);
+      if (weblearning_language) {
+        await helper.setLanguage(weblearning_language);
       }
     } catch (e) {
       const error = e as ApiError;

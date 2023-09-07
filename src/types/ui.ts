@@ -20,3 +20,5 @@ interface ICardProps {
 }
 
 export type CardProps = ICardProps;
+
+export type ColorMode = 'system' | 'light' | 'dark';
