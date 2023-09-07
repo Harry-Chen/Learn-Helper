@@ -3,29 +3,31 @@ name: Build
 on: [push, pull_request]
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        if: "!contains(github.event.head_commit.message, 'ci skip')"
-        steps:
-            - uses: actions/checkout@v3
-            - uses: actions/setup-node@v3
-              with:
-                node-version: '18'
-            - name: Install dependencies
-              run: yarn install --frozen-lockfile
-            - name: Build dev version
-              run: yarn dev-build || yarn dev-build # run twice for css.d.ts generation
-            - name: Upload dev build
-              uses: actions/upload-artifact@v3
-              with:
-                name: dev-build
-                path: dist/
-            - name: Build release version
-              run: yarn build
-            - name: Upload release build
-              uses: actions/upload-artifact@v3
-              with:
-                name: release-build
-                path: |
-                  dist/
-                  size-report.html
+  build:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Build chrome
+        run: yarn build:chrome
+      - name: Upload chrome
+        uses: actions/upload-artifact@v3
+        with:
+          name: chrome
+          path: |
+            dist/
+            stats.html
+      - name: Build firefox
+        run: yarn build:firefox
+      - name: Upload firefox
+        uses: actions/upload-artifact@v3
+        with:
+          name: firefox
+          path: |
+            dist/
+            stats.html
