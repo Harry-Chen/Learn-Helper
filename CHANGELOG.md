@@ -1,5 +1,14 @@
 # Changelog
 
+## v4.6.0
+
+- REFACTOR React components as functional component and Redux logic with Redux Toolkit, change build toolchain from Webpack to Vite
+- MIGRATE to Manifest V3
+- ADD dark mode and switcher
+- ADD i18n and partial English translations  Due to technical restrictions language can only follow browser config
+- Upgrade thu-learn-lib to v3.1.0
+- FIX snackbar conflict
+
 ## v4.5.1
 
 - Upgrade to latest dependencies (TypeScript 4.6.1, MUI 5.5.2)

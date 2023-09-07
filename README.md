@@ -60,14 +60,21 @@ Learn Helper is built using `yarn`:
 
 ```bash
 yarn --frozen-lockfile
-yarn dev-build # for development build
-yarn dev-watch # for development build with watching
-yarn format # run prettier
-yarn build # for release build
+yarn build:chrome # for chrome build
+yarn build:firefox # for firefox build
 ```
 
-You may need to run build commands more than once to get the correct output.
-The compiled Chrome plugin is in `dist/` (unpacked).
+The compiled Chrome/Firefox plugin is in `dist/` (unpacked).
+
+## Development
+
+```bash
+yarn dev
+# in another terminal window
+yarn serve:chrome
+```
+
+Due to technical restrictions, dev mode works only for chrome.
 
 ## Revision History
 

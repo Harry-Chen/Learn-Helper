@@ -1,5 +1,14 @@
 # 更新记录
 
+## 4.6.0
+
+- [REFACTOR] 切换工具链为 Vite，重构了 React 组件和 Redux 逻辑，增加项目可维护性
+- [ADD] 全面迁移为 Manifest V3，支持 Chrome / Firefox
+- [ADD] 添加暗色模式，支持跟随系统或手动设置
+- [ADD] 国际化支持，添加了英文翻译（部分，待校对） 由于技术限制，语言跟随浏览器，暂不可切换
+- [ADD] 升级 thu-learn-lib v3.1.0
+- [FIX] snackbar 有多条消息时只显示最后一条
+
 ## 4.5.1
 
 - [ADD] 升级到 TypeScript v4.3.6，MUI v5.5.2（界面风格略有变化）
