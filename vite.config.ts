@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import webExtension from '@samrum/vite-plugin-web-extension';
 import { visualizer } from 'rollup-plugin-visualizer';
-import stripBanner from 'rollup-plugin-strip-banner';
+import zipPack from "vite-plugin-zip-pack";
 import mdx from '@mdx-js/rollup';
 import remarkMdxImages from 'remark-mdx-images';
 import remarkUnwrapImages from 'remark-unwrap-images';
@@ -18,13 +18,18 @@ import { version as versionReact } from './node_modules/react/package.json';
 const runCmd = (cmd: string) => execSync(cmd).toString().trim();
 
 // https://vitejs.dev/config/
-export default defineConfig(async () => {
+export default defineConfig((async () => {
+
   const randomSuffix = Randomstring.generate(4);
+  const isFirefox = process.env.BROWSER === 'firefox';
+  const isDev = process.env.NODE_ENV === 'development';
+  const helperVersion = version;
+  const gitVersion = runCmd('git describe --always --dirty');
 
   return {
     define: {
-      __HELPER_VERSION__: JSON.stringify(version),
-      __GIT_VERSION__: JSON.stringify(runCmd('git describe --always')),
+      __HELPER_VERSION__: JSON.stringify(helperVersion),
+      __GIT_VERSION__: JSON.stringify(gitVersion),
       __GIT_COMMIT_HASH__: JSON.stringify(runCmd('git rev-parse HEAD')),
       __GIT_COMMIT_DATE__: JSON.stringify(
         runCmd('git log -1 --date=format:"%Y/%m/%d %T" --format="%ad"'),
@@ -48,14 +53,17 @@ export default defineConfig(async () => {
       }),
       react(),
       webExtension({
-        manifest: getManifest(process.env.BROWSER === 'firefox') as chrome.runtime.Manifest,
+        manifest: getManifest(isFirefox) as chrome.runtime.Manifest,
         additionalInputs: {
-          html: ['index.html', 'about.html'],
+          html: ['pages/index.html', 'pages/about.html'],
         },
-        useDynamicUrlWebAccessibleResources: process.env.BROWSER !== 'firefox',
+        useDynamicUrlWebAccessibleResources: !isFirefox,
       }),
-      stripBanner({}),
       visualizer(),
+      isDev ? undefined :
+        zipPack({
+          outFileName: `learn-helper-${helperVersion}-${gitVersion}-${isFirefox ? 'firefox' : 'chrome'}.zip`,
+        }),
     ],
     resolve: {
       alias: {
@@ -65,6 +73,14 @@ export default defineConfig(async () => {
       },
     },
     build: {
+      minify: 'terser',
+      sourcemap: isDev,
+      terserOptions: {
+        format: {
+          comments: false,
+          ecma: 2018,
+        },
+      },
       rollupOptions: {
         output: {
           manualChunks: {
@@ -94,4 +110,4 @@ export default defineConfig(async () => {
       },
     },
   };
-});
+})());
