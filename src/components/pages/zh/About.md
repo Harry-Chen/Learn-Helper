@@ -3,9 +3,11 @@
 做为一只贵系（计算机系的别称）的孩子，每周上双位数的作业实在是让人叫苦不迭。
 我的脑子总是记不住繁多的作业 TT，网络学堂设计的不合理以及经常挂掉，使我有了兴趣来做这个网络学堂改造器。
 
-联系我们：  
-[xxr3376@gmail.com](mailto:xxr3376@gmail.com)：初始开发者  
-[harry-chen@outlook.com](mailto:harry-chen@outlook.com)：当前维护者
+联系我们：
+
+- [xxr3376](mailto:xxr3376@gmail.com)：初始开发者
+- [Harry-Chen](mailto:harry-chen@outlook.com)：当前维护者
+- [AsakuraMizu](mailto:mizu@stellopath.net)：当前维护者
 
 本插件以含附加条款的 MIT 协议在 [GitHub](https://github.com/Harry-Chen/Learn-Helper) 开放源代码。
 在使用本插件的源代码前，请确保您已经充分理解并接受协议及其附加条款的内容。
