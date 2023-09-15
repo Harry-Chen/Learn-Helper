@@ -34,6 +34,7 @@ import {
 import { formatSemester } from '../utils/format';
 import { removeStoredCredential } from '../utils/storage';
 import { t } from '../utils/i18n';
+import { interceptCsrfRequest } from '../utils/csrf';
 import type { ColorMode } from '../types/ui';
 
 import SummaryList from './SummaryList';
@@ -306,12 +307,15 @@ const App = () => {
 
   const loadingProgress = useAppSelector((state) => state.ui.loadingProgress);
   const paneHidden = useAppSelector((state) => state.ui.paneHidden);
+  const csrf = useAppSelector((state) => state.helper.helper.getCSRFToken());
 
   useEffect(() => {
     // keep login state
     const handle = window.setInterval(() => dispatch(tryLoginSilently()), 14 * 60 * 1000); // < 15 minutes and as long as possible
     return () => window.clearInterval(handle);
   }, []);
+
+  useEffect(() => interceptCsrfRequest(csrf), [csrf]);
 
   return (
     <ErrorBoundary

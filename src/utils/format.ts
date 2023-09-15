@@ -83,13 +83,3 @@ const FAIL_REASON_MAPPING = {
 export function failReasonToString(reason: FailReason): string {
   return FAIL_REASON_MAPPING[reason] ?? FAIL_REASON_MAPPING.UNKNOWN;
 }
-
-export const addCSRFTokenToIframeUrl = (csrfToken: string, url): string => {
-  const param = `__LEARN_HELPER_CSRF_TOKEN_PARAM__=${csrfToken}`;
-  if (url.includes('?')) {
-    url += `&${param}`;
-  } else {
-    url += `?${param}`;
-  }
-  return url;
-};

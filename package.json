@@ -17,7 +17,7 @@
     "serve:chrome": "web-ext run -t chromium --start-url \"https://example.com\" --source-dir ./dist/",
     "serve:firefox": "web-ext run --start-url \"about:debugging#/runtime/this-firefox\"  --source-dir ./dist/",
     "lint": "eslint .",
-    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\" \"src/**/*.js\" \"./*.js\""
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\""
   },
   "devDependencies": {
     "@mdx-js/rollup": "^2.3.0",
