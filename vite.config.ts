@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import react from '@vitejs/plugin-react-swc';
 import webExtension from '@samrum/vite-plugin-web-extension';
 import { visualizer } from 'rollup-plugin-visualizer';
 import stripBanner from 'rollup-plugin-strip-banner';
@@ -60,6 +60,7 @@ export default defineConfig(async () => {
     resolve: {
       alias: {
         '~': path.resolve(__dirname, 'src'),
+        '/@react-refresh': path.resolve('node_modules/@vitejs/plugin-react-swc/refresh-runtime.js'),
         parse5: path.resolve(__dirname, 'node_modules/fake-parse5/'),
         'parse5-htmlparser2-tree-adapter': path.resolve(__dirname, 'node_modules/fake-parse5/'),
       },
