@@ -13,21 +13,27 @@ jobs:
           node-version: '18'
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - name: Build chrome
+      - name: Build Chrome version
         run: yarn build:chrome
-      - name: Upload chrome
+      - name: Upload Chrome version
         uses: actions/upload-artifact@v3
         with:
           name: chrome
           path: |
             dist/
             stats.html
-      - name: Build firefox
+      - name: Build Firefox version
         run: yarn build:firefox
-      - name: Upload firefox
+      - name: Upload Firefox version
         uses: actions/upload-artifact@v3
         with:
           name: firefox
           path: |
             dist/
             stats.html
+      - name: Upload Zip version
+        uses: actions/upload-artifact@v3
+        with:
+          name: zip-files
+          path: |
+            dist-zip/

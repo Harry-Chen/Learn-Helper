@@ -2,6 +2,8 @@
 
 ## 4.6.0
 
+（由 @AsakuraMizu 作为 2023 年 OSPP 项目贡献）
+
 - [REFACTOR] 切换工具链为 Vite，重构了 React 组件和 Redux 逻辑，增加项目可维护性
 - [ADD] 全面迁移为 Manifest V3，支持 Chrome / Firefox
 - [ADD] 添加暗色模式，支持跟随系统或手动设置
