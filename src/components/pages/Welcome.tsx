@@ -66,7 +66,7 @@ const Welcome = () => {
           </div>
           <div className={styles.welcome_packages}>
             thu-learn-lib: v{__THU_LEARN_LIB_VERSION__} <br />
-            React: v{__REACT_VERSION__} <br />
+            Preact: v{__PREACT_VERSION__} <br />
             MUI: v{__MUI_VERSION__} <br />
           </div>
         </section>

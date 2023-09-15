@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@mdx-js/rollup": "^2.3.0",
+    "@preact/preset-vite": "^2.5.0",
     "@samrum/vite-plugin-web-extension": "^5.0.0",
     "@types/lodash": "^4.14.195",
     "@types/node": "^18.11.11",
@@ -57,9 +58,8 @@
     "fake-parse5": "^0.0.1",
     "material-ui-popup-state": "^5.0.9",
     "notistack": "^3.0.1",
+    "preact": "^10.17.1",
     "proxy-memoize": "^2.0.4",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "react-error-boundary": "^4.0.11",
     "react-iframe": "^1.8.5",
     "react-redux": "^8.1.2",

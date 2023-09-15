@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import preact from '@preact/preset-vite';
 import webExtension from '@samrum/vite-plugin-web-extension';
 import { visualizer } from 'rollup-plugin-visualizer';
 import stripBanner from 'rollup-plugin-strip-banner';
@@ -13,7 +13,7 @@ import { getManifest } from './src/manifest';
 import { version } from './package.json';
 import { version as versionThuLearnLib } from './node_modules/thu-learn-lib/package.json';
 import { version as versionMui } from './node_modules/@mui/material/package.json';
-import { version as versionReact } from './node_modules/react/package.json';
+import { version as versionPreact } from './node_modules/preact/package.json';
 
 const runCmd = (cmd: string) => execSync(cmd).toString().trim();
 
@@ -34,7 +34,7 @@ export default defineConfig(async () => {
       __BUILD_TIME__: JSON.stringify(runCmd('date +"%Y/%m/%d %T"')),
       __THU_LEARN_LIB_VERSION__: JSON.stringify(versionThuLearnLib),
       __MUI_VERSION__: JSON.stringify(versionMui),
-      __REACT_VERSION__: JSON.stringify(versionReact),
+      __PREACT_VERSION__: JSON.stringify(versionPreact),
       __LEARN_HELPER_CSRF_TOKEN_PARAM__: JSON.stringify(
         `__learn-helper-csrf-token-${randomSuffix}__`,
       ),
@@ -46,7 +46,7 @@ export default defineConfig(async () => {
       mdx({
         remarkPlugins: [remarkMdxImages, remarkUnwrapImages],
       }),
-      react(),
+      preact(),
       webExtension({
         manifest: getManifest(process.env.BROWSER === 'firefox') as chrome.runtime.Manifest,
         additionalInputs: {
@@ -68,28 +68,14 @@ export default defineConfig(async () => {
       rollupOptions: {
         output: {
           manualChunks: {
-            'react-vendor': [
-              'react',
-              'react-dom',
-              'react-iframe',
-              'react-is',
-              'react-transition-group',
-              '@reduxjs/toolkit',
-              'redux-logger',
-              'react-redux',
-            ],
-            'ui-vendor': [
-              '@mui/material',
-              '@emotion/react',
-              '@emotion/styled',
-              '@fortawesome/fontawesome-svg-core',
-              '@fortawesome/free-solid-svg-icons',
-              '@fortawesome/react-fontawesome',
-              'notistack',
-              'classnames',
-            ],
             'thu-learn-lib-vendor': ['thu-learn-lib'],
           },
+        },
+        onwarn(warning, defaultHandler) {
+          if (warning.code === 'MODULE_LEVEL_DIRECTIVE' && warning.message.includes('use client')) {
+            return;
+          }
+          defaultHandler(warning);
         },
       },
     },
