@@ -2,6 +2,8 @@
 
 ## v4.6.0
 
+(Contributed by @AsakuraMizu as part of OSPP'2023 project)
+
 - REFACTOR React components as functional component and Redux logic with Redux Toolkit, change build toolchain from Webpack to Vite
 - MIGRATE to Manifest V3
 - ADD dark mode and switcher

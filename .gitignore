@@ -4,4 +4,5 @@ legacy
 *.css.d.ts
 yarn-error.log
 dist
+dist-zip
 stats.html

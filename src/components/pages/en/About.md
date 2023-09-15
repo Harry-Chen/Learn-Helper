@@ -5,9 +5,11 @@
 做为一只贵系（计算机系的别称）的孩子，每周上双位数的作业实在是让人叫苦不迭。
 我的脑子总是记不住繁多的作业 TT，网络学堂设计的不合理以及经常挂掉，使我有了兴趣来做这个网络学堂改造器。
 
-Contact us:  
-[xxr3376@gmail.com](mailto:xxr3376@gmail.com): Creator  
-[harry-chen@outlook.com](mailto:harry-chen@outlook.com): Current maintainer
+Contact us:
+
+* [xxr3376](mailto:xxr3376@gmail.com): Creator
+* [Harry-Chen](mailto:harry-chen@outlook.com): Current maintainer
+* [AsakuraMizu](mailto:mizu@stellopath.net): Current maintainer
 
 This extension is open source on [GitHub](https://github.com/Harry-Chen/Learn-Helper) under the MIT license with additional terms.
 Before using the source code of this extension, please ensure that you have fully understood and accepted the content of the agreement and its additional terms.

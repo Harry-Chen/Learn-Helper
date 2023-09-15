@@ -10,9 +10,12 @@ A browser extension for [Web Learning](https://learn.tsinghua.edu.cn) of Tsinghu
 
 ## Authors & Maintainers
 
+* [AsakuraMizu](https://github.com/AsakuraMizu)
+  * current maintainer
+  * developer from v4.6.0
 * [Harry-Chen](https://github.com/Harry-Chen)
   * current maintainer
-  * developer from v4.0.0
+  * developer of v4.0.0 - v4.5.1
 * [xxr3376](https://github.com/xxr3376)
   * original author
   * developer till v3.3.1

@@ -7,7 +7,7 @@ const _browser = (typeof browser !== 'undefined' ? browser : chrome) as Browser;
 
 const clickListener = () => {
   _browser.tabs.create({
-    url: 'index.html',
+    url: 'pages/index.html',
   });
 };
 
