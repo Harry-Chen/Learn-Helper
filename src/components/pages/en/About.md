@@ -9,7 +9,7 @@ Contact us:
 
 * [xxr3376](mailto:xxr3376@gmail.com): Creator
 * [Harry-Chen](mailto:harry-chen@outlook.com): Current maintainer
-* [AsakuraMizu](mailto:mizu@stellopath.net): Current maintainer
+* [AsakuraMizu](mailto:asakuramizu111@gmail.com): Current maintainer
 
 This extension is open source on [GitHub](https://github.com/Harry-Chen/Learn-Helper) under the MIT license with additional terms.
 Before using the source code of this extension, please ensure that you have fully understood and accepted the content of the agreement and its additional terms.

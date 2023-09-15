@@ -7,7 +7,7 @@
 
 - [xxr3376](mailto:xxr3376@gmail.com)：初始开发者
 - [Harry-Chen](mailto:harry-chen@outlook.com)：当前维护者
-- [AsakuraMizu](mailto:mizu@stellopath.net)：当前维护者
+- [AsakuraMizu](mailto:asakuramizu111@gmail.com)：当前维护者
 
 本插件以含附加条款的 MIT 协议在 [GitHub](https://github.com/Harry-Chen/Learn-Helper) 开放源代码。
 在使用本插件的源代码前，请确保您已经充分理解并接受协议及其附加条款的内容。
