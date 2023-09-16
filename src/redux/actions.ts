@@ -1,9 +1,10 @@
 import type { ThunkAction, AnyAction } from '@reduxjs/toolkit';
 import { storage } from 'webextension-polyfill';
 import { compare as compareVersion } from 'compare-versions';
-import { ContentType, type ApiError, CourseType, SemesterType } from 'thu-learn-lib';
+import { ContentType, type ApiError, CourseType, SemesterType, Language } from 'thu-learn-lib';
 import { enqueueSnackbar } from 'notistack';
 import { t } from '@lingui/macro';
+import { i18n } from '@lingui/core';
 
 import type { ContentInfo, FileInfo } from '../types/data';
 import { initiateFileDownload } from '../utils/download';
@@ -105,20 +106,7 @@ export const login =
     }
     dispatch(loggedIn());
     dispatch(loginEnd());
-    // try to sync language with Web Learning
-    try {
-      // if (weblearning_language) {
-      //   await helper.setLanguage(weblearning_language);
-      // }
-    } catch (e) {
-      const error = e as ApiError;
-      enqueueSnackbar(
-        t`设置网络学堂语言失败：${
-          (failReasonToString(error?.reason) ?? error).toString() ?? t`未知错误`
-        }`,
-        { variant: 'error' },
-      );
-    }
+    dispatch(syncLanguage());
     return Promise.resolve();
   };
 
@@ -272,6 +260,22 @@ export const refresh = (): AppThunk<Promise<void>> => async (dispatch, getState)
       resolve();
     }, 1000);
   });
+};
+
+export const syncLanguage = (): AppThunk<Promise<void>> => async (_dispatch, getState) => {
+  // try to sync language with Web Learning
+  const { helper } = getState().helper;
+  try {
+    await helper.setLanguage(i18n.locale as Language);
+  } catch (e) {
+    const error = e as ApiError;
+    enqueueSnackbar(
+      t`设置网络学堂语言失败：${
+        (failReasonToString(error?.reason) ?? error).toString() ?? t`未知错误`
+      }`,
+      { variant: 'error' },
+    );
+  }
 };
 
 const compareBoolean = (a: boolean, b: boolean) => {
