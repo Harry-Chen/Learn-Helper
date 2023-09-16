@@ -7,7 +7,7 @@ import { SnackbarProvider } from 'notistack';
 
 import { store } from './redux/store';
 import { theme } from './theme';
-import { loadApp } from './redux/actions';
+import { loadApp, login, refresh } from './redux/actions';
 import App from './components/App';
 import { printWelcomeMessage } from './utils/console';
 import './fontAwesome';
@@ -31,4 +31,12 @@ root.render(
 );
 
 printWelcomeMessage();
-store.dispatch(loadApp());
+await store.dispatch(loadApp());
+
+if (import.meta.env.DEV) {
+  const { VITE_USERNAME: username, VITE_PASSWORD: password } = import.meta.env;
+  if (username && password) {
+    await store.dispatch(login(username, password, true));
+    await store.dispatch(refresh());
+  }
+}
