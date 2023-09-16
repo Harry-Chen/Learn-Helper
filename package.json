@@ -18,7 +18,7 @@
     "serve:firefox": "web-ext run --start-url \"about:debugging#/runtime/this-firefox\"  --source-dir ./dist/",
     "lint": "eslint .",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\"",
-    "lingui:extract": "lingui extract --clean"
+    "lingui:extract": "lingui extract"
   },
   "devDependencies": {
     "@lingui/cli": "^4.5.0",

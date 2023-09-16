@@ -84,7 +84,7 @@ const ChangeSemesterDialog = () => {
             dispatch(toggleChangeSemesterDialog(false));
           }}
         >
-          <Trans>确认</Trans>
+          <Trans>确定</Trans>
         </Button>
         <Button color="primary" onClick={() => dispatch(toggleChangeSemesterDialog(false))}>
           <Trans>取消</Trans>

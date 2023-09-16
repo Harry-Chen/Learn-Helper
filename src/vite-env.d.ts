@@ -17,6 +17,5 @@ declare const __BROWSER__: string;
 
 declare module '*.po' {
   import type { Messages } from '@lingui/core';
-  const messages: Messages;
-  export { messages };
+  export const messages: Messages;
 }

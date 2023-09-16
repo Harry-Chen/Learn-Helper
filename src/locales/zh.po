@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2023-09-16 16:51+0800\n"
+"POT-Creation-Date: 2023-09-16 20:24+0800\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,634 +13,634 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/components/ContentCard.tsx:121
-msgid "（{0}）"
-msgstr ""
+#: src/components/App.tsx:100
+msgid "跟随系统"
+msgstr "跟随系统"
 
-#: src/utils/format.ts:6
-msgid "{0, select, fall {秋季学期} spring {春季学期} summer {夏季学期} other {未知学期}}"
-msgstr ""
-
-#: src/components/ContentDetail.tsx:71
-msgid "{0}（{1}）"
-msgstr ""
-
-#: src/components/ContentCard.tsx:120
-msgid "{0}分"
-msgstr ""
-
-#: src/components/App.tsx:271
-msgid "哎呀，出错了！"
-msgstr ""
+#: src/components/App.tsx:112
+msgid "亮"
+msgstr "亮"
 
 #: src/components/App.tsx:124
 msgid "暗"
-msgstr ""
+msgstr "暗"
 
-#: src/components/dialogs/LoginDialog.tsx:78
-msgid "保存凭据以自动登录"
-msgstr ""
+#: src/components/App.tsx:139
+msgid "加载中..."
+msgstr "加载中..."
 
-#: src/components/CourseList.tsx:35
-msgid "本学期课程"
-msgstr ""
+#: src/components/App.tsx:178
+msgid "非网络学堂当前学期"
+msgstr "非网络学堂当前学期"
+
+#: src/components/App.tsx:221
+msgid "筛选"
+msgstr "筛选"
+
+#: src/components/App.tsx:271
+msgid "哎呀，出错了！"
+msgstr "哎呀，出错了！"
+
+#: src/components/App.tsx:275
+msgid "发生了不可恢复的错误，请尝试刷新页面。如果错误继续出现，请清除数据重新来过。"
+msgstr "发生了不可恢复的错误，请尝试刷新页面。如果错误继续出现，请清除数据重新来过。"
+
+#: src/components/App.tsx:285
+msgid "刷新"
+msgstr "刷新"
+
+#: src/components/App.tsx:293
+msgid "清除数据"
+msgstr "清除数据"
+
+#: src/components/App.tsx:297
+msgid "请将下面的错误信息发送给开发者，以协助解决问题，感谢支持！"
+msgstr "请将下面的错误信息发送给开发者，以协助解决问题，感谢支持！"
+
+#: src/components/App.tsx:301
+msgid "错误信息："
+msgstr "错误信息："
+
+#: src/components/App.tsx:306
+msgid "错误组件："
+msgstr "错误组件："
+
+#: src/components/App.tsx:307
+msgid "无此信息"
+msgstr "无此信息"
+
+#: src/components/CardList.tsx:68
+msgid "下载所有未读文件（共 {0} 个）"
+msgstr "下载所有未读文件（共 {0} 个）"
+
+#: src/components/CardList.tsx:80
+msgid "这里什么也没有"
+msgstr "这里什么也没有"
+
+#: src/components/CardList.tsx:87
+msgid "加载更多"
+msgstr "加载更多"
+
+#: src/components/ContentCard.tsx:114
+msgid "已提交"
+msgstr "已提交"
+
+#: src/components/ContentCard.tsx:114
+msgid "未提交"
+msgstr "未提交"
+
+#: src/components/ContentCard.tsx:120
+msgid "{0}分"
+msgstr "{0}分"
+
+#: src/components/ContentCard.tsx:121
+#: src/components/ContentDetail.tsx:124
+msgid "无评分"
+msgstr "无评分"
+
+#: src/components/ContentCard.tsx:121
+msgid "（{0}）"
+msgstr "（{0}）"
+
+#: src/components/ContentCard.tsx:122
+msgid "未批阅"
+msgstr "未批阅"
+
+#: src/components/ContentCard.tsx:124
+msgid "重要"
+msgstr "重要"
+
+#: src/components/ContentCard.tsx:126
+msgid "发布者:{0}"
+msgstr "发布者:{0}"
+
+#: src/components/ContentCard.tsx:132
+msgid "回复:{0}"
+msgstr "回复:{0}"
+
+#: src/components/ContentCard.tsx:133
+msgid "最后回复:{0}"
+msgstr "最后回复:{0}"
+
+#: src/components/ContentCard.tsx:140
+msgid "取消星标"
+msgstr "取消星标"
+
+#: src/components/ContentCard.tsx:140
+msgid "加星标"
+msgstr "加星标"
 
 #: src/components/ContentCard.tsx:159
 msgid "标记为未读"
-msgstr ""
+msgstr "标记为未读"
 
 #: src/components/ContentCard.tsx:159
 #: src/constants/ui.ts:155
 msgid "标记为已读"
-msgstr ""
+msgstr "标记为已读"
 
-#: src/components/dialogs/NewSemesterDialog.tsx:69
-msgid "不再询问"
-msgstr ""
+#: src/components/ContentCard.tsx:176
+msgid "取消忽略此项"
+msgstr "取消忽略此项"
 
-#: src/redux/actions.ts:261
-msgid "部分内容更新失败"
-msgstr ""
+#: src/components/ContentCard.tsx:176
+msgid "忽略此项"
+msgstr "忽略此项"
+
+#: src/components/ContentCard.tsx:198
+msgid "提交作业"
+msgstr "提交作业"
+
+#: src/components/ContentCard.tsx:215
+msgid "下载文件"
+msgstr "下载文件"
+
+#: src/components/ContentCard.tsx:231
+msgid "附件：{0}"
+msgstr "附件：{0}"
+
+#: src/components/ContentDetail.tsx:71
+msgid "{0}（{1}）"
+msgstr "{0}（{1}）"
+
+#: src/components/ContentDetail.tsx:79
+msgid "在新窗口打开"
+msgstr "在新窗口打开"
+
+#: src/components/ContentDetail.tsx:96
+msgid "上传时间："
+msgstr "上传时间："
+
+#: src/components/ContentDetail.tsx:97
+msgid "访问量："
+msgstr "访问量："
+
+#: src/components/ContentDetail.tsx:98
+msgid "下载量："
+msgstr "下载量："
+
+#: src/components/ContentDetail.tsx:99
+msgid "文件大小："
+msgstr "文件大小："
+
+#: src/components/ContentDetail.tsx:100
+msgid "文件类型："
+msgstr "文件类型："
+
+#: src/components/ContentDetail.tsx:101
+msgid "文件下载："
+msgstr "文件下载："
+
+#: src/components/ContentDetail.tsx:101
+msgid "文件预览："
+msgstr "文件预览："
+
+#: src/components/ContentDetail.tsx:107
+msgid "截止时间："
+msgstr "截止时间："
+
+#: src/components/ContentDetail.tsx:108
+msgid "提交时间："
+msgstr "提交时间："
+
+#: src/components/ContentDetail.tsx:110
+msgid "提交内容："
+msgstr "提交内容："
+
+#: src/components/ContentDetail.tsx:114
+msgid "提交附件："
+msgstr "提交附件："
+
+#: src/components/ContentDetail.tsx:115
+msgid "提交附件预览："
+msgstr "提交附件预览："
+
+#: src/components/ContentDetail.tsx:121
+msgid "评阅时间："
+msgstr "评阅时间："
+
+#: src/components/ContentDetail.tsx:122
+msgid "评阅者："
+msgstr "评阅者："
 
 #: src/components/ContentDetail.tsx:123
 msgid "成绩："
-msgstr ""
+msgstr "成绩："
 
-#: src/components/pages/ContentIgnoreSetting.tsx:32
-msgid "此处的更改在下一次刷新时生效，并且只在汇总功能中起作用。<0/>如果您重新启用一个隐藏的项目，原本的项目属性（是否已读、加星标）不会发生变化。"
-msgstr ""
+#: src/components/ContentDetail.tsx:126
+msgid "评阅内容："
+msgstr "评阅内容："
 
-#: src/components/App.tsx:301
-msgid "错误信息："
-msgstr ""
+#: src/components/ContentDetail.tsx:129
+msgid "评阅附件："
+msgstr "评阅附件："
 
-#: src/components/App.tsx:306
-msgid "错误组件："
-msgstr ""
-
-#: src/components/ContentDetail.tsx:141
-msgid "答案附件："
-msgstr ""
-
-#: src/components/ContentDetail.tsx:142
-msgid "答案附件预览："
-msgstr ""
+#: src/components/ContentDetail.tsx:130
+msgid "评阅附件预览："
+msgstr "评阅附件预览："
 
 #: src/components/ContentDetail.tsx:137
 msgid "答案内容："
-msgstr ""
+msgstr "答案内容："
 
-#: src/constants/ui.ts:45
-msgid "答疑"
-msgstr ""
+#: src/components/ContentDetail.tsx:141
+msgid "答案附件："
+msgstr "答案附件："
 
-#: src/components/dialogs/NewSemesterDialog.tsx:28
-msgid "当前 Learn Helper 学期：{0}<0/>当前网络学堂学期：{1}<1/>是否要进行学期切换（本学期已读、星标等状态将会被清空）？<2/>如果选择“否”，则在下一次打开 Learn Helper 前都将保持当前学期。<3/>如果选择“不再询问”，则需要手动进行学期切换。"
-msgstr ""
+#: src/components/ContentDetail.tsx:142
+msgid "答案附件预览："
+msgstr "答案附件预览："
 
-#: src/redux/actions.ts:102
-msgid "登录成功"
-msgstr ""
+#: src/components/ContentDetail.tsx:148
+msgid "作业附件："
+msgstr "作业附件："
 
-#: src/redux/actions.ts:93
-msgid "登录失败：{0}"
-msgstr ""
+#: src/components/ContentDetail.tsx:149
+msgid "作业附件预览："
+msgstr "作业附件预览："
+
+#: src/components/ContentDetail.tsx:153
+msgid "作业详情："
+msgstr "作业详情："
+
+#: src/components/ContentDetail.tsx:155
+msgid "在本窗口打开"
+msgstr "在本窗口打开"
+
+#: src/components/ContentDetail.tsx:163
+msgid "发布时间："
+msgstr "发布时间："
+
+#: src/components/ContentDetail.tsx:164
+msgid "发布人："
+msgstr "发布人："
+
+#: src/components/ContentDetail.tsx:165
+msgid "重要性："
+msgstr "重要性："
+
+#: src/components/ContentDetail.tsx:166
+msgid "高"
+msgstr "高"
+
+#: src/components/ContentDetail.tsx:166
+msgid "普通"
+msgstr "普通"
+
+#: src/components/ContentDetail.tsx:170
+msgid "公告附件："
+msgstr "公告附件："
+
+#: src/components/ContentDetail.tsx:171
+msgid "公告附件预览："
+msgstr "公告附件预览："
+
+#: src/components/ContentDetail.tsx:187
+msgid "详情为空"
+msgstr "详情为空"
+
+#: src/components/ContentDetail.tsx:201
+msgid "课程名称："
+msgstr "课程名称："
+
+#: src/components/ContentDetail.tsx:214
+msgid "加载预览（{0}）"
+msgstr "加载预览（{0}）"
+
+#: src/components/CourseList.tsx:35
+msgid "本学期课程"
+msgstr "本学期课程"
+
+#: src/components/CourseList.tsx:42
+msgid "这里什么也没有，快去选点课吧！"
+msgstr "这里什么也没有，快去选点课吧！"
+
+#: src/components/SettingList.tsx:23
+msgid "设置"
+msgstr "设置"
+
+#: src/components/SummaryList.tsx:44
+msgid "项目汇总"
+msgstr "项目汇总"
+
+#: src/components/dialogs/ChangeSemesterDialog.tsx:44
+#: src/constants/ui.ts:169
+msgid "切换学期"
+msgstr "切换学期"
+
+#: src/components/dialogs/ChangeSemesterDialog.tsx:48
+msgid "切换学期将导致所有配置（隐藏）和状态（已读、星标）丢失，请三思！<0/>当前 Learn Helper 学期：{0}<1/>当前网络学堂学期（注册中心控制）：{1}"
+msgstr "切换学期将导致所有配置（隐藏）和状态（已读、星标）丢失，请三思！<0/>当前 Learn Helper 学期：{0}<1/>当前网络学堂学期（注册中心控制）：{1}"
+
+#: src/components/dialogs/ChangeSemesterDialog.tsx:58
+msgid "选择学期"
+msgstr "选择学期"
+
+#: src/components/dialogs/ChangeSemesterDialog.tsx:87
+#: src/components/dialogs/LoginDialog.tsx:100
+msgid "确定"
+msgstr "确定"
+
+#: src/components/dialogs/ChangeSemesterDialog.tsx:90
+#: src/components/dialogs/LogoutDialog.tsx:54
+msgid "取消"
+msgstr "取消"
+
+#: src/components/dialogs/ClearDataDialog.tsx:17
+msgid "清除所有缓存"
+msgstr "清除所有缓存"
+
+#: src/components/dialogs/ClearDataDialog.tsx:20
+msgid "确认要清除吗？所有缓存的数据和已读状态将会被清除。"
+msgstr "确认要清除吗？所有缓存的数据和已读状态将会被清除。"
+
+#: src/components/dialogs/ClearDataDialog.tsx:31
+#: src/components/dialogs/NewSemesterDialog.tsx:49
+msgid "是"
+msgstr "是"
+
+#: src/components/dialogs/ClearDataDialog.tsx:34
+#: src/components/dialogs/NewSemesterDialog.tsx:59
+msgid "否"
+msgstr "否"
 
 #: src/components/dialogs/LoginDialog.tsx:34
 msgid "登录网络学堂"
-msgstr ""
+msgstr "登录网络学堂"
 
-#: src/redux/actions.ts:338
-msgid "登录已过期，请刷新后重试"
-msgstr ""
+#: src/components/dialogs/LoginDialog.tsx:38
+msgid "请输入您的学号/用户名和密码以登录到网络学堂。<0/>请注意，本插件默认不会保存您的凭据；每次打开新的学堂助手页面时，您都需要重新输入。 如果您选择保存凭据，则本插件会将其 <1>保存在本地</1> ，并启用自动登录功能。<2/>我们对凭据进行了简单的加密，但并不能完全防止其被第三方读取。 在长时间不使用或者出借计算机时，请务必退出登录，以免您的凭据被泄露。<3/>如果您选择登录，则视为您已经阅读并同意<4>此页面</4>中的所有内容。否则，请立刻停止使用并从浏览器中卸载本插件。"
+msgstr "请输入您的学号/用户名和密码以登录到网络学堂。<0/>请注意，本插件默认不会保存您的凭据；每次打开新的学堂助手页面时，您都需要重新输入。 如果您选择保存凭据，则本插件会将其 <1>保存在本地</1> ，并启用自动登录功能。<2/>我们对凭据进行了简单的加密，但并不能完全防止其被第三方读取。 在长时间不使用或者出借计算机时，请务必退出登录，以免您的凭据被泄露。<3/>如果您选择登录，则视为您已经阅读并同意<4>此页面</4>中的所有内容。否则，请立刻停止使用并从浏览器中卸载本插件。"
 
-#: src/components/ContentDetail.tsx:164
-msgid "发布人"
-msgstr ""
+#: src/components/dialogs/LoginDialog.tsx:60
+msgid "用户名/学号"
+msgstr "用户名/学号"
 
-#: src/components/ContentDetail.tsx:163
-msgid "发布时间"
-msgstr ""
+#: src/components/dialogs/LoginDialog.tsx:70
+msgid "密码"
+msgstr "密码"
 
-#: src/components/ContentCard.tsx:126
-msgid "发布者:{0}"
-msgstr ""
+#: src/components/dialogs/LoginDialog.tsx:78
+msgid "保存凭据以自动登录"
+msgstr "保存凭据以自动登录"
 
-#: src/components/App.tsx:275
-msgid "发生了不可恢复的错误，请尝试刷新页面。如果错误继续出现，请清除数据重新来过。"
-msgstr ""
+#: src/components/dialogs/LogoutDialog.tsx:23
+#: src/constants/ui.ts:176
+msgid "退出登录"
+msgstr "退出登录"
+
+#: src/components/dialogs/LogoutDialog.tsx:26
+msgid "您确认要退出登录吗？如果只是更换登录密码，请不要选择清除数据。"
+msgstr "您确认要退出登录吗？如果只是更换登录密码，请不要选择清除数据。"
+
+#: src/components/dialogs/LogoutDialog.tsx:38
+msgid "退出"
+msgstr "退出"
+
+#: src/components/dialogs/LogoutDialog.tsx:51
+msgid "退出并清除数据"
+msgstr "退出并清除数据"
+
+#: src/components/dialogs/NetworkErrorDialog.tsx:22
+msgid "刷新课程信息失败"
+msgstr "刷新课程信息失败"
+
+#: src/components/dialogs/NetworkErrorDialog.tsx:25
+msgid "可能原因有：<0/>· 网络不太给力<1/>· 服务器去思考人生了<2/>· 保存的用户凭据不正确（最近修改过密码？）<3/>您可以选择重试、放弃刷新，或者更换新的凭据。"
+msgstr "可能原因有：<0/>· 网络不太给力<1/>· 服务器去思考人生了<2/>· 保存的用户凭据不正确（最近修改过密码？）<3/>您可以选择重试、放弃刷新，或者更换新的凭据。"
+
+#: src/components/dialogs/NetworkErrorDialog.tsx:46
+msgid "重试刷新"
+msgstr "重试刷新"
+
+#: src/components/dialogs/NetworkErrorDialog.tsx:55
+msgid "离线查看"
+msgstr "离线查看"
+
+#: src/components/dialogs/NetworkErrorDialog.tsx:64
+msgid "更新凭据"
+msgstr "更新凭据"
+
+#: src/components/dialogs/NewSemesterDialog.tsx:25
+msgid "检测到新学期"
+msgstr "检测到新学期"
+
+#: src/components/dialogs/NewSemesterDialog.tsx:28
+msgid "当前 Learn Helper 学期：{0}<0/>当前网络学堂学期：{1}<1/>是否要进行学期切换（本学期已读、星标等状态将会被清空）？<2/>如果选择“否”，则在下一次打开 Learn Helper 前都将保持当前学期。<3/>如果选择“不再询问”，则需要手动进行学期切换。"
+msgstr "当前 Learn Helper 学期：{0}<0/>当前网络学堂学期：{1}<1/>是否要进行学期切换（本学期已读、星标等状态将会被清空）？<2/>如果选择“否”，则在下一次打开 Learn Helper 前都将保持当前学期。<3/>如果选择“不再询问”，则需要手动进行学期切换。"
+
+#: src/components/dialogs/NewSemesterDialog.tsx:69
+msgid "不再询问"
+msgstr "不再询问"
 
 #: src/components/pages/About.tsx:23
 #: src/components/pages/Changelog.tsx:23
 #: src/components/pages/Readme.tsx:21
 msgid "返回"
-msgstr ""
-
-#: src/components/ContentDetail.tsx:97
-msgid "访问量："
-msgstr ""
-
-#: src/components/App.tsx:178
-msgid "非网络学堂当前学期"
-msgstr ""
-
-#: src/utils/format.ts:83
-msgid "非预期的 HTTP 响应状态"
-msgstr ""
-
-#: src/components/dialogs/ClearDataDialog.tsx:34
-#: src/components/dialogs/NewSemesterDialog.tsx:59
-msgid "否"
-msgstr ""
-
-#: src/components/ContentCard.tsx:231
-msgid "附件：{0}"
-msgstr ""
-
-#: src/components/ContentDetail.tsx:166
-msgid "高"
-msgstr ""
-
-#: src/components/App.tsx:100
-msgid "跟随系统"
-msgstr ""
-
-#: src/redux/actions.ts:259
-msgid "更新成功"
-msgstr ""
-
-#: src/components/pages/Welcome.tsx:41
-msgid "更新记录"
-msgstr ""
-
-#: src/components/dialogs/NetworkErrorDialog.tsx:64
-msgid "更新凭据"
-msgstr ""
-
-#: src/constants/ui.ts:25
-msgid "公告"
-msgstr ""
-
-#: src/components/ContentDetail.tsx:170
-msgid "公告附件"
-msgstr ""
-
-#: src/components/ContentDetail.tsx:171
-msgid "公告附件预览"
-msgstr ""
-
-#: src/utils/format.ts:80
-msgid "功能尚未实现"
-msgstr ""
-
-#: src/components/pages/Welcome.tsx:34
-msgid "关于我们"
-msgstr ""
+msgstr "返回"
 
 #: src/components/pages/ContentIgnoreSetting.tsx:29
 #: src/constants/ui.ts:148
 msgid "管理隐藏项"
-msgstr ""
+msgstr "管理隐藏项"
 
-#: src/components/ContentCard.tsx:176
-msgid "忽略此项"
-msgstr ""
+#: src/components/pages/ContentIgnoreSetting.tsx:32
+msgid "此处的更改在下一次刷新时生效，并且只在汇总功能中起作用。<0/>如果您重新启用一个隐藏的项目，原本的项目属性（是否已读、加星标）不会发生变化。"
+msgstr "此处的更改在下一次刷新时生效，并且只在汇总功能中起作用。<0/>如果您重新启用一个隐藏的项目，原本的项目属性（是否已读、加星标）不会发生变化。"
 
-#: src/components/ContentCard.tsx:132
-msgid "回复:{0}"
-msgstr ""
-
-#: src/components/ContentCard.tsx:140
-msgid "加星标"
-msgstr ""
-
-#: src/components/CardList.tsx:87
-msgid "加载更多"
-msgstr ""
-
-#: src/redux/actions.ts:431
-msgid "加载数据失败，已清除数据"
-msgstr ""
-
-#: src/components/ContentDetail.tsx:214
-msgid "加载预览（{0}）"
-msgstr ""
-
-#: src/components/App.tsx:139
-msgid "加载中..."
-msgstr ""
-
-#: src/components/dialogs/NewSemesterDialog.tsx:25
-msgid "检测到新学期"
-msgstr ""
-
-#: src/components/ContentDetail.tsx:107
-msgid "截止时间："
-msgstr ""
-
-#: src/components/dialogs/NetworkErrorDialog.tsx:25
-msgid "可能原因有：<0/>· 网络不太给力<1/>· 服务器去思考人生了<2/>· 保存的用户凭据不正确（最近修改过密码？）<3/>您可以选择重试、放弃刷新，或者更换新的凭据。"
-msgstr ""
-
-#: src/constants/ui.ts:79
-msgid "课程答疑"
-msgstr ""
-
-#: src/constants/ui.ts:59
-msgid "课程公告"
-msgstr ""
-
-#: src/components/ContentDetail.tsx:201
 #: src/components/pages/ContentIgnoreSetting.tsx:44
 msgid "课程名称"
-msgstr ""
+msgstr "课程名称"
 
-#: src/constants/ui.ts:74
-msgid "课程讨论"
-msgstr ""
-
-#: src/constants/ui.ts:64
-msgid "课程文件"
-msgstr ""
-
-#: src/constants/ui.ts:84
-msgid "课程主页"
-msgstr ""
-
-#: src/constants/ui.ts:55
-msgid "课程综合"
-msgstr ""
-
-#: src/constants/ui.ts:69
-msgid "课程作业"
-msgstr ""
-
-#: src/redux/actions.ts:130
-msgid "离上次成功刷新不足15分钟，若需要可手动刷新"
-msgstr ""
-
-#: src/components/dialogs/NetworkErrorDialog.tsx:55
-msgid "离线查看"
-msgstr ""
-
-#: src/components/App.tsx:112
-msgid "亮"
-msgstr ""
-
-#: src/components/dialogs/LoginDialog.tsx:70
-msgid "密码"
-msgstr ""
-
-#: src/components/dialogs/LogoutDialog.tsx:26
-msgid "您确认要退出登录吗？如果只是更换登录密码，请不要选择清除数据。"
-msgstr ""
-
-#: src/components/ContentDetail.tsx:129
-msgid "评阅附件："
-msgstr ""
-
-#: src/components/ContentDetail.tsx:130
-msgid "评阅附件预览："
-msgstr ""
-
-#: src/components/ContentDetail.tsx:126
-msgid "评阅内容："
-msgstr ""
-
-#: src/components/ContentDetail.tsx:121
-msgid "评阅时间："
-msgstr ""
-
-#: src/components/ContentDetail.tsx:122
-msgid "评阅者："
-msgstr ""
-
-#: src/components/ContentDetail.tsx:166
-msgid "普通"
-msgstr ""
-
-#: src/redux/actions.ts:407
-msgid "迁移失败，已清除全部数据"
-msgstr ""
-
-#: src/components/dialogs/ChangeSemesterDialog.tsx:44
-#: src/constants/ui.ts:169
-msgid "切换学期"
-msgstr ""
-
-#: src/components/dialogs/ChangeSemesterDialog.tsx:48
-msgid "切换学期将导致所有配置（隐藏）和状态（已读、星标）丢失，请三思！<0/>当前 Learn Helper 学期：{0}<1/>当前网络学堂学期（注册中心控制）：{1}"
-msgstr ""
-
-#: src/components/App.tsx:293
-msgid "清除数据"
-msgstr ""
-
-#: src/components/dialogs/ClearDataDialog.tsx:17
-msgid "清除所有缓存"
-msgstr ""
-
-#: src/constants/ui.ts:183
-msgid "清空缓存"
-msgstr ""
-
-#: src/components/App.tsx:297
-msgid "请将下面的错误信息发送给开发者，以协助解决问题，感谢支持！"
-msgstr ""
-
-#: src/utils/format.ts:84
-msgid "请求超时"
-msgstr ""
-
-#: src/components/dialogs/LoginDialog.tsx:38
-msgid "请输入您的学号/用户名和密码以登录到网络学堂。<0/>请注意，本插件默认不会保存您的凭据；每次打开新的学堂助手页面时，您都需要重新输入。 如果您选择保存凭据，则本插件会将其 <1>保存在本地</1> ，并启用自动登录功能。<2/>我们对凭据进行了简单的加密，但并不能完全防止其被第三方读取。 在长时间不使用或者出借计算机时，请务必退出登录，以免您的凭据被泄露。<3/>如果您选择登录，则视为您已经阅读并同意<4>此页面</4>中的所有内容。否则，请立刻停止使用并从浏览器中卸载本插件。"
-msgstr ""
-
-#: src/components/dialogs/ChangeSemesterDialog.tsx:90
-#: src/components/dialogs/LogoutDialog.tsx:54
-msgid "取消"
-msgstr ""
-
-#: src/components/ContentCard.tsx:176
-msgid "取消忽略此项"
-msgstr ""
-
-#: src/components/ContentCard.tsx:140
-msgid "取消星标"
-msgstr ""
-
-#: src/components/dialogs/LoginDialog.tsx:100
-msgid "确定"
-msgstr ""
-
-#: src/components/dialogs/ChangeSemesterDialog.tsx:87
-msgid "确认"
-msgstr ""
-
-#: src/components/dialogs/ClearDataDialog.tsx:20
-msgid "确认要清除吗？所有缓存的数据和已读状态将会被清除。"
-msgstr ""
-
-#: src/components/App.tsx:221
-msgid "筛选"
-msgstr ""
-
-#: src/components/ContentDetail.tsx:96
-msgid "上传时间："
-msgstr ""
-
-#: src/utils/format.ts:81
-msgid "尚未登录"
-msgstr ""
-
-#: src/components/SettingList.tsx:23
-msgid "设置"
-msgstr ""
-
-#: src/redux/actions.ts:117
-msgid "设置网络学堂语言失败：{0}"
-msgstr ""
-
-#: src/redux/actions.ts:404
-msgid "升级成功，数据没有受到影响"
-msgstr ""
-
-#: src/redux/actions.ts:375
-msgid "升级成功，所有本地数据（除配置）已经被清除"
-msgstr ""
-
-#: src/redux/actions.ts:362
-msgid "升级成功，所有本地数据已经被清除"
-msgstr ""
+#: src/components/pages/ContentIgnoreSetting.tsx:82
+msgid "重置"
+msgstr "重置"
 
 #: src/components/pages/Welcome.tsx:27
 msgid "使用手册"
-msgstr ""
+msgstr "使用手册"
 
-#: src/components/dialogs/ClearDataDialog.tsx:31
-#: src/components/dialogs/NewSemesterDialog.tsx:49
-msgid "是"
-msgstr ""
+#: src/components/pages/Welcome.tsx:34
+msgid "关于我们"
+msgstr "关于我们"
 
-#: src/constants/ui.ts:162
-msgid "手动刷新"
-msgstr ""
+#: src/components/pages/Welcome.tsx:41
+msgid "更新记录"
+msgstr "更新记录"
 
-#: src/components/App.tsx:285
-msgid "刷新"
-msgstr ""
-
-#: src/components/dialogs/NetworkErrorDialog.tsx:22
-msgid "刷新课程信息失败"
-msgstr ""
-
-#: src/constants/ui.ts:125
-msgid "所有答疑"
-msgstr ""
-
-#: src/constants/ui.ts:110
-msgid "所有公告"
-msgstr ""
-
-#: src/constants/ui.ts:130
-msgid "所有忽略"
-msgstr ""
-
-#: src/constants/ui.ts:120
-msgid "所有讨论"
-msgstr ""
-
-#: src/constants/ui.ts:115
-msgid "所有文件"
-msgstr ""
-
-#: src/constants/ui.ts:105
-msgid "所有作业"
-msgstr ""
-
-#: src/constants/ui.ts:40
-msgid "讨论"
-msgstr ""
-
-#: src/components/ContentDetail.tsx:114
-msgid "提交附件："
-msgstr ""
-
-#: src/components/ContentDetail.tsx:115
-msgid "提交附件预览："
-msgstr ""
-
-#: src/components/ContentDetail.tsx:110
-msgid "提交内容："
-msgstr ""
-
-#: src/components/ContentDetail.tsx:108
-msgid "提交时间："
-msgstr ""
-
-#: src/components/ContentCard.tsx:198
-msgid "提交作业"
-msgstr ""
-
-#: src/components/dialogs/LogoutDialog.tsx:38
-msgid "退出"
-msgstr ""
-
-#: src/components/dialogs/LogoutDialog.tsx:51
-msgid "退出并清除数据"
-msgstr ""
-
-#: src/components/dialogs/LogoutDialog.tsx:23
-#: src/constants/ui.ts:176
-msgid "退出登录"
-msgstr ""
-
-#: src/components/ContentCard.tsx:122
-msgid "未批阅"
-msgstr ""
-
-#: src/utils/format.ts:82
-msgid "未提供用户名或密码"
-msgstr ""
-
-#: src/components/ContentCard.tsx:114
-msgid "未提交"
-msgstr ""
-
-#: src/utils/format.ts:85
-msgid "未知错误"
-msgstr ""
+#: src/constants/ui.ts:25
+msgid "公告"
+msgstr "公告"
 
 #: src/constants/ui.ts:30
 msgid "文件"
-msgstr ""
+msgstr "文件"
 
-#: src/components/ContentDetail.tsx:99
-msgid "文件大小："
-msgstr ""
+#: src/constants/ui.ts:35
+msgid "作业"
+msgstr "作业"
 
-#: src/components/ContentDetail.tsx:100
-msgid "文件类型："
-msgstr ""
+#: src/constants/ui.ts:40
+msgid "讨论"
+msgstr "讨论"
 
-#: src/components/ContentDetail.tsx:101
-msgid "文件下载："
-msgstr ""
+#: src/constants/ui.ts:45
+msgid "答疑"
+msgstr "答疑"
 
-#: src/components/ContentDetail.tsx:101
-msgid "文件预览："
-msgstr ""
+#: src/constants/ui.ts:55
+msgid "课程综合"
+msgstr "课程综合"
+
+#: src/constants/ui.ts:59
+msgid "课程公告"
+msgstr "课程公告"
+
+#: src/constants/ui.ts:64
+msgid "课程文件"
+msgstr "课程文件"
+
+#: src/constants/ui.ts:69
+msgid "课程作业"
+msgstr "课程作业"
+
+#: src/constants/ui.ts:74
+msgid "课程讨论"
+msgstr "课程讨论"
+
+#: src/constants/ui.ts:79
+msgid "课程答疑"
+msgstr "课程答疑"
+
+#: src/constants/ui.ts:84
+msgid "课程主页"
+msgstr "课程主页"
+
+#: src/constants/ui.ts:101
+msgid "主页"
+msgstr "主页"
+
+#: src/constants/ui.ts:105
+msgid "所有作业"
+msgstr "所有作业"
+
+#: src/constants/ui.ts:110
+msgid "所有公告"
+msgstr "所有公告"
+
+#: src/constants/ui.ts:115
+msgid "所有文件"
+msgstr "所有文件"
+
+#: src/constants/ui.ts:120
+msgid "所有讨论"
+msgstr "所有讨论"
+
+#: src/constants/ui.ts:125
+msgid "所有答疑"
+msgstr "所有答疑"
+
+#: src/constants/ui.ts:130
+msgid "所有忽略"
+msgstr "所有忽略"
+
+#: src/constants/ui.ts:162
+msgid "手动刷新"
+msgstr "手动刷新"
+
+#: src/constants/ui.ts:183
+msgid "清空缓存"
+msgstr "清空缓存"
+
+#: src/redux/actions.ts:92
+msgid "登录失败：{0}"
+msgstr "登录失败：{0}"
+
+#: src/redux/actions.ts:101
+msgid "登录成功"
+msgstr "登录成功"
+
+#: src/redux/actions.ts:116
+msgid "设置网络学堂语言失败：{0}"
+msgstr "设置网络学堂语言失败：{0}"
+
+#: src/redux/actions.ts:129
+msgid "离上次成功刷新不足15分钟，若需要可手动刷新"
+msgstr "离上次成功刷新不足15分钟，若需要可手动刷新"
+
+#: src/redux/actions.ts:258
+msgid "更新成功"
+msgstr "更新成功"
+
+#: src/redux/actions.ts:260
+msgid "部分内容更新失败"
+msgstr "部分内容更新失败"
+
+#: src/redux/actions.ts:337
+msgid "登录已过期，请刷新后重试"
+msgstr "登录已过期，请刷新后重试"
+
+#: src/redux/actions.ts:361
+msgid "升级成功，所有本地数据已经被清除"
+msgstr "升级成功，所有本地数据已经被清除"
+
+#: src/redux/actions.ts:374
+msgid "升级成功，所有本地数据（除配置）已经被清除"
+msgstr "升级成功，所有本地数据（除配置）已经被清除"
+
+#: src/redux/actions.ts:403
+msgid "升级成功，数据没有受到影响"
+msgstr "升级成功，数据没有受到影响"
+
+#: src/redux/actions.ts:406
+msgid "迁移失败，已清除全部数据"
+msgstr "迁移失败，已清除全部数据"
+
+#: src/redux/actions.ts:430
+msgid "加载数据失败，已清除数据"
+msgstr "加载数据失败，已清除数据"
+
+#: src/utils/format.ts:6
+msgid "{0, select, fall {秋季学期} spring {春季学期} summer {夏季学期} other {未知学期}}"
+msgstr "{0, select, fall {秋季学期} spring {春季学期} summer {夏季学期} other {未知学期}}"
 
 #: src/utils/format.ts:64
 #: src/utils/format.ts:71
 msgid "无"
-msgstr ""
-
-#: src/components/App.tsx:307
-msgid "无此信息"
-msgstr ""
-
-#: src/utils/format.ts:78
-msgid "无法从 id.tsinghua.edu.cn 获取票据"
-msgstr ""
-
-#: src/utils/format.ts:79
-msgid "无法使用票据漫游至 learn.tsinghua.edu.cn"
-msgstr ""
-
-#: src/components/ContentCard.tsx:121
-#: src/components/ContentDetail.tsx:124
-msgid "无评分"
-msgstr ""
-
-#: src/components/ContentDetail.tsx:98
-msgid "下载量："
-msgstr ""
-
-#: src/components/CardList.tsx:68
-msgid "下载所有未读文件（共 {0} 个）"
-msgstr ""
-
-#: src/components/ContentCard.tsx:215
-msgid "下载文件"
-msgstr ""
-
-#: src/components/ContentDetail.tsx:187
-msgid "详情为空"
-msgstr ""
-
-#: src/components/SummaryList.tsx:44
-msgid "项目汇总"
-msgstr ""
-
-#: src/components/dialogs/ChangeSemesterDialog.tsx:58
-msgid "选择学期"
-msgstr ""
-
-#: src/components/ContentCard.tsx:114
-msgid "已提交"
-msgstr ""
-
-#: src/components/dialogs/LoginDialog.tsx:60
-msgid "用户名/学号"
-msgstr ""
+msgstr "无"
 
 #: src/utils/format.ts:77
 msgid "用户名或密码错误"
-msgstr ""
+msgstr "用户名或密码错误"
 
-#: src/components/ContentDetail.tsx:155
-msgid "在本窗口打开"
-msgstr ""
+#: src/utils/format.ts:78
+msgid "无法从 id.tsinghua.edu.cn 获取票据"
+msgstr "无法从 id.tsinghua.edu.cn 获取票据"
 
-#: src/components/ContentDetail.tsx:79
-msgid "在新窗口打开"
-msgstr ""
+#: src/utils/format.ts:79
+msgid "无法使用票据漫游至 learn.tsinghua.edu.cn"
+msgstr "无法使用票据漫游至 learn.tsinghua.edu.cn"
 
-#: src/components/CardList.tsx:80
-msgid "这里什么也没有"
-msgstr ""
+#: src/utils/format.ts:80
+msgid "功能尚未实现"
+msgstr "功能尚未实现"
 
-#: src/components/CourseList.tsx:42
-msgid "这里什么也没有，快去选点课吧！"
-msgstr ""
+#: src/utils/format.ts:81
+msgid "尚未登录"
+msgstr "尚未登录"
 
-#: src/components/dialogs/NetworkErrorDialog.tsx:46
-msgid "重试刷新"
-msgstr ""
+#: src/utils/format.ts:82
+msgid "未提供用户名或密码"
+msgstr "未提供用户名或密码"
 
-#: src/components/ContentCard.tsx:124
-msgid "重要"
-msgstr ""
+#: src/utils/format.ts:83
+msgid "非预期的 HTTP 响应状态"
+msgstr "非预期的 HTTP 响应状态"
 
-#: src/components/ContentDetail.tsx:165
-msgid "重要性"
-msgstr ""
+#: src/utils/format.ts:84
+msgid "请求超时"
+msgstr "请求超时"
 
-#: src/components/pages/ContentIgnoreSetting.tsx:82
-msgid "重置"
-msgstr ""
-
-#: src/constants/ui.ts:101
-msgid "主页"
-msgstr ""
-
-#: src/components/ContentCard.tsx:133
-msgid "最后回复:{0}"
-msgstr ""
-
-#: src/constants/ui.ts:35
-msgid "作业"
-msgstr ""
-
-#: src/components/ContentDetail.tsx:148
-msgid "作业附件："
-msgstr ""
-
-#: src/components/ContentDetail.tsx:149
-msgid "作业附件预览："
-msgstr ""
-
-#: src/components/ContentDetail.tsx:153
-msgid "作业详情："
-msgstr ""
+#: src/utils/format.ts:85
+msgid "未知错误"
+msgstr "未知错误"

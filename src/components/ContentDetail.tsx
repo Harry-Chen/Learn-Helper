@@ -160,15 +160,15 @@ const HomeworkDetails = ({ content: homework }: ContentDetailProps<HomeworkInfo>
 
 const NotificationDetails = ({ content: notification }: ContentDetailProps<NotificationInfo>) => (
   <>
-    <Line title={t`发布时间`}>{formatDateTime(notification.publishTime)}</Line>
-    <Line title={t`发布人`}>{notification.publisher}</Line>
-    <Line title={t`重要性`}>
+    <Line title={t`发布时间：`}>{formatDateTime(notification.publishTime)}</Line>
+    <Line title={t`发布人：`}>{notification.publisher}</Line>
+    <Line title={t`重要性：`}>
       {notification.markedImportant ? <Trans>高</Trans> : <Trans>普通</Trans>}
     </Line>
     {notification.attachment && (
       <FileLinks
-        downloadTitle={t`公告附件`}
-        previewTitle={t`公告附件预览`}
+        downloadTitle={t`公告附件：`}
+        previewTitle={t`公告附件预览：`}
         file={notification.attachment}
       />
     )}
@@ -198,7 +198,7 @@ const ContentDetail = ({ content }: ContentDetailProps) => {
       <section className={styles.content_detail_lines}>
         <table>
           <tbody>
-            <Line title={t`课程名称`}>{content.courseName}</Line>
+            <Line title={t`课程名称：`}>{content.courseName}</Line>
             {content.type === ContentType.FILE && <FileDetails content={content} />}
             {content.type === ContentType.HOMEWORK && <HomeworkDetails content={content} />}
             {content.type === ContentType.NOTIFICATION && <NotificationDetails content={content} />}

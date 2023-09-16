@@ -1,8 +1,7 @@
 {
-  "i18n-ally.localesPaths": ["public/_locales"],
-  "i18n-ally.enabledFrameworks": ["chrome-ext", "custom"],
   "i18n-ally.sourceLanguage": "zh",
-  "i18n-ally.keystyle": "nested",
   "i18n-ally.displayLanguage": "zh",
-  "i18n-ally.sortKeys": true
+  "i18n-ally.localesPaths": ["src/locales"],
+  "i18n-ally.enabledFrameworks": ["lingui"],
+  "i18n-ally.pathMatcher": "{locale}.po"
 }
