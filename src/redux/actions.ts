@@ -362,6 +362,14 @@ export const downloadAllUnreadFiles =
   };
 
 export const loadApp = (): AppThunk<Promise<void>> => async (dispatch) => {
+  if (import.meta.env.DEV) {
+    const { VITE_USERNAME: username, VITE_PASSWORD: password } = import.meta.env;
+    if (username && password) {
+      await storage.local.set({ [STORAGE_KEY_VERSION]: currentVersion });
+      await storeCredential(username, password);
+    }
+  }
+
   const { [STORAGE_KEY_VERSION]: oldVersion, [STORAGE_KEY_REDUX]: oldData } =
     await storage.local.get([STORAGE_KEY_VERSION, STORAGE_KEY_REDUX]);
 
