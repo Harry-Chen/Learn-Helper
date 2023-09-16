@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Trans } from '@lingui/macro';
+import { useLingui } from '@lingui/react';
 
 import {
   Collapse,
@@ -11,7 +12,7 @@ import {
 } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { COURSE_FUNC, COURSE_FUNC_LIST, COURSE_ICON } from '../constants/ui';
+import { COURSE_FUNC_LIST, COURSE_ICON } from '../constants/ui';
 import { refreshCardList, setCardFilter, setCardListTitle, setDetailUrl } from '../redux/actions';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { selectCourseList } from '../redux/selectors';
@@ -19,6 +20,7 @@ import { selectCourseList } from '../redux/selectors';
 import styles from '../css/list.module.css';
 
 const CourseList = () => {
+  const { _ } = useLingui();
   const dispatch = useAppDispatch();
   const courseList = useAppSelector(selectCourseList);
 
@@ -53,7 +55,10 @@ const CourseList = () => {
               <ListItemIcon className={styles.list_item_icon}>
                 <FontAwesomeIcon icon={COURSE_ICON} />
               </ListItemIcon>
-              <ListItemText primary={c.name} className={styles.course_list_item_text} />
+              <ListItemText
+                primary={_({ id: `course-${c.id}` })}
+                className={styles.course_list_item_text}
+              />
               <FontAwesomeIcon icon={opened === c.id ? 'angle-up' : 'angle-down'} />
             </ListItemButton>
             <Collapse in={opened === c.id} timeout="auto" unmountOnExit>
@@ -61,12 +66,12 @@ const CourseList = () => {
                 {COURSE_FUNC_LIST.map((func) => (
                   <ListItemButton
                     className={styles.sidebar_list_item}
-                    key={func.name}
+                    key={func.name.id}
                     onClick={() => {
-                      if (func.name !== COURSE_FUNC.COURSE_HOMEPAGE.name) {
+                      if (func.type !== null) {
                         // show cards
                         dispatch(setCardFilter({ type: func.type, courseId: c.id }));
-                        dispatch(setCardListTitle(`${func.name}-${c.name}`));
+                        dispatch(setCardListTitle([func.name, { id: `course-${c.id}` }]));
                         dispatch(refreshCardList());
                       } else {
                         dispatch(setDetailUrl(c.url));
@@ -76,7 +81,7 @@ const CourseList = () => {
                     <ListItemIcon className={styles.list_item_icon}>
                       <FontAwesomeIcon icon={func.icon} />
                     </ListItemIcon>
-                    <ListItemText primary={func.name} className={styles.course_list_item_text} />
+                    <ListItemText primary={_(func.name)} className={styles.course_list_item_text} />
                   </ListItemButton>
                 ))}
               </List>

@@ -2,6 +2,7 @@ import React from 'react';
 import classnames from 'classnames';
 import { ContentType } from 'thu-learn-lib';
 import { t } from '@lingui/macro';
+import { useLingui } from '@lingui/react';
 
 import {
   Card,
@@ -31,6 +32,7 @@ import { formatDate } from '../utils/format';
 import { initiateFileDownload } from '../utils/download';
 
 const ContentCard = ({ content }: CardProps) => {
+  const { _ } = useLingui();
   const dispatch = useAppDispatch();
 
   const onTitleClick = () => {
@@ -76,9 +78,9 @@ const ContentCard = ({ content }: CardProps) => {
                       ? diffDays > 99
                         ? '99+'
                         : diffDays < 0
-                        ? COURSE_MAIN_FUNC[content.type].name
+                        ? _(COURSE_MAIN_FUNC[content.type].name)
                         : diffDays.toString()
-                      : COURSE_MAIN_FUNC[content.type].name}
+                      : _(COURSE_MAIN_FUNC[content.type].name)}
                   </div>
                 }
                 className={classnames(

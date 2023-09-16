@@ -1,14 +1,16 @@
-import { t, select } from '@lingui/macro';
+import { msg, t } from '@lingui/macro';
+import { i18n } from '@lingui/core';
 import { type SemesterInfo, SemesterType, FailReason } from 'thu-learn-lib';
+
+export const semesterName = {
+  [SemesterType.FALL]: msg`秋季学期`,
+  [SemesterType.SPRING]: msg`春季学期`,
+  [SemesterType.SUMMER]: msg`夏季学期`,
+};
 
 export function formatSemester(semester: SemesterInfo): string {
   if (semester.type !== SemesterType.UNKNOWN) {
-    return `${semester.startYear}-${semester.endYear}-${select(semester.type, {
-      fall: '秋季学期',
-      spring: '春季学期',
-      summer: '夏季学期',
-      other: '未知学期',
-    })}`;
+    return `${semester.startYear}-${semester.endYear}-${i18n._(semesterName[semester.type])}`;
   }
   return SemesterType.UNKNOWN;
 }

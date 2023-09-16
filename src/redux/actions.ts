@@ -175,6 +175,17 @@ export const refresh = (): AppThunk<Promise<void>> => async (dispatch, getState)
     const courses = await helper.getCourseList(currentSemesterId);
     allCourseIds = courses.map((c) => c.id);
     dispatch(updateCourses(courses));
+
+    // load course names to i18n
+    i18n.load(
+      'zh',
+      Object.fromEntries(courses.map(({ id, chineseName }) => [`course-${id}`, chineseName])),
+    );
+    i18n.load(
+      'en',
+      Object.fromEntries(courses.map(({ id, englishName }) => [`course-${id}`, englishName])),
+    );
+
     nextProgress();
   } catch (e) {
     console.error(e);

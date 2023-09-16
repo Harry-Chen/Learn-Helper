@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
-import { i18n } from '@lingui/core';
 import { Trans } from '@lingui/macro';
+import { useLingui } from '@lingui/react';
 
 import { useAppDispatch } from '../../redux/hooks';
 import { setDetailPage } from '../../redux/actions';
@@ -11,6 +11,7 @@ import ReadmeZH from './zh/Readme.mdx';
 import ReadmeEN from './en/Readme.mdx';
 
 const Readme = () => {
+  const { i18n } = useLingui()
   const dispatch = useAppDispatch();
 
   return (

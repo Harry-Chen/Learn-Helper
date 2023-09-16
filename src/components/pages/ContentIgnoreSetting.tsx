@@ -1,6 +1,7 @@
 import React from 'react';
 import { ContentType } from 'thu-learn-lib';
 import { Trans } from '@lingui/macro';
+import { useLingui } from '@lingui/react';
 
 import {
   Button,
@@ -16,9 +17,10 @@ import {
 import styles from '../../css/page.module.css';
 import { resetContentIgnore, toggleContentIgnore } from '../../redux/actions';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { COURSE_FUNC } from '../../constants/ui';
+import { COURSE_MAIN_FUNC } from '../../constants/ui';
 
 const ContentIgnoreSetting = () => {
+  const { _ } = useLingui();
   const dispatch = useAppDispatch();
   const courses = useAppSelector((state) => state.data.courseMap);
   const contentIgnore = useAppSelector((state) => state.data.contentIgnore);
@@ -43,9 +45,9 @@ const ContentIgnoreSetting = () => {
                 <TableCell>
                   <Trans>课程名称</Trans>
                 </TableCell>
-                {Object.keys(ContentType).map((type) => (
+                {Object.values(ContentType).map((type) => (
                   <TableCell key={type} align="center">
-                    {COURSE_FUNC[`COURSE_${type}`].name}
+                    {_(COURSE_MAIN_FUNC[type].name)}
                   </TableCell>
                 ))}
               </TableRow>

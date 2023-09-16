@@ -1,7 +1,7 @@
 import React, { useState, type ErrorInfo, useRef, useEffect } from 'react';
 import { ErrorBoundary, type FallbackProps } from 'react-error-boundary';
 import classnames from 'classnames';
-import { Trans, t } from '@lingui/macro';
+import { msg, Trans, t } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
 
 import {
@@ -75,14 +75,10 @@ const LanguageSwitcher = () => {
       </IconButton>
       <Menu {...bindMenu(popupState)}>
         <MenuItem key="zh" selected={i18n.locale === 'zh'} onClick={() => handle('zh')}>
-          <ListItemText>
-            <Trans>中文</Trans>
-          </ListItemText>
+          <ListItemText>中文</ListItemText>
         </MenuItem>
         <MenuItem key="en" selected={i18n.locale === 'en'} onClick={() => handle('en')}>
-          <ListItemText>
-            <Trans>English</Trans>
-          </ListItemText>
+          <ListItemText>English</ListItemText>
         </MenuItem>
       </Menu>
     </>
@@ -163,11 +159,12 @@ const AppBar = () => {
 };
 
 const AppDrawer = () => {
+  const { _ } = useLingui();
   const dispatch = useAppDispatch();
 
   const paneHidden = useAppSelector((state) => state.ui.paneHidden);
   const cardListTitle = useAppSelector((state) =>
-    state.helper.loggedIn ? state.ui.cardListTitle : t`加载中...`,
+    state.helper.loggedIn ? state.ui.cardListTitle : [msg`加载中...`],
   );
   const semesterTitle = useAppSelector((state) => formatSemester(state.data.semester));
   const isLatestSemester = useAppSelector(
@@ -223,7 +220,7 @@ const AppDrawer = () => {
               })}
             >
               <Typography variant="h6" className={styles.sidebar_cardlist_name} noWrap>
-                {cardListTitle}
+                {cardListTitle.map((part) => _(part)).join('-')}
               </Typography>
 
               <div className={styles.sidebar_filter_group}>

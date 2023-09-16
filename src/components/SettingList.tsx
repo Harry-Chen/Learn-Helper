@@ -1,4 +1,6 @@
 import React from 'react';
+import { Trans } from '@lingui/macro';
+import { useLingui } from '@lingui/react';
 
 import { List, ListItemButton, ListItemIcon, ListItemText, ListSubheader } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,9 +9,9 @@ import { SETTINGS_FUNC_LIST } from '../constants/ui';
 import { useAppDispatch } from '../redux/hooks';
 
 import styles from '../css/list.module.css';
-import { Trans } from '@lingui/macro';
 
 const SettingList = () => {
+  const { _ } = useLingui();
   const dispatch = useAppDispatch();
 
   return (
@@ -28,7 +30,7 @@ const SettingList = () => {
       {SETTINGS_FUNC_LIST.map((i) => (
         <ListItemButton
           className={styles.sidebar_list_item}
-          key={i.name}
+          key={i.name.id}
           onClick={() => {
             i.handler?.(dispatch);
           }}
@@ -36,7 +38,7 @@ const SettingList = () => {
           <ListItemIcon className={styles.list_item_icon}>
             <FontAwesomeIcon icon={i.icon} />
           </ListItemIcon>
-          <ListItemText primary={i.name} className={styles.settings_list_item_text} />
+          <ListItemText primary={_(i.name)} className={styles.settings_list_item_text} />
         </ListItemButton>
       ))}
     </List>
