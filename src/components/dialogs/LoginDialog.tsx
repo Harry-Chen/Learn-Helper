@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Trans, t } from '@lingui/macro';
 
 import {
   Button,
@@ -16,7 +17,6 @@ import {
 import { toggleLoginDialog, login, refresh } from '../../redux/actions';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { requestPermission } from '../../utils/permission';
-import { t, tr } from '../../utils/i18n';
 
 const LoginDialog = () => {
   const dispatch = useAppDispatch();
@@ -30,16 +30,34 @@ const LoginDialog = () => {
 
   return (
     <Dialog open={open} keepMounted>
-      <DialogTitle>{t('LoginDialog_Title')}</DialogTitle>
+      <DialogTitle>
+        <Trans>登录网络学堂</Trans>
+      </DialogTitle>
       <DialogContent>
-        <DialogContentText>{tr('LoginDialog_Content')}</DialogContentText>
+        <DialogContentText>
+          <Trans>
+            请输入您的学号/用户名和密码以登录到网络学堂。
+            <br />
+            请注意，本插件默认不会保存您的凭据；每次打开新的学堂助手页面时，您都需要重新输入。
+            如果您选择保存凭据，则本插件会将其 <b>保存在本地</b> ，并启用自动登录功能。
+            <br />
+            我们对凭据进行了简单的加密，但并不能完全防止其被第三方读取。
+            在长时间不使用或者出借计算机时，请务必退出登录，以免您的凭据被泄露。
+            <br />
+            如果您选择登录，则视为您已经阅读并同意
+            <a href="about.html" target="_blank">
+              此页面
+            </a>
+            中的所有内容。否则，请立刻停止使用并从浏览器中卸载本插件。
+          </Trans>
+        </DialogContentText>
       </DialogContent>
       <DialogContent>
         <TextField
           fullWidth
           margin="dense"
           id="username"
-          label={t('LoginDialog_Username')}
+          label={t`用户名/学号`}
           type="text"
           required
           multiline={false}
@@ -49,7 +67,7 @@ const LoginDialog = () => {
           fullWidth
           margin="dense"
           id="password"
-          label={t('LoginDialog_Password')}
+          label={t`密码`}
           type="password"
           required
           multiline={false}
@@ -57,7 +75,7 @@ const LoginDialog = () => {
         />
         <FormControlLabel
           control={<Checkbox id="saveCredential" onChange={(e) => setSave(e.target.checked)} />}
-          label={t('LoginDialog_SaveCredential')}
+          label={t`保存凭据以自动登录`}
         />
       </DialogContent>
       <DialogActions>
@@ -79,7 +97,7 @@ const LoginDialog = () => {
           }}
           type="submit"
         >
-          {t('Common_Ok')}
+          <Trans>确定</Trans>
         </Button>
       </DialogActions>
     </Dialog>

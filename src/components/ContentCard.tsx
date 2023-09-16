@@ -1,6 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import { ContentType } from 'thu-learn-lib';
+import { t } from '@lingui/macro';
 
 import {
   Card,
@@ -28,7 +29,6 @@ import {
 import { useAppDispatch } from '../redux/hooks';
 import { formatDate } from '../utils/format';
 import { initiateFileDownload } from '../utils/download';
-import { t } from '../utils/i18n';
 
 const ContentCard = ({ content }: CardProps) => {
   const dispatch = useAppDispatch();
@@ -111,38 +111,33 @@ const ContentCard = ({ content }: CardProps) => {
               {formatDate(content.date)}
               {content.type === ContentType.HOMEWORK
                 ? ' · ' +
-                  (content.submitted
-                    ? t('Content_Homework_Submitted')
-                    : t('Content_Homework_Unsubmitted')) +
+                  (content.submitted ? t`已提交` : t`未提交`) +
                   ' · ' +
                   (content.graded
                     ? (content.grade
                         ? content.gradeLevel
                           ? content.gradeLevel
-                          : t('Content_Homework_GradeDetail', [content.grade.toString()])
-                        : t('Content_Homework_NoGrade')) +
-                      t('Content_Homework_GraderDetail', [content.graderName ?? ''])
-                    : t('Content_Homework_NotGraded'))
+                          : t`${content.grade}分`
+                        : t`无评分`) + t`（${content.graderName ?? ''}）`
+                    : t`未批阅`)
                 : content.type === ContentType.NOTIFICATION || content.type === ContentType.FILE
-                ? (content.markedImportant ? ' · ' + t('Content_Notification_Important') : '') +
+                ? (content.markedImportant ? ' · ' + t`重要` : '') +
                   (content.type === ContentType.NOTIFICATION
-                    ? ' · ' + t('Content_Notification_PublisherDetail', [content.publisher])
+                    ? ' · ' + t`发布者:${content.publisher}`
                     : ' · ' +
                       content.size +
                       (content.description.trim() !== '' ? ' · ' + content.description.trim() : ''))
                 : content.type === ContentType.DISCUSSION || content.type === ContentType.QUESTION
                 ? ' · ' +
-                  t('Content_Discussion_RepliesCount', [content.replyCount.toString()]) +
-                  (content.replyCount !== 0
-                    ? ' · ' + t('Content_Discussion_LastReplier', [content.lastReplierName])
-                    : '')
+                  t`回复:${content.replyCount}` +
+                  (content.replyCount !== 0 ? ' · ' + t`最后回复:${content.lastReplierName}` : '')
                 : null}
             </span>
             <span className={styles.card_course}>{content.courseName}</span>
           </div>
         </CardContent>
         <CardActions className={styles.card_action_line}>
-          <Tooltip title={content.starred ? t('Content_Unstar') : t('Content_Star')}>
+          <Tooltip title={content.starred ? t`取消星标` : t`加星标`}>
             <IconButton
               color="primary"
               className={classnames(styles.card_action_button, {
@@ -161,7 +156,7 @@ const ContentCard = ({ content }: CardProps) => {
               <FontAwesomeIcon icon="star" />
             </IconButton>
           </Tooltip>
-          <Tooltip title={content.hasRead ? t('Content_MarkAsUnread') : t('Content_MarkAsRead')}>
+          <Tooltip title={content.hasRead ? t`标记为未读` : t`标记为已读`}>
             <IconButton
               color="primary"
               className={styles.card_action_button}
@@ -178,7 +173,7 @@ const ContentCard = ({ content }: CardProps) => {
               <FontAwesomeIcon icon={content.hasRead ? 'clipboard' : 'clipboard-check'} />
             </IconButton>
           </Tooltip>
-          <Tooltip title={content.ignored ? t('Content_Unignore') : t('Content_Ignore')}>
+          <Tooltip title={content.ignored ? t`取消忽略此项` : t`忽略此项`}>
             <IconButton
               color="primary"
               className={styles.card_action_button}
@@ -200,7 +195,7 @@ const ContentCard = ({ content }: CardProps) => {
             </IconButton>
           </Tooltip>
           {content.type === ContentType.HOMEWORK && (
-            <Tooltip title={t('Content_Homework_SubmitHomework')}>
+            <Tooltip title={t`提交作业`}>
               <IconButton
                 color="primary"
                 className={styles.card_action_button}
@@ -217,7 +212,7 @@ const ContentCard = ({ content }: CardProps) => {
             </Tooltip>
           )}
           {content.type === ContentType.FILE && (
-            <Tooltip title={t('Content_File_DownloadFile')}>
+            <Tooltip title={t`下载文件`}>
               <IconButton
                 color="primary"
                 className={styles.card_action_button}
@@ -233,7 +228,7 @@ const ContentCard = ({ content }: CardProps) => {
           )}
           {(content.type === ContentType.NOTIFICATION || content.type === ContentType.HOMEWORK) &&
             content.attachment && (
-              <Tooltip title={t('Content_Attachment', [content.attachment.name])}>
+              <Tooltip title={t`附件：${content.attachment.name}`}>
                 <IconButton
                   color="primary"
                   className={styles.card_action_button}

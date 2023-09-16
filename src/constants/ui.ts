@@ -1,5 +1,6 @@
 import type { IconName } from '@fortawesome/fontawesome-common-types';
 import { ContentType } from 'thu-learn-lib';
+import { t } from '@lingui/macro';
 
 import type { IMenuItem, IMenuItemEnum } from '../types/ui';
 import {
@@ -11,7 +12,6 @@ import {
   markAllRead,
 } from '../redux/actions';
 import type { AppDispatch } from '../redux/store';
-import { t } from '../utils/i18n';
 
 export const COURSE_MAIN_FUNC: {
   [key: string]: {
@@ -22,27 +22,27 @@ export const COURSE_MAIN_FUNC: {
 } = {
   [ContentType.NOTIFICATION]: {
     icon: 'bullhorn',
-    name: t('Content_Notification'),
+    name: t`公告`,
     type: ContentType.NOTIFICATION,
   },
   [ContentType.FILE]: {
     icon: 'download',
-    name: t('Content_File'),
+    name: t`文件`,
     type: ContentType.FILE,
   },
   [ContentType.HOMEWORK]: {
     icon: 'pencil-alt',
-    name: t('Content_Homework'),
+    name: t`作业`,
     type: ContentType.HOMEWORK,
   },
   [ContentType.DISCUSSION]: {
     icon: 'question',
-    name: t('Content_Discussion'),
+    name: t`讨论`,
     type: ContentType.DISCUSSION,
   },
   [ContentType.QUESTION]: {
     icon: 'chalkboard-teacher',
-    name: t('Content_Question'),
+    name: t`答疑`,
     type: ContentType.QUESTION,
   },
 };
@@ -50,38 +50,38 @@ export const COURSE_MAIN_FUNC: {
 export const COURSE_ICON: IconName = 'book';
 
 export const COURSE_FUNC: IMenuItemEnum = {
-  COURSE_NOTIFICATION: {
-    icon: COURSE_MAIN_FUNC[ContentType.NOTIFICATION].icon,
-    name: t('Course_Notification'),
-    type: ContentType.NOTIFICATION,
-  },
   COURSE_SUMMARY: {
     icon: 'info-circle',
-    name: t('Course_Summary'),
+    name: t`课程综合`,
+  },
+  COURSE_NOTIFICATION: {
+    icon: COURSE_MAIN_FUNC[ContentType.NOTIFICATION].icon,
+    name: t`课程公告`,
+    type: ContentType.NOTIFICATION,
   },
   COURSE_FILE: {
     icon: COURSE_MAIN_FUNC[ContentType.FILE].icon,
-    name: t('Course_File'),
+    name: t`课程文件`,
     type: ContentType.FILE,
   },
   COURSE_HOMEWORK: {
     icon: COURSE_MAIN_FUNC[ContentType.HOMEWORK].icon,
-    name: t('Course_Homework'),
+    name: t`课程作业`,
     type: ContentType.HOMEWORK,
   },
   COURSE_DISCUSSION: {
     icon: COURSE_MAIN_FUNC[ContentType.DISCUSSION].icon,
-    name: t('Course_Discussion'),
+    name: t`课程讨论`,
     type: ContentType.DISCUSSION,
   },
   COURSE_QUESTION: {
     icon: COURSE_MAIN_FUNC[ContentType.QUESTION].icon,
-    name: t('Course_Question'),
+    name: t`课程答疑`,
     type: ContentType.QUESTION,
   },
   COURSE_HOMEPAGE: {
     icon: 'external-link-alt',
-    name: t('Course_Homepage'),
+    name: t`课程主页`,
   },
 };
 
@@ -98,36 +98,36 @@ export const COURSE_FUNC_LIST: IMenuItem[] = [
 const SUMMARY_FUNC: IMenuItemEnum = {
   SUMMARY_HOMEPAGE: {
     icon: 'home',
-    name: t('Summary_Homepage'),
+    name: t`主页`,
   },
   SUMMARY_HOMEWORK: {
     icon: COURSE_MAIN_FUNC[ContentType.HOMEWORK].icon,
-    name: t('Summary_Homework'),
+    name: t`所有作业`,
     type: ContentType.HOMEWORK,
   },
   SUMMARY_NOTIFICATION: {
     icon: COURSE_MAIN_FUNC[ContentType.NOTIFICATION].icon,
-    name: t('Summary_Notification'),
+    name: t`所有公告`,
     type: ContentType.NOTIFICATION,
   },
   SUMMARY_FILE: {
     icon: COURSE_MAIN_FUNC[ContentType.FILE].icon,
-    name: t('Summary_File'),
+    name: t`所有文件`,
     type: ContentType.FILE,
   },
   SUMMARY_DISCUSSION: {
     icon: COURSE_MAIN_FUNC[ContentType.DISCUSSION].icon,
-    name: t('Summary_Discussion'),
+    name: t`所有讨论`,
     type: ContentType.DISCUSSION,
   },
   SUMMARY_QUESTION: {
     icon: COURSE_MAIN_FUNC[ContentType.QUESTION].icon,
-    name: t('Summary_Question'),
+    name: t`所有答疑`,
     type: ContentType.QUESTION,
   },
   SUMMARY_IGNORED: {
     icon: 'trash',
-    name: t('Summary_Ignored'),
+    name: t`所有忽略`,
     type: null,
   },
 };
@@ -145,42 +145,42 @@ export const SUMMARY_FUNC_LIST: IMenuItem[] = [
 const SETTINGS_FUNC: IMenuItemEnum = {
   SETTINGS_IGNORE: {
     icon: 'ban',
-    name: t('Settings_ManageIgnored'),
+    name: t`管理隐藏项`,
     handler: (dispatch: AppDispatch) => {
       dispatch(setDetailPage('content-ignore-setting'));
     },
   },
   SETTINGS_MARK_READ: {
     icon: 'envelope-open',
-    name: t('Settings_MarkAllAsRead'),
+    name: t`标记为已读`,
     handler: (dispatch: AppDispatch) => {
       dispatch(markAllRead());
     },
   },
   SETTINGS_REFRESH: {
     icon: 'sync',
-    name: t('Settings_Refresh'),
+    name: t`手动刷新`,
     handler: (dispatch: AppDispatch) => {
       dispatch(refresh());
     },
   },
   SETTINGS_CHANGE_SEMESTER: {
     icon: 'random',
-    name: t('ChangeSemesterDialog_Title'),
+    name: t`切换学期`,
     handler: (dispatch: AppDispatch) => {
       dispatch(toggleChangeSemesterDialog(true));
     },
   },
   SETTINGS_CHANGE_USER: {
     icon: 'user',
-    name: t('LogoutDialog_Title'),
+    name: t`退出登录`,
     handler: (dispatch: AppDispatch) => {
       dispatch(toggleLogoutDialog(true));
     },
   },
   SETTINGS_CLEAR_CACHE: {
     icon: 'trash',
-    name: t('Settings_ClearCache'),
+    name: t`清空缓存`,
     handler: (dispatch: AppDispatch) => {
       dispatch(toggleClearDataDialog(true));
     },

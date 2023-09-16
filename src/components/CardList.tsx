@@ -2,11 +2,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 import { List, Button, ListSubheader } from '@mui/material';
 import { ContentType } from 'thu-learn-lib';
+import { Trans } from '@lingui/macro';
 
 import { downloadAllUnreadFiles, loadMoreCard } from '../redux/actions';
 import { selectFilteredCardList } from '../redux/selectors';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { t } from '../utils/i18n';
 
 import styles from '../css/list.module.css';
 import ContentCard from './ContentCard';
@@ -65,7 +65,7 @@ const CardList = () => {
                   dispatch(downloadAllUnreadFiles(cards));
                 }}
               >
-                {t('Content_DownloadUnreadFiles', unreadFileCount?.toString())}
+                <Trans>下载所有未读文件（共 {unreadFileCount?.toString()} 个）</Trans>
               </Button>
             )}
           </ListSubheader>
@@ -76,13 +76,15 @@ const CardList = () => {
         ))}
 
         {filtered.length === 0 && (
-          <div className={styles.card_list_load_more}>{t('Common_Nothing')}</div>
+          <div className={styles.card_list_load_more}>
+            <Trans>这里什么也没有</Trans>
+          </div>
         )}
 
         {canLoadMore && (
           // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
           <div className={styles.card_list_load_more} onClick={() => dispatch(loadMoreCard())}>
-            {t('Common_LoadMore')}
+            <Trans>加载更多</Trans>
           </div>
         )}
       </List>

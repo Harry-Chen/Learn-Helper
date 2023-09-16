@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Trans } from '@lingui/macro';
+
 import {
   Button,
   Dialog,
@@ -21,7 +23,6 @@ import {
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { selectSemesters } from '../../redux/selectors';
 import { formatSemesterId, semesterFromId } from '../../utils/format';
-import { tr, t } from '../../utils/i18n';
 
 import styles from '../../css/main.module.css';
 
@@ -39,16 +40,23 @@ const ChangeSemesterDialog = () => {
 
   return (
     <Dialog open={open} keepMounted>
-      <DialogTitle>{t('ChangeSemesterDialog_Title')}</DialogTitle>
+      <DialogTitle>
+        <Trans>切换学期</Trans>
+      </DialogTitle>
       <DialogContent>
         <span>
-          {tr('ChangeSemesterDialog_Content', [
-            formatSemesterId(semester),
-            formatSemesterId(currentWebSemester),
-          ])}
+          <Trans>
+            切换学期将导致所有配置（隐藏）和状态（已读、星标）丢失，请三思！
+            <br />
+            当前 Learn Helper 学期：{formatSemesterId(semester)}
+            <br />
+            当前网络学堂学期（注册中心控制）：{formatSemesterId(currentWebSemester)}
+          </Trans>
           <br />
           <FormControl className={styles.form_control}>
-            <InputLabel id="select-semester">{t('ChangeSemesterDialog_SelectSemester')}</InputLabel>
+            <InputLabel id="select-semester">
+              <Trans>选择学期</Trans>
+            </InputLabel>
             <Select
               labelId="select-semester"
               value={newSemester}
@@ -76,10 +84,10 @@ const ChangeSemesterDialog = () => {
             dispatch(toggleChangeSemesterDialog(false));
           }}
         >
-          {t('Common_Ok')}
+          <Trans>确认</Trans>
         </Button>
         <Button color="primary" onClick={() => dispatch(toggleChangeSemesterDialog(false))}>
-          {t('Common_Cancel')}
+          <Trans>取消</Trans>
         </Button>
       </DialogActions>
     </Dialog>

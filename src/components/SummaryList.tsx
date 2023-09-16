@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import browser from 'webextension-polyfill';
+import { Trans } from '@lingui/macro';
 
 import {
   Badge,
@@ -14,7 +15,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SUMMARY_FUNC_LIST } from '../constants/ui';
 import { refreshCardList, setCardFilter, setCardListTitle } from '../redux/actions';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { t } from '../utils/i18n';
 
 import styles from '../css/list.module.css';
 import { selectUnreadMap } from '../redux/selectors';
@@ -40,7 +40,9 @@ const SummaryList = () => {
       subheader={
         <ListSubheader component="div" disableSticky>
           <FontAwesomeIcon icon="thumbtack" />
-          <span className={styles.list_title}>{t('Summary')}</span>
+          <span className={styles.list_title}>
+            <Trans>项目汇总</Trans>
+          </span>
         </ListSubheader>
       }
     >

@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
+import { lingui } from '@lingui/vite-plugin';
 import webExtension from '@samrum/vite-plugin-web-extension';
 import { visualizer } from 'rollup-plugin-visualizer';
 import zipPack from 'vite-plugin-zip-pack';
@@ -38,14 +39,22 @@ export default defineConfig({
     __THU_LEARN_LIB_VERSION__: JSON.stringify(versionThuLearnLib),
     __MUI_VERSION__: JSON.stringify(versionMui),
     __REACT_VERSION__: JSON.stringify(versionReact),
-    __LEARN_HELPER_CSRF_TOKEN_PARAM__: JSON.stringify(`__learn-helper-csrf-token-${randomSuffix}__`),
-    __LEARN_HELPER_CSRF_TOKEN_INJECTOR__: JSON.stringify(`__learn_helper_csrf_token_injector_${randomSuffix}__`),
+    __LEARN_HELPER_CSRF_TOKEN_PARAM__: JSON.stringify(
+      `__learn-helper-csrf-token-${randomSuffix}__`,
+    ),
+    __LEARN_HELPER_CSRF_TOKEN_INJECTOR__: JSON.stringify(
+      `__learn_helper_csrf_token_injector_${randomSuffix}__`,
+    ),
   },
   plugins: [
-    mdx({
-      remarkPlugins: [remarkMdxImages, remarkUnwrapImages],
-    }),
-    react(),
+    {
+      enforce: 'pre',
+      ...mdx({
+        remarkPlugins: [remarkMdxImages, remarkUnwrapImages],
+      }),
+    },
+    react({ plugins: [['@lingui/swc-plugin', {}]] }),
+    lingui(),
     webExtension({
       manifest: getManifest(isFirefox) as chrome.runtime.Manifest,
       additionalInputs: {

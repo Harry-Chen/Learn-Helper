@@ -1,9 +1,14 @@
+import { t, select } from '@lingui/macro';
 import { type SemesterInfo, SemesterType, FailReason } from 'thu-learn-lib';
-import { t } from './i18n';
 
 export function formatSemester(semester: SemesterInfo): string {
   if (semester.type !== SemesterType.UNKNOWN) {
-    return `${semester.startYear}-${semester.endYear}-${t(`SemesterType_${semester.type}`)}`;
+    return `${semester.startYear}-${semester.endYear}-${select(semester.type, {
+      fall: '秋季学期',
+      spring: '春季学期',
+      summer: '夏季学期',
+      other: '未知学期',
+    })}`;
   }
   return SemesterType.UNKNOWN;
 }
@@ -56,28 +61,28 @@ function toTimeString(date: Date): string {
 
 export function formatDate(date?: Date): string {
   if (date === undefined) {
-    return t('Common_None');
+    return t`无`;
   }
   return `${toDateString(date, false)}`;
 }
 
 export function formatDateTime(date?: Date): string {
   if (date === undefined) {
-    return t('Common_None');
+    return t`无`;
   }
   return `${toDateString(date, true)} ${toTimeString(date)}`;
 }
 
 const FAIL_REASON_MAPPING = {
-  [FailReason.BAD_CREDENTIAL]: t('FailReason_BadCredential'),
-  [FailReason.ERROR_FETCH_FROM_ID]: t('FailReason_ErrorFetchFromID'),
-  [FailReason.ERROR_ROAMING]: t('FailReason_ErrorRoaming'),
-  [FailReason.NOT_IMPLEMENTED]: t('FailReason_NotImplemented'),
-  [FailReason.NOT_LOGGED_IN]: t('FailReason_NotLoggedIn'),
-  [FailReason.NO_CREDENTIAL]: t('FailReason_NoCredential'),
-  [FailReason.UNEXPECTED_STATUS]: t('FailReason_UnexpectedStatus'),
-  TIMEOUT: t('FailReason_Timeout'),
-  UNKNOWN: t('FailReason_Unknown'),
+  [FailReason.BAD_CREDENTIAL]: t`用户名或密码错误`,
+  [FailReason.ERROR_FETCH_FROM_ID]: t`无法从 id.tsinghua.edu.cn 获取票据`,
+  [FailReason.ERROR_ROAMING]: t`无法使用票据漫游至 learn.tsinghua.edu.cn`,
+  [FailReason.NOT_IMPLEMENTED]: t`功能尚未实现`,
+  [FailReason.NOT_LOGGED_IN]: t`尚未登录`,
+  [FailReason.NO_CREDENTIAL]: t`未提供用户名或密码`,
+  [FailReason.UNEXPECTED_STATUS]: t`非预期的 HTTP 响应状态`,
+  TIMEOUT: t`请求超时`,
+  UNKNOWN: t`未知错误`,
 };
 
 export function failReasonToString(reason: FailReason): string {

@@ -1,4 +1,7 @@
 import React from 'react';
+import { ContentType } from 'thu-learn-lib';
+import { Trans } from '@lingui/macro';
+
 import {
   Button,
   Table,
@@ -9,13 +12,11 @@ import {
   Paper,
   Switch,
 } from '@mui/material';
-import { ContentType } from 'thu-learn-lib';
 
 import styles from '../../css/page.module.css';
 import { resetContentIgnore, toggleContentIgnore } from '../../redux/actions';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { COURSE_FUNC } from '../../constants/ui';
-import { t, tr } from '../../utils/i18n';
 
 const ContentIgnoreSetting = () => {
   const dispatch = useAppDispatch();
@@ -24,16 +25,24 @@ const ContentIgnoreSetting = () => {
 
   return (
     <section className={styles.ignore_setting}>
-      <span className={styles.ignore_setting_title}>{t('Settings_ManageIgnored')}</span>
+      <span className={styles.ignore_setting_title}>
+        <Trans>管理隐藏项</Trans>
+      </span>
       <header className={styles.ignore_setting_description}>
-        {tr('Settings_ManageIgnored_Content')}
+        <Trans>
+          此处的更改在下一次刷新时生效，并且只在汇总功能中起作用。
+          <br />
+          如果您重新启用一个隐藏的项目，原本的项目属性（是否已读、加星标）不会发生变化。
+        </Trans>
       </header>
       <section className={styles.ignore_setting_container}>
         <Paper>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>{t('Content_CourseName')}</TableCell>
+                <TableCell>
+                  <Trans>课程名称</Trans>
+                </TableCell>
                 {Object.keys(ContentType).map((type) => (
                   <TableCell key={type} align="center">
                     {COURSE_FUNC[`COURSE_${type}`].name}
@@ -70,7 +79,7 @@ const ContentIgnoreSetting = () => {
               dispatch(resetContentIgnore());
             }}
           >
-            {t('Common_Reset')}
+            <Trans>重置</Trans>
           </Button>
         </div>
       </section>

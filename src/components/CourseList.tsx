@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Trans } from '@lingui/macro';
 
 import {
   Collapse,
@@ -14,7 +15,6 @@ import { COURSE_FUNC, COURSE_FUNC_LIST, COURSE_ICON } from '../constants/ui';
 import { refreshCardList, setCardFilter, setCardListTitle, setDetailUrl } from '../redux/actions';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { selectCourseList } from '../redux/selectors';
-import { t } from '../utils/i18n';
 
 import styles from '../css/list.module.css';
 
@@ -31,12 +31,16 @@ const CourseList = () => {
       subheader={
         <ListSubheader component="div" disableSticky>
           <FontAwesomeIcon icon="inbox" />
-          <span className={styles.list_title}>{t('CourseList_CurrentSemester')}</span>
+          <span className={styles.list_title}>
+            <Trans>本学期课程</Trans>
+          </span>
         </ListSubheader>
       }
     >
       {courseList.length == 0 ? (
-        <span className={styles.list_title}>{t('CourseList_Nothing')}</span>
+        <span className={styles.list_title}>
+          <Trans>这里什么也没有，快去选点课吧！</Trans>
+        </span>
       ) : (
         courseList.map((c) => (
           <div key={c.id}>

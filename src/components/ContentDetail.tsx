@@ -1,12 +1,12 @@
 import React, { useState, type ReactNode } from 'react';
 import { Button, Paper } from '@mui/material';
 import { ContentType, type RemoteFile } from 'thu-learn-lib';
+import { Trans, t } from '@lingui/macro';
 
 import type { HomeworkInfo, NotificationInfo, FileInfo, ContentInfo } from '../types/data';
 import { formatDateTime } from '../utils/format';
 import { useAppDispatch } from '../redux/hooks';
 import { setDetailUrl } from '../redux/actions';
-import { t } from '../utils/i18n';
 import { renderHTML } from '../utils/html';
 import styles from '../css/page.module.css';
 import IframeWrapper from './IframeWrapper';
@@ -31,7 +31,7 @@ const Line = ({ title, children }: LineProps) => (
 interface LinkProps {
   url: string;
   inApp?: boolean;
-  children: string;
+  children: ReactNode;
 }
 
 const Link = ({ url, inApp, children }: LinkProps) => {
@@ -67,11 +67,17 @@ interface FileLinkProps {
 const FileLinks = ({ downloadTitle, previewTitle, file }: FileLinkProps) => (
   <>
     <Line title={downloadTitle}>
-      <Link url={file.downloadUrl}>{t('Content_File_Link', [file.name, file.size])}</Link>
+      <Link url={file.downloadUrl}>
+        <Trans>
+          {file.name}（{file.size}）
+        </Trans>
+      </Link>
     </Line>
     {canFilePreview(file) && (
       <Line title={previewTitle}>
-        <Link url={file.previewUrl}>{t('Content_OpenInNewWindow')}</Link>
+        <Link url={file.previewUrl}>
+          <Trans>在新窗口打开</Trans>
+        </Link>
       </Line>
     )}
   </>
@@ -87,74 +93,66 @@ interface ContentDetailProps<T extends ContentInfo = ContentInfo> {
 
 const FileDetails = ({ content: file }: ContentDetailProps<FileInfo>) => (
   <>
-    <Line title={t('Content_File_UploadedAt')}>{formatDateTime(file.uploadTime)}</Line>
-    <Line title={t('Content_File_VisitCount')}>{file.visitCount}</Line>
-    <Line title={t('Content_File_DownloadCount')}>{file.downloadCount}</Line>
-    <Line title={t('Content_File_Size')}>{file.size}</Line>
-    <Line title={t('Content_File_Type')}>{translateFileType(file.type)}</Line>
-    <FileLinks
-      downloadTitle={t('Content_File_Download')}
-      previewTitle={t('Content_File_Preview')}
-      file={file.remoteFile}
-    />
+    <Line title={t`上传时间：`}>{formatDateTime(file.uploadTime)}</Line>
+    <Line title={t`访问量：`}>{file.visitCount}</Line>
+    <Line title={t`下载量：`}>{file.downloadCount}</Line>
+    <Line title={t`文件大小：`}>{file.size}</Line>
+    <Line title={t`文件类型：`}>{translateFileType(file.type)}</Line>
+    <FileLinks downloadTitle={t`文件下载：`} previewTitle={t`文件预览：`} file={file.remoteFile} />
   </>
 );
 
 const HomeworkDetails = ({ content: homework }: ContentDetailProps<HomeworkInfo>) => (
   <>
-    <Line title={t('Content_Homework_Deadline')}>{formatDateTime(homework.deadline)}</Line>
-    {homework.submitted && (
-      <Line title={t('Content_Homework_SubmittedAt')}>{formatDateTime(homework.submitTime)}</Line>
-    )}
+    <Line title={t`截止时间：`}>{formatDateTime(homework.deadline)}</Line>
+    {homework.submitted && <Line title={t`提交时间：`}>{formatDateTime(homework.submitTime)}</Line>}
     {homework.submittedContent && (
-      <Line title={t('Content_Homework_SubmissionContent')}>
-        {renderHTML(homework.submittedContent)}
-      </Line>
+      <Line title={t`提交内容：`}>{renderHTML(homework.submittedContent)}</Line>
     )}
     {homework.submittedAttachment && (
       <FileLinks
-        downloadTitle={t('Content_Homework_SubmissionAttachment')}
-        previewTitle={t('Content_Homework_SubmissionAttachmentPreview')}
+        downloadTitle={t`提交附件：`}
+        previewTitle={t`提交附件预览：`}
         file={homework.submittedAttachment}
       />
     )}
     {homework.graded && (
       <>
-        <Line title={t('Content_Homework_GradedAt')}>{formatDateTime(homework.gradeTime)}</Line>
-        <Line title={t('Content_Homework_Grader')}>{homework.graderName}</Line>
-        <Line title={t('Content_Homework_Grade')}>
-          {homework.gradeLevel ?? homework.grade ?? t('Content_Homework_NoGrade')}
+        <Line title={t`评阅时间：`}>{formatDateTime(homework.gradeTime)}</Line>
+        <Line title={t`评阅者：`}>{homework.graderName}</Line>
+        <Line title={t`成绩：`}>
+          {homework.gradeLevel ?? homework.grade ?? <Trans>无评分</Trans>}
         </Line>
-        <Line title={t('Content_Homework_GradeContent')}>{renderHTML(homework.gradeContent)}</Line>
+        <Line title={t`评阅内容：`}>{renderHTML(homework.gradeContent)}</Line>
         {homework.gradeAttachment && (
           <FileLinks
-            downloadTitle={t('Content_Homework_GradeAttachment')}
-            previewTitle={t('Content_Homework_GradeAttachmentPreview')}
+            downloadTitle={t`评阅附件：`}
+            previewTitle={t`评阅附件预览：`}
             file={homework.gradeAttachment}
           />
         )}
       </>
     )}
     {homework.answerContent && (
-      <Line title={t('Content_Homework_AnswerContent')}>{renderHTML(homework.answerContent)}</Line>
+      <Line title={t`答案内容：`}>{renderHTML(homework.answerContent)}</Line>
     )}
     {homework.answerAttachment && (
       <FileLinks
-        downloadTitle={t('Content_Homework_AnswerAttachment')}
-        previewTitle={t('Content_Homework_AnswerAttachmentPreview')}
+        downloadTitle={t`答案附件：`}
+        previewTitle={t`答案附件预览：`}
         file={homework.answerAttachment}
       />
     )}
     {homework.attachment && (
       <FileLinks
-        downloadTitle={t('Content_Homework_Attachment')}
-        previewTitle={t('Content_Homework_AttachmentPreview')}
+        downloadTitle={t`作业附件：`}
+        previewTitle={t`作业附件预览：`}
         file={homework.attachment}
       />
     )}
-    <Line title={t('Content_Homework_Detail')}>
+    <Line title={t`作业详情：`}>
       <Link url={homework.url} inApp={true}>
-        {t('Content_OpenInCurrentWindow')}
+        <Trans>在本窗口打开</Trans>
       </Link>
     </Line>
   </>
@@ -162,19 +160,15 @@ const HomeworkDetails = ({ content: homework }: ContentDetailProps<HomeworkInfo>
 
 const NotificationDetails = ({ content: notification }: ContentDetailProps<NotificationInfo>) => (
   <>
-    <Line title={t('Content_Notification_PublishedAt')}>
-      {formatDateTime(notification.publishTime)}
-    </Line>
-    <Line title={t('Content_Notification_Publisher')}>{notification.publisher}</Line>
-    <Line title={t('Content_Notification_Severity')}>
-      {notification.markedImportant
-        ? t('Content_Notification_SeverityHigh')
-        : t('Content_Notification_SeverityNormal')}
+    <Line title={t`发布时间`}>{formatDateTime(notification.publishTime)}</Line>
+    <Line title={t`发布人`}>{notification.publisher}</Line>
+    <Line title={t`重要性`}>
+      {notification.markedImportant ? <Trans>高</Trans> : <Trans>普通</Trans>}
     </Line>
     {notification.attachment && (
       <FileLinks
-        downloadTitle={t('Content_Notification_Attachment')}
-        previewTitle={t('Content_Notification_AttachmentPreview')}
+        downloadTitle={t`公告附件`}
+        previewTitle={t`公告附件预览`}
         file={notification.attachment}
       />
     )}
@@ -190,7 +184,7 @@ const ContentDetail = ({ content }: ContentDetailProps) => {
       : content.type === ContentType.NOTIFICATION
       ? content.content
       : undefined
-    )?.trim() || t('Content_DetailEmpty');
+    )?.trim() || t`详情为空`;
 
   const fileToPreview: RemoteFile | undefined =
     (content as NotificationInfo | HomeworkInfo).attachment ?? (content as FileInfo).remoteFile;
@@ -204,7 +198,7 @@ const ContentDetail = ({ content }: ContentDetailProps) => {
       <section className={styles.content_detail_lines}>
         <table>
           <tbody>
-            <Line title={t('Content_CourseName')}>{content.courseName}</Line>
+            <Line title={t`课程名称`}>{content.courseName}</Line>
             {content.type === ContentType.FILE && <FileDetails content={content} />}
             {content.type === ContentType.HOMEWORK && <HomeworkDetails content={content} />}
             {content.type === ContentType.NOTIFICATION && <NotificationDetails content={content} />}
@@ -217,7 +211,7 @@ const ContentDetail = ({ content }: ContentDetailProps) => {
       />
       {showPreviewFrame && !preview && (
         <Button variant="outlined" onClick={() => setPreview(true)}>
-          {t('Content_LoadPreview', [fileToPreview!.size])}
+          <Trans>加载预览（{fileToPreview!.size}）</Trans>
         </Button>
       )}
       {showPreviewFrame && preview && (

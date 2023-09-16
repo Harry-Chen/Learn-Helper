@@ -22,6 +22,7 @@ import {
 } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { bindMenu, bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
+import { Trans, t } from '@lingui/macro';
 
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import {
@@ -33,7 +34,6 @@ import {
 } from '../redux/actions';
 import { formatSemester } from '../utils/format';
 import { removeStoredCredential } from '../utils/storage';
-import { t } from '../utils/i18n';
 import { interceptCsrfRequest } from '../utils/csrf';
 import type { ColorMode } from '../types/ui';
 
@@ -96,7 +96,9 @@ const AppBar = () => {
               <ListItemIcon>
                 <FontAwesomeIcon icon="circle-half-stroke" />
               </ListItemIcon>
-              <ListItemText>{t(`App_ColorMode_system`)}</ListItemText>
+              <ListItemText>
+                <Trans>跟随系统</Trans>
+              </ListItemText>
             </MenuItem>
             <MenuItem
               key="light"
@@ -106,7 +108,9 @@ const AppBar = () => {
               <ListItemIcon>
                 <FontAwesomeIcon icon="sun" />
               </ListItemIcon>
-              <ListItemText>{t(`App_ColorMode_light`)}</ListItemText>
+              <ListItemText>
+                <Trans>亮</Trans>
+              </ListItemText>
             </MenuItem>
             <MenuItem
               key="dark"
@@ -116,7 +120,9 @@ const AppBar = () => {
               <ListItemIcon>
                 <FontAwesomeIcon icon="moon" />
               </ListItemIcon>
-              <ListItemText>{t(`App_ColorMode_dark`)}</ListItemText>
+              <ListItemText>
+                <Trans>暗</Trans>
+              </ListItemText>
             </MenuItem>
           </Menu>
         </div>
@@ -130,7 +136,7 @@ const AppDrawer = () => {
 
   const paneHidden = useAppSelector((state) => state.ui.paneHidden);
   const cardListTitle = useAppSelector((state) =>
-    state.helper.loggedIn ? state.ui.cardListTitle : t('App_Loading'),
+    state.helper.loggedIn ? state.ui.cardListTitle : t`加载中...`,
   );
   const semesterTitle = useAppSelector((state) => formatSemester(state.data.semester));
   const isLatestSemester = useAppSelector(
@@ -169,7 +175,7 @@ const AppDrawer = () => {
                 {semesterTitle}
               </Typography>
               {!isLatestSemester && (
-                <Tooltip title={t('App_NotLearnSemester')}>
+                <Tooltip title={t`非网络学堂当前学期`}>
                   <IconButton
                     className={styles.sidebar_master_notify_icon}
                     onClick={() => dispatch(toggleChangeSemesterDialog(true))}
@@ -212,7 +218,7 @@ const AppDrawer = () => {
                   <InputBase
                     inputRef={inputRef}
                     className={styles.filter_input_inner}
-                    placeholder={t('App_Filter')}
+                    placeholder={t`筛选`}
                     value={filter}
                     onChange={(ev) => {
                       setFilter(ev.target.value);
@@ -261,10 +267,12 @@ const Fallback = ({ error, errorInfo }: FallbackProps & { errorInfo: ErrorInfo |
   return (
     <main className={styles.app_error_section}>
       <Typography variant="h5" className={styles.app_error_text} noWrap>
-        <b>{t('App_Error_Title')}</b>
+        <b>
+          <Trans>哎呀，出错了！</Trans>
+        </b>
       </Typography>
       <Typography variant="body1" className={styles.app_error_text} noWrap>
-        {t('App_Error_Content')}
+        <Trans>发生了不可恢复的错误，请尝试刷新页面。如果错误继续出现，请清除数据重新来过。</Trans>
       </Typography>
       <Button
         color="secondary"
@@ -274,7 +282,7 @@ const Fallback = ({ error, errorInfo }: FallbackProps & { errorInfo: ErrorInfo |
           window.location.replace(window.location.href);
         }}
       >
-        {t('App_Error_Refresh')}
+        <Trans>刷新</Trans>
       </Button>
       <Button
         color="secondary"
@@ -282,19 +290,21 @@ const Fallback = ({ error, errorInfo }: FallbackProps & { errorInfo: ErrorInfo |
         className={styles.app_error_text}
         onClick={resetApp}
       >
-        {t('App_Error_ClearData')}
+        <Trans>清除数据</Trans>
       </Button>
       <Typography variant="body1" className={styles.app_error_text}>
-        <b>{t('App_Error_Support')}</b>
+        <b>
+          <Trans>请将下面的错误信息发送给开发者，以协助解决问题，感谢支持！</Trans>
+        </b>
       </Typography>
       <Typography variant="body1" className={styles.app_error_text}>
-        {t('App_Error_Info')}
+        <Trans>错误信息：</Trans>
         <br />
         <code>{error.stack ?? `${error.name}: ${error.message}`}</code>
       </Typography>
       <Typography variant="body1" className={styles.app_error_text}>
-        {t('App_Error_Component')}
-        <code>{errorInfo?.componentStack ?? t('App_Error_ComponentMissing')}</code>
+        <Trans>错误组件：</Trans>
+        <code>{errorInfo?.componentStack ?? <Trans>无此信息</Trans>}</code>
       </Typography>
     </main>
   );
