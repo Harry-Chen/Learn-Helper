@@ -22,6 +22,7 @@ const isFirefox = process.env.BROWSER === 'firefox';
 const isDev = process.env.NODE_ENV === 'development';
 const helperVersion = version;
 const gitVersion = runCmd('git describe --always --dirty');
+const gitBranch = runCmd('git branch --show-current');
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -38,8 +39,12 @@ export default defineConfig({
     __THU_LEARN_LIB_VERSION__: JSON.stringify(versionThuLearnLib),
     __MUI_VERSION__: JSON.stringify(versionMui),
     __REACT_VERSION__: JSON.stringify(versionReact),
-    __LEARN_HELPER_CSRF_TOKEN_PARAM__: JSON.stringify(`__learn-helper-csrf-token-${randomSuffix}__`),
-    __LEARN_HELPER_CSRF_TOKEN_INJECTOR__: JSON.stringify(`__learn_helper_csrf_token_injector_${randomSuffix}__`),
+    __LEARN_HELPER_CSRF_TOKEN_PARAM__: JSON.stringify(
+      `__learn-helper-csrf-token-${randomSuffix}__`,
+    ),
+    __LEARN_HELPER_CSRF_TOKEN_INJECTOR__: JSON.stringify(
+      `__learn_helper_csrf_token_injector_${randomSuffix}__`,
+    ),
   },
   plugins: [
     mdx({
@@ -56,7 +61,7 @@ export default defineConfig({
     visualizer(),
     !isDev &&
       zipPack({
-        outFileName: `learn-helper-${helperVersion}-${gitVersion}-${
+        outFileName: `learn-helper-${helperVersion}-${gitBranch}-${gitVersion}-${
           isFirefox ? 'firefox' : 'chrome'
         }.zip`,
       }),
