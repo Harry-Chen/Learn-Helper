@@ -1,4 +1,5 @@
 import type { Manifest } from 'webextension-polyfill';
+
 import { author, version } from '../package.json';
 
 export function getManifest(isFirefox = false): Manifest.WebExtensionManifest {
@@ -41,6 +42,7 @@ export function getManifest(isFirefox = false): Manifest.WebExtensionManifest {
       browser_specific_settings: {
         gecko: {
           update_url: 'https://harrychen.xyz/learn/updates.json',
+          id: '{b3a44052-5d0d-4ef9-9744-93b6f5ca7398}',
         },
       },
     }),
