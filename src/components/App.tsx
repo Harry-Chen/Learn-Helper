@@ -1,6 +1,8 @@
 import React, { useState, type ErrorInfo, useRef, useEffect } from 'react';
 import { ErrorBoundary, type FallbackProps } from 'react-error-boundary';
 import classnames from 'classnames';
+import { Trans, t } from '@lingui/macro';
+import { useLingui } from '@lingui/react';
 
 import {
   AppBar as MuiAppBar,
@@ -22,7 +24,6 @@ import {
 } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { bindMenu, bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
-import { Trans, t } from '@lingui/macro';
 
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import {
@@ -36,6 +37,7 @@ import { formatSemester } from '../utils/format';
 import { removeStoredCredential } from '../utils/storage';
 import { interceptCsrfRequest } from '../utils/csrf';
 import type { ColorMode } from '../types/ui';
+import type { Language } from '../i18n';
 
 import SummaryList from './SummaryList';
 import CourseList from './CourseList';
@@ -53,17 +55,92 @@ import DetailPane from './DetailPane';
 
 import styles from '../css/main.module.css';
 
+const LanguageSwitcher = () => {
+  const popupState = usePopupState({ variant: 'popover', popupId: 'languageMenu' });
+  const { i18n } = useLingui();
+  const handle = (lang: Language) => {
+    i18n.activate(lang);
+    popupState.close();
+  };
+
+  return (
+    <>
+      <IconButton
+        color="inherit"
+        aria-label="Set color mode"
+        size="large"
+        {...bindTrigger(popupState)}
+      >
+        <FontAwesomeIcon icon="language" />
+      </IconButton>
+      <Menu {...bindMenu(popupState)}>
+        <MenuItem key="zh" selected={i18n.locale === 'zh'} onClick={() => handle('zh')}>
+          <ListItemText>
+            <Trans>中文</Trans>
+          </ListItemText>
+        </MenuItem>
+        <MenuItem key="en" selected={i18n.locale === 'en'} onClick={() => handle('en')}>
+          <ListItemText>
+            <Trans>English</Trans>
+          </ListItemText>
+        </MenuItem>
+      </Menu>
+    </>
+  );
+};
+
+const ColorModeSwitcher = () => {
+  const popupState = usePopupState({ variant: 'popover', popupId: 'colorModeMenu' });
+  const { mode, setMode } = useColorScheme();
+  const handle = (m: ColorMode) => {
+    setMode(m);
+    popupState.close();
+  };
+
+  return (
+    <>
+      <IconButton
+        color="inherit"
+        aria-label="Set color mode"
+        size="large"
+        {...bindTrigger(popupState)}
+      >
+        <FontAwesomeIcon icon="circle-half-stroke" />
+      </IconButton>
+      <Menu {...bindMenu(popupState)}>
+        <MenuItem key="system" selected={mode === 'system'} onClick={() => handle('system')}>
+          <ListItemIcon>
+            <FontAwesomeIcon icon="circle-half-stroke" />
+          </ListItemIcon>
+          <ListItemText>
+            <Trans>跟随系统</Trans>
+          </ListItemText>
+        </MenuItem>
+        <MenuItem key="light" selected={mode === 'light'} onClick={() => handle('light')}>
+          <ListItemIcon>
+            <FontAwesomeIcon icon="sun" />
+          </ListItemIcon>
+          <ListItemText>
+            <Trans>亮</Trans>
+          </ListItemText>
+        </MenuItem>
+        <MenuItem key="dark" selected={mode === 'dark'} onClick={() => handle('dark')}>
+          <ListItemIcon>
+            <FontAwesomeIcon icon="moon" />
+          </ListItemIcon>
+          <ListItemText>
+            <Trans>暗</Trans>
+          </ListItemText>
+        </MenuItem>
+      </Menu>
+    </>
+  );
+};
+
 const AppBar = () => {
   const dispatch = useAppDispatch();
 
   const openSidebar = () => dispatch(togglePaneHidden(false));
-
-  const popupState = usePopupState({ variant: 'popover', popupId: 'colorModeMenu' });
-  const { mode, setMode } = useColorScheme();
-  const handleColorModeClick = (m: ColorMode) => {
-    setMode(m);
-    popupState.close();
-  };
 
   return (
     <MuiAppBar position="fixed">
@@ -78,54 +155,8 @@ const AppBar = () => {
           <FontAwesomeIcon icon="bars" />
         </IconButton>
         <Typography component="div" sx={{ flexGrow: 1 }}></Typography>
-        <div>
-          <IconButton
-            color="inherit"
-            aria-label="Set color mode"
-            size="large"
-            {...bindTrigger(popupState)}
-          >
-            <FontAwesomeIcon icon="circle-half-stroke" />
-          </IconButton>
-          <Menu {...bindMenu(popupState)}>
-            <MenuItem
-              key="system"
-              selected={mode === 'system'}
-              onClick={() => handleColorModeClick('system')}
-            >
-              <ListItemIcon>
-                <FontAwesomeIcon icon="circle-half-stroke" />
-              </ListItemIcon>
-              <ListItemText>
-                <Trans>跟随系统</Trans>
-              </ListItemText>
-            </MenuItem>
-            <MenuItem
-              key="light"
-              selected={mode === 'light'}
-              onClick={() => handleColorModeClick('light')}
-            >
-              <ListItemIcon>
-                <FontAwesomeIcon icon="sun" />
-              </ListItemIcon>
-              <ListItemText>
-                <Trans>亮</Trans>
-              </ListItemText>
-            </MenuItem>
-            <MenuItem
-              key="dark"
-              selected={mode === 'dark'}
-              onClick={() => handleColorModeClick('dark')}
-            >
-              <ListItemIcon>
-                <FontAwesomeIcon icon="moon" />
-              </ListItemIcon>
-              <ListItemText>
-                <Trans>暗</Trans>
-              </ListItemText>
-            </MenuItem>
-          </Menu>
-        </div>
+        <LanguageSwitcher />
+        <ColorModeSwitcher />
       </Toolbar>
     </MuiAppBar>
   );

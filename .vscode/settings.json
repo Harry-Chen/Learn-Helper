@@ -3,5 +3,6 @@
   "i18n-ally.displayLanguage": "zh",
   "i18n-ally.localesPaths": ["src/locales"],
   "i18n-ally.enabledFrameworks": ["lingui"],
-  "i18n-ally.pathMatcher": "{locale}.po"
+  "i18n-ally.pathMatcher": "{locale}.po",
+  "i18n-ally.disablePathParsing": true
 }

@@ -1,18 +1,22 @@
 import { i18n } from '@lingui/core';
 import browser from 'webextension-polyfill';
-import { Language } from 'thu-learn-lib';
 
+import { STORAGE_KEY_LANGUAGE } from './constants';
 import { messages as messagesEN } from './locales/en.po';
 import { messages as messagesZH } from './locales/zh.po';
 
-export const browserLocale =
-  { zh: Language.ZH, en: Language.EN }[new Intl.Locale(browser.i18n.getUILanguage()).language] ??
-  Language.ZH;
-
-export { Language };
+export type Language = 'zh' | 'en';
 
 i18n.load({
   en: messagesEN,
   zh: messagesZH,
 });
-i18n.activate(browserLocale);
+
+const { [STORAGE_KEY_LANGUAGE]: storedLanguage } = await browser.storage.local.get([
+  STORAGE_KEY_LANGUAGE,
+]);
+i18n.activate(storedLanguage || new Intl.Locale(browser.i18n.getUILanguage()).language);
+
+i18n.on('change', async () => {
+  await browser.storage.local.set({ [STORAGE_KEY_LANGUAGE]: i18n.locale });
+});
