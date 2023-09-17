@@ -1,5 +1,7 @@
 import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { ContentType } from 'thu-learn-lib';
+import { msg } from '@lingui/macro';
+import type { MessageDescriptor } from '@lingui/core';
 
 import { CARD_BATCH_LOAD_SIZE } from '../../constants';
 import { type ContentInfo } from '../../types/data';
@@ -42,7 +44,7 @@ export interface UiState {
   showLogoutDialog: boolean;
   showClearDataDialog: boolean;
   cardVisibilityThreshold: number;
-  cardListTitle: string;
+  cardListTitle: MessageDescriptor[];
   cardList: CardEntry[];
   cardFilter: CardFilter;
   detailPane: DetailPane;
@@ -61,7 +63,7 @@ const initialState: UiState = {
   showClearDataDialog: false,
   showChangeSemesterDialog: false,
   cardVisibilityThreshold: CARD_BATCH_LOAD_SIZE,
-  cardListTitle: '主页',
+  cardListTitle: [msg`主页`],
   cardList: [],
   cardFilter: {},
   detailPane: { type: 'page', page: 'welcome' },
@@ -112,7 +114,7 @@ export const uiSlice = createSlice({
     loadMoreCard: (state) => {
       state.cardVisibilityThreshold += CARD_BATCH_LOAD_SIZE;
     },
-    setCardListTitle: (state, action: PayloadAction<string>) => {
+    setCardListTitle: (state, action: PayloadAction<MessageDescriptor[]>) => {
       state.cardListTitle = action.payload;
     },
     setCardList: (state, action: PayloadAction<CardEntry[]>) => {

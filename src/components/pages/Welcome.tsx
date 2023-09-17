@@ -1,9 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
+import { Trans } from '@lingui/macro';
 
 import { useAppDispatch } from '../../redux/hooks';
 import { setDetailPage } from '../../redux/actions';
-import { t } from '../../utils/i18n';
 
 import styles from '../../css/doc.module.css';
 import bg from '../../image/bg.png';
@@ -24,21 +24,21 @@ const Welcome = () => {
             className={styles.welcome_navigation}
             onClick={() => dispatch(setDetailPage('readme'))}
           >
-            {t('Welcome_Readme')}
+            <Trans>使用手册</Trans>
           </button>
           {' | '}
           <button
             className={styles.welcome_navigation}
             onClick={() => dispatch(setDetailPage('about'))}
           >
-            {t('Welcome_About')}
+            <Trans>关于我们</Trans>
           </button>
           {' | '}
           <button
             className={styles.welcome_navigation}
             onClick={() => dispatch(setDetailPage('changelog'))}
           >
-            {t('Welcome_Changelog')}
+            <Trans>更新记录</Trans>
           </button>
           <br />
           <a

@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
+import { lingui } from '@lingui/vite-plugin';
 import webExtension from '@samrum/vite-plugin-web-extension';
 import { visualizer } from 'rollup-plugin-visualizer';
 import zipPack from 'vite-plugin-zip-pack';
@@ -47,10 +48,14 @@ export default defineConfig({
     ),
   },
   plugins: [
-    mdx({
-      remarkPlugins: [remarkMdxImages, remarkUnwrapImages],
-    }),
-    react(),
+    {
+      enforce: 'pre',
+      ...mdx({
+        remarkPlugins: [remarkMdxImages, remarkUnwrapImages],
+      }),
+    },
+    react({ plugins: [['@lingui/swc-plugin', {}]] }),
+    lingui(),
     webExtension({
       manifest: getManifest(isFirefox) as chrome.runtime.Manifest,
       additionalInputs: {

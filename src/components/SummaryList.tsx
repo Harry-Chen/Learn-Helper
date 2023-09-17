@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import browser from 'webextension-polyfill';
+import { Trans } from '@lingui/macro';
+import { useLingui } from '@lingui/react';
 
 import {
   Badge,
@@ -14,12 +16,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SUMMARY_FUNC_LIST } from '../constants/ui';
 import { refreshCardList, setCardFilter, setCardListTitle } from '../redux/actions';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { t } from '../utils/i18n';
 
 import styles from '../css/list.module.css';
 import { selectUnreadMap } from '../redux/selectors';
 
 const SummaryList = () => {
+  const { _ } = useLingui();
   const dispatch = useAppDispatch();
 
   const unreadMap = useAppSelector(selectUnreadMap);
@@ -40,17 +42,19 @@ const SummaryList = () => {
       subheader={
         <ListSubheader component="div" disableSticky>
           <FontAwesomeIcon icon="thumbtack" />
-          <span className={styles.list_title}>{t('Summary')}</span>
+          <span className={styles.list_title}>
+            <Trans>项目汇总</Trans>
+          </span>
         </ListSubheader>
       }
     >
       {SUMMARY_FUNC_LIST.map((func) => (
         <ListItemButton
           className={styles.sidebar_list_item}
-          key={func.name}
+          key={func.name.id}
           onClick={() => {
             dispatch(setCardFilter({ type: func.type }));
-            dispatch(setCardListTitle(func.name));
+            dispatch(setCardListTitle([func.name]));
             dispatch(refreshCardList());
           }}
         >
@@ -62,7 +66,7 @@ const SummaryList = () => {
             color="primary"
             invisible={!func.type || !unreadMap[func.type]}
           >
-            <ListItemText className={styles.summary_list_item_text} primary={func.name} />
+            <ListItemText className={styles.summary_list_item_text} primary={_(func.name)} />
           </Badge>
         </ListItemButton>
       ))}

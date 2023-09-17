@@ -14,3 +14,8 @@ declare const __REACT_VERSION__: string;
 declare const __LEARN_HELPER_CSRF_TOKEN_PARAM__: string;
 declare const __LEARN_HELPER_CSRF_TOKEN_INJECTOR__: string;
 declare const __BROWSER__: string;
+
+declare module '*.po' {
+  import type { Messages } from '@lingui/core';
+  export const messages: Messages;
+}

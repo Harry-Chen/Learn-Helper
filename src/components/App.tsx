@@ -1,6 +1,8 @@
 import React, { useState, type ErrorInfo, useRef, useEffect } from 'react';
 import { ErrorBoundary, type FallbackProps } from 'react-error-boundary';
 import classnames from 'classnames';
+import { msg, Trans, t } from '@lingui/macro';
+import { useLingui } from '@lingui/react';
 
 import {
   AppBar as MuiAppBar,
@@ -30,12 +32,13 @@ import {
   togglePaneHidden,
   clearAllData,
   tryLoginSilently,
+  syncLanguage,
 } from '../redux/actions';
 import { formatSemester } from '../utils/format';
 import { removeStoredCredential } from '../utils/storage';
-import { t } from '../utils/i18n';
 import { interceptCsrfRequest } from '../utils/csrf';
 import type { ColorMode } from '../types/ui';
+import type { Language } from '../i18n';
 
 import SummaryList from './SummaryList';
 import CourseList from './CourseList';
@@ -53,17 +56,91 @@ import DetailPane from './DetailPane';
 
 import styles from '../css/main.module.css';
 
+const LanguageSwitcher = () => {
+  const { i18n } = useLingui();
+  const dispatch = useAppDispatch();
+
+  const popupState = usePopupState({ variant: 'popover', popupId: 'languageMenu' });
+  const handle = (lang: Language) => {
+    i18n.activate(lang);
+    dispatch(syncLanguage());
+    popupState.close();
+  };
+
+  return (
+    <>
+      <IconButton
+        color="inherit"
+        aria-label="Set color mode"
+        size="large"
+        {...bindTrigger(popupState)}
+      >
+        <FontAwesomeIcon icon="language" />
+      </IconButton>
+      <Menu {...bindMenu(popupState)}>
+        <MenuItem key="zh" selected={i18n.locale === 'zh'} onClick={() => handle('zh')}>
+          <ListItemText>中文</ListItemText>
+        </MenuItem>
+        <MenuItem key="en" selected={i18n.locale === 'en'} onClick={() => handle('en')}>
+          <ListItemText>English</ListItemText>
+        </MenuItem>
+      </Menu>
+    </>
+  );
+};
+
+const ColorModeSwitcher = () => {
+  const popupState = usePopupState({ variant: 'popover', popupId: 'colorModeMenu' });
+  const { mode, setMode } = useColorScheme();
+  const handle = (m: ColorMode) => {
+    setMode(m);
+    popupState.close();
+  };
+
+  return (
+    <>
+      <IconButton
+        color="inherit"
+        aria-label="Set color mode"
+        size="large"
+        {...bindTrigger(popupState)}
+      >
+        <FontAwesomeIcon icon="circle-half-stroke" />
+      </IconButton>
+      <Menu {...bindMenu(popupState)}>
+        <MenuItem key="system" selected={mode === 'system'} onClick={() => handle('system')}>
+          <ListItemIcon>
+            <FontAwesomeIcon icon="circle-half-stroke" />
+          </ListItemIcon>
+          <ListItemText>
+            <Trans>跟随系统</Trans>
+          </ListItemText>
+        </MenuItem>
+        <MenuItem key="light" selected={mode === 'light'} onClick={() => handle('light')}>
+          <ListItemIcon>
+            <FontAwesomeIcon icon="sun" />
+          </ListItemIcon>
+          <ListItemText>
+            <Trans>亮</Trans>
+          </ListItemText>
+        </MenuItem>
+        <MenuItem key="dark" selected={mode === 'dark'} onClick={() => handle('dark')}>
+          <ListItemIcon>
+            <FontAwesomeIcon icon="moon" />
+          </ListItemIcon>
+          <ListItemText>
+            <Trans>暗</Trans>
+          </ListItemText>
+        </MenuItem>
+      </Menu>
+    </>
+  );
+};
+
 const AppBar = () => {
   const dispatch = useAppDispatch();
 
   const openSidebar = () => dispatch(togglePaneHidden(false));
-
-  const popupState = usePopupState({ variant: 'popover', popupId: 'colorModeMenu' });
-  const { mode, setMode } = useColorScheme();
-  const handleColorModeClick = (m: ColorMode) => {
-    setMode(m);
-    popupState.close();
-  };
 
   return (
     <MuiAppBar position="fixed">
@@ -78,59 +155,20 @@ const AppBar = () => {
           <FontAwesomeIcon icon="bars" />
         </IconButton>
         <Typography component="div" sx={{ flexGrow: 1 }}></Typography>
-        <div>
-          <IconButton
-            color="inherit"
-            aria-label="Set color mode"
-            size="large"
-            {...bindTrigger(popupState)}
-          >
-            <FontAwesomeIcon icon="circle-half-stroke" />
-          </IconButton>
-          <Menu {...bindMenu(popupState)}>
-            <MenuItem
-              key="system"
-              selected={mode === 'system'}
-              onClick={() => handleColorModeClick('system')}
-            >
-              <ListItemIcon>
-                <FontAwesomeIcon icon="circle-half-stroke" />
-              </ListItemIcon>
-              <ListItemText>{t(`App_ColorMode_system`)}</ListItemText>
-            </MenuItem>
-            <MenuItem
-              key="light"
-              selected={mode === 'light'}
-              onClick={() => handleColorModeClick('light')}
-            >
-              <ListItemIcon>
-                <FontAwesomeIcon icon="sun" />
-              </ListItemIcon>
-              <ListItemText>{t(`App_ColorMode_light`)}</ListItemText>
-            </MenuItem>
-            <MenuItem
-              key="dark"
-              selected={mode === 'dark'}
-              onClick={() => handleColorModeClick('dark')}
-            >
-              <ListItemIcon>
-                <FontAwesomeIcon icon="moon" />
-              </ListItemIcon>
-              <ListItemText>{t(`App_ColorMode_dark`)}</ListItemText>
-            </MenuItem>
-          </Menu>
-        </div>
+        <LanguageSwitcher />
+        <ColorModeSwitcher />
       </Toolbar>
     </MuiAppBar>
   );
 };
 
 const AppDrawer = () => {
+  const { _ } = useLingui();
   const dispatch = useAppDispatch();
 
   const paneHidden = useAppSelector((state) => state.ui.paneHidden);
   const cardListTitle = useAppSelector((state) =>
-    state.helper.loggedIn ? state.ui.cardListTitle : t('App_Loading'),
+    state.helper.loggedIn ? state.ui.cardListTitle : [msg`加载中...`],
   );
   const semesterTitle = useAppSelector((state) => formatSemester(state.data.semester));
   const isLatestSemester = useAppSelector(
@@ -169,7 +207,7 @@ const AppDrawer = () => {
                 {semesterTitle}
               </Typography>
               {!isLatestSemester && (
-                <Tooltip title={t('App_NotLearnSemester')}>
+                <Tooltip title={t`非网络学堂当前学期`}>
                   <IconButton
                     className={styles.sidebar_master_notify_icon}
                     onClick={() => dispatch(toggleChangeSemesterDialog(true))}
@@ -186,7 +224,7 @@ const AppDrawer = () => {
               })}
             >
               <Typography variant="h6" className={styles.sidebar_cardlist_name} noWrap>
-                {cardListTitle}
+                {cardListTitle.map((part) => _(part)).join('-')}
               </Typography>
 
               <div className={styles.sidebar_filter_group}>
@@ -212,7 +250,7 @@ const AppDrawer = () => {
                   <InputBase
                     inputRef={inputRef}
                     className={styles.filter_input_inner}
-                    placeholder={t('App_Filter')}
+                    placeholder={t`筛选`}
                     value={filter}
                     onChange={(ev) => {
                       setFilter(ev.target.value);
@@ -261,10 +299,12 @@ const Fallback = ({ error, errorInfo }: FallbackProps & { errorInfo: ErrorInfo |
   return (
     <main className={styles.app_error_section}>
       <Typography variant="h5" className={styles.app_error_text} noWrap>
-        <b>{t('App_Error_Title')}</b>
+        <b>
+          <Trans>哎呀，出错了！</Trans>
+        </b>
       </Typography>
       <Typography variant="body1" className={styles.app_error_text} noWrap>
-        {t('App_Error_Content')}
+        <Trans>发生了不可恢复的错误，请尝试刷新页面。如果错误继续出现，请清除数据重新来过。</Trans>
       </Typography>
       <Button
         color="secondary"
@@ -274,7 +314,7 @@ const Fallback = ({ error, errorInfo }: FallbackProps & { errorInfo: ErrorInfo |
           window.location.replace(window.location.href);
         }}
       >
-        {t('App_Error_Refresh')}
+        <Trans>刷新</Trans>
       </Button>
       <Button
         color="secondary"
@@ -282,19 +322,21 @@ const Fallback = ({ error, errorInfo }: FallbackProps & { errorInfo: ErrorInfo |
         className={styles.app_error_text}
         onClick={resetApp}
       >
-        {t('App_Error_ClearData')}
+        <Trans>清除数据</Trans>
       </Button>
       <Typography variant="body1" className={styles.app_error_text}>
-        <b>{t('App_Error_Support')}</b>
+        <b>
+          <Trans>请将下面的错误信息发送给开发者，以协助解决问题，感谢支持！</Trans>
+        </b>
       </Typography>
       <Typography variant="body1" className={styles.app_error_text}>
-        {t('App_Error_Info')}
+        <Trans>错误信息：</Trans>
         <br />
         <code>{error.stack ?? `${error.name}: ${error.message}`}</code>
       </Typography>
       <Typography variant="body1" className={styles.app_error_text}>
-        {t('App_Error_Component')}
-        <code>{errorInfo?.componentStack ?? t('App_Error_ComponentMissing')}</code>
+        <Trans>错误组件：</Trans>
+        <code>{errorInfo?.componentStack ?? <Trans>无此信息</Trans>}</code>
       </Typography>
     </main>
   );

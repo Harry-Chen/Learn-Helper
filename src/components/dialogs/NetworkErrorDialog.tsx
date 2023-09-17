@@ -1,4 +1,5 @@
 import React from 'react';
+import { Trans } from '@lingui/macro';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 
 import {
@@ -9,7 +10,6 @@ import {
 } from '../../redux/actions';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { requestPermission } from '../../utils/permission';
-import { t, tr } from '../../utils/i18n';
 
 const NetworkErrorDialog = () => {
   const dispatch = useAppDispatch();
@@ -18,8 +18,22 @@ const NetworkErrorDialog = () => {
 
   return (
     <Dialog open={open} keepMounted>
-      <DialogTitle>{t('NetworkErrorDialog_Title')}</DialogTitle>
-      <DialogContent>{tr('NetworkErrorDialog_Content')}</DialogContent>
+      <DialogTitle>
+        <Trans>刷新课程信息失败</Trans>
+      </DialogTitle>
+      <DialogContent>
+        <Trans>
+          可能原因有：
+          <br />
+          · 网络不太给力
+          <br />
+          · 服务器去思考人生了
+          <br />
+          · 保存的用户凭据不正确（最近修改过密码？）
+          <br />
+          您可以选择重试、放弃刷新，或者更换新的凭据。
+        </Trans>
+      </DialogContent>
       <DialogActions>
         <Button
           color="primary"
@@ -29,7 +43,7 @@ const NetworkErrorDialog = () => {
             dispatch(refresh());
           }}
         >
-          {t('NetworkErrorDialog_Refresh')}
+          <Trans>重试刷新</Trans>
         </Button>
         <Button
           color="primary"
@@ -38,7 +52,7 @@ const NetworkErrorDialog = () => {
             dispatch(loggedIn());
           }}
         >
-          {t('NetworkErrorDialog_Offline')}
+          <Trans>离线查看</Trans>
         </Button>
         <Button
           color="primary"
@@ -47,7 +61,7 @@ const NetworkErrorDialog = () => {
             dispatch(toggleLoginDialog(true));
           }}
         >
-          {t('NetworkErrorDialog_UpdateCredential')}
+          <Trans>更新凭据</Trans>
         </Button>
       </DialogActions>
     </Dialog>
