@@ -161,7 +161,7 @@ msgstr "Attachment: {0}"
 
 #: src/components/ContentDetail.tsx:77
 msgid "{0}（{1}）"
-msgstr "{0}({1})"
+msgstr "{0} ({1})"
 
 #: src/components/ContentDetail.tsx:85
 msgid "在新窗口打开"
@@ -490,7 +490,7 @@ msgstr "Q&A"
 
 #: src/constants/ui.ts:55
 msgid "课程综合"
-msgstr "Course sumarry"
+msgstr "Course summary"
 
 #: src/constants/ui.ts:59
 msgid "课程公告"

@@ -188,7 +188,7 @@ const NotificationDetails = ({ content: notification }: ContentDetailProps<Notif
 );
 
 const ContentDetail = ({ content }: ContentDetailProps) => {
-  useLingui();
+  const { _ } = useLingui();
 
   const contentDetail =
     (content.type === ContentType.HOMEWORK
@@ -212,7 +212,7 @@ const ContentDetail = ({ content }: ContentDetailProps) => {
       <section className={styles.content_detail_lines}>
         <table>
           <tbody>
-            <Line title={msg`课程名称：`}>{content.courseName}</Line>
+            <Line title={msg`课程名称：`}>{_({ id: `course-${content.courseId}` })}</Line>
             {content.type === ContentType.FILE && <FileDetails content={content} />}
             {content.type === ContentType.HOMEWORK && <HomeworkDetails content={content} />}
             {content.type === ContentType.NOTIFICATION && <NotificationDetails content={content} />}

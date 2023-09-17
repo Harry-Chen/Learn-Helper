@@ -90,7 +90,7 @@ export const login =
     } catch (e) {
       const error = e as ApiError;
       enqueueSnackbar(
-        t`登录失败：${(failReasonToString(error?.reason) ?? error).toString() ?? t`未知错误`}`,
+        t`登录失败：${failReasonToString(error?.reason) ?? error.toString() ?? t`未知错误`}`,
         { variant: 'error' },
       );
       dispatch(loginEnd());
@@ -176,16 +176,7 @@ export const refresh = (): AppThunk<Promise<void>> => async (dispatch, getState)
     allCourseIds = courses.map((c) => c.id);
     dispatch(updateCourses(courses));
 
-    // load course names to i18n
-    i18n.load(
-      'zh',
-      Object.fromEntries(courses.map(({ id, chineseName }) => [`course-${id}`, chineseName])),
-    );
-    i18n.load(
-      'en',
-      Object.fromEntries(courses.map(({ id, englishName }) => [`course-${id}`, englishName])),
-    );
-
+    dispatch(updateCourseNames());
     nextProgress();
   } catch (e) {
     console.error(e);
@@ -282,11 +273,28 @@ export const syncLanguage = (): AppThunk<Promise<void>> => async (_dispatch, get
     const error = e as ApiError;
     enqueueSnackbar(
       t`设置网络学堂语言失败：${
-        (failReasonToString(error?.reason) ?? error).toString() ?? t`未知错误`
+        failReasonToString(error?.reason) ?? error.toString() ?? t`未知错误`
       }`,
       { variant: 'error' },
     );
   }
+};
+
+export const updateCourseNames = (): AppThunk<void> => (_dispatch, getState) => {
+  const { courseMap } = getState().data;
+  // load course names to i18n
+  i18n.load(
+    'zh',
+    Object.fromEntries(
+      Object.values(courseMap).map(({ id, chineseName }) => [`course-${id}`, chineseName]),
+    ),
+  );
+  i18n.load(
+    'en',
+    Object.fromEntries(
+      Object.values(courseMap).map(({ id, englishName }) => [`course-${id}`, englishName]),
+    ),
+  );
 };
 
 const compareBoolean = (a: boolean, b: boolean) => {
@@ -455,6 +463,7 @@ export const loadApp = (): AppThunk<Promise<void>> => async (dispatch) => {
     }
   }
 
+  dispatch(updateCourseNames());
   dispatch(refreshCardList());
   dispatch(tryLoginSilently());
 };

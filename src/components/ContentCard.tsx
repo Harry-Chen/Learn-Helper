@@ -135,7 +135,7 @@ const ContentCard = ({ content }: CardProps) => {
                   (content.replyCount !== 0 ? ' · ' + t`最后回复:${content.lastReplierName}` : '')
                 : null}
             </span>
-            <span className={styles.card_course}>{content.courseName}</span>
+            <span className={styles.card_course}>{_({ id: `course-${content.courseId}` })}</span>
           </div>
         </CardContent>
         <CardActions className={styles.card_action_line}>

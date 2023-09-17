@@ -32,6 +32,7 @@ import {
   togglePaneHidden,
   clearAllData,
   tryLoginSilently,
+  syncLanguage,
 } from '../redux/actions';
 import { formatSemester } from '../utils/format';
 import { removeStoredCredential } from '../utils/storage';
@@ -56,10 +57,13 @@ import DetailPane from './DetailPane';
 import styles from '../css/main.module.css';
 
 const LanguageSwitcher = () => {
-  const popupState = usePopupState({ variant: 'popover', popupId: 'languageMenu' });
   const { i18n } = useLingui();
+  const dispatch = useAppDispatch();
+
+  const popupState = usePopupState({ variant: 'popover', popupId: 'languageMenu' });
   const handle = (lang: Language) => {
     i18n.activate(lang);
+    dispatch(syncLanguage());
     popupState.close();
   };
 

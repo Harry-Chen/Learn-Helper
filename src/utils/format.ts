@@ -76,17 +76,17 @@ export function formatDateTime(date?: Date): string {
 }
 
 const FAIL_REASON_MAPPING = {
-  [FailReason.BAD_CREDENTIAL]: t`用户名或密码错误`,
-  [FailReason.ERROR_FETCH_FROM_ID]: t`无法从 id.tsinghua.edu.cn 获取票据`,
-  [FailReason.ERROR_ROAMING]: t`无法使用票据漫游至 learn.tsinghua.edu.cn`,
-  [FailReason.NOT_IMPLEMENTED]: t`功能尚未实现`,
-  [FailReason.NOT_LOGGED_IN]: t`尚未登录`,
-  [FailReason.NO_CREDENTIAL]: t`未提供用户名或密码`,
-  [FailReason.UNEXPECTED_STATUS]: t`非预期的 HTTP 响应状态`,
-  TIMEOUT: t`请求超时`,
-  UNKNOWN: t`未知错误`,
+  [FailReason.BAD_CREDENTIAL]: msg`用户名或密码错误`,
+  [FailReason.ERROR_FETCH_FROM_ID]: msg`无法从 id.tsinghua.edu.cn 获取票据`,
+  [FailReason.ERROR_ROAMING]: msg`无法使用票据漫游至 learn.tsinghua.edu.cn`,
+  [FailReason.NOT_IMPLEMENTED]: msg`功能尚未实现`,
+  [FailReason.NOT_LOGGED_IN]: msg`尚未登录`,
+  [FailReason.NO_CREDENTIAL]: msg`未提供用户名或密码`,
+  [FailReason.UNEXPECTED_STATUS]: msg`非预期的 HTTP 响应状态`,
+  TIMEOUT: msg`请求超时`,
+  UNKNOWN: msg`未知错误`,
 };
 
 export function failReasonToString(reason: FailReason): string {
-  return FAIL_REASON_MAPPING[reason] ?? FAIL_REASON_MAPPING.UNKNOWN;
+  return i18n._(FAIL_REASON_MAPPING[reason] ?? FAIL_REASON_MAPPING.UNKNOWN);
 }

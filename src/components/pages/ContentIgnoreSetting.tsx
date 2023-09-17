@@ -56,7 +56,7 @@ const ContentIgnoreSetting = () => {
               {Object.entries(contentIgnore).map(([cid, ignore]) => (
                 <TableRow key={cid}>
                   <TableCell component="th" scope="row" key={cid}>
-                    {courses[cid].name}
+                    {_({ id: `course-${courses[cid].id}` })}
                   </TableCell>
                   {Object.values(ContentType).map((type) => (
                     <TableCell align="center" key={type}>
