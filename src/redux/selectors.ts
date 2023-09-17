@@ -61,26 +61,6 @@ export const selectUnreadMap = memoize((state: RootState) => {
     : {};
 });
 
-export const selectCardList = memoize((state: RootState) =>
-  state.ui.cardList
-    .map(({ type, id }): ContentInfo => state.data[`${type}Map`][id])
-    .filter((v) => !!v),
-);
-
-export const selectFilteredCardList = memoize((state: RootState) => {
-  const contents = selectCardList(state);
-  if (state.helper.loggedIn) {
-    if (state.ui.titleFilter) {
-      const title = state.ui.titleFilter.toLocaleLowerCase();
-      return contents.filter((c) => c.title.toLocaleLowerCase().includes(title));
-    } else {
-      return contents;
-    }
-  } else {
-    return [];
-  }
-});
-
 export const selectSemesters = memoize((state: RootState) => {
   const { semesters, fetchedSemester } = state.data;
   if (!semesters.includes(fetchedSemester.id)) return [fetchedSemester.id, ...semesters];

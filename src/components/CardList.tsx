@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
+import { memoize } from 'proxy-memoize';
 import { List, Button, ListSubheader } from '@mui/material';
 import { ContentType } from 'thu-learn-lib';
 
 import { downloadAllUnreadFiles, loadMoreCard } from '../redux/actions';
-import { selectFilteredCardList } from '../redux/selectors';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { t } from '../utils/i18n';
 
@@ -14,7 +14,7 @@ import ContentCard from './ContentCard';
 const CardList = () => {
   const dispatch = useAppDispatch();
   const threshold = useAppSelector((state) => state.ui.cardVisibilityThreshold);
-  const cards = useAppSelector(selectFilteredCardList);
+  const originalCardList = useAppSelector((state) => state.ui.cardList);
 
   const [_onTop, setOnTop] = useState(true);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -24,8 +24,23 @@ const CardList = () => {
       scrollRef.current.scrollTop = 0;
       setOnTop(true);
     }
-  }, [cards]);
+  }, [originalCardList]);
 
+  const cards = useAppSelector(
+    memoize((state) =>
+      state.helper.loggedIn
+        ? originalCardList
+            .map(({ type, id }) => state.data[`${type}Map`][id])
+            .filter(
+              (c) =>
+                !!c &&
+                c.title
+                  .toLocaleLowerCase()
+                  .includes(state.ui.titleFilter?.toLocaleLowerCase() ?? ''),
+            )
+        : [],
+    ),
+  );
   const filtered = cards.slice(0, threshold);
   const unreadFileCount = cards.reduce((count, c) => {
     if (c.type === ContentType.FILE && !c.hasRead) count += 1;
