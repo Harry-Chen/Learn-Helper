@@ -37,19 +37,24 @@ interface LinkProps {
 const Link = ({ url, inApp, children }: LinkProps) => {
   const dispatch = useAppDispatch();
 
-  return (
-    <a
-      href={url}
-      onClick={(ev) => {
-        if (inApp) {
+  if (inApp)
+    return (
+      <a
+        href={url}
+        onClick={(ev) => {
           dispatch(setDetailUrl(url));
           ev.preventDefault();
-        }
-      }}
-    >
-      {children}
-    </a>
-  );
+        }}
+      >
+        {children}
+      </a>
+    );
+  else
+    return (
+      <a href={url} target="_blank" rel="noreferrer">
+        {children}
+      </a>
+    );
 };
 
 const canFilePreview = (file: RemoteFile): boolean => {
@@ -153,7 +158,7 @@ const HomeworkDetails = ({ content: homework }: ContentDetailProps<HomeworkInfo>
       />
     )}
     <Line title={t('Content_Homework_Detail')}>
-      <Link url={homework.url} inApp={true}>
+      <Link url={homework.url} inApp>
         {t('Content_OpenInCurrentWindow')}
       </Link>
     </Line>
