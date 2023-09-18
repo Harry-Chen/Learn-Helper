@@ -6,3 +6,5 @@ yarn-error.log
 dist
 dist-zip
 stats.html
+.swc
+*.local

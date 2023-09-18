@@ -1,4 +1,5 @@
 import React from 'react';
+import { Trans } from '@lingui/macro';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 
 import {
@@ -10,7 +11,6 @@ import {
 } from '../../redux/actions';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { removeStoredCredential } from '../../utils/storage';
-import { t } from '../../utils/i18n';
 
 const LogoutDialog = () => {
   const dispatch = useAppDispatch();
@@ -19,8 +19,12 @@ const LogoutDialog = () => {
 
   return (
     <Dialog open={open} keepMounted>
-      <DialogTitle>{t('LogoutDialog_Title')}</DialogTitle>
-      <DialogContent>{t('LogoutDialog_Content')}</DialogContent>
+      <DialogTitle>
+        <Trans>退出登录</Trans>
+      </DialogTitle>
+      <DialogContent>
+        <Trans>您确认要退出登录吗？如果只是更换登录密码，请不要选择清除数据。</Trans>
+      </DialogContent>
       <DialogActions>
         <Button
           color="primary"
@@ -31,7 +35,7 @@ const LogoutDialog = () => {
             dispatch(toggleLoginDialog(true));
           }}
         >
-          {t('LogoutDialog_Logout')}
+          <Trans>退出</Trans>
         </Button>
         <Button
           color="primary"
@@ -44,10 +48,10 @@ const LogoutDialog = () => {
             dispatch(toggleLoginDialog(true));
           }}
         >
-          {t('LogoutDialog_LogoutAndClearData')}
+          <Trans>退出并清除数据</Trans>
         </Button>
         <Button color="primary" onClick={() => dispatch(toggleLogoutDialog(false))}>
-          {t('Common_Cancel')}
+          <Trans>取消</Trans>
         </Button>
       </DialogActions>
     </Dialog>

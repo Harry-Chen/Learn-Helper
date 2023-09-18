@@ -38,6 +38,7 @@ import { faStarOfLife } from '@fortawesome/free-solid-svg-icons/faStarOfLife';
 import { faCircleHalfStroke } from '@fortawesome/free-solid-svg-icons/faCircleHalfStroke';
 import { faSun } from '@fortawesome/free-solid-svg-icons/faSun';
 import { faMoon } from '@fortawesome/free-solid-svg-icons/faMoon';
+import { faLanguage } from '@fortawesome/free-solid-svg-icons/faLanguage';
 
 library.add(
   faThumbtack,
@@ -78,4 +79,5 @@ library.add(
   faCircleHalfStroke,
   faSun,
   faMoon,
+  faLanguage,
 );

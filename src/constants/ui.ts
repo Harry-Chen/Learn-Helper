@@ -1,7 +1,8 @@
 import type { IconName } from '@fortawesome/fontawesome-common-types';
 import { ContentType } from 'thu-learn-lib';
+import { msg } from '@lingui/macro';
+import type { MessageDescriptor } from '@lingui/core';
 
-import type { IMenuItem, IMenuItemEnum } from '../types/ui';
 import {
   refresh,
   setDetailPage,
@@ -11,187 +12,154 @@ import {
   markAllRead,
 } from '../redux/actions';
 import type { AppDispatch } from '../redux/store';
-import { t } from '../utils/i18n';
 
-export const COURSE_MAIN_FUNC: {
-  [key: string]: {
-    icon: IconName;
-    name: string;
-    type: ContentType;
-  };
-} = {
+export const COURSE_MAIN_FUNC = {
   [ContentType.NOTIFICATION]: {
-    icon: 'bullhorn',
-    name: t('Content_Notification'),
     type: ContentType.NOTIFICATION,
+    icon: 'bullhorn',
+    name: msg`公告`,
   },
   [ContentType.FILE]: {
-    icon: 'download',
-    name: t('Content_File'),
     type: ContentType.FILE,
+    icon: 'download',
+    name: msg`文件`,
   },
   [ContentType.HOMEWORK]: {
-    icon: 'pencil-alt',
-    name: t('Content_Homework'),
     type: ContentType.HOMEWORK,
+    icon: 'pencil-alt',
+    name: msg`作业`,
   },
   [ContentType.DISCUSSION]: {
-    icon: 'question',
-    name: t('Content_Discussion'),
     type: ContentType.DISCUSSION,
+    icon: 'question',
+    name: msg`讨论`,
   },
   [ContentType.QUESTION]: {
-    icon: 'chalkboard-teacher',
-    name: t('Content_Question'),
     type: ContentType.QUESTION,
+    icon: 'chalkboard-teacher',
+    name: msg`答疑`,
   },
-};
+} as const;
+
+export interface IMenuItem {
+  name: MessageDescriptor;
+  icon: IconName;
+  type?: ContentType | null;
+}
 
 export const COURSE_ICON: IconName = 'book';
 
-export const COURSE_FUNC: IMenuItemEnum = {
-  COURSE_NOTIFICATION: {
-    icon: COURSE_MAIN_FUNC[ContentType.NOTIFICATION].icon,
-    name: t('Course_Notification'),
-    type: ContentType.NOTIFICATION,
-  },
-  COURSE_SUMMARY: {
-    icon: 'info-circle',
-    name: t('Course_Summary'),
-  },
-  COURSE_FILE: {
-    icon: COURSE_MAIN_FUNC[ContentType.FILE].icon,
-    name: t('Course_File'),
-    type: ContentType.FILE,
-  },
-  COURSE_HOMEWORK: {
-    icon: COURSE_MAIN_FUNC[ContentType.HOMEWORK].icon,
-    name: t('Course_Homework'),
-    type: ContentType.HOMEWORK,
-  },
-  COURSE_DISCUSSION: {
-    icon: COURSE_MAIN_FUNC[ContentType.DISCUSSION].icon,
-    name: t('Course_Discussion'),
-    type: ContentType.DISCUSSION,
-  },
-  COURSE_QUESTION: {
-    icon: COURSE_MAIN_FUNC[ContentType.QUESTION].icon,
-    name: t('Course_Question'),
-    type: ContentType.QUESTION,
-  },
-  COURSE_HOMEPAGE: {
-    icon: 'external-link-alt',
-    name: t('Course_Homepage'),
-  },
-};
-
 export const COURSE_FUNC_LIST: IMenuItem[] = [
-  COURSE_FUNC.COURSE_SUMMARY,
-  COURSE_FUNC.COURSE_NOTIFICATION,
-  COURSE_FUNC.COURSE_FILE,
-  COURSE_FUNC.COURSE_HOMEWORK,
-  COURSE_FUNC.COURSE_DISCUSSION,
-  COURSE_FUNC.COURSE_QUESTION,
-  COURSE_FUNC.COURSE_HOMEPAGE,
-];
-
-const SUMMARY_FUNC: IMenuItemEnum = {
-  SUMMARY_HOMEPAGE: {
-    icon: 'home',
-    name: t('Summary_Homepage'),
+  {
+    icon: 'info-circle',
+    name: msg`课程综合`,
   },
-  SUMMARY_HOMEWORK: {
-    icon: COURSE_MAIN_FUNC[ContentType.HOMEWORK].icon,
-    name: t('Summary_Homework'),
-    type: ContentType.HOMEWORK,
+  {
+    ...COURSE_MAIN_FUNC[ContentType.NOTIFICATION],
+    name: msg`课程公告`,
   },
-  SUMMARY_NOTIFICATION: {
-    icon: COURSE_MAIN_FUNC[ContentType.NOTIFICATION].icon,
-    name: t('Summary_Notification'),
-    type: ContentType.NOTIFICATION,
+  {
+    ...COURSE_MAIN_FUNC[ContentType.FILE],
+    name: msg`课程文件`,
   },
-  SUMMARY_FILE: {
-    icon: COURSE_MAIN_FUNC[ContentType.FILE].icon,
-    name: t('Summary_File'),
-    type: ContentType.FILE,
+  {
+    ...COURSE_MAIN_FUNC[ContentType.HOMEWORK],
+    name: msg`课程作业`,
   },
-  SUMMARY_DISCUSSION: {
-    icon: COURSE_MAIN_FUNC[ContentType.DISCUSSION].icon,
-    name: t('Summary_Discussion'),
-    type: ContentType.DISCUSSION,
+  {
+    ...COURSE_MAIN_FUNC[ContentType.DISCUSSION],
+    name: msg`课程讨论`,
   },
-  SUMMARY_QUESTION: {
-    icon: COURSE_MAIN_FUNC[ContentType.QUESTION].icon,
-    name: t('Summary_Question'),
-    type: ContentType.QUESTION,
+  {
+    ...COURSE_MAIN_FUNC[ContentType.QUESTION],
+    name: msg`课程答疑`,
   },
-  SUMMARY_IGNORED: {
-    icon: 'trash',
-    name: t('Summary_Ignored'),
+  {
     type: null,
+    icon: 'external-link-alt',
+    name: msg`课程主页`,
   },
-};
+];
 
 export const SUMMARY_FUNC_LIST: IMenuItem[] = [
-  SUMMARY_FUNC.SUMMARY_HOMEPAGE,
-  SUMMARY_FUNC.SUMMARY_HOMEWORK,
-  SUMMARY_FUNC.SUMMARY_NOTIFICATION,
-  SUMMARY_FUNC.SUMMARY_FILE,
-  SUMMARY_FUNC.SUMMARY_DISCUSSION,
-  SUMMARY_FUNC.SUMMARY_QUESTION,
-  SUMMARY_FUNC.SUMMARY_IGNORED,
+  {
+    icon: 'home',
+    name: msg`主页`,
+  },
+  {
+    ...COURSE_MAIN_FUNC[ContentType.HOMEWORK],
+    name: msg`所有作业`,
+  },
+  {
+    ...COURSE_MAIN_FUNC[ContentType.NOTIFICATION],
+    name: msg`所有公告`,
+  },
+  {
+    ...COURSE_MAIN_FUNC[ContentType.FILE],
+    name: msg`所有文件`,
+  },
+  {
+    ...COURSE_MAIN_FUNC[ContentType.DISCUSSION],
+    name: msg`所有讨论`,
+  },
+  {
+    ...COURSE_MAIN_FUNC[ContentType.QUESTION],
+    name: msg`所有答疑`,
+  },
+  {
+    type: null,
+    icon: 'trash',
+    name: msg`所有忽略`,
+  },
 ];
 
-const SETTINGS_FUNC: IMenuItemEnum = {
-  SETTINGS_IGNORE: {
+export interface ISettingItem {
+  name: MessageDescriptor;
+  icon: IconName;
+  handler?: (dispatch: AppDispatch) => void;
+}
+
+export const SETTINGS_FUNC_LIST: ISettingItem[] = [
+  {
     icon: 'ban',
-    name: t('Settings_ManageIgnored'),
+    name: msg`管理隐藏项`,
     handler: (dispatch: AppDispatch) => {
       dispatch(setDetailPage('content-ignore-setting'));
     },
   },
-  SETTINGS_MARK_READ: {
+  {
     icon: 'envelope-open',
-    name: t('Settings_MarkAllAsRead'),
+    name: msg`标记为已读`,
     handler: (dispatch: AppDispatch) => {
       dispatch(markAllRead());
     },
   },
-  SETTINGS_REFRESH: {
+  {
     icon: 'sync',
-    name: t('Settings_Refresh'),
+    name: msg`手动刷新`,
     handler: (dispatch: AppDispatch) => {
       dispatch(refresh());
     },
   },
-  SETTINGS_CHANGE_SEMESTER: {
+  {
     icon: 'random',
-    name: t('ChangeSemesterDialog_Title'),
+    name: msg`切换学期`,
     handler: (dispatch: AppDispatch) => {
       dispatch(toggleChangeSemesterDialog(true));
     },
   },
-  SETTINGS_CHANGE_USER: {
-    icon: 'user',
-    name: t('LogoutDialog_Title'),
-    handler: (dispatch: AppDispatch) => {
-      dispatch(toggleLogoutDialog(true));
-    },
-  },
-  SETTINGS_CLEAR_CACHE: {
+  {
     icon: 'trash',
-    name: t('Settings_ClearCache'),
+    name: msg`清空缓存`,
     handler: (dispatch: AppDispatch) => {
       dispatch(toggleClearDataDialog(true));
     },
   },
-};
-
-export const SETTINGS_FUNC_LIST: IMenuItem[] = [
-  SETTINGS_FUNC.SETTINGS_IGNORE,
-  SETTINGS_FUNC.SETTINGS_MARK_READ,
-  SETTINGS_FUNC.SETTINGS_REFRESH,
-  SETTINGS_FUNC.SETTINGS_CHANGE_SEMESTER,
-  SETTINGS_FUNC.SETTINGS_CLEAR_CACHE,
-  SETTINGS_FUNC.SETTINGS_CHANGE_USER,
+  {
+    icon: 'user',
+    name: msg`退出登录`,
+    handler: (dispatch: AppDispatch) => {
+      dispatch(toggleLogoutDialog(true));
+    },
+  },
 ];

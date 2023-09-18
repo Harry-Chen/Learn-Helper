@@ -17,9 +17,13 @@
     "serve:chrome": "web-ext run -t chromium --start-url \"https://example.com\" --source-dir ./dist/",
     "serve:firefox": "web-ext run --start-url \"about:debugging#/runtime/this-firefox\"  --source-dir ./dist/",
     "lint": "eslint .",
-    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\" \"src/**/*.js\" \"./*.js\""
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\"",
+    "lingui:extract": "lingui extract"
   },
   "devDependencies": {
+    "@lingui/cli": "^4.5.0",
+    "@lingui/swc-plugin": "^4.0.4",
+    "@lingui/vite-plugin": "^4.5.0",
     "@mdx-js/rollup": "^2.3.0",
     "@preact/preset-vite": "^2.5.0",
     "@samrum/vite-plugin-web-extension": "^5.0.0",
@@ -53,6 +57,9 @@
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@lingui/core": "^4.5.0",
+    "@lingui/macro": "^4.5.0",
+    "@lingui/react": "^4.5.0",
     "@mui/material": "^5.14.0",
     "@reduxjs/toolkit": "^1.9.5",
     "classnames": "^2.3.2",

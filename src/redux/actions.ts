@@ -1,12 +1,14 @@
 import type { ThunkAction, AnyAction } from '@reduxjs/toolkit';
 import { storage } from 'webextension-polyfill';
 import { compare as compareVersion } from 'compare-versions';
-import { ContentType, type ApiError, CourseType, SemesterType } from 'thu-learn-lib';
+import { ContentType, type ApiError, CourseType, SemesterType, Language } from 'thu-learn-lib';
+import { enqueueSnackbar } from 'notistack';
+import { t } from '@lingui/macro';
+import { i18n } from '@lingui/core';
 
 import type { ContentInfo, FileInfo } from '../types/data';
 import { initiateFileDownload } from '../utils/download';
 import { failReasonToString } from '../utils/format';
-import { t, weblearning_language } from '../utils/i18n';
 import { getStoredCredential, storeCredential } from '../utils/storage';
 import { STORAGE_KEY_REDUX, STORAGE_KEY_REDUX_LEGACY, STORAGE_KEY_VERSION } from '../constants';
 import { version as currentVersion } from '../../package.json';
@@ -16,7 +18,6 @@ import { helperSlice } from './reducers/helper';
 import { uiSlice } from './reducers/ui';
 import type { RootState } from './store';
 import { selectContentIgnore, selectDataLists } from './selectors';
-import { enqueueSnackbar } from 'notistack';
 
 export const {
   newSemester,
@@ -89,9 +90,7 @@ export const login =
     } catch (e) {
       const error = e as ApiError;
       enqueueSnackbar(
-        t('Snackbar_LoginFailed', [
-          (failReasonToString(error?.reason) ?? error).toString() ?? t('Snackbar_UnknownError'),
-        ]),
+        t`登录失败：${failReasonToString(error?.reason) ?? error.toString() ?? t`未知错误`}`,
         { variant: 'error' },
       );
       dispatch(loginEnd());
@@ -100,27 +99,14 @@ export const login =
 
     // login succeeded
     // hide login dialog (if shown), show success notice
-    enqueueSnackbar(t('Snackbar_LoginSuccess'), { variant: 'success' });
+    enqueueSnackbar(t`登录成功`, { variant: 'success' });
     // save salted user credential if asked
     if (save) {
       await storeCredential(username, password);
     }
     dispatch(loggedIn());
     dispatch(loginEnd());
-    // try to sync language with Web Learning
-    try {
-      if (weblearning_language) {
-        await helper.setLanguage(weblearning_language);
-      }
-    } catch (e) {
-      const error = e as ApiError;
-      enqueueSnackbar(
-        t('Snackbar_SetLangFailed', [
-          (failReasonToString(error?.reason) ?? error).toString() ?? t('Snackbar_UnknownError'),
-        ]),
-        { variant: 'error' },
-      );
-    }
+    dispatch(syncLanguage());
     return Promise.resolve();
   };
 
@@ -128,7 +114,7 @@ export const refreshIfNeeded = (): AppThunk<Promise<void>> => async (dispatch, g
   const data = getState().data;
   const justUpdated = new Date().getTime() - data.lastUpdateTime.getTime() <= 15 * 60 * 1000;
   if (data.updateFinished && justUpdated) {
-    enqueueSnackbar(t('Snackbar_NotRefreshed'), { variant: 'info' });
+    enqueueSnackbar(t`离上次成功刷新不足15分钟，若需要可手动刷新`, { variant: 'info' });
   } else {
     await dispatch(refresh());
   }
@@ -189,6 +175,8 @@ export const refresh = (): AppThunk<Promise<void>> => async (dispatch, getState)
     const courses = await helper.getCourseList(currentSemesterId);
     allCourseIds = courses.map((c) => c.id);
     dispatch(updateCourses(courses));
+
+    dispatch(updateCourseNames());
     nextProgress();
   } catch (e) {
     console.error(e);
@@ -257,9 +245,9 @@ export const refresh = (): AppThunk<Promise<void>> => async (dispatch, getState)
   );
   const allSuccess = failures.length == 0;
   if (allSuccess) {
-    enqueueSnackbar(t('Snackbar_UpdateSuccess'), { variant: 'success' });
+    enqueueSnackbar(t`更新成功`, { variant: 'success' });
   } else {
-    enqueueSnackbar(t('Snackbar_UpdatePartialSuccess'), { variant: 'warning' });
+    enqueueSnackbar(t`部分内容更新失败`, { variant: 'warning' });
     console.warn('Failures occurred in fetching data', failures);
   }
 
@@ -274,6 +262,39 @@ export const refresh = (): AppThunk<Promise<void>> => async (dispatch, getState)
       resolve();
     }, 1000);
   });
+};
+
+export const syncLanguage = (): AppThunk<Promise<void>> => async (_dispatch, getState) => {
+  // try to sync language with Web Learning
+  const { helper } = getState().helper;
+  try {
+    await helper.setLanguage(i18n.locale as Language);
+  } catch (e) {
+    const error = e as ApiError;
+    enqueueSnackbar(
+      t`设置网络学堂语言失败：${
+        failReasonToString(error?.reason) ?? error.toString() ?? t`未知错误`
+      }`,
+      { variant: 'error' },
+    );
+  }
+};
+
+export const updateCourseNames = (): AppThunk<void> => (_dispatch, getState) => {
+  const { courseMap } = getState().data;
+  // load course names to i18n
+  i18n.load(
+    'zh',
+    Object.fromEntries(
+      Object.values(courseMap).map(({ id, chineseName }) => [`course-${id}`, chineseName]),
+    ),
+  );
+  i18n.load(
+    'en',
+    Object.fromEntries(
+      Object.values(courseMap).map(({ id, englishName }) => [`course-${id}`, englishName]),
+    ),
+  );
 };
 
 const compareBoolean = (a: boolean, b: boolean) => {
@@ -336,7 +357,7 @@ export const downloadAllUnreadFiles =
     try {
       await helper.getSemesterIdList();
     } catch (e) {
-      enqueueSnackbar(t('Snackbar_Expired'), { variant: 'error' });
+      enqueueSnackbar(t`登录已过期，请刷新后重试`, { variant: 'error' });
       return;
     }
     for (const c of contents) {
@@ -349,6 +370,14 @@ export const downloadAllUnreadFiles =
   };
 
 export const loadApp = (): AppThunk<Promise<void>> => async (dispatch) => {
+  if (import.meta.env.DEV) {
+    const { VITE_USERNAME: username, VITE_PASSWORD: password } = import.meta.env;
+    if (username && password) {
+      await storage.local.set({ [STORAGE_KEY_VERSION]: currentVersion });
+      await storeCredential(username, password);
+    }
+  }
+
   const { [STORAGE_KEY_VERSION]: oldVersion, [STORAGE_KEY_REDUX]: oldData } =
     await storage.local.get([STORAGE_KEY_VERSION, STORAGE_KEY_REDUX]);
 
@@ -360,7 +389,7 @@ export const loadApp = (): AppThunk<Promise<void>> => async (dispatch) => {
       [STORAGE_KEY_VERSION]: currentVersion,
     });
     dispatch(setDetailPage('readme'));
-    enqueueSnackbar(t('Migration_AllDataCleared'), { variant: 'warning' });
+    enqueueSnackbar(t`升级成功，所有本地数据已经被清除`, { variant: 'warning' });
   } else if (oldVersion !== currentVersion) {
     // for future migration
     dispatch(setDetailPage('changelog'));
@@ -373,7 +402,7 @@ export const loadApp = (): AppThunk<Promise<void>> => async (dispatch) => {
     // migrate from < 4.5, clearing all data except credential & config
     if (compareVersion(oldVersion, '4.5.0', '<')) {
       dispatch(clearFetchedData());
-      enqueueSnackbar(t('Migration_FetchedDataCleared'), { variant: 'warning' });
+      enqueueSnackbar(t`升级成功，所有本地数据（除配置）已经被清除`, { variant: 'warning' });
     } else {
       try {
         if (compareVersion(oldVersion, '4.6.0', '<')) {
@@ -402,10 +431,10 @@ export const loadApp = (): AppThunk<Promise<void>> => async (dispatch) => {
             ),
           );
         }
-        enqueueSnackbar(t('Migration_Migrated'), { variant: 'info' });
+        enqueueSnackbar(t`升级成功，数据没有受到影响`, { variant: 'info' });
       } catch (e) {
         await storage.local.clear();
-        enqueueSnackbar(t('Migration_MigrateFailed'), { variant: 'error' });
+        enqueueSnackbar(t`迁移失败，已清除全部数据`, { variant: 'error' });
       }
     }
   } else {
@@ -429,11 +458,12 @@ export const loadApp = (): AppThunk<Promise<void>> => async (dispatch) => {
         );
       } catch (e) {
         await storage.local.remove(STORAGE_KEY_REDUX);
-        enqueueSnackbar(t('Migration_LoadFailed'), { variant: 'error' });
+        enqueueSnackbar(t`加载数据失败，已清除数据`, { variant: 'error' });
       }
     }
   }
 
+  dispatch(updateCourseNames());
   dispatch(refreshCardList());
   dispatch(tryLoginSilently());
 };

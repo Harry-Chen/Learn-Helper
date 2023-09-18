@@ -9,7 +9,6 @@ import {
 
 interface ICourseRef {
   courseId: string;
-  courseName: string;
 }
 
 interface ICardStatus {

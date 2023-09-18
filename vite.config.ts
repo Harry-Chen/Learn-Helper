@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import preact from '@preact/preset-vite';
+import { lingui } from '@lingui/vite-plugin';
 import webExtension from '@samrum/vite-plugin-web-extension';
 import { visualizer } from 'rollup-plugin-visualizer';
 import zipPack from 'vite-plugin-zip-pack';
@@ -21,6 +22,7 @@ const isFirefox = process.env.BROWSER === 'firefox';
 const isDev = process.env.NODE_ENV === 'development';
 const helperVersion = version;
 const gitVersion = runCmd('git describe --always --dirty');
+const gitBranch = runCmd('git branch --show-current');
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -45,10 +47,14 @@ export default defineConfig({
     ),
   },
   plugins: [
-    mdx({
-      remarkPlugins: [remarkMdxImages, remarkUnwrapImages],
-    }),
+    {
+      enforce: 'pre',
+      ...mdx({
+        remarkPlugins: [remarkMdxImages, remarkUnwrapImages],
+      }),
+    },
     preact(),
+    lingui(),
     webExtension({
       manifest: getManifest(isFirefox) as chrome.runtime.Manifest,
       additionalInputs: {
@@ -57,13 +63,12 @@ export default defineConfig({
       useDynamicUrlWebAccessibleResources: !isFirefox,
     }),
     visualizer(),
-    isDev
-      ? undefined
-      : zipPack({
-          outFileName: `learn-helper-${helperVersion}-${gitVersion}-${
-            isFirefox ? 'firefox' : 'chrome'
-          }.zip`,
-        }),
+    !isDev &&
+      zipPack({
+        outFileName: `learn-helper-${helperVersion}-${gitBranch}-${gitVersion}-${
+          isFirefox ? 'firefox' : 'chrome'
+        }.zip`,
+      }),
   ],
   resolve: {
     alias: {
