@@ -53,7 +53,11 @@ export default defineConfig({
         remarkPlugins: [remarkMdxImages, remarkUnwrapImages],
       }),
     },
-    preact(),
+    preact({
+      babel: {
+        plugins: ['macros'],
+      },
+    }),
     lingui(),
     webExtension({
       manifest: getManifest(isFirefox) as chrome.runtime.Manifest,
@@ -90,6 +94,16 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
+          'ui-vendor': [
+            '@mui/material',
+            '@emotion/react',
+            '@emotion/styled',
+            '@fortawesome/fontawesome-svg-core',
+            '@fortawesome/free-solid-svg-icons',
+            '@fortawesome/react-fontawesome',
+            'notistack',
+            'classnames',
+          ],
           'thu-learn-lib-vendor': ['thu-learn-lib'],
         },
       },

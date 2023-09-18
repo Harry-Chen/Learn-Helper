@@ -13,71 +13,71 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/components/App.tsx:112
+#: src/components/App.tsx:116
 msgid "跟随系统"
 msgstr "System"
 
-#: src/components/App.tsx:120
+#: src/components/App.tsx:124
 msgid "亮"
 msgstr "Light"
 
-#: src/components/App.tsx:128
+#: src/components/App.tsx:132
 msgid "暗"
 msgstr "Dark"
 
-#: src/components/App.tsx:167
+#: src/components/App.tsx:171
 msgid "加载中..."
 msgstr "Loading..."
 
-#: src/components/App.tsx:206
+#: src/components/App.tsx:210
 msgid "非网络学堂当前学期"
 msgstr "Not current semester of Web Learning"
 
-#: src/components/App.tsx:249
+#: src/components/App.tsx:253
 msgid "筛选"
 msgstr "Filter"
 
-#: src/components/App.tsx:299
+#: src/components/App.tsx:303
 msgid "哎呀，出错了！"
 msgstr "Oops, something went wrong!"
 
-#: src/components/App.tsx:303
+#: src/components/App.tsx:307
 msgid "发生了不可恢复的错误，请尝试刷新页面。如果错误继续出现，请清除数据重新来过。"
 msgstr "An unrecoverable error has occurred, please try refreshing the page. If the error recurs, please clear the data and try again."
 
-#: src/components/App.tsx:313
+#: src/components/App.tsx:317
 msgid "刷新"
 msgstr "Refresh"
 
-#: src/components/App.tsx:321
+#: src/components/App.tsx:325
 msgid "清除数据"
 msgstr "Clear data"
 
-#: src/components/App.tsx:325
+#: src/components/App.tsx:329
 msgid "请将下面的错误信息发送给开发者，以协助解决问题，感谢支持！"
 msgstr "Please send the error message below to the developer to help solve the problem. Thanks for your support!"
 
-#: src/components/App.tsx:329
+#: src/components/App.tsx:333
 msgid "错误信息："
 msgstr "Error message: "
 
-#: src/components/App.tsx:334
+#: src/components/App.tsx:338
 msgid "错误组件："
 msgstr "Error component: "
 
-#: src/components/App.tsx:335
+#: src/components/App.tsx:339
 msgid "无此信息"
 msgstr "no information"
 
-#: src/components/CardList.tsx:68
+#: src/components/CardList.tsx:83
 msgid "下载所有未读文件（共 {0} 个）"
 msgstr "Download all unread files ({0} total)"
 
-#: src/components/CardList.tsx:80
+#: src/components/CardList.tsx:95
 msgid "这里什么也没有"
 msgstr "Nothing here"
 
-#: src/components/CardList.tsx:87
+#: src/components/CardList.tsx:102
 msgid "加载更多"
 msgstr "Load more"
 
@@ -94,7 +94,7 @@ msgid "{0}分"
 msgstr "{0}"
 
 #: src/components/ContentCard.tsx:123
-#: src/components/ContentDetail.tsx:136
+#: src/components/ContentDetail.tsx:141
 msgid "无评分"
 msgstr "No grade"
 
@@ -159,151 +159,151 @@ msgstr "Download file"
 msgid "附件：{0}"
 msgstr "Attachment: {0}"
 
-#: src/components/ContentDetail.tsx:77
+#: src/components/ContentDetail.tsx:82
 msgid "{0}（{1}）"
 msgstr "{0} ({1})"
 
-#: src/components/ContentDetail.tsx:85
+#: src/components/ContentDetail.tsx:90
 msgid "在新窗口打开"
 msgstr "Open in new window"
 
-#: src/components/ContentDetail.tsx:102
+#: src/components/ContentDetail.tsx:107
 msgid "上传时间："
 msgstr "Uploaded at:"
 
-#: src/components/ContentDetail.tsx:103
+#: src/components/ContentDetail.tsx:108
 msgid "访问量："
 msgstr "Views:"
 
-#: src/components/ContentDetail.tsx:104
+#: src/components/ContentDetail.tsx:109
 msgid "下载量："
 msgstr "Downloads:"
 
-#: src/components/ContentDetail.tsx:105
+#: src/components/ContentDetail.tsx:110
 msgid "文件大小："
 msgstr "File size:"
 
-#: src/components/ContentDetail.tsx:106
+#: src/components/ContentDetail.tsx:111
 msgid "文件类型："
 msgstr "File type:"
 
-#: src/components/ContentDetail.tsx:108
+#: src/components/ContentDetail.tsx:113
 msgid "文件下载："
 msgstr "File download:"
 
-#: src/components/ContentDetail.tsx:109
+#: src/components/ContentDetail.tsx:114
 msgid "文件预览："
 msgstr "File preview:"
 
-#: src/components/ContentDetail.tsx:117
+#: src/components/ContentDetail.tsx:122
 msgid "截止时间："
 msgstr "Deadline:"
 
-#: src/components/ContentDetail.tsx:119
+#: src/components/ContentDetail.tsx:124
 msgid "提交时间："
 msgstr "Submitted at:"
 
-#: src/components/ContentDetail.tsx:122
+#: src/components/ContentDetail.tsx:127
 msgid "提交内容："
 msgstr "Submission content:"
 
-#: src/components/ContentDetail.tsx:126
+#: src/components/ContentDetail.tsx:131
 msgid "提交附件："
 msgstr "Submission attachment:"
 
-#: src/components/ContentDetail.tsx:127
+#: src/components/ContentDetail.tsx:132
 msgid "提交附件预览："
 msgstr "Submission attachment preview:"
 
-#: src/components/ContentDetail.tsx:133
+#: src/components/ContentDetail.tsx:138
 msgid "评阅时间："
 msgstr "Reviewed at:"
 
-#: src/components/ContentDetail.tsx:134
+#: src/components/ContentDetail.tsx:139
 msgid "评阅者："
 msgstr "Reviewer:"
 
-#: src/components/ContentDetail.tsx:135
+#: src/components/ContentDetail.tsx:140
 msgid "成绩："
 msgstr "Grade:"
 
-#: src/components/ContentDetail.tsx:138
+#: src/components/ContentDetail.tsx:143
 msgid "评阅内容："
 msgstr "Review content:"
 
-#: src/components/ContentDetail.tsx:141
+#: src/components/ContentDetail.tsx:146
 msgid "评阅附件："
 msgstr "Review attachment:"
 
-#: src/components/ContentDetail.tsx:142
+#: src/components/ContentDetail.tsx:147
 msgid "评阅附件预览："
 msgstr "Review attachment preview:"
 
-#: src/components/ContentDetail.tsx:149
+#: src/components/ContentDetail.tsx:154
 msgid "答案内容："
 msgstr "Answer content:"
 
-#: src/components/ContentDetail.tsx:153
+#: src/components/ContentDetail.tsx:158
 msgid "答案附件："
 msgstr "Answer attachment:"
 
-#: src/components/ContentDetail.tsx:154
+#: src/components/ContentDetail.tsx:159
 msgid "答案附件预览："
 msgstr "Answer attachment preview:"
 
-#: src/components/ContentDetail.tsx:160
+#: src/components/ContentDetail.tsx:165
 msgid "作业附件："
 msgstr "Homework attachment:"
 
-#: src/components/ContentDetail.tsx:161
+#: src/components/ContentDetail.tsx:166
 msgid "作业附件预览："
 msgstr "Homework attachment preview:"
 
-#: src/components/ContentDetail.tsx:165
+#: src/components/ContentDetail.tsx:170
 msgid "作业详情："
 msgstr "Homework detail:"
 
-#: src/components/ContentDetail.tsx:167
+#: src/components/ContentDetail.tsx:172
 msgid "在本窗口打开"
 msgstr "Open in current window"
 
-#: src/components/ContentDetail.tsx:175
+#: src/components/ContentDetail.tsx:180
 msgid "发布时间："
 msgstr "Published at:"
 
-#: src/components/ContentDetail.tsx:176
+#: src/components/ContentDetail.tsx:181
 msgid "发布人："
 msgstr "Publisher:"
 
-#: src/components/ContentDetail.tsx:177
+#: src/components/ContentDetail.tsx:182
 msgid "重要性："
 msgstr "Severity:"
 
-#: src/components/ContentDetail.tsx:178
+#: src/components/ContentDetail.tsx:183
 msgid "高"
 msgstr "High"
 
-#: src/components/ContentDetail.tsx:178
+#: src/components/ContentDetail.tsx:183
 msgid "普通"
 msgstr "Normal"
 
-#: src/components/ContentDetail.tsx:182
+#: src/components/ContentDetail.tsx:187
 msgid "公告附件："
 msgstr "Notice attachment"
 
-#: src/components/ContentDetail.tsx:183
+#: src/components/ContentDetail.tsx:188
 msgid "公告附件预览："
 msgstr "Notice attachment preview"
 
-#: src/components/ContentDetail.tsx:201
+#: src/components/ContentDetail.tsx:206
 msgid "详情为空"
 msgstr "Detail is empty"
 
-#: src/components/ContentDetail.tsx:215
+#: src/components/ContentDetail.tsx:220
 msgid "课程名称："
 msgstr "Course name:"
 
-#: src/components/ContentDetail.tsx:228
+#: src/components/ContentDetail.tsx:233
 msgid "加载预览（{0}）"
 msgstr "Load preview ({0})"
 
@@ -565,91 +565,91 @@ msgstr "Login successfully"
 msgid "离上次成功刷新不足15分钟，若需要可手动刷新"
 msgstr "Refresh skipped because the last successful refresh was less than 15 minutes ago. Refresh manually if necessary."
 
-#: src/redux/actions.ts:257
+#: src/redux/actions.ts:248
 msgid "更新成功"
 msgstr "Update successfully"
 
-#: src/redux/actions.ts:259
+#: src/redux/actions.ts:250
 msgid "部分内容更新失败"
 msgstr "Update failed for partial content"
 
-#: src/redux/actions.ts:284
+#: src/redux/actions.ts:275
 msgid "设置网络学堂语言失败：{0}"
 msgstr "Failed to set language of Web Learning: {0}"
 
-#: src/redux/actions.ts:352
+#: src/redux/actions.ts:360
 msgid "登录已过期，请刷新后重试"
 msgstr "Login has expired, please refresh and try again."
 
-#: src/redux/actions.ts:376
+#: src/redux/actions.ts:392
 msgid "升级成功，所有本地数据已经被清除"
 msgstr "Upgrade successfully and all local data is cleared"
 
-#: src/redux/actions.ts:389
+#: src/redux/actions.ts:405
 msgid "升级成功，所有本地数据（除配置）已经被清除"
 msgstr "Upgrade successfully and all local data (except configuration) is cleared"
 
-#: src/redux/actions.ts:418
+#: src/redux/actions.ts:434
 msgid "升级成功，数据没有受到影响"
 msgstr "Upgrade successfully and local data is kept"
 
-#: src/redux/actions.ts:421
+#: src/redux/actions.ts:437
 msgid "迁移失败，已清除全部数据"
 msgstr "Migration failed, all data has been cleared"
 
-#: src/redux/actions.ts:445
+#: src/redux/actions.ts:461
 msgid "加载数据失败，已清除数据"
 msgstr "Failed to load data, data has been cleared"
 
-#: src/utils/format.ts:5
+#: src/utils/format.ts:6
 msgid "秋季学期"
 msgstr "Fall"
 
-#: src/utils/format.ts:6
+#: src/utils/format.ts:7
 msgid "春季学期"
 msgstr "Spring"
 
-#: src/utils/format.ts:7
+#: src/utils/format.ts:8
 msgid "夏季学期"
 msgstr "Summer"
 
-#: src/utils/format.ts:65
-#: src/utils/format.ts:72
+#: src/utils/format.ts:66
+#: src/utils/format.ts:73
 msgid "无"
 msgstr "None"
 
-#: src/utils/format.ts:78
+#: src/utils/format.ts:79
 msgid "用户名或密码错误"
 msgstr "Incorrect username or password"
 
-#: src/utils/format.ts:79
+#: src/utils/format.ts:80
 msgid "无法从 id.tsinghua.edu.cn 获取票据"
 msgstr "Unable to fetch ticket from id.tsinghua.edu.cn"
 
-#: src/utils/format.ts:80
+#: src/utils/format.ts:81
 msgid "无法使用票据漫游至 learn.tsinghua.edu.cn"
 msgstr "Unable to use tickets to roam to learn.tsinghua.edu.cn"
 
-#: src/utils/format.ts:81
+#: src/utils/format.ts:82
 msgid "功能尚未实现"
 msgstr "Feature not yet implemented"
 
-#: src/utils/format.ts:82
+#: src/utils/format.ts:83
 msgid "尚未登录"
 msgstr "Not logged in"
 
-#: src/utils/format.ts:83
+#: src/utils/format.ts:84
 msgid "未提供用户名或密码"
 msgstr "No username or password provided"
 
-#: src/utils/format.ts:84
+#: src/utils/format.ts:85
 msgid "非预期的 HTTP 响应状态"
 msgstr "Unexpected HTTP response status"
 
-#: src/utils/format.ts:85
+#: src/utils/format.ts:86
 msgid "请求超时"
 msgstr "Request timed out"
 
-#: src/utils/format.ts:86
+#: src/utils/format.ts:87
 msgid "未知错误"
 msgstr "Unknown error"
