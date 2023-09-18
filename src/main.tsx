@@ -13,7 +13,6 @@ import { printWelcomeMessage } from './utils/console';
 import { theme } from './theme';
 import App from './components/App';
 import './i18n';
-import './fontAwesome';
 import './css/scrollbar.css';
 
 const root = createRoot(document.querySelector('#main')!);

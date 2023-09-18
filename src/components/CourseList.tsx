@@ -10,9 +10,13 @@ import {
   ListItemText,
   ListSubheader,
 } from '@mui/material';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { COURSE_FUNC_LIST, COURSE_ICON } from '../constants/ui';
+import IconInbox from '~icons/fa6-solid/inbox';
+import IconBook from '~icons/fa6-solid/book';
+import IconAngleUp from '~icons/fa6-solid/angle-up';
+import IconAngleDown from '~icons/fa6-solid/angle-down';
+
+import { COURSE_FUNC_LIST } from '../constants/ui';
 import { refreshCardList, setCardFilter, setCardListTitle, setDetailUrl } from '../redux/actions';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { selectCourseList } from '../redux/selectors';
@@ -31,8 +35,8 @@ const CourseList = () => {
       className={styles.course_list}
       component="nav"
       subheader={
-        <ListSubheader component="div" disableSticky>
-          <FontAwesomeIcon icon="inbox" />
+        <ListSubheader component="div" disableSticky className={styles.list_title_header}>
+          <IconInbox />
           <span className={styles.list_title}>
             <Trans>本学期课程</Trans>
           </span>
@@ -53,13 +57,13 @@ const CourseList = () => {
               }}
             >
               <ListItemIcon className={styles.list_item_icon}>
-                <FontAwesomeIcon icon={COURSE_ICON} />
+                <IconBook />
               </ListItemIcon>
               <ListItemText
                 primary={_({ id: `course-${c.id}` })}
                 className={styles.course_list_item_text}
               />
-              <FontAwesomeIcon icon={opened === c.id ? 'angle-up' : 'angle-down'} />
+              {opened === c.id ? <IconAngleUp /> : <IconAngleDown />}
             </ListItemButton>
             <Collapse in={opened === c.id} timeout="auto" unmountOnExit>
               <List className={styles.subfunc_list} disablePadding>
@@ -78,9 +82,7 @@ const CourseList = () => {
                       }
                     }}
                   >
-                    <ListItemIcon className={styles.list_item_icon}>
-                      <FontAwesomeIcon icon={func.icon} />
-                    </ListItemIcon>
+                    <ListItemIcon className={styles.list_item_icon}>{func.icon}</ListItemIcon>
                     <ListItemText primary={_(func.name)} className={styles.course_list_item_text} />
                   </ListItemButton>
                 ))}

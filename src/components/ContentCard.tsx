@@ -15,7 +15,16 @@ import {
   Avatar,
   Tooltip,
 } from '@mui/material';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import IconCheck from '~icons/fa6-solid/check';
+import IconStar from '~icons/fa6-solid/star';
+import IconClipboard from '~icons/fa6-solid/clipboard';
+import IconClipboardCheck from '~icons/fa6-solid/clipboard-check';
+import IconTrash from '~icons/fa6-solid/trash';
+import IconTrashCan from '~icons/fa6-solid/trash-can';
+import IconUpload from '~icons/fa6-solid/upload';
+import IconDownload from '~icons/fa6-solid/download';
+import IconPaperclip from '~icons/fa6-solid/paperclip';
 
 import styles from '../css/card.module.css';
 import type { CardProps } from '../types/ui';
@@ -63,13 +72,11 @@ const ContentCard = ({ content }: CardProps) => {
               <Chip
                 avatar={
                   <Avatar className={styles.card_func_icon}>
-                    <FontAwesomeIcon
-                      icon={
-                        content.type === ContentType.HOMEWORK && content.submitted
-                          ? 'check'
-                          : COURSE_MAIN_FUNC[content.type].icon
-                      }
-                    />
+                    {content.type === ContentType.HOMEWORK && content.submitted ? (
+                      <IconCheck />
+                    ) : (
+                      COURSE_MAIN_FUNC[content.type].icon
+                    )}
                   </Avatar>
                 }
                 label={
@@ -155,7 +162,7 @@ const ContentCard = ({ content }: CardProps) => {
               onMouseDown={(ev) => ev.stopPropagation()}
               size="large"
             >
-              <FontAwesomeIcon icon="star" />
+              <IconStar />
             </IconButton>
           </Tooltip>
           <Tooltip title={content.hasRead ? t`标记为未读` : t`标记为已读`}>
@@ -172,7 +179,7 @@ const ContentCard = ({ content }: CardProps) => {
               onMouseDown={(ev) => ev.stopPropagation()}
               size="large"
             >
-              <FontAwesomeIcon icon={content.hasRead ? 'clipboard' : 'clipboard-check'} />
+              {content.hasRead ? <IconClipboard /> : <IconClipboardCheck />}
             </IconButton>
           </Tooltip>
           <Tooltip title={content.ignored ? t`取消忽略此项` : t`忽略此项`}>
@@ -193,7 +200,7 @@ const ContentCard = ({ content }: CardProps) => {
               onMouseDown={(ev) => ev.stopPropagation()}
               size="large"
             >
-              <FontAwesomeIcon icon={content.ignored ? 'trash' : 'trash-alt'} />
+              {content.ignored ? <IconTrash /> : <IconTrashCan />}
             </IconButton>
           </Tooltip>
           {content.type === ContentType.HOMEWORK && (
@@ -209,7 +216,7 @@ const ContentCard = ({ content }: CardProps) => {
                 onMouseDown={(ev) => ev.stopPropagation()}
                 size="large"
               >
-                <FontAwesomeIcon icon="upload" />
+                <IconUpload />
               </IconButton>
             </Tooltip>
           )}
@@ -224,7 +231,7 @@ const ContentCard = ({ content }: CardProps) => {
                 }}
                 size="large"
               >
-                <FontAwesomeIcon icon="download" />
+                <IconDownload />
               </IconButton>
             </Tooltip>
           )}
@@ -241,7 +248,7 @@ const ContentCard = ({ content }: CardProps) => {
                   }}
                   size="large"
                 >
-                  <FontAwesomeIcon icon="paperclip" />
+                  <IconPaperclip />
                 </IconButton>
               </Tooltip>
             )}

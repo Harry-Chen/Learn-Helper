@@ -11,7 +11,8 @@ import {
   ListItemText,
   ListSubheader,
 } from '@mui/material';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import IconThumbtack from '~icons/fa6-solid/thumbtack';
 
 import { SUMMARY_FUNC_LIST } from '../constants/ui';
 import { refreshCardList, setCardFilter, setCardListTitle } from '../redux/actions';
@@ -40,8 +41,8 @@ const SummaryList = () => {
       className={styles.numbered_list}
       component="nav"
       subheader={
-        <ListSubheader component="div" disableSticky>
-          <FontAwesomeIcon icon="thumbtack" />
+        <ListSubheader component="div" disableSticky className={styles.list_title_header}>
+          <IconThumbtack />
           <span className={styles.list_title}>
             <Trans>项目汇总</Trans>
           </span>
@@ -58,9 +59,7 @@ const SummaryList = () => {
             dispatch(refreshCardList());
           }}
         >
-          <ListItemIcon className={styles.list_item_icon}>
-            <FontAwesomeIcon icon={func.icon} />
-          </ListItemIcon>
+          <ListItemIcon className={styles.list_item_icon}>{func.icon}</ListItemIcon>
           <Badge
             badgeContent={func.type && unreadMap[func.type]}
             color="primary"

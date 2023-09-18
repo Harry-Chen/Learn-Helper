@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import icons from 'unplugin-icons/vite';
 import react from '@vitejs/plugin-react-swc';
 import { lingui } from '@lingui/vite-plugin';
 import webExtension from '@samrum/vite-plugin-web-extension';
@@ -54,10 +55,11 @@ export default defineConfig({
         remarkPlugins: [remarkMdxImages, remarkUnwrapImages],
       }),
     },
+    icons({ compiler: 'jsx', jsx: 'react' }),
     react({ plugins: [['@lingui/swc-plugin', {}]] }),
     lingui(),
     webExtension({
-      manifest: getManifest(isFirefox) as chrome.runtime.Manifest,
+      manifest: getManifest(isFirefox),
       additionalInputs: {
         html: ['pages/index.html', 'pages/about.html'],
       },
@@ -105,9 +107,6 @@ export default defineConfig({
             '@mui/material',
             '@emotion/react',
             '@emotion/styled',
-            '@fortawesome/fontawesome-svg-core',
-            '@fortawesome/free-solid-svg-icons',
-            '@fortawesome/react-fontawesome',
             'notistack',
             'classnames',
           ],

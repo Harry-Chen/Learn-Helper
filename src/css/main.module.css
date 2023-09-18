@@ -1,5 +1,6 @@
 .app_bar_btn {
   width: 48px;
+  height: 48px;
   margin-left: -8px !important;
 }
 
@@ -122,7 +123,6 @@
   width: 312px;
 
   transition: opacity 0.2s ease;
-  opacity: 0;
 }
 
 .filter_input_inner {
@@ -130,27 +130,8 @@
 }
 
 .filter_btn {
+  height: 48px;
   width: 48px;
-}
-
-.filter_icon {
-  width: 24px !important;
-  height: 24px;
-
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-
-.filter_icon:last-child {
-  margin-left: -24px;
-}
-
-.filter_icon_shown {
-  opacity: 1;
-}
-
-.sidebar_filter_shown .filter_input {
-  opacity: 1;
 }
 
 .pane_content {
