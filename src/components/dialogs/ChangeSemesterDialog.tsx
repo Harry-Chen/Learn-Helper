@@ -19,6 +19,7 @@ import {
   insistSemester,
   updateSemester,
   refresh,
+  setCardFilter,
 } from '../../redux/actions';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { selectSemesters } from '../../redux/selectors';
@@ -79,6 +80,7 @@ const ChangeSemesterDialog = () => {
               dispatch(updateSemester(semesterFromId(newSemester)));
               dispatch(insistSemester(false));
               dispatch(toggleIgnoreWrongSemester(true));
+              dispatch(setCardFilter({}));
               dispatch(refresh());
             }
             dispatch(toggleChangeSemesterDialog(false));

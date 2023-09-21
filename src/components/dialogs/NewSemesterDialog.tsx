@@ -8,6 +8,7 @@ import {
   insistSemester,
   syncSemester,
   refresh,
+  setCardFilter,
 } from '../../redux/actions';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { formatSemester } from '../../utils/format';
@@ -43,6 +44,7 @@ const NewSemesterDialog = () => {
           onClick={() => {
             dispatch(toggleNewSemesterDialog(false));
             dispatch(syncSemester());
+            dispatch(setCardFilter({}));
             dispatch(refresh());
           }}
         >
