@@ -69,10 +69,7 @@
 }
 
 .card_action_button {
-  padding: 12px !important;
-  width: 6px !important;
-  height: 6px !important;
-  font-size: 1em !important;
+  font-size: 12px !important;
 }
 
 .card_starred {

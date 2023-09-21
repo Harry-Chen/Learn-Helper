@@ -160,7 +160,7 @@ const ContentCard = ({ content }: CardProps) => {
                 ev.stopPropagation();
               }}
               onMouseDown={(ev) => ev.stopPropagation()}
-              size="large"
+              size="small"
             >
               <IconStar />
             </IconButton>
@@ -177,7 +177,7 @@ const ContentCard = ({ content }: CardProps) => {
                 ev.stopPropagation();
               }}
               onMouseDown={(ev) => ev.stopPropagation()}
-              size="large"
+              size="small"
             >
               {content.hasRead ? <IconClipboard /> : <IconClipboardCheck />}
             </IconButton>
@@ -198,7 +198,7 @@ const ContentCard = ({ content }: CardProps) => {
                 ev.stopPropagation();
               }}
               onMouseDown={(ev) => ev.stopPropagation()}
-              size="large"
+              size="small"
             >
               {content.ignored ? <IconTrash /> : <IconTrashCan />}
             </IconButton>
@@ -214,7 +214,7 @@ const ContentCard = ({ content }: CardProps) => {
                   ev.stopPropagation();
                 }}
                 onMouseDown={(ev) => ev.stopPropagation()}
-                size="large"
+                size="small"
               >
                 <IconUpload />
               </IconButton>
@@ -229,7 +229,7 @@ const ContentCard = ({ content }: CardProps) => {
                 onClick={() => {
                   initiateFileDownload(content.remoteFile.downloadUrl);
                 }}
-                size="large"
+                size="small"
               >
                 <IconDownload />
               </IconButton>
@@ -246,7 +246,7 @@ const ContentCard = ({ content }: CardProps) => {
                     if (content.attachment)
                       initiateFileDownload(content.attachment.downloadUrl, content.attachment.name);
                   }}
-                  size="large"
+                  size="small"
                 >
                   <IconPaperclip />
                 </IconButton>

@@ -219,7 +219,7 @@ const AppDrawer = () => {
                   <IconButton
                     className={styles.sidebar_master_notify_icon}
                     onClick={() => dispatch(toggleChangeSemesterDialog(true))}
-                    size="large"
+                    size="small"
                   >
                     <IconStarOfLife />
                   </IconButton>
