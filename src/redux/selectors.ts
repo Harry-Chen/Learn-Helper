@@ -1,8 +1,11 @@
 import { memoize } from 'proxy-memoize';
 import { ContentType } from 'thu-learn-lib';
+import { msg } from '@lingui/macro';
+import type { MessageDescriptor } from '@lingui/core';
 
 import type { ContentInfo } from '../types/data';
 import type { RootState } from './store';
+import { UI_NAME_COURSE, UI_NAME_SUMMARY } from '../constants/ui';
 
 export const selectCourseList = memoize((state: RootState) => Object.values(state.data.courseMap));
 
@@ -65,4 +68,19 @@ export const selectSemesters = memoize((state: RootState) => {
   const { semesters, fetchedSemester } = state.data;
   if (!semesters.includes(fetchedSemester.id)) return [fetchedSemester.id, ...semesters];
   return semesters;
+});
+
+export const selectCardListTitle = memoize((state: RootState): MessageDescriptor[] => {
+  if (state.helper.loggedIn) {
+    if (state.ui.cardFilter.courseId) {
+      return [
+        UI_NAME_COURSE[state.ui.cardFilter.type ?? 'summary'],
+        { id: `course-${state.ui.cardFilter.courseId}` },
+      ];
+    } else {
+      return [UI_NAME_SUMMARY[state.ui.cardFilter.type ?? 'summary']];
+    }
+  } else {
+    return [msg`加载中`];
+  }
 });

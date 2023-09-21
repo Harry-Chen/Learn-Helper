@@ -1,7 +1,7 @@
 import React, { useState, type ErrorInfo, useRef, useEffect } from 'react';
 import { ErrorBoundary, type FallbackProps } from 'react-error-boundary';
 import classnames from 'classnames';
-import { msg, Trans, t } from '@lingui/macro';
+import { Trans, t } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
 
 import {
@@ -43,6 +43,7 @@ import {
   tryLoginSilently,
   syncLanguage,
 } from '../redux/actions';
+import { selectCardListTitle } from '../redux/selectors';
 import { formatSemester } from '../utils/format';
 import { removeStoredCredential } from '../utils/storage';
 import { interceptCsrfRequest } from '../utils/csrf';
@@ -176,9 +177,7 @@ const AppDrawer = () => {
   const dispatch = useAppDispatch();
 
   const paneHidden = useAppSelector((state) => state.ui.paneHidden);
-  const cardListTitle = useAppSelector((state) =>
-    state.helper.loggedIn ? state.ui.cardListTitle : [msg`加载中...`],
-  );
+  const cardListTitle = useAppSelector(selectCardListTitle);
   const semesterTitle = useAppSelector((state) => formatSemester(state.data.semester));
   const isLatestSemester = useAppSelector(
     (state) => state.data.semester.id === state.data.fetchedSemester.id,

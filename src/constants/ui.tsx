@@ -1,8 +1,6 @@
 import React from 'react';
-import type { ReactElement } from 'react';
 import { ContentType } from 'thu-learn-lib';
 import { msg } from '@lingui/macro';
-import type { MessageDescriptor } from '@lingui/core';
 
 import IconBullhorn from '~icons/fa6-solid/bullhorn';
 import IconDownload from '~icons/fa6-solid/download';
@@ -29,7 +27,27 @@ import {
 } from '../redux/actions';
 import type { AppDispatch } from '../redux/store';
 
-type Icon = ReactElement;
+export type TUIFunc = ContentType | 'summary' | 'ignored' | 'homepage';
+
+export const UI_NAME_SUMMARY = {
+  summary: msg`主页`,
+  [ContentType.NOTIFICATION]: msg`所有公告`,
+  [ContentType.FILE]: msg`所有文件`,
+  [ContentType.HOMEWORK]: msg`所有作业`,
+  [ContentType.DISCUSSION]: msg`所有讨论`,
+  [ContentType.QUESTION]: msg`所有答疑`,
+  ignored: msg`所有忽略`,
+} as const;
+
+export const UI_NAME_COURSE = {
+  summary: msg`课程综合`,
+  [ContentType.NOTIFICATION]: msg`课程公告`,
+  [ContentType.FILE]: msg`课程文件`,
+  [ContentType.HOMEWORK]: msg`课程作业`,
+  [ContentType.DISCUSSION]: msg`课程讨论`,
+  [ContentType.QUESTION]: msg`课程答疑`,
+  homepage: msg`课程主页`,
+} as const;
 
 export const COURSE_MAIN_FUNC = {
   [ContentType.NOTIFICATION]: {
@@ -59,83 +77,73 @@ export const COURSE_MAIN_FUNC = {
   },
 } as const;
 
-export interface IMenuItem {
-  name: MessageDescriptor;
-  icon: Icon;
-  type?: ContentType | null;
-}
-
-export const COURSE_FUNC_LIST: IMenuItem[] = [
+export const COURSE_FUNC_LIST = [
   {
+    type: undefined,
     icon: <IconCircleInfo />,
-    name: msg`课程综合`,
+    name: UI_NAME_COURSE.summary,
   },
   {
     ...COURSE_MAIN_FUNC[ContentType.NOTIFICATION],
-    name: msg`课程公告`,
+    name: UI_NAME_COURSE[ContentType.NOTIFICATION],
   },
   {
     ...COURSE_MAIN_FUNC[ContentType.FILE],
-    name: msg`课程文件`,
+    name: UI_NAME_COURSE[ContentType.FILE],
   },
   {
     ...COURSE_MAIN_FUNC[ContentType.HOMEWORK],
-    name: msg`课程作业`,
+    name: UI_NAME_COURSE[ContentType.HOMEWORK],
   },
   {
     ...COURSE_MAIN_FUNC[ContentType.DISCUSSION],
-    name: msg`课程讨论`,
+    name: UI_NAME_COURSE[ContentType.DISCUSSION],
   },
   {
     ...COURSE_MAIN_FUNC[ContentType.QUESTION],
-    name: msg`课程答疑`,
+    name: UI_NAME_COURSE[ContentType.QUESTION],
   },
   {
-    type: null,
+    type: 'homepage',
     icon: <IconUpRightFromSquare />,
-    name: msg`课程主页`,
+    name: UI_NAME_COURSE.homepage,
   },
-];
+] as const;
 
-export const SUMMARY_FUNC_LIST: IMenuItem[] = [
+export const SUMMARY_FUNC_LIST = [
   {
+    type: undefined,
     icon: <IconHouse />,
-    name: msg`主页`,
+    name: UI_NAME_SUMMARY.summary,
   },
   {
     ...COURSE_MAIN_FUNC[ContentType.HOMEWORK],
-    name: msg`所有作业`,
+    name: UI_NAME_SUMMARY[ContentType.HOMEWORK],
   },
   {
     ...COURSE_MAIN_FUNC[ContentType.NOTIFICATION],
-    name: msg`所有公告`,
+    name: UI_NAME_SUMMARY[ContentType.NOTIFICATION],
   },
   {
     ...COURSE_MAIN_FUNC[ContentType.FILE],
-    name: msg`所有文件`,
+    name: UI_NAME_SUMMARY[ContentType.FILE],
   },
   {
     ...COURSE_MAIN_FUNC[ContentType.DISCUSSION],
-    name: msg`所有讨论`,
+    name: UI_NAME_SUMMARY[ContentType.DISCUSSION],
   },
   {
     ...COURSE_MAIN_FUNC[ContentType.QUESTION],
-    name: msg`所有答疑`,
+    name: UI_NAME_SUMMARY[ContentType.QUESTION],
   },
   {
-    type: null,
+    type: 'ignored',
     icon: <IconTrash />,
-    name: msg`所有忽略`,
+    name: UI_NAME_SUMMARY.ignored,
   },
-];
+] as const;
 
-export interface ISettingItem {
-  name: MessageDescriptor;
-  icon: Icon;
-  handler?: (dispatch: AppDispatch) => void;
-}
-
-export const SETTINGS_FUNC_LIST: ISettingItem[] = [
+export const SETTINGS_FUNC_LIST = [
   {
     icon: <IconBan />,
     name: msg`管理隐藏项`,
@@ -178,4 +186,4 @@ export const SETTINGS_FUNC_LIST: ISettingItem[] = [
       dispatch(toggleLogoutDialog(true));
     },
   },
-];
+] as const;

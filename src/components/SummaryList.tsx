@@ -15,7 +15,7 @@ import {
 import IconThumbtack from '~icons/fa6-solid/thumbtack';
 
 import { SUMMARY_FUNC_LIST } from '../constants/ui';
-import { refreshCardList, setCardFilter, setCardListTitle } from '../redux/actions';
+import { refreshCardList, setCardFilter } from '../redux/actions';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 
 import styles from '../css/list.module.css';
@@ -55,7 +55,6 @@ const SummaryList = () => {
           key={func.name.id}
           onClick={() => {
             dispatch(setCardFilter({ type: func.type }));
-            dispatch(setCardListTitle([func.name]));
             dispatch(refreshCardList());
           }}
         >

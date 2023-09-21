@@ -59,7 +59,7 @@ export default defineConfig({
     react({ plugins: [['@lingui/swc-plugin', {}]] }),
     lingui(),
     webExtension({
-      manifest: getManifest(isFirefox),
+      manifest: getManifest(isFirefox) as chrome.runtime.ManifestV3,
       additionalInputs: {
         html: ['pages/index.html', 'pages/about.html'],
       },

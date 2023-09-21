@@ -17,7 +17,7 @@ import IconAngleUp from '~icons/fa6-solid/angle-up';
 import IconAngleDown from '~icons/fa6-solid/angle-down';
 
 import { COURSE_FUNC_LIST } from '../constants/ui';
-import { refreshCardList, setCardFilter, setCardListTitle, setDetailUrl } from '../redux/actions';
+import { refreshCardList, setCardFilter, setDetailUrl } from '../redux/actions';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { selectCourseList } from '../redux/selectors';
 
@@ -72,10 +72,9 @@ const CourseList = () => {
                     className={styles.sidebar_list_item}
                     key={func.name.id}
                     onClick={() => {
-                      if (func.type !== null) {
+                      if (func.type !== 'homepage') {
                         // show cards
                         dispatch(setCardFilter({ type: func.type, courseId: c.id }));
-                        dispatch(setCardListTitle([func.name, { id: `course-${c.id}` }]));
                         dispatch(refreshCardList());
                       } else {
                         dispatch(setDetailUrl(c.url));
