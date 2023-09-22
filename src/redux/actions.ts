@@ -57,7 +57,6 @@ export const {
   toggleChangeSemesterDialog,
   resetCardVisibilityThreshold,
   loadMoreCard,
-  setCardListTitle,
   setCardList,
   setCardFilter,
   setDetailUrl,
@@ -310,7 +309,7 @@ export const refreshCardList = (): AppThunk<void> => (dispatch, getState) => {
   const { type, courseId } = state.ui.cardFilter;
 
   let contents: ContentInfo[];
-  if (type) {
+  if (type && type !== 'ignored') {
     contents = data[`${type}List`].slice(0);
   } else {
     contents = ([] as ContentInfo[]).concat(
@@ -326,7 +325,7 @@ export const refreshCardList = (): AppThunk<void> => (dispatch, getState) => {
     setCardList(
       contents
         .filter((c) =>
-          type === null
+          type === 'ignored'
             ? c.ignored
             : courseId
             ? c.courseId === courseId

@@ -3,7 +3,8 @@ import { Trans } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
 
 import { List, ListItemButton, ListItemIcon, ListItemText, ListSubheader } from '@mui/material';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import IconWrench from '~icons/fa6-solid/wrench';
 
 import { SETTINGS_FUNC_LIST } from '../constants/ui';
 import { useAppDispatch } from '../redux/hooks';
@@ -19,8 +20,8 @@ const SettingList = () => {
       className={styles.numbered_list}
       component="nav"
       subheader={
-        <ListSubheader component="div" disableSticky>
-          <FontAwesomeIcon icon="wrench" />
+        <ListSubheader component="div" disableSticky className={styles.list_title_header}>
+          <IconWrench />
           <span className={styles.list_title}>
             <Trans>设置</Trans>
           </span>
@@ -35,9 +36,7 @@ const SettingList = () => {
             i.handler?.(dispatch);
           }}
         >
-          <ListItemIcon className={styles.list_item_icon}>
-            <FontAwesomeIcon icon={i.icon} />
-          </ListItemIcon>
+          <ListItemIcon className={styles.list_item_icon}>{i.icon}</ListItemIcon>
           <ListItemText primary={_(i.name)} className={styles.settings_list_item_text} />
         </ListItemButton>
       ))}

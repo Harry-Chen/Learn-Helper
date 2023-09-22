@@ -10,6 +10,7 @@
   font-size: 1rem !important;
   margin-left: 0 !important;
   margin-left: 0 !important;
+  padding: 8px;
 }
 
 .card_first_line {
@@ -50,6 +51,7 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  line-height: 1.2em;
 }
 
 .card_course {
@@ -59,6 +61,7 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  line-height: 1.2em;
 }
 
 .card_action_line {
@@ -68,10 +71,7 @@
 }
 
 .card_action_button {
-  padding: 12px !important;
-  width: 6px !important;
-  height: 6px !important;
-  font-size: 1em !important;
+  font-size: 12px !important;
 }
 
 .card_starred {

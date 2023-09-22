@@ -8,6 +8,7 @@ import {
   clearAllData,
   loggedOut,
   refreshCardList,
+  setCardFilter,
 } from '../../redux/actions';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { removeStoredCredential } from '../../utils/storage';
@@ -44,6 +45,7 @@ const LogoutDialog = () => {
             dispatch(toggleLogoutDialog(false));
             dispatch(loggedOut());
             dispatch(clearAllData());
+            dispatch(setCardFilter({}));
             dispatch(refreshCardList());
             dispatch(toggleLoginDialog(true));
           }}

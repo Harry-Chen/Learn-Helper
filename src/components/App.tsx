@@ -1,7 +1,7 @@
 import React, { useState, type ErrorInfo, useRef, useEffect } from 'react';
 import { ErrorBoundary, type FallbackProps } from 'react-error-boundary';
 import classnames from 'classnames';
-import { msg, Trans, t } from '@lingui/macro';
+import { Trans, t } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
 
 import {
@@ -22,8 +22,17 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { bindMenu, bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
+
+import IconLanguage from '~icons/fa6-solid/language';
+import IconCircleHalfStroke from '~icons/fa6-solid/circle-half-stroke';
+import IconSun from '~icons/fa6-solid/sun';
+import IconMoon from '~icons/fa6-solid/moon';
+import IconBars from '~icons/fa6-solid/bars';
+import IconAngleLeft from '~icons/fa6-solid/angle-left';
+import IconStarOfLife from '~icons/fa6-solid/star-of-life';
+import IconFilter from '~icons/fa6-solid/filter';
+import IconXmark from '~icons/fa6-solid/xmark';
 
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import {
@@ -34,6 +43,7 @@ import {
   tryLoginSilently,
   syncLanguage,
 } from '../redux/actions';
+import { selectCardListTitle } from '../redux/selectors';
 import { formatSemester } from '../utils/format';
 import { removeStoredCredential } from '../utils/storage';
 import { interceptCsrfRequest } from '../utils/csrf';
@@ -71,11 +81,11 @@ const LanguageSwitcher = () => {
     <>
       <IconButton
         color="inherit"
-        aria-label="Set color mode"
+        aria-label="Set language"
         size="large"
         {...bindTrigger(popupState)}
       >
-        <FontAwesomeIcon icon="language" />
+        <IconLanguage />
       </IconButton>
       <Menu {...bindMenu(popupState)}>
         <MenuItem key="zh" selected={i18n.locale === 'zh'} onClick={() => handle('zh')}>
@@ -105,12 +115,12 @@ const ColorModeSwitcher = () => {
         size="large"
         {...bindTrigger(popupState)}
       >
-        <FontAwesomeIcon icon="circle-half-stroke" />
+        <IconCircleHalfStroke />
       </IconButton>
       <Menu {...bindMenu(popupState)}>
         <MenuItem key="system" selected={mode === 'system'} onClick={() => handle('system')}>
           <ListItemIcon>
-            <FontAwesomeIcon icon="circle-half-stroke" />
+            <IconCircleHalfStroke />
           </ListItemIcon>
           <ListItemText>
             <Trans>跟随系统</Trans>
@@ -118,7 +128,7 @@ const ColorModeSwitcher = () => {
         </MenuItem>
         <MenuItem key="light" selected={mode === 'light'} onClick={() => handle('light')}>
           <ListItemIcon>
-            <FontAwesomeIcon icon="sun" />
+            <IconSun />
           </ListItemIcon>
           <ListItemText>
             <Trans>亮</Trans>
@@ -126,7 +136,7 @@ const ColorModeSwitcher = () => {
         </MenuItem>
         <MenuItem key="dark" selected={mode === 'dark'} onClick={() => handle('dark')}>
           <ListItemIcon>
-            <FontAwesomeIcon icon="moon" />
+            <IconMoon />
           </ListItemIcon>
           <ListItemText>
             <Trans>暗</Trans>
@@ -152,7 +162,7 @@ const AppBar = () => {
           onClick={openSidebar}
           size="large"
         >
-          <FontAwesomeIcon icon="bars" />
+          <IconBars />
         </IconButton>
         <Typography component="div" sx={{ flexGrow: 1 }}></Typography>
         <LanguageSwitcher />
@@ -167,9 +177,7 @@ const AppDrawer = () => {
   const dispatch = useAppDispatch();
 
   const paneHidden = useAppSelector((state) => state.ui.paneHidden);
-  const cardListTitle = useAppSelector((state) =>
-    state.helper.loggedIn ? state.ui.cardListTitle : [msg`加载中...`],
-  );
+  const cardListTitle = useAppSelector(selectCardListTitle);
   const semesterTitle = useAppSelector((state) => formatSemester(state.data.semester));
   const isLatestSemester = useAppSelector(
     (state) => state.data.semester.id === state.data.fetchedSemester.id,
@@ -201,7 +209,7 @@ const AppDrawer = () => {
                 onClick={() => dispatch(togglePaneHidden(true))}
                 size="large"
               >
-                <FontAwesomeIcon icon="angle-left" />
+                <IconAngleLeft />
               </IconButton>
               <Typography variant="subtitle1" className={styles.sidebar_master_title} noWrap>
                 {semesterTitle}
@@ -211,9 +219,9 @@ const AppDrawer = () => {
                   <IconButton
                     className={styles.sidebar_master_notify_icon}
                     onClick={() => dispatch(toggleChangeSemesterDialog(true))}
-                    size="large"
+                    size="small"
                   >
-                    <FontAwesomeIcon icon="star-of-life" />
+                    <IconStarOfLife />
                   </IconButton>
                 </Tooltip>
               )}
@@ -233,36 +241,27 @@ const AppDrawer = () => {
                   onClick={toggleFilter}
                   size="large"
                 >
-                  <FontAwesomeIcon
-                    icon="filter"
-                    className={classnames(styles.filter_icon, {
-                      [styles.filter_icon_shown]: !filterShown,
-                    })}
-                  />
-                  <FontAwesomeIcon
-                    icon="times"
-                    className={classnames(styles.filter_icon, {
-                      [styles.filter_icon_shown]: filterShown,
-                    })}
-                  />
+                  {filterShown ? <IconXmark /> : <IconFilter />}
                 </IconButton>
-                <div className={styles.filter_input}>
-                  <InputBase
-                    inputRef={inputRef}
-                    className={styles.filter_input_inner}
-                    placeholder={t`筛选`}
-                    value={filter}
-                    onChange={(ev) => {
-                      setFilter(ev.target.value);
-                      dispatch(setTitleFilter(ev.target.value.trim() || undefined));
-                    }}
-                    inputProps={{
-                      onBlur: () => {
-                        if (!filterShown && filter === '') setFilterShown(false);
-                      },
-                    }}
-                  />
-                </div>
+                {filterShown && (
+                  <div>
+                    <InputBase
+                      inputRef={inputRef}
+                      className={styles.filter_input_inner}
+                      placeholder={t`筛选`}
+                      value={filter}
+                      onChange={(ev) => {
+                        setFilter(ev.target.value);
+                        dispatch(setTitleFilter(ev.target.value.trim() || undefined));
+                      }}
+                      inputProps={{
+                        onBlur: () => {
+                          if (!filterShown && filter === '') setFilterShown(false);
+                        },
+                      }}
+                    />
+                  </div>
+                )}
               </div>
             </Toolbar>
           </div>

@@ -23,14 +23,6 @@ export function getManifest(isFirefox = false): Manifest.WebExtensionManifest {
       : {
           service_worker: 'src/background.ts',
         },
-    // content_scripts: [
-    //   {
-    //     js: ['src/injectCsrfToken.ts'],
-    //     matches: ['*://learn.tsinghua.edu.cn/*'],
-    //     all_frames: true,
-    //     run_at: 'document_start',
-    //   },
-    // ],
     host_permissions: ['*://learn.tsinghua.edu.cn/*', '*://id.tsinghua.edu.cn/*'],
     icons: {
       '16': 'icons/16.png',

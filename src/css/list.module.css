@@ -21,6 +21,11 @@
   text-overflow: ellipsis;
 }
 
+.list_title_header {
+  display: flex;
+  align-items: center;
+}
+
 .list_title {
   margin-left: 10px;
 }

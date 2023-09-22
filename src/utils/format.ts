@@ -1,6 +1,6 @@
 import { msg, t } from '@lingui/macro';
-import { i18n } from '@lingui/core';
-import { type SemesterInfo, SemesterType, FailReason } from 'thu-learn-lib';
+import { i18n, type MessageDescriptor } from '@lingui/core';
+import { type SemesterInfo, SemesterType, FailReason, HomeworkGradeLevel } from 'thu-learn-lib';
 
 export const semesterName = {
   [SemesterType.FALL]: msg`秋季学期`,
@@ -89,4 +89,24 @@ const FAIL_REASON_MAPPING = {
 
 export function failReasonToString(reason: FailReason): string {
   return i18n._(FAIL_REASON_MAPPING[reason] ?? FAIL_REASON_MAPPING.UNKNOWN);
+}
+
+const HomeworkGradeLevelNames = {
+  [HomeworkGradeLevel.CHECKED]: msg`已阅`,
+  [HomeworkGradeLevel.DISTINCTION]: msg`优秀`,
+  [HomeworkGradeLevel.EXEMPTED_COURSE]: msg`免课`,
+  [HomeworkGradeLevel.EXEMPTION]: msg`免修`,
+  [HomeworkGradeLevel.PASS]: msg`通过`,
+  [HomeworkGradeLevel.FAILURE]: msg`不通过`,
+  [HomeworkGradeLevel.INCOMPLETE]: msg`缓考`,
+};
+
+export function formatHomeworkGradeLevel(gradeLevel: HomeworkGradeLevel): MessageDescriptor;
+export function formatHomeworkGradeLevel(gradeLevel: undefined): undefined;
+export function formatHomeworkGradeLevel(
+  gradeLevel?: HomeworkGradeLevel,
+): MessageDescriptor | undefined {
+  if (gradeLevel) {
+    return HomeworkGradeLevelNames[gradeLevel] ?? gradeLevel;
+  }
 }

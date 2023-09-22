@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import icons from 'unplugin-icons/vite';
 import preact from '@preact/preset-vite';
 import { lingui } from '@lingui/vite-plugin';
 import webExtension from '@samrum/vite-plugin-web-extension';
@@ -53,6 +54,7 @@ export default defineConfig({
         remarkPlugins: [remarkMdxImages, remarkUnwrapImages],
       }),
     },
+    icons({ compiler: 'jsx', jsx: 'react' }),
     preact({
       babel: {
         plugins: ['macros'],
@@ -60,7 +62,7 @@ export default defineConfig({
     }),
     lingui(),
     webExtension({
-      manifest: getManifest(isFirefox) as chrome.runtime.Manifest,
+      manifest: getManifest(isFirefox) as chrome.runtime.ManifestV3,
       additionalInputs: {
         html: ['pages/index.html', 'pages/about.html'],
       },
@@ -98,9 +100,6 @@ export default defineConfig({
             '@mui/material',
             '@emotion/react',
             '@emotion/styled',
-            '@fortawesome/fontawesome-svg-core',
-            '@fortawesome/free-solid-svg-icons',
-            '@fortawesome/react-fontawesome',
             'notistack',
             'classnames',
           ],
