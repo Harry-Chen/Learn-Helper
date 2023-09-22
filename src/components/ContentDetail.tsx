@@ -6,7 +6,7 @@ import type { MessageDescriptor } from '@lingui/core';
 import { useLingui } from '@lingui/react';
 
 import type { HomeworkInfo, NotificationInfo, FileInfo, ContentInfo } from '../types/data';
-import { formatDateTime } from '../utils/format';
+import { formatDateTime, formatHomeworkGradeLevel } from '../utils/format';
 import { useAppDispatch } from '../redux/hooks';
 import { setDetailUrl } from '../redux/actions';
 import { renderHTML } from '../utils/html';
@@ -117,63 +117,69 @@ const FileDetails = ({ content: file }: ContentDetailProps<FileInfo>) => (
   </>
 );
 
-const HomeworkDetails = ({ content: homework }: ContentDetailProps<HomeworkInfo>) => (
-  <>
-    <Line title={msg`截止时间：`}>{formatDateTime(homework.deadline)}</Line>
-    {homework.submitted && (
-      <Line title={msg`提交时间：`}>{formatDateTime(homework.submitTime)}</Line>
-    )}
-    {homework.submittedContent && (
-      <Line title={msg`提交内容：`}>{renderHTML(homework.submittedContent)}</Line>
-    )}
-    {homework.submittedAttachment && (
-      <FileLinks
-        downloadTitle={msg`提交附件：`}
-        previewTitle={msg`提交附件预览：`}
-        file={homework.submittedAttachment}
-      />
-    )}
-    {homework.graded && (
-      <>
-        <Line title={msg`评阅时间：`}>{formatDateTime(homework.gradeTime)}</Line>
-        <Line title={msg`评阅者：`}>{homework.graderName}</Line>
-        <Line title={msg`成绩：`}>
-          {homework.gradeLevel ?? homework.grade ?? <Trans>无评分</Trans>}
-        </Line>
-        <Line title={msg`评阅内容：`}>{renderHTML(homework.gradeContent)}</Line>
-        {homework.gradeAttachment && (
-          <FileLinks
-            downloadTitle={msg`评阅附件：`}
-            previewTitle={msg`评阅附件预览：`}
-            file={homework.gradeAttachment}
-          />
-        )}
-      </>
-    )}
-    {homework.answerContent && (
-      <Line title={msg`答案内容：`}>{renderHTML(homework.answerContent)}</Line>
-    )}
-    {homework.answerAttachment && (
-      <FileLinks
-        downloadTitle={msg`答案附件：`}
-        previewTitle={msg`答案附件预览：`}
-        file={homework.answerAttachment}
-      />
-    )}
-    {homework.attachment && (
-      <FileLinks
-        downloadTitle={msg`作业附件：`}
-        previewTitle={msg`作业附件预览：`}
-        file={homework.attachment}
-      />
-    )}
-    <Line title={msg`作业详情：`}>
-      <Link url={homework.url} inApp>
-        <Trans>在本窗口打开</Trans>
-      </Link>
-    </Line>
-  </>
-);
+const HomeworkDetails = ({ content: homework }: ContentDetailProps<HomeworkInfo>) => {
+  const { _ } = useLingui();
+
+  return (
+    <>
+      <Line title={msg`截止时间：`}>{formatDateTime(homework.deadline)}</Line>
+      {homework.submitted && (
+        <Line title={msg`提交时间：`}>{formatDateTime(homework.submitTime)}</Line>
+      )}
+      {homework.submittedContent && (
+        <Line title={msg`提交内容：`}>{renderHTML(homework.submittedContent)}</Line>
+      )}
+      {homework.submittedAttachment && (
+        <FileLinks
+          downloadTitle={msg`提交附件：`}
+          previewTitle={msg`提交附件预览：`}
+          file={homework.submittedAttachment}
+        />
+      )}
+      {homework.graded && (
+        <>
+          <Line title={msg`评阅时间：`}>{formatDateTime(homework.gradeTime)}</Line>
+          <Line title={msg`评阅者：`}>{homework.graderName}</Line>
+          <Line title={msg`成绩：`}>
+            {homework.gradeLevel
+              ? _(formatHomeworkGradeLevel(homework.gradeLevel))
+              : homework.grade ?? <Trans>无评分</Trans>}
+          </Line>
+          <Line title={msg`评阅内容：`}>{renderHTML(homework.gradeContent)}</Line>
+          {homework.gradeAttachment && (
+            <FileLinks
+              downloadTitle={msg`评阅附件：`}
+              previewTitle={msg`评阅附件预览：`}
+              file={homework.gradeAttachment}
+            />
+          )}
+        </>
+      )}
+      {homework.answerContent && (
+        <Line title={msg`答案内容：`}>{renderHTML(homework.answerContent)}</Line>
+      )}
+      {homework.answerAttachment && (
+        <FileLinks
+          downloadTitle={msg`答案附件：`}
+          previewTitle={msg`答案附件预览：`}
+          file={homework.answerAttachment}
+        />
+      )}
+      {homework.attachment && (
+        <FileLinks
+          downloadTitle={msg`作业附件：`}
+          previewTitle={msg`作业附件预览：`}
+          file={homework.attachment}
+        />
+      )}
+      <Line title={msg`作业详情：`}>
+        <Link url={homework.url} inApp>
+          <Trans>在本窗口打开</Trans>
+        </Link>
+      </Line>
+    </>
+  );
+};
 
 const NotificationDetails = ({ content: notification }: ContentDetailProps<NotificationInfo>) => (
   <>

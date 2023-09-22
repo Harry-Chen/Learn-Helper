@@ -37,7 +37,7 @@ import {
   setDetailUrl,
 } from '../redux/actions';
 import { useAppDispatch } from '../redux/hooks';
-import { formatDate } from '../utils/format';
+import { formatDate, formatHomeworkGradeLevel } from '../utils/format';
 import { initiateFileDownload } from '../utils/download';
 
 const ContentCard = ({ content }: CardProps) => {
@@ -125,7 +125,7 @@ const ContentCard = ({ content }: CardProps) => {
                   (content.graded
                     ? (content.grade
                         ? content.gradeLevel
-                          ? content.gradeLevel
+                          ? _(formatHomeworkGradeLevel(content.gradeLevel))
                           : t`${content.grade}分`
                         : t`无评分`) + t`（${content.graderName ?? ''}）`
                     : t`未批阅`)

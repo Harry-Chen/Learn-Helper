@@ -81,7 +81,7 @@ const LanguageSwitcher = () => {
     <>
       <IconButton
         color="inherit"
-        aria-label="Set color mode"
+        aria-label="Set language"
         size="large"
         {...bindTrigger(popupState)}
       >

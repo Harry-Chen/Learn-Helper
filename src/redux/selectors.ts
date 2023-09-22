@@ -81,6 +81,6 @@ export const selectCardListTitle = memoize((state: RootState): MessageDescriptor
       return [UI_NAME_SUMMARY[state.ui.cardFilter.type ?? 'summary']];
     }
   } else {
-    return [msg`加载中`];
+    return [msg`加载中...`];
   }
 });

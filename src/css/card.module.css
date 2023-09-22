@@ -51,6 +51,7 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  line-height: 1.2em;
 }
 
 .card_course {
@@ -60,6 +61,7 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  line-height: 1.2em;
 }
 
 .card_action_line {

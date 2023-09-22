@@ -20,6 +20,8 @@ const IframeWrapper = ({ id, className, url }: IframeWrapperProps) => {
           'allow-popups',
           'allow-scripts',
           'allow-same-origin',
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          'allow-downloads' as any,
         ]}
       ></Iframe>
     </Fragment>
