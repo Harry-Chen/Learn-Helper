@@ -29,7 +29,9 @@ export function getManifest(isFirefox = false): Manifest.WebExtensionManifest {
       '48': 'icons/48.png',
       '128': 'icons/128.png',
     },
-    permissions: ['storage', 'downloads', 'declarativeNetRequest'],
+    permissions: isFirefox
+      ? ['storage', 'downloads']
+      : ['storage', 'downloads', 'declarativeNetRequest'],
     ...(isFirefox && {
       browser_specific_settings: {
         gecko: {
