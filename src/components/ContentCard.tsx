@@ -27,7 +27,6 @@ import IconDownload from '~icons/fa6-solid/download';
 import IconPaperclip from '~icons/fa6-solid/paperclip';
 
 import styles from '../css/card.module.css';
-import type { CardProps } from '../types/ui';
 import { COURSE_MAIN_FUNC } from '../constants/ui';
 import {
   toggleReadState,
@@ -36,13 +35,20 @@ import {
   setDetailContent,
   setDetailUrl,
 } from '../redux/actions';
-import { useAppDispatch } from '../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { formatDate, formatHomeworkGradeLevel } from '../utils/format';
 import { initiateFileDownload } from '../utils/download';
 
-const ContentCard = ({ content }: CardProps) => {
+interface ContentCardProps {
+  type: ContentType;
+  id: string;
+}
+
+const ContentCard = ({ type, id }: ContentCardProps) => {
   const { _ } = useLingui();
   const dispatch = useAppDispatch();
+
+  const content = useAppSelector((state) => state.data[`${type}Map`][id]);
 
   const onTitleClick = () => {
     switch (content.type) {
