@@ -131,7 +131,6 @@ msgid "标记为未读"
 msgstr "Mark as unread"
 
 #: src/components/ContentCard.tsx:174
-#: src/constants/ui.tsx:156
 msgid "标记为已读"
 msgstr "Mark as read"
 
@@ -539,6 +538,10 @@ msgstr "Discussion"
 #: src/constants/ui.tsx:76
 msgid "答疑"
 msgstr "Q&A"
+
+#: src/constants/ui.tsx:156
+msgid "全部标记已读"
+msgstr "Mark all as read"
 
 #: src/constants/ui.tsx:163
 msgid "手动刷新"
