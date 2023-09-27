@@ -79,9 +79,9 @@ yarn serve:chrome
 
 Due to technical restrictions, dev mode works only for chrome.
 
-### Auto login in development
+### Auto login
 
-Copy `.env.development` to `.env.development.local` and fill in your username & password to login automatically on start.
+Copy `.env.development` to `.env.development.local` and fill in your username & password to login automatically on start. (development mode only)
 
 ## Revision History
 
