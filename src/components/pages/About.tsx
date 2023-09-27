@@ -11,7 +11,7 @@ import AboutZH from './zh/About.md';
 import AboutEN from './en/About.md';
 
 const About = () => {
-  const { i18n } = useLingui()
+  const { i18n } = useLingui();
   const dispatch = useAppDispatch();
 
   return (
