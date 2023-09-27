@@ -77,81 +77,81 @@ msgstr "这里什么也没有"
 msgid "加载更多"
 msgstr "加载更多"
 
-#: src/components/ContentCard.tsx:123
+#: src/components/ContentCard.tsx:129
 msgid "已提交"
 msgstr "已提交"
 
-#: src/components/ContentCard.tsx:123
+#: src/components/ContentCard.tsx:129
 msgid "未提交"
 msgstr "未提交"
 
-#: src/components/ContentCard.tsx:129
+#: src/components/ContentCard.tsx:135
 msgid "{0}分"
 msgstr "{0}分"
 
-#: src/components/ContentCard.tsx:130
+#: src/components/ContentCard.tsx:136
 #: src/components/ContentDetail.tsx:146
 msgid "无评分"
 msgstr "无评分"
 
-#: src/components/ContentCard.tsx:130
+#: src/components/ContentCard.tsx:136
 msgid "（{0}）"
 msgstr "（{0}）"
 
-#: src/components/ContentCard.tsx:131
+#: src/components/ContentCard.tsx:137
 msgid "未批阅"
 msgstr "未批阅"
 
-#: src/components/ContentCard.tsx:133
+#: src/components/ContentCard.tsx:139
 msgid "重要"
 msgstr "重要"
 
-#: src/components/ContentCard.tsx:135
+#: src/components/ContentCard.tsx:141
 msgid "发布者:{0}"
 msgstr "发布者:{0}"
 
-#: src/components/ContentCard.tsx:141
+#: src/components/ContentCard.tsx:147
 msgid "回复:{0}"
 msgstr "回复:{0}"
 
-#: src/components/ContentCard.tsx:142
+#: src/components/ContentCard.tsx:148
 msgid "最后回复:{0}"
 msgstr "最后回复:{0}"
 
-#: src/components/ContentCard.tsx:149
+#: src/components/ContentCard.tsx:155
 msgid "取消星标"
 msgstr "取消星标"
 
-#: src/components/ContentCard.tsx:149
+#: src/components/ContentCard.tsx:155
 msgid "加星标"
 msgstr "加星标"
 
-#: src/components/ContentCard.tsx:168
+#: src/components/ContentCard.tsx:174
 msgid "标记为未读"
 msgstr "标记为未读"
 
-#: src/components/ContentCard.tsx:168
+#: src/components/ContentCard.tsx:174
 #: src/constants/ui.tsx:156
 msgid "标记为已读"
 msgstr "标记为已读"
 
-#: src/components/ContentCard.tsx:185
+#: src/components/ContentCard.tsx:191
 msgid "取消忽略此项"
 msgstr "取消忽略此项"
 
-#: src/components/ContentCard.tsx:185
+#: src/components/ContentCard.tsx:191
 msgid "忽略此项"
 msgstr "忽略此项"
 
-#: src/components/ContentCard.tsx:207
+#: src/components/ContentCard.tsx:213
 msgid "提交作业"
 msgstr "提交作业"
 
-#: src/components/ContentCard.tsx:224
+#: src/components/ContentCard.tsx:230
 msgid "下载文件"
 msgstr "下载文件"
 
-#: src/components/ContentCard.tsx:240
+#: src/components/ContentCard.tsx:246
 msgid "附件：{0}"
 msgstr "附件：{0}"
 

@@ -77,81 +77,81 @@ msgstr "Nothing here"
 msgid "加载更多"
 msgstr "Load more"
 
-#: src/components/ContentCard.tsx:123
+#: src/components/ContentCard.tsx:129
 msgid "已提交"
 msgstr "Submitted"
 
-#: src/components/ContentCard.tsx:123
+#: src/components/ContentCard.tsx:129
 msgid "未提交"
 msgstr "Unsubmitted"
 
-#: src/components/ContentCard.tsx:129
+#: src/components/ContentCard.tsx:135
 msgid "{0}分"
 msgstr "{0}"
 
-#: src/components/ContentCard.tsx:130
+#: src/components/ContentCard.tsx:136
 #: src/components/ContentDetail.tsx:146
 msgid "无评分"
 msgstr "No grade"
 
-#: src/components/ContentCard.tsx:130
+#: src/components/ContentCard.tsx:136
 msgid "（{0}）"
 msgstr "({0})"
 
-#: src/components/ContentCard.tsx:131
+#: src/components/ContentCard.tsx:137
 msgid "未批阅"
 msgstr "Not graded"
 
-#: src/components/ContentCard.tsx:133
+#: src/components/ContentCard.tsx:139
 msgid "重要"
 msgstr "Important"
 
-#: src/components/ContentCard.tsx:135
+#: src/components/ContentCard.tsx:141
 msgid "发布者:{0}"
 msgstr "Publisher:{0}"
 
-#: src/components/ContentCard.tsx:141
+#: src/components/ContentCard.tsx:147
 msgid "回复:{0}"
 msgstr "Replies:{0}"
 
-#: src/components/ContentCard.tsx:142
+#: src/components/ContentCard.tsx:148
 msgid "最后回复:{0}"
 msgstr "Latest replier:{0}"
 
-#: src/components/ContentCard.tsx:149
+#: src/components/ContentCard.tsx:155
 msgid "取消星标"
 msgstr "Unstar"
 
-#: src/components/ContentCard.tsx:149
+#: src/components/ContentCard.tsx:155
 msgid "加星标"
 msgstr "Star"
 
-#: src/components/ContentCard.tsx:168
+#: src/components/ContentCard.tsx:174
 msgid "标记为未读"
 msgstr "Mark as unread"
 
-#: src/components/ContentCard.tsx:168
+#: src/components/ContentCard.tsx:174
 #: src/constants/ui.tsx:156
 msgid "标记为已读"
 msgstr "Mark as read"
 
-#: src/components/ContentCard.tsx:185
+#: src/components/ContentCard.tsx:191
 msgid "取消忽略此项"
 msgstr "Unignore"
 
-#: src/components/ContentCard.tsx:185
+#: src/components/ContentCard.tsx:191
 msgid "忽略此项"
 msgstr "Ignore"
 
-#: src/components/ContentCard.tsx:207
+#: src/components/ContentCard.tsx:213
 msgid "提交作业"
 msgstr "Submit homework"
 
-#: src/components/ContentCard.tsx:224
+#: src/components/ContentCard.tsx:230
 msgid "下载文件"
 msgstr "Download file"
 
-#: src/components/ContentCard.tsx:240
+#: src/components/ContentCard.tsx:246
 msgid "附件：{0}"
 msgstr "Attachment: {0}"
 
