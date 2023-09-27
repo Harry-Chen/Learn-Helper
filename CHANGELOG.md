@@ -1,5 +1,15 @@
 # Changelog
 
+## 4.6.1
+
+- Change i18n backend to [Lingui](https://lingui.dev/) and support language switching ([#134](https://github.com/Harry-Chen/Learn-Helper/issues/134))
+- FIX csrf injection ([#135](https://github.com/Harry-Chen/Learn-Helper/issues/135))
+- Try to FIX PKU course compatibility ([#139](https://github.com/Harry-Chen/Learn-Helper/issues/139))
+- FIX open in new window ([#140](https://github.com/Harry-Chen/Learn-Helper/issues/140))
+- FIX card list scroll height reset after open item ([AsakuraMizu/Learn-Helper#2](https://github.com/AsakuraMizu/Learn-Helper/issues/2))
+- FIX card filter not reset after switching semester ([AsakuraMizu/Learn-Helper#3](https://github.com/AsakuraMizu/Learn-Helper/issues/3))
+- Remove fontawesome and use [unplugin-icons](https://github.com/unplugin/unplugin-icons) to render icons, reduce package size
+
 ## v4.6.0
 
 (Contributed by @AsakuraMizu as part of OSPP'2023 project)

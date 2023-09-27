@@ -111,7 +111,6 @@ function update(state: DataState, contentType: ContentType, fetchedData: CourseC
         courseId: cid,
         ignored: oldContent?.ignored ?? false,
         type: contentType,
-        courseName: state.courseMap[cid].name,
         date: newDate,
         hasRead: !updated && (oldContent?.hasRead ?? false),
         starred: oldContent?.starred ?? false,

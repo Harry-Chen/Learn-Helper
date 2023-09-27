@@ -9,7 +9,7 @@ interface CardEntry {
   id: string;
 }
 interface CardFilter {
-  type?: ContentType | null;
+  type?: ContentType | 'ignored';
   courseId?: string;
 }
 
@@ -42,7 +42,6 @@ export interface UiState {
   showLogoutDialog: boolean;
   showClearDataDialog: boolean;
   cardVisibilityThreshold: number;
-  cardListTitle: string;
   cardList: CardEntry[];
   cardFilter: CardFilter;
   detailPane: DetailPane;
@@ -61,7 +60,6 @@ const initialState: UiState = {
   showClearDataDialog: false,
   showChangeSemesterDialog: false,
   cardVisibilityThreshold: CARD_BATCH_LOAD_SIZE,
-  cardListTitle: '主页',
   cardList: [],
   cardFilter: {},
   detailPane: { type: 'page', page: 'welcome' },
@@ -111,9 +109,6 @@ export const uiSlice = createSlice({
     },
     loadMoreCard: (state) => {
       state.cardVisibilityThreshold += CARD_BATCH_LOAD_SIZE;
-    },
-    setCardListTitle: (state, action: PayloadAction<string>) => {
-      state.cardListTitle = action.payload;
     },
     setCardList: (state, action: PayloadAction<CardEntry[]>) => {
       state.cardList = action.payload;

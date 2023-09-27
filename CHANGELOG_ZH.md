@@ -1,5 +1,15 @@
 # 更新记录
 
+## 4.6.1
+
+- [FIX] 更换 i18n 后端，支持切换语言 ([#134](https://github.com/Harry-Chen/Learn-Helper/issues/134))
+- [FIX] csrf 注入失败导致无法提交作业等问题 ([#135](https://github.com/Harry-Chen/Learn-Helper/issues/135))
+- [FIX] 尝试修复北大课程兼容 ([#139](https://github.com/Harry-Chen/Learn-Helper/issues/139))
+- [FIX] 无法正确在新窗口打开 ([#140](https://github.com/Harry-Chen/Learn-Helper/issues/140))
+- [FIX] 打开项目后滚动重置 ([AsakuraMizu/Learn-Helper#2](https://github.com/AsakuraMizu/Learn-Helper/issues/2))
+- [FIX] 切换学期后过滤未重置 ([AsakuraMizu/Learn-Helper#3](https://github.com/AsakuraMizu/Learn-Helper/issues/3))
+- [FIX] 移除 fontawesome，使用 [unplugin-icons](https://github.com/unplugin/unplugin-icons) 渲染图标，减小包体积
+
 ## 4.6.0
 
 （由 @AsakuraMizu 作为 2023 年 OSPP 项目贡献）

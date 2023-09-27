@@ -23,21 +23,15 @@ export function getManifest(isFirefox = false): Manifest.WebExtensionManifest {
       : {
           service_worker: 'src/background.ts',
         },
-    content_scripts: [
-      {
-        js: ['src/injectCsrfToken.ts'],
-        matches: ['*://learn.tsinghua.edu.cn/*'],
-        all_frames: true,
-        run_at: 'document_start',
-      },
-    ],
     host_permissions: ['*://learn.tsinghua.edu.cn/*', '*://id.tsinghua.edu.cn/*'],
     icons: {
       '16': 'icons/16.png',
       '48': 'icons/48.png',
       '128': 'icons/128.png',
     },
-    permissions: ['storage', 'downloads'],
+    permissions: isFirefox
+      ? ['storage', 'downloads']
+      : ['storage', 'downloads', 'declarativeNetRequest'],
     ...(isFirefox && {
       browser_specific_settings: {
         gecko: {

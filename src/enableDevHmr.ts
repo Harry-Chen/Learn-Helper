@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import RefreshRuntime from "/@react-refresh";
+import RefreshRuntime from '/@react-refresh';
 
 if (import.meta.hot) {
   RefreshRuntime.injectIntoGlobalHook(window);

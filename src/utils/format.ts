@@ -1,9 +1,16 @@
-import { type SemesterInfo, SemesterType, FailReason } from 'thu-learn-lib';
-import { t } from './i18n';
+import { msg, t } from '@lingui/macro';
+import { i18n, type MessageDescriptor } from '@lingui/core';
+import { type SemesterInfo, SemesterType, FailReason, HomeworkGradeLevel } from 'thu-learn-lib';
+
+export const semesterName = {
+  [SemesterType.FALL]: msg`秋季学期`,
+  [SemesterType.SPRING]: msg`春季学期`,
+  [SemesterType.SUMMER]: msg`夏季学期`,
+};
 
 export function formatSemester(semester: SemesterInfo): string {
   if (semester.type !== SemesterType.UNKNOWN) {
-    return `${semester.startYear}-${semester.endYear}-${t(`SemesterType_${semester.type}`)}`;
+    return `${semester.startYear}-${semester.endYear}-${i18n._(semesterName[semester.type])}`;
   }
   return SemesterType.UNKNOWN;
 }
@@ -56,40 +63,50 @@ function toTimeString(date: Date): string {
 
 export function formatDate(date?: Date): string {
   if (date === undefined) {
-    return t('Common_None');
+    return t`无`;
   }
   return `${toDateString(date, false)}`;
 }
 
 export function formatDateTime(date?: Date): string {
   if (date === undefined) {
-    return t('Common_None');
+    return t`无`;
   }
   return `${toDateString(date, true)} ${toTimeString(date)}`;
 }
 
 const FAIL_REASON_MAPPING = {
-  [FailReason.BAD_CREDENTIAL]: t('FailReason_BadCredential'),
-  [FailReason.ERROR_FETCH_FROM_ID]: t('FailReason_ErrorFetchFromID'),
-  [FailReason.ERROR_ROAMING]: t('FailReason_ErrorRoaming'),
-  [FailReason.NOT_IMPLEMENTED]: t('FailReason_NotImplemented'),
-  [FailReason.NOT_LOGGED_IN]: t('FailReason_NotLoggedIn'),
-  [FailReason.NO_CREDENTIAL]: t('FailReason_NoCredential'),
-  [FailReason.UNEXPECTED_STATUS]: t('FailReason_UnexpectedStatus'),
-  TIMEOUT: t('FailReason_Timeout'),
-  UNKNOWN: t('FailReason_Unknown'),
+  [FailReason.BAD_CREDENTIAL]: msg`用户名或密码错误`,
+  [FailReason.ERROR_FETCH_FROM_ID]: msg`无法从 id.tsinghua.edu.cn 获取票据`,
+  [FailReason.ERROR_ROAMING]: msg`无法使用票据漫游至 learn.tsinghua.edu.cn`,
+  [FailReason.NOT_IMPLEMENTED]: msg`功能尚未实现`,
+  [FailReason.NOT_LOGGED_IN]: msg`尚未登录`,
+  [FailReason.NO_CREDENTIAL]: msg`未提供用户名或密码`,
+  [FailReason.UNEXPECTED_STATUS]: msg`非预期的 HTTP 响应状态`,
+  TIMEOUT: msg`请求超时`,
+  UNKNOWN: msg`未知错误`,
 };
 
 export function failReasonToString(reason: FailReason): string {
-  return FAIL_REASON_MAPPING[reason] ?? FAIL_REASON_MAPPING.UNKNOWN;
+  return i18n._(FAIL_REASON_MAPPING[reason] ?? FAIL_REASON_MAPPING.UNKNOWN);
 }
 
-export const addCSRFTokenToIframeUrl = (csrfToken: string, url): string => {
-  const param = `__LEARN_HELPER_CSRF_TOKEN_PARAM__=${csrfToken}`;
-  if (url.includes('?')) {
-    url += `&${param}`;
-  } else {
-    url += `?${param}`;
-  }
-  return url;
+const HomeworkGradeLevelNames = {
+  [HomeworkGradeLevel.CHECKED]: msg`已阅`,
+  [HomeworkGradeLevel.DISTINCTION]: msg`优秀`,
+  [HomeworkGradeLevel.EXEMPTED_COURSE]: msg`免课`,
+  [HomeworkGradeLevel.EXEMPTION]: msg`免修`,
+  [HomeworkGradeLevel.PASS]: msg`通过`,
+  [HomeworkGradeLevel.FAILURE]: msg`不通过`,
+  [HomeworkGradeLevel.INCOMPLETE]: msg`缓考`,
 };
+
+export function formatHomeworkGradeLevel(gradeLevel: HomeworkGradeLevel): MessageDescriptor;
+export function formatHomeworkGradeLevel(gradeLevel: undefined): undefined;
+export function formatHomeworkGradeLevel(
+  gradeLevel?: HomeworkGradeLevel,
+): MessageDescriptor | undefined {
+  if (gradeLevel) {
+    return HomeworkGradeLevelNames[gradeLevel] ?? gradeLevel;
+  }
+}
