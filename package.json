@@ -28,7 +28,7 @@
     "@samrum/vite-plugin-web-extension": "^5.0.0",
     "@svgr/core": "^8.1.0",
     "@svgr/plugin-jsx": "^8.1.0",
-    "@types/node": "^18.11.11",
+    "@types/node": "^20.7.0",
     "@types/randomstring": "^1.1.8",
     "@types/react": "^18.2.23",
     "@types/react-dom": "^18.2.7",

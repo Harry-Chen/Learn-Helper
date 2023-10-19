@@ -153,7 +153,7 @@ export const SETTINGS_FUNC_LIST = [
   },
   {
     icon: <IconEnvelopeOpen />,
-    name: msg`标记为已读`,
+    name: msg`全部标记已读`,
     handler: (dispatch: AppDispatch) => {
       dispatch(markAllRead());
     },
