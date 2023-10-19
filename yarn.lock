@@ -6778,10 +6778,10 @@ through@2, through@^2.3.6:
   resolved "https://registry.yarnpkg.com/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5"
   integrity sha512-w89qg7PI8wAdvX60bMDP+bFoD5Dvhm9oLheFp5O4a2QF0cSBGsBX4qZmadPMvVqlLJBBci+WqGGOAPvcDeNSVg==
 
-thu-learn-lib@^3.1.2:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/thu-learn-lib/-/thu-learn-lib-3.1.2.tgz#f96dd2fe62572568478b57c16aa431ff3925022f"
-  integrity sha512-qNLYWxWhcLe9dlGEolpr/lHo/p4kAXAwqlohLZHIPZLhkHQxBek4akChKlrZJT0TwnTK0rYXujq9kJKzSOyW1A==
+thu-learn-lib@^3.1.3:
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/thu-learn-lib/-/thu-learn-lib-3.1.3.tgz#d019cf21c0014962b59572fd1e97330e20580362"
+  integrity sha512-zwmr3U+SKkPF41OzUSek3Q4QrAhhxUKIKeBiqssZSAEdH3KEz8l+J8oBbbc9dhr8j2zEkPu4urw4QP6I1/8+tA==
   dependencies:
     cheerio "1.0.0-rc.12"
     entities "^4.5.0"
