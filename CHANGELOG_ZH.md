@@ -1,5 +1,10 @@
 # 更新记录
 
+## 4.6.2
+
+- [FIX] 修复课程时间地点为空时无法获取课程信息 ([#145](https://github.com/Harry-Chen/Learn-Helper/issues/145))
+- [FIX] 只在插件页面注入 csrf 以免影响网络学堂正常使用
+
 ## 4.6.1
 
 - [FIX] 更换 i18n 后端，支持切换语言 ([#134](https://github.com/Harry-Chen/Learn-Helper/issues/134))
