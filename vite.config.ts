@@ -70,7 +70,7 @@ export default defineConfig({
       zipPack({
         outFileName: `learn-helper-${helperVersion}-${gitBranch}-${gitVersion}-${
           isFirefox ? 'firefox' : 'chrome'
-        }.zip`,
+        }.zip`.replaceAll('/', '-'),
       }),
   ],
   resolve: {
