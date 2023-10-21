@@ -4,6 +4,7 @@
 
 - [FIX] 修复课程时间地点为空时无法获取课程信息 ([#145](https://github.com/Harry-Chen/Learn-Helper/issues/145))
 - [FIX] 只在插件页面注入 csrf 以免影响网络学堂正常使用
+- [ADD] 作业列表优先显示未完成作业 ([#148](https://github.com/Harry-Chen/Learn-Helper/issues/148))
 
 ## 4.6.1
 
