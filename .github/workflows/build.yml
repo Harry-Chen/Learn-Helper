@@ -7,16 +7,16 @@ jobs:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, 'ci skip')"
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: 'lts/*'
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Build Chrome version
         run: yarn build:chrome
       - name: Upload Chrome version
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: chrome
           path: |
@@ -25,14 +25,14 @@ jobs:
       - name: Build Firefox version
         run: yarn build:firefox
       - name: Upload Firefox version
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: firefox
           path: |
             dist/
             stats.html
       - name: Upload Zip version
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: zip-files
           path: |
