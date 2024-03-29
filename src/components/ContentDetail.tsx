@@ -205,10 +205,10 @@ const ContentDetail = ({ content }: ContentDetailProps) => {
     (content.type === ContentType.HOMEWORK
       ? content.description
       : content.type === ContentType.FILE
-      ? content.description
-      : content.type === ContentType.NOTIFICATION
-      ? content.content
-      : undefined
+        ? content.description
+        : content.type === ContentType.NOTIFICATION
+          ? content.content
+          : undefined
     )?.trim() || t`详情为空`;
 
   const fileToPreview: RemoteFile | undefined =

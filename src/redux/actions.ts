@@ -328,8 +328,8 @@ export const refreshCardList = (): AppThunk<void> => (dispatch, getState) => {
           type === 'ignored'
             ? c.ignored
             : courseId
-            ? c.courseId === courseId
-            : !contentIgnore[c.courseId]?.[c.type] && !c.ignored,
+              ? c.courseId === courseId
+              : !contentIgnore[c.courseId]?.[c.type] && !c.ignored,
         )
         .sort((a, b) => {
           const aNotDue =

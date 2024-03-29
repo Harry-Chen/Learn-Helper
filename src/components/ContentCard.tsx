@@ -91,8 +91,8 @@ const ContentCard = ({ type, id }: ContentCardProps) => {
                       ? diffDays > 99
                         ? '99+'
                         : diffDays < 0
-                        ? _(COURSE_MAIN_FUNC[content.type].name)
-                        : diffDays.toString()
+                          ? _(COURSE_MAIN_FUNC[content.type].name)
+                          : diffDays.toString()
                       : _(COURSE_MAIN_FUNC[content.type].name)}
                   </div>
                 }
@@ -103,14 +103,14 @@ const ContentCard = ({ type, id }: ContentCardProps) => {
                           diffDays < 0
                             ? 'due'
                             : content.submitted
-                            ? 'submitted'
-                            : diffDays >= 10
-                            ? 'far'
-                            : diffDays >= 5
-                            ? 'near'
-                            : diffDays >= 3
-                            ? 'close'
-                            : 'urgent'
+                              ? 'submitted'
+                              : diffDays >= 10
+                                ? 'far'
+                                : diffDays >= 5
+                                  ? 'near'
+                                  : diffDays >= 3
+                                    ? 'close'
+                                    : 'urgent'
                         }`
                       : `chip_${content.type}`
                   ],
@@ -136,17 +136,21 @@ const ContentCard = ({ type, id }: ContentCardProps) => {
                         : t`无评分`) + t`（${content.graderName ?? ''}）`
                     : t`未批阅`)
                 : content.type === ContentType.NOTIFICATION || content.type === ContentType.FILE
-                ? (content.markedImportant ? ' · ' + t`重要` : '') +
-                  (content.type === ContentType.NOTIFICATION
-                    ? ' · ' + t`发布者:${content.publisher}`
-                    : ' · ' +
-                      content.size +
-                      (content.description.trim() !== '' ? ' · ' + content.description.trim() : ''))
-                : content.type === ContentType.DISCUSSION || content.type === ContentType.QUESTION
-                ? ' · ' +
-                  t`回复:${content.replyCount}` +
-                  (content.replyCount !== 0 ? ' · ' + t`最后回复:${content.lastReplierName}` : '')
-                : null}
+                  ? (content.markedImportant ? ' · ' + t`重要` : '') +
+                    (content.type === ContentType.NOTIFICATION
+                      ? ' · ' + t`发布者:${content.publisher}`
+                      : ' · ' +
+                        content.size +
+                        (content.description.trim() !== ''
+                          ? ' · ' + content.description.trim()
+                          : ''))
+                  : content.type === ContentType.DISCUSSION || content.type === ContentType.QUESTION
+                    ? ' · ' +
+                      t`回复:${content.replyCount}` +
+                      (content.replyCount !== 0
+                        ? ' · ' + t`最后回复:${content.lastReplierName}`
+                        : '')
+                    : null}
             </span>
             <span className={styles.card_course}>{_({ id: `course-${content.courseId}` })}</span>
           </div>
