@@ -338,7 +338,7 @@ export const refreshCardList = (): AppThunk<void> => (dispatch, getState) => {
             b.type === ContentType.HOMEWORK && b.date.getTime() > new Date().getTime();
           return (
             compareBoolean(a.starred, b.starred) ||
-            compareBoolean(!a.hasRead, !b.hasRead) ||
+            (type === "homework" ? 0 : compareBoolean(!a.hasRead, !b.hasRead)) ||
             compareBoolean(aNotDue, bNotDue) ||
             compareBoolean(aNotDue && !a.submitted, bNotDue && !b.submitted) ||
             (a.date.getTime() - b.date.getTime()) * (aNotDue && bNotDue ? 1 : -1)
