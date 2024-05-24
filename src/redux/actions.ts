@@ -328,8 +328,8 @@ export const refreshCardList = (): AppThunk<void> => (dispatch, getState) => {
           type === 'ignored'
             ? c.ignored
             : courseId
-            ? c.courseId === courseId
-            : !contentIgnore[c.courseId]?.[c.type] && !c.ignored,
+              ? c.courseId === courseId
+              : !contentIgnore[c.courseId]?.[c.type] && !c.ignored,
         )
         .sort((a, b) => {
           const aNotDue =
@@ -340,6 +340,7 @@ export const refreshCardList = (): AppThunk<void> => (dispatch, getState) => {
             compareBoolean(a.starred, b.starred) ||
             compareBoolean(!a.hasRead, !b.hasRead) ||
             compareBoolean(aNotDue, bNotDue) ||
+            compareBoolean(aNotDue && !a.submitted, bNotDue && !b.submitted) ||
             (a.date.getTime() - b.date.getTime()) * (aNotDue && bNotDue ? 1 : -1)
           );
         })

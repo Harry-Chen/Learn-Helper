@@ -87,7 +87,7 @@ const CardList = () => {
         }
       >
         {filtered.map((c) => (
-          <ContentCard key={c.id} content={c} />
+          <ContentCard key={`${c.type}-${c.id}`} type={c.type} id={c.id} />
         ))}
 
         {filtered.length === 0 && (

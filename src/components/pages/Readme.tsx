@@ -11,7 +11,7 @@ import ReadmeZH from './zh/Readme.mdx';
 import ReadmeEN from './en/Readme.mdx';
 
 const Readme = () => {
-  const { i18n } = useLingui()
+  const { i18n } = useLingui();
   const dispatch = useAppDispatch();
 
   return (

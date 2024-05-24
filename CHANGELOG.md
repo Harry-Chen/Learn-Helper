@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.6.2
+
+- FIX empty course time and location ([#145](https://github.com/Harry-Chen/Learn-Helper/issues/145))
+- FIX only inject csrf token in extension tab
+- ADD sort homework by submission status ([#148](https://github.com/Harry-Chen/Learn-Helper/issues/148))
+
 ## 4.6.1
 
 - Change i18n backend to [Lingui](https://lingui.dev/) and support language switching ([#134](https://github.com/Harry-Chen/Learn-Helper/issues/134))

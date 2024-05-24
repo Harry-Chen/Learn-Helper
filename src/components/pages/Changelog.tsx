@@ -11,7 +11,7 @@ import ChangelogZH from '../../../CHANGELOG_ZH.md';
 import ChangelogEN from '../../../CHANGELOG.md';
 
 const Changelog = () => {
-  const { i18n } = useLingui()
+  const { i18n } = useLingui();
   const dispatch = useAppDispatch();
 
   return (

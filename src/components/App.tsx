@@ -356,7 +356,9 @@ const App = () => {
     return () => window.clearInterval(handle);
   }, []);
 
-  useEffect(() => interceptCsrfRequest(csrf), [csrf]);
+  useEffect(() => {
+    interceptCsrfRequest(csrf);
+  }, [csrf]);
 
   return (
     <ErrorBoundary
