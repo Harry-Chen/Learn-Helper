@@ -109,12 +109,6 @@ export default defineConfig({
           'thu-learn-lib-vendor': ['thu-learn-lib'],
         },
       },
-      onwarn(warning, defaultHandler) {
-        if (warning.code === 'MODULE_LEVEL_DIRECTIVE' && warning.message.includes('use client')) {
-          return;
-        }
-        defaultHandler(warning);
-      },
     },
   },
 });
