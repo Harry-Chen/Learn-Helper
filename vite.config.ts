@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import icons from 'unplugin-icons/vite';
 import react from '@vitejs/plugin-react-swc';
+import preserveDirectives from 'rollup-preserve-directives';
 import { lingui } from '@lingui/vite-plugin';
 import webExtension from '@samrum/vite-plugin-web-extension';
 import { visualizer } from 'rollup-plugin-visualizer';
@@ -58,6 +59,7 @@ export default defineConfig({
     },
     icons({ compiler: 'jsx', jsx: 'react' }),
     react({ plugins: [['@lingui/swc-plugin', {}]] }),
+    preserveDirectives(),
     lingui(),
     webExtension({
       manifest: getManifest(isFirefox) as chrome.runtime.ManifestV3,
@@ -113,6 +115,12 @@ export default defineConfig({
           ],
           'thu-learn-lib-vendor': ['thu-learn-lib'],
         },
+      },
+      onwarn(warning, defaultHandler) {
+        if (warning.code === 'MODULE_LEVEL_DIRECTIVE' && warning.message.includes('use client')) {
+          return;
+        }
+        defaultHandler(warning);
       },
     },
   },

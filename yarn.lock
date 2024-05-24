@@ -6573,6 +6573,13 @@ rollup-plugin-visualizer@^5.12.0:
     source-map "^0.7.4"
     yargs "^17.5.1"
 
+rollup-preserve-directives@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/rollup-preserve-directives/-/rollup-preserve-directives-1.1.1.tgz#40d58b412ff791278ef06e0fa0944cbca3d6bd6d"
+  integrity sha512-+eQafbuEfDPfxQ9hQPlwaROfin4yiVRxap8hnrvvvcSGoukv1tTiYpAW9mvm3uR8J+fe4xd8FdVd5rz9q7jZ+Q==
+  dependencies:
+    magic-string "^0.30.5"
+
 rollup@^4.13.0:
   version "4.13.2"
   resolved "https://registry.yarnpkg.com/rollup/-/rollup-4.13.2.tgz#ac57d2dc48e8f5562f5a6daadb9caee590069262"
