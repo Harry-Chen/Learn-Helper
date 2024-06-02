@@ -51,7 +51,7 @@
     "unplugin-icons": "^0.18.5",
     "vite": "^5.2.6",
     "vite-plugin-zip-pack": "^1.2.2",
-    "web-ext": "^7.11.0"
+    "web-ext": "^8.0.0"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -78,7 +78,6 @@
     "webextension-polyfill": "^0.10.0"
   },
   "resolutions": {
-    "web-ext/sign-addon": "6.4.0",
-    "web-ext/jose": "5.2.3"
+    "mlly": "1.7.0"
   }
 }
