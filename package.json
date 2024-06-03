@@ -49,7 +49,7 @@
     "terser": "^5.30.0",
     "typescript": "^5.4.3",
     "unplugin-icons": "^0.18.5",
-    "vite": "^5.2.6",
+    "vite": "^4.5.3",
     "vite-plugin-zip-pack": "^1.2.2",
     "web-ext": "^8.0.0"
   },
