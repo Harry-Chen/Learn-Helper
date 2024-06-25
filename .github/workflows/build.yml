@@ -5,7 +5,7 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, 'ci skip')"
+    if: ${{ !contains(github.event.head_commit.message, 'ci skip') }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -14,26 +14,26 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Build Chrome version
-        run: yarn build:chrome
+        run: yarn zip:chrome
       - name: Upload Chrome version
         uses: actions/upload-artifact@v4
         with:
           name: chrome
           path: |
-            dist/
+            .output/chrome-mv3/
             stats.html
       - name: Build Firefox version
-        run: yarn build:firefox
+        run: yarn zip:firefox
       - name: Upload Firefox version
         uses: actions/upload-artifact@v4
         with:
           name: firefox
           path: |
-            dist/
+            .output/firefox-mv3/
             stats.html
-      - name: Upload Zip version
+      - name: Upload Zip files
         uses: actions/upload-artifact@v4
         with:
           name: zip-files
           path: |
-            dist-zip/
+            .output/*.zip
