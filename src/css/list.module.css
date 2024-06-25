@@ -116,7 +116,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: black;
   opacity: 0.38;
   transition: opacity 0.2s ease;
   margin-top: 20px;
