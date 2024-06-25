@@ -1,5 +1,4 @@
 /// <reference types="vite/client" />
-/// <reference types="@samrum/vite-plugin-web-extension/client" />
 /// <reference types="unplugin-icons/types/react" />
 
 declare const __HELPER_VERSION__: string;

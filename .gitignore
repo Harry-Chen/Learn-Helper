@@ -1,10 +1,29 @@
-.idea
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
 node_modules
-legacy
-*.css.d.ts
-yarn-error.log
-dist
+.output
 dist-zip
 stats.html
-.swc
+stats-*.json
+.wxt
+web-ext.config.ts
 *.local
+.swc
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
