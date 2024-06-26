@@ -20,7 +20,7 @@ jobs:
         with:
           name: chrome
           path: |
-            .output/chrome-mv3/
+            dist/chrome-mv3/
             stats.html
       - name: Build Firefox version
         run: yarn zip:firefox
@@ -29,11 +29,11 @@ jobs:
         with:
           name: firefox
           path: |
-            .output/firefox-mv3/
+            dist/firefox-mv3/
             stats.html
       - name: Upload Zip files
         uses: actions/upload-artifact@v4
         with:
           name: zip-files
           path: |
-            .output/*.zip
+            dist/*.zip
