@@ -6,6 +6,7 @@ import { lingui } from '@lingui/vite-plugin';
 import mdx from '@mdx-js/rollup';
 import remarkMdxImages from 'remark-mdx-images';
 import remarkUnwrapImages from 'remark-unwrap-images';
+import { chunkSplitPlugin } from 'vite-plugin-chunk-split';
 import Randomstring from 'randomstring';
 import { execSync } from 'node:child_process';
 import path from 'node:path';
@@ -57,11 +58,17 @@ export default defineConfig({
       react({ plugins: [['@lingui/swc-plugin', {}]] }),
       preserveDirectives(),
       lingui(),
+      chunkSplitPlugin({
+        customSplitting: {
+          'thu-learn-lib-vendor': [/thu-learn-lib/],
+          'ui-vendor': [/@mui/, /@emotion/],
+          'react-vendor': [/react/],
+        },
+      }),
     ],
     resolve: {
       alias: {
         '~': path.resolve(__dirname, 'src'),
-        // '/@react-refresh': path.resolve('node_modules/@vitejs/plugin-react-swc/refresh-runtime.js'),
         parse5: path.resolve(__dirname, 'node_modules/fake-parse5/'),
         'parse5-htmlparser2-tree-adapter': path.resolve(__dirname, 'node_modules/fake-parse5/'),
       },
@@ -75,30 +82,6 @@ export default defineConfig({
           format: {
             comments: false,
             ecma: 2018,
-          },
-        },
-        rollupOptions: {
-          output: {
-            manualChunks: {
-              'react-vendor': [
-                'react',
-                'react-dom',
-                'react-iframe',
-                'react-is',
-                'react-transition-group',
-                '@reduxjs/toolkit',
-                'redux-logger',
-                'react-redux',
-              ],
-              'ui-vendor': [
-                '@mui/material',
-                '@emotion/react',
-                '@emotion/styled',
-                'notistack',
-                'classnames',
-              ],
-              'thu-learn-lib-vendor': ['thu-learn-lib'],
-            },
           },
         },
       }),

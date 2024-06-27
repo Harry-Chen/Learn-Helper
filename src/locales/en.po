@@ -110,47 +110,47 @@ msgstr "Important"
 msgid "发布者:{0}"
 msgstr "Publisher:{0}"
 
-#: src/components/ContentCard.tsx:147
+#: src/components/ContentCard.tsx:149
 msgid "回复:{0}"
 msgstr "Replies:{0}"
 
-#: src/components/ContentCard.tsx:148
+#: src/components/ContentCard.tsx:151
 msgid "最后回复:{0}"
 msgstr "Latest replier:{0}"
 
-#: src/components/ContentCard.tsx:155
+#: src/components/ContentCard.tsx:159
 msgid "取消星标"
 msgstr "Unstar"
 
-#: src/components/ContentCard.tsx:155
+#: src/components/ContentCard.tsx:159
 msgid "加星标"
 msgstr "Star"
 
-#: src/components/ContentCard.tsx:174
+#: src/components/ContentCard.tsx:178
 msgid "标记为未读"
 msgstr "Mark as unread"
 
-#: src/components/ContentCard.tsx:174
+#: src/components/ContentCard.tsx:178
 msgid "标记为已读"
 msgstr "Mark as read"
 
-#: src/components/ContentCard.tsx:191
+#: src/components/ContentCard.tsx:195
 msgid "取消忽略此项"
 msgstr "Unignore"
 
-#: src/components/ContentCard.tsx:191
+#: src/components/ContentCard.tsx:195
 msgid "忽略此项"
 msgstr "Ignore"
 
-#: src/components/ContentCard.tsx:213
+#: src/components/ContentCard.tsx:217
 msgid "提交作业"
 msgstr "Submit homework"
 
-#: src/components/ContentCard.tsx:230
+#: src/components/ContentCard.tsx:234
 msgid "下载文件"
 msgstr "Download file"
 
-#: src/components/ContentCard.tsx:246
+#: src/components/ContentCard.tsx:250
 msgid "附件：{0}"
 msgstr "Attachment: {0}"
 
@@ -575,27 +575,27 @@ msgstr "Update failed for partial content"
 msgid "设置网络学堂语言失败：{0}"
 msgstr "Failed to set language of Web Learning: {0}"
 
-#: src/redux/actions.ts:359
+#: src/redux/actions.ts:360
 msgid "登录已过期，请刷新后重试"
 msgstr "Login has expired, please refresh and try again."
 
-#: src/redux/actions.ts:391
+#: src/redux/actions.ts:392
 msgid "升级成功，所有本地数据已经被清除"
 msgstr "Upgrade successfully and all local data is cleared"
 
-#: src/redux/actions.ts:404
+#: src/redux/actions.ts:405
 msgid "升级成功，所有本地数据（除配置）已经被清除"
 msgstr "Upgrade successfully and all local data (except configuration) is cleared"
 
-#: src/redux/actions.ts:433
+#: src/redux/actions.ts:434
 msgid "升级成功，数据没有受到影响"
 msgstr "Upgrade successfully and local data is kept"
 
-#: src/redux/actions.ts:436
+#: src/redux/actions.ts:437
 msgid "迁移失败，已清除全部数据"
 msgstr "Migration failed, all data has been cleared"
 
-#: src/redux/actions.ts:460
+#: src/redux/actions.ts:461
 msgid "加载数据失败，已清除数据"
 msgstr "Failed to load data, data has been cleared"
 

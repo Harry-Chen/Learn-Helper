@@ -8,13 +8,18 @@ jobs:
     if: ${{ !contains(github.event.head_commit.message, 'ci skip') }}
     steps:
       - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
       - uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
+          cache: 'pnpm'
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: pnpm install
       - name: Build Chrome version
-        run: yarn zip:chrome
+        run: pnpm zip:chrome
       - name: Upload Chrome version
         uses: actions/upload-artifact@v4
         with:
@@ -23,7 +28,7 @@ jobs:
             dist/chrome-mv3/
             stats.html
       - name: Build Firefox version
-        run: yarn zip:firefox
+        run: pnpm zip:firefox
       - name: Upload Firefox version
         uses: actions/upload-artifact@v4
         with:
