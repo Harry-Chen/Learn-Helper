@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
 import Iframe from 'react-iframe';
 
 interface IframeWrapperProps {

@@ -1,4 +1,3 @@
-import React from 'react';
 import classnames from 'classnames';
 import { ContentType } from 'thu-learn-lib';
 import { t } from '@lingui/macro';

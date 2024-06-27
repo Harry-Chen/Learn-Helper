@@ -1,4 +1,4 @@
-import React from 'react';
+import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material';
@@ -16,7 +16,7 @@ import './css/scrollbar.css';
 
 const root = createRoot(document.querySelector('#main')!);
 root.render(
-  <React.StrictMode>
+  <StrictMode>
     <Provider store={store}>
       <CssVarsProvider defaultMode="system" theme={theme}>
         <SnackbarProvider
@@ -30,7 +30,7 @@ root.render(
         </I18nProvider>
       </CssVarsProvider>
     </Provider>
-  </React.StrictMode>,
+  </StrictMode>,
 );
 
 printWelcomeMessage();

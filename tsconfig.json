@@ -1,7 +1,7 @@
 {
   "extends": "./.wxt/tsconfig.json",
   "compilerOptions": {
-    "jsx": "react",
+    "jsx": "react-jsx",
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "noImplicitThis": true,

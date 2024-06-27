@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import browser from 'webextension-polyfill';
 import { Trans } from '@lingui/macro';
 import { useLingui } from '@lingui/react';

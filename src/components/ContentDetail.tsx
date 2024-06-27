@@ -1,4 +1,4 @@
-import React, { useState, type ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { Button, Paper } from '@mui/material';
 import { ContentType, type RemoteFile } from 'thu-learn-lib';
 import { msg, Trans, t } from '@lingui/macro';
@@ -9,7 +9,6 @@ import type { HomeworkInfo, NotificationInfo, FileInfo, ContentInfo } from '../t
 import { formatDateTime, formatHomeworkGradeLevel } from '../utils/format';
 import { useAppDispatch } from '../redux/hooks';
 import { setDetailUrl } from '../redux/actions';
-import { renderHTML } from '../utils/html';
 import styles from '../css/page.module.css';
 import IframeWrapper from './IframeWrapper';
 
@@ -21,15 +20,16 @@ import IframeWrapper from './IframeWrapper';
 interface LineProps {
   title: MessageDescriptor;
   children?: ReactNode;
+  __html?: string;
 }
 
-const Line = ({ title, children }: LineProps) => {
+const Line = ({ title, children, __html }: LineProps) => {
   const { _ } = useLingui();
 
   return (
     <tr className={styles.content_detail_line}>
       <td>{_(title)}</td>
-      <td>{children}</td>
+      {__html ? <td dangerouslySetInnerHTML={{ __html }} /> : <td>{children}</td>}
     </tr>
   );
 };
@@ -127,7 +127,7 @@ const HomeworkDetails = ({ content: homework }: ContentDetailProps<HomeworkInfo>
         <Line title={msg`提交时间：`}>{formatDateTime(homework.submitTime)}</Line>
       )}
       {homework.submittedContent && (
-        <Line title={msg`提交内容：`}>{renderHTML(homework.submittedContent)}</Line>
+        <Line title={msg`提交内容：`} __html={homework.submittedContent} />
       )}
       {homework.submittedAttachment && (
         <FileLinks
@@ -145,7 +145,7 @@ const HomeworkDetails = ({ content: homework }: ContentDetailProps<HomeworkInfo>
               ? _(formatHomeworkGradeLevel(homework.gradeLevel))
               : homework.grade ?? <Trans>无评分</Trans>}
           </Line>
-          <Line title={msg`评阅内容：`}>{renderHTML(homework.gradeContent)}</Line>
+          <Line title={msg`评阅内容：`} __html={homework.gradeContent} />
           {homework.gradeAttachment && (
             <FileLinks
               downloadTitle={msg`评阅附件：`}
@@ -155,9 +155,7 @@ const HomeworkDetails = ({ content: homework }: ContentDetailProps<HomeworkInfo>
           )}
         </>
       )}
-      {homework.answerContent && (
-        <Line title={msg`答案内容：`}>{renderHTML(homework.answerContent)}</Line>
-      )}
+      {homework.answerContent && <Line title={msg`答案内容：`} __html={homework.answerContent} />}
       {homework.answerAttachment && (
         <FileLinks
           downloadTitle={msg`答案附件：`}

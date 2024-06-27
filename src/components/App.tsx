@@ -1,4 +1,4 @@
-import React, { useState, type ErrorInfo, useRef, useEffect } from 'react';
+import { useState, type ErrorInfo, useRef, useEffect } from 'react';
 import { ErrorBoundary, type FallbackProps } from 'react-error-boundary';
 import classnames from 'classnames';
 import { Trans, t } from '@lingui/macro';

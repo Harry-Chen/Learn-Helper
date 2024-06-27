@@ -1,4 +1,3 @@
-import React from 'react';
 import { createRoot } from 'react-dom/client';
 import classNames from 'classnames';
 import { i18n } from '@lingui/core';
