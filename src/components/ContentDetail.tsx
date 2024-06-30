@@ -5,10 +5,9 @@ import { msg, Trans, t } from '@lingui/macro';
 import type { MessageDescriptor } from '@lingui/core';
 import { useLingui } from '@lingui/react';
 
+import { useNavigate } from '../router';
 import type { HomeworkInfo, NotificationInfo, FileInfo, ContentInfo } from '../types/data';
 import { formatDateTime, formatHomeworkGradeLevel } from '../utils/format';
-import { useAppDispatch } from '../redux/hooks';
-import { setDetailUrl } from '../redux/actions';
 import styles from '../css/page.module.css';
 import IframeWrapper from './IframeWrapper';
 
@@ -40,15 +39,16 @@ interface LinkProps {
   children: ReactNode;
 }
 
-const Link = ({ url, inApp, children }: LinkProps) => {
-  const dispatch = useAppDispatch();
+const ContentLink = ({ url, inApp, children }: LinkProps) => {
+  const navigate = useNavigate();
 
   if (inApp)
     return (
+      // don't use <Link> here as we want to keep the behaviour of middle click to open in new tab
       <a
         href={url}
         onClick={(ev) => {
-          dispatch(setDetailUrl(url));
+          navigate({ pathname: '/web', search: `url=${encodeURIComponent(url)}` });
           ev.preventDefault();
         }}
       >
@@ -78,17 +78,17 @@ interface FileLinkProps {
 const FileLinks = ({ downloadTitle, previewTitle, file }: FileLinkProps) => (
   <>
     <Line title={downloadTitle}>
-      <Link url={file.downloadUrl}>
+      <ContentLink url={file.downloadUrl}>
         <Trans>
           {file.name}（{file.size}）
         </Trans>
-      </Link>
+      </ContentLink>
     </Line>
     {canFilePreview(file) && (
       <Line title={previewTitle}>
-        <Link url={file.previewUrl}>
+        <ContentLink url={file.previewUrl}>
           <Trans>在新窗口打开</Trans>
-        </Link>
+        </ContentLink>
       </Line>
     )}
   </>
@@ -171,9 +171,9 @@ const HomeworkDetails = ({ content: homework }: ContentDetailProps<HomeworkInfo>
         />
       )}
       <Line title={msg`作业详情：`}>
-        <Link url={homework.url} inApp>
+        <ContentLink url={homework.url} inApp>
           <Trans>在本窗口打开</Trans>
-        </Link>
+        </ContentLink>
       </Line>
     </>
   );

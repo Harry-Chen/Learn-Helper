@@ -17,7 +17,8 @@ import IconAngleUp from '~icons/fa6-solid/angle-up';
 import IconAngleDown from '~icons/fa6-solid/angle-down';
 
 import { COURSE_FUNC_LIST } from '../constants/ui';
-import { refreshCardList, setCardFilter, setDetailUrl } from '../redux/actions';
+import { useNavigate } from '../router';
+import { refreshCardList, setCardFilter } from '../redux/actions';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { selectCourseList } from '../redux/selectors';
 
@@ -25,6 +26,7 @@ import styles from '../css/list.module.css';
 
 const CourseList = () => {
   const { _ } = useLingui();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const courseList = useAppSelector(selectCourseList);
 
@@ -77,7 +79,7 @@ const CourseList = () => {
                         dispatch(setCardFilter({ type: func.type, courseId: c.id }));
                         dispatch(refreshCardList());
                       } else {
-                        dispatch(setDetailUrl(c.url));
+                        navigate({ pathname: '/web', search: `url=${encodeURIComponent(c.url)}` });
                       }
                     }}
                   >

@@ -1,25 +1,25 @@
 import { createRoot } from 'react-dom/client';
 import classNames from 'classnames';
-import { i18n } from '@lingui/core';
 import { CssBaseline, Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material';
+import { I18nProvider } from '@lingui/react';
+import { i18n } from '@lingui/core';
 
 import { theme } from './theme';
 import './i18n';
 
 import styles from './css/doc.module.css';
-import AboutZH from './components/pages/zh/About.md';
-import AboutEN from './components/pages/en/About.md';
+import About from './pages/doc/about';
 
 const root = createRoot(document.querySelector('#main')!);
 root.render(
   <CssVarsProvider defaultMode="system" theme={theme}>
     <CssBaseline />
-    <main className={classNames(styles.wrapper, styles.doc_wrapper)} style={{ height: '100vh' }}>
-      <div className={styles.doc}>
-        <div className={styles.doc_text_block}>
-          {i18n.locale === 'zh' ? <AboutZH /> : <AboutEN />}
+    <I18nProvider i18n={i18n}>
+      <main className={classNames(styles.wrapper, styles.doc_wrapper)} style={{ height: '100vh' }}>
+        <div className={styles.doc}>
+          <About />
         </div>
-      </div>
-    </main>
+      </main>
+    </I18nProvider>
   </CssVarsProvider>,
 );

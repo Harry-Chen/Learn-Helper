@@ -1,6 +1,7 @@
 import { defineConfig } from 'wxt';
 import icons from 'unplugin-icons/vite';
 import react from '@vitejs/plugin-react-swc';
+import generouted from '@generouted/react-router/plugin';
 import preserveDirectives from 'rollup-preserve-directives';
 import { lingui } from '@lingui/vite-plugin';
 import mdx from '@mdx-js/rollup';
@@ -56,13 +57,13 @@ export default defineConfig({
       },
       icons({ compiler: 'jsx', jsx: 'react' }),
       react({ plugins: [['@lingui/swc-plugin', {}]] }),
+      generouted(),
       preserveDirectives(),
       lingui(),
       chunkSplitPlugin({
         customSplitting: {
           'thu-learn-lib-vendor': [/thu-learn-lib/],
           'ui-vendor': [/@mui/, /@emotion/],
-          'react-vendor': [/react/],
         },
       }),
     ],

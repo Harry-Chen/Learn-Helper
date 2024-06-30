@@ -26,14 +26,9 @@ import IconDownload from '~icons/fa6-solid/download';
 import IconPaperclip from '~icons/fa6-solid/paperclip';
 
 import styles from '../css/card.module.css';
+import { useNavigate } from '../router';
 import { COURSE_MAIN_FUNC } from '../constants/ui';
-import {
-  toggleReadState,
-  toggleIgnoreState,
-  toggleStarState,
-  setDetailContent,
-  setDetailUrl,
-} from '../redux/actions';
+import { toggleReadState, toggleIgnoreState, toggleStarState } from '../redux/actions';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { formatDate, formatHomeworkGradeLevel } from '../utils/format';
 import { initiateFileDownload } from '../utils/download';
@@ -46,6 +41,7 @@ interface ContentCardProps {
 const ContentCard = ({ type, id }: ContentCardProps) => {
   const { _ } = useLingui();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const content = useAppSelector((state) => state.data[`${type}Map`][id]);
 
@@ -55,12 +51,13 @@ const ContentCard = ({ type, id }: ContentCardProps) => {
       case ContentType.FILE:
       case ContentType.NOTIFICATION:
       case ContentType.HOMEWORK:
-        dispatch(setDetailContent(content));
+        navigate('/content/:type/:id', { params: { type: content.type, id: content.id } });
         break;
       // navigate iframe in DetailPane to given url
       case ContentType.DISCUSSION:
       case ContentType.QUESTION:
-        dispatch(setDetailUrl(content.url));
+        navigate({ pathname: '/web', search: `url=${encodeURIComponent(content.url)}` });
+        break;
     }
     // mark card as read
     dispatch(toggleReadState({ type: content.type, id: content.id, state: true }));
@@ -219,7 +216,10 @@ const ContentCard = ({ type, id }: ContentCardProps) => {
                 className={styles.card_action_button}
                 component="div"
                 onClick={(ev) => {
-                  dispatch(setDetailUrl(content.submitUrl));
+                  navigate({
+                    pathname: '/web',
+                    search: `url=${encodeURIComponent(content.submitUrl)}`,
+                  });
                   ev.stopPropagation();
                 }}
                 onMouseDown={(ev) => ev.stopPropagation()}

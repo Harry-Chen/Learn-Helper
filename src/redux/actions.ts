@@ -59,9 +59,6 @@ export const {
   loadMoreCard,
   setCardList,
   setCardFilter,
-  setDetailUrl,
-  setDetailContent,
-  setDetailPage,
   setTitleFilter,
 } = uiSlice.actions;
 
@@ -369,7 +366,11 @@ export const downloadAllUnreadFiles =
     }
   };
 
-export const loadApp = (): AppThunk<Promise<void>> => async (dispatch) => {
+export interface LoadResult {
+  navigate?: 'readme' | 'changelog';
+}
+
+export const loadApp = (): AppThunk<Promise<LoadResult>> => async (dispatch) => {
   if (import.meta.env.DEV) {
     const { VITE_USERNAME: username, VITE_PASSWORD: password } = import.meta.env;
     if (username && password) {
@@ -381,6 +382,8 @@ export const loadApp = (): AppThunk<Promise<void>> => async (dispatch) => {
   const { [STORAGE_KEY_VERSION]: oldVersion, [STORAGE_KEY_REDUX]: oldData } =
     await storage.local.get([STORAGE_KEY_VERSION, STORAGE_KEY_REDUX]);
 
+  const result: LoadResult = {};
+
   if (oldVersion === undefined) {
     // migrate from version < 4.0.0 or newly installed, clearing all data
     console.info('Migrating from legacy version, all data cleaned');
@@ -388,11 +391,11 @@ export const loadApp = (): AppThunk<Promise<void>> => async (dispatch) => {
     await storage.local.set({
       [STORAGE_KEY_VERSION]: currentVersion,
     });
-    dispatch(setDetailPage('readme'));
+    result.navigate = 'readme';
     enqueueSnackbar(t`升级成功，所有本地数据已经被清除`, { variant: 'warning' });
   } else if (oldVersion !== currentVersion) {
     // for future migration
-    dispatch(setDetailPage('changelog'));
+    result.navigate = 'changelog';
     // set stored version to current one
     console.info(`Migrating from version ${oldVersion} to ${currentVersion}`);
     await storage.local.set({
@@ -466,6 +469,7 @@ export const loadApp = (): AppThunk<Promise<void>> => async (dispatch) => {
   dispatch(updateCourseNames());
   dispatch(refreshCardList());
   dispatch(tryLoginSilently());
+  return result;
 };
 
 export const tryLoginSilently = (): AppThunk<Promise<void>> => async (dispatch) => {

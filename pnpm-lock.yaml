@@ -14,6 +14,9 @@ importers:
       '@emotion/styled':
         specifier: ^11.11.5
         version: 11.11.5(@emotion/react@11.11.4(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react@18.3.1)
+      '@generouted/react-router':
+        specifier: ^1.19.5
+        version: 1.19.5(react-router-dom@6.24.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(vite@5.3.2(@types/node@20.14.9)(terser@5.31.1))
       '@iconify-json/fa6-solid':
         specifier: ^1.1.21
         version: 1.1.21
@@ -65,6 +68,9 @@ importers:
       react-redux:
         specifier: ^9.1.2
         version: 9.1.2(@types/react@18.3.3)(react@18.3.1)(redux@5.0.1)
+      react-router-dom:
+        specifier: ^6.24.0
+        version: 6.24.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       redux-logger:
         specifier: ^3.0.6
         version: 3.0.6
@@ -802,6 +808,13 @@ packages:
   '@floating-ui/utils@0.2.3':
     resolution: {integrity: sha512-XGndio0l5/Gvd6CLIABvsav9HHezgDFFhDfHk1bvLfr9ni8dojqLSvBbotJEjmIwNHL7vK4QzBJTdBRoB+c1ww==}
 
+  '@generouted/react-router@1.19.5':
+    resolution: {integrity: sha512-9m42I+F12VcpAWSYAAZco6qS1WLzvwLJ3L4EKy8swXsnebPbPDA2BFUHlWMohyx7pwC8CuxfJjewfUk3qTpYxQ==}
+    peerDependencies:
+      react: '>=18'
+      react-router-dom: '>=6'
+      vite: '>=4'
+
   '@humanwhocodes/module-importer@1.0.1':
     resolution: {integrity: sha512-bxveV4V8v5Yb4ncFTT3rPSgZBOpCkjfK0y4oVVVJwIuDVBRMDXrPyXRL988i5ap9m9bnyEEjWfm5WkBmtffLfA==}
     engines: {node: '>=12.22'}
@@ -1044,6 +1057,10 @@ packages:
         optional: true
       react-redux:
         optional: true
+
+  '@remix-run/router@1.17.0':
+    resolution: {integrity: sha512-2D6XaHEVvkCn682XBnipbJjgZUU7xjLtA4dGJRBVUKpEaDYOZMENZoZjAOSb7qirxt5RupjzZxz4fK2FO+EFPw==}
+    engines: {node: '>=14.0.0'}
 
   '@rollup/pluginutils@5.1.0':
     resolution: {integrity: sha512-XTIWOPPcpvyKI6L1NHo0lFlCyznUEyPmPY1mc3KpPVDYulHSTvyeLNVW00QTLIAFNhR3kYnJTQHeGqU4M3n09g==}
@@ -2411,6 +2428,11 @@ packages:
     resolution: {integrity: sha512-rci1g6U0rdTg6bAaBboP7XdRu01dzTAaKXxFf+PUqGuCv6Xu7o8NZdY1D5MvKGIjb6EdS1g3VlXOgksir1uGkg==}
     hasBin: true
 
+  generouted@1.19.5:
+    resolution: {integrity: sha512-hts4B0UhYzPKGmGsGhkbCclcZWAeTe3EKW6oLY4tfXMj/A/wk/QTzeYgJqHL9dJd5d0E8vUoqpV6TucH50I9Rw==}
+    peerDependencies:
+      vite: '>=3'
+
   gensync@1.0.0-beta.2:
     resolution: {integrity: sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==}
     engines: {node: '>=6.9.0'}
@@ -3709,6 +3731,19 @@ packages:
         optional: true
       redux:
         optional: true
+
+  react-router-dom@6.24.0:
+    resolution: {integrity: sha512-960sKuau6/yEwS8e+NVEidYQb1hNjAYM327gjEyXlc6r3Skf2vtwuJ2l7lssdegD2YjoKG5l8MsVyeTDlVeY8g==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      react: '>=16.8'
+      react-dom: '>=16.8'
+
+  react-router@6.24.0:
+    resolution: {integrity: sha512-sQrgJ5bXk7vbcC4BxQxeNa5UmboFm35we1AFK0VvQaz9g0LzxEIuLOhHIoZ8rnu9BO21ishGeL9no1WB76W/eg==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      react: '>=16.8'
 
   react-transition-group@4.4.5:
     resolution: {integrity: sha512-pZcd1MCJoiKiBR2NRxeCRg13uCXbydPnmB4EOeRrY7480qNWO8IIgQG6zlDkm6uRMsURXPuKq0GWtiM59a5Q6g==}
@@ -5082,6 +5117,14 @@ snapshots:
 
   '@floating-ui/utils@0.2.3': {}
 
+  '@generouted/react-router@1.19.5(react-router-dom@6.24.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(vite@5.3.2(@types/node@20.14.9)(terser@5.31.1))':
+    dependencies:
+      fast-glob: 3.3.2
+      generouted: 1.19.5(vite@5.3.2(@types/node@20.14.9)(terser@5.31.1))
+      react: 18.3.1
+      react-router-dom: 6.24.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      vite: 5.3.2(@types/node@20.14.9)(terser@5.31.1)
+
   '@humanwhocodes/module-importer@1.0.1': {}
 
   '@humanwhocodes/retry@0.3.0': {}
@@ -5409,6 +5452,8 @@ snapshots:
     optionalDependencies:
       react: 18.3.1
       react-redux: 9.1.2(@types/react@18.3.3)(react@18.3.1)(redux@5.0.1)
+
+  '@remix-run/router@1.17.0': {}
 
   '@rollup/pluginutils@5.1.0(rollup@4.18.0)':
     dependencies:
@@ -7020,6 +7065,10 @@ snapshots:
       which: 1.2.4
       winreg: 0.0.12
 
+  generouted@1.19.5(vite@5.3.2(@types/node@20.14.9)(terser@5.31.1)):
+    dependencies:
+      vite: 5.3.2(@types/node@20.14.9)(terser@5.31.1)
+
   gensync@1.0.0-beta.2: {}
 
   get-caller-file@2.0.5: {}
@@ -8565,6 +8614,18 @@ snapshots:
     optionalDependencies:
       '@types/react': 18.3.3
       redux: 5.0.1
+
+  react-router-dom@6.24.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      '@remix-run/router': 1.17.0
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      react-router: 6.24.0(react@18.3.1)
+
+  react-router@6.24.0(react@18.3.1):
+    dependencies:
+      '@remix-run/router': 1.17.0
+      react: 18.3.1
 
   react-transition-group@4.4.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:

@@ -18,13 +18,13 @@ import IconUser from '~icons/fa6-solid/user';
 
 import {
   refresh,
-  setDetailPage,
   toggleClearDataDialog,
   toggleLogoutDialog,
   toggleChangeSemesterDialog,
   markAllRead,
 } from '../redux/actions';
 import type { AppDispatch } from '../redux/store';
+import type { useNavigate } from '../router';
 
 export type TUIFunc = ContentType | 'summary' | 'ignored' | 'homepage';
 
@@ -146,8 +146,8 @@ export const SETTINGS_FUNC_LIST = [
   {
     icon: <IconBan />,
     name: msg`管理隐藏项`,
-    handler: (dispatch: AppDispatch) => {
-      dispatch(setDetailPage('content-ignore-setting'));
+    handler: (_dispatch: AppDispatch, navigate: ReturnType<typeof useNavigate>) => {
+      navigate('/settings');
     },
   },
   {

@@ -1,16 +1,13 @@
 import classNames from 'classnames';
 import { Trans } from '@lingui/macro';
 
-import { useAppDispatch } from '../../redux/hooks';
-import { setDetailPage } from '../../redux/actions';
+import { Link } from '../router';
 
-import styles from '../../css/doc.module.css';
-import bg from '../../image/bg.png';
-import bgDark from '../../image/bg_dark.png';
+import styles from '../css/doc.module.css';
+import bg from '../image/bg.png';
+import bgDark from '../image/bg_dark.png';
 
 const Welcome = () => {
-  const dispatch = useAppDispatch();
-
   return (
     <main className={classNames(styles.wrapper, styles.welcome_wrapper)}>
       <section className={styles.welcome_content}>
@@ -19,26 +16,17 @@ const Welcome = () => {
           <img src={bgDark} alt="Learn Helper" className={styles.welcome_banner_dark} />
         </section>
         <section className={styles.welcome_menu}>
-          <button
-            className={styles.welcome_navigation}
-            onClick={() => dispatch(setDetailPage('readme'))}
-          >
+          <Link to="/doc/readme" className={styles.welcome_navigation}>
             <Trans>使用手册</Trans>
-          </button>
+          </Link>
           {' | '}
-          <button
-            className={styles.welcome_navigation}
-            onClick={() => dispatch(setDetailPage('about'))}
-          >
+          <Link to="/doc/about" className={styles.welcome_navigation}>
             <Trans>关于我们</Trans>
-          </button>
+          </Link>
           {' | '}
-          <button
-            className={styles.welcome_navigation}
-            onClick={() => dispatch(setDetailPage('changelog'))}
-          >
+          <Link to="/doc/changelog" className={styles.welcome_navigation}>
             <Trans>更新记录</Trans>
-          </button>
+          </Link>
           <br />
           <a
             href="https://chrome.google.com/webstore/detail/learn-helper/mdehapphdlihjjgkhmoiknmnhcjpjall?hl=zh-CN"

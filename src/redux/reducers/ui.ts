@@ -2,7 +2,6 @@ import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { ContentType } from 'thu-learn-lib';
 
 import { CARD_BATCH_LOAD_SIZE } from '../../constants';
-import { type ContentInfo } from '../../types/data';
 
 interface CardEntry {
   type: ContentType;
@@ -12,23 +11,6 @@ interface CardFilter {
   type?: ContentType | 'ignored';
   courseId?: string;
 }
-
-interface DetailPaneUrl {
-  type: 'url';
-  url: string;
-}
-interface DetailPaneContent {
-  type: 'content';
-  contentType: ContentType;
-  contentId: string;
-}
-
-type DetailPage = 'content-ignore-setting' | 'about' | 'changelog' | 'readme' | 'welcome';
-interface DetailPanePage {
-  type: 'page';
-  page: DetailPage;
-}
-type DetailPane = DetailPaneUrl | DetailPaneContent | DetailPanePage;
 
 export interface UiState {
   loadingProgress?: number;
@@ -44,7 +26,6 @@ export interface UiState {
   cardVisibilityThreshold: number;
   cardList: CardEntry[];
   cardFilter: CardFilter;
-  detailPane: DetailPane;
   titleFilter?: string;
 }
 
@@ -62,7 +43,6 @@ const initialState: UiState = {
   cardVisibilityThreshold: CARD_BATCH_LOAD_SIZE,
   cardList: [],
   cardFilter: {},
-  detailPane: { type: 'page', page: 'welcome' },
   titleFilter: undefined,
 };
 
@@ -115,22 +95,6 @@ export const uiSlice = createSlice({
     },
     setCardFilter: (state, action: PayloadAction<CardFilter>) => {
       state.cardFilter = action.payload;
-    },
-    setDetailUrl: (state, action: PayloadAction<string>) => {
-      state.detailPane = { type: 'url', url: action.payload };
-    },
-    setDetailContent: (state, action: PayloadAction<ContentInfo>) => {
-      state.detailPane = {
-        type: 'content',
-        contentType: action.payload.type,
-        contentId: action.payload.id,
-      };
-    },
-    setDetailPage: (state, action: PayloadAction<DetailPage>) => {
-      state.detailPane = {
-        type: 'page',
-        page: action.payload,
-      };
     },
     setTitleFilter: (state, action: PayloadAction<string | undefined>) => {
       state.titleFilter = action.payload;

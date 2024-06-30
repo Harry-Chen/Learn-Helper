@@ -6,12 +6,14 @@ import { List, ListItemButton, ListItemIcon, ListItemText, ListSubheader } from 
 import IconWrench from '~icons/fa6-solid/wrench';
 
 import { SETTINGS_FUNC_LIST } from '../constants/ui';
+import { useNavigate } from '../router';
 import { useAppDispatch } from '../redux/hooks';
 
 import styles from '../css/list.module.css';
 
 const SettingList = () => {
   const { _ } = useLingui();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   return (
@@ -32,7 +34,7 @@ const SettingList = () => {
           className={styles.sidebar_list_item}
           key={i.name.id}
           onClick={() => {
-            i.handler?.(dispatch);
+            i.handler?.(dispatch, navigate);
           }}
         >
           <ListItemIcon className={styles.list_item_icon}>{i.icon}</ListItemIcon>

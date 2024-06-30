@@ -13,10 +13,10 @@ import {
   Switch,
 } from '@mui/material';
 
-import styles from '../../css/page.module.css';
-import { resetContentIgnore, toggleContentIgnore } from '../../redux/actions';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { COURSE_MAIN_FUNC } from '../../constants/ui';
+import styles from '../css/page.module.css';
+import { resetContentIgnore, toggleContentIgnore } from '../redux/actions';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { COURSE_MAIN_FUNC } from '../constants/ui';
 
 const ContentIgnoreSetting = () => {
   const { _ } = useLingui();

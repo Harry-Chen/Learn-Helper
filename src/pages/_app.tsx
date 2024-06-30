@@ -1,5 +1,6 @@
 import { useState, type ErrorInfo, useRef, useEffect } from 'react';
 import { ErrorBoundary, type FallbackProps } from 'react-error-boundary';
+import { Outlet } from 'react-router-dom';
 import classnames from 'classnames';
 import { Trans, t } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
@@ -10,7 +11,6 @@ import {
   Toolbar,
   Divider,
   LinearProgress,
-  CssBaseline,
   IconButton,
   Drawer,
   InputBase,
@@ -34,6 +34,7 @@ import IconStarOfLife from '~icons/fa6-solid/star-of-life';
 import IconFilter from '~icons/fa6-solid/filter';
 import IconXmark from '~icons/fa6-solid/xmark';
 
+import { useNavigate } from '../router';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import {
   setTitleFilter,
@@ -42,6 +43,7 @@ import {
   clearAllData,
   tryLoginSilently,
   syncLanguage,
+  loadApp,
 } from '../redux/actions';
 import { selectCardListTitle } from '../redux/selectors';
 import { formatSemester } from '../utils/format';
@@ -50,10 +52,10 @@ import { interceptCsrfRequest } from '../utils/csrf';
 import type { ColorMode } from '../types/ui';
 import type { Language } from '../i18n';
 
-import SummaryList from './SummaryList';
-import CourseList from './CourseList';
-import SettingList from './SettingList';
-import CardList from './CardList';
+import SummaryList from '../components/SummaryList';
+import CourseList from '../components/CourseList';
+import SettingList from '../components/SettingList';
+import CardList from '../components/CardList';
 import {
   ChangeSemesterDialog,
   ClearDataDialog,
@@ -61,8 +63,7 @@ import {
   LogoutDialog,
   NetworkErrorDialog,
   NewSemesterDialog,
-} from './dialogs';
-import DetailPane from './DetailPane';
+} from '../components/dialogs';
 
 import styles from '../css/main.module.css';
 
@@ -345,12 +346,18 @@ const App = () => {
   const [errorInfo, setErrorInfo] = useState<ErrorInfo | null>(null);
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const loadingProgress = useAppSelector((state) => state.ui.loadingProgress);
   const paneHidden = useAppSelector((state) => state.ui.paneHidden);
   const csrf = useAppSelector((state) => state.helper.helper.getCSRFToken());
 
   useEffect(() => {
+    dispatch(loadApp()).then((res) => {
+      if (res.navigate) {
+        navigate(`/doc/${res.navigate}`);
+      }
+    });
     // keep login state
     const handle = window.setInterval(() => dispatch(tryLoginSilently()), 14 * 60 * 1000); // < 15 minutes and as long as possible
     return () => window.clearInterval(handle);
@@ -369,7 +376,6 @@ const App = () => {
       fallbackRender={(fallbackProps) => <Fallback {...fallbackProps} errorInfo={errorInfo} />}
     >
       <main>
-        <CssBaseline />
         {/* sidebar */}
         <AppBar />
         {/* progress bar */}
@@ -386,7 +392,7 @@ const App = () => {
           })}
         >
           <Toolbar />
-          <DetailPane />
+          <Outlet />
         </aside>
         {/* dialogs */}
         <LoginDialog />
