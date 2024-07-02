@@ -116,8 +116,6 @@ export default defineConfig({
   zip: {
     artifactTemplate: `{{name}}-{{version}}-${gitBranch}-${gitVersion}-{{browser}}.zip`,
     sourcesTemplate: `{{name}}-{{version}}-${gitBranch}-${gitVersion}-sources.zip`,
-    // FIXME: remove this after https://github.com/wxt-dev/wxt/pull/774 being merged and released
-    excludeSources: ['dist/**'],
   },
   outDir: 'dist',
 });

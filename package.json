@@ -15,6 +15,7 @@
     "build:firefox": "wxt build -b firefox",
     "zip:chrome": "wxt zip",
     "zip:firefox": "wxt zip -b firefox",
+    "clean": "wxt clean",
     "postinstall": "wxt prepare",
     "lint": "eslint .",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\"",
@@ -50,7 +51,7 @@
     "typescript-eslint": "^7.14.1",
     "unplugin-icons": "^0.19.0",
     "vite-plugin-chunk-split": "^0.5.0",
-    "wxt": "^0.18.10"
+    "wxt": "^0.18.11"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
