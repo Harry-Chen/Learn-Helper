@@ -9,5 +9,5 @@ export default function Content() {
 
   const content = useAppSelector((state) => state.data[`${type as ContentType}Map`][id]);
 
-  return <ContentDetail content={content} />;
+  return content && <ContentDetail content={content} />;
 }
