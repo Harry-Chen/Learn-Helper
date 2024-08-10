@@ -1,18 +1,15 @@
 import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
-import reactRecommended from 'eslint-plugin-react/configs/recommended.js';
-import reactJsxRuntime from 'eslint-plugin-react/configs/jsx-runtime.js';
+import react from '@eslint-react/eslint-plugin';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
+import gitignore from 'eslint-config-flat-gitignore';
 
 export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
+  react.configs.recommended,
   jsxA11y.flatConfigs.recommended,
-  reactRecommended,
-  reactJsxRuntime,
-  {
-    ignores: ['design', 'dist', '.wxt'],
-  },
+  gitignore(),
   {
     rules: {
       '@typescript-eslint/no-unused-vars': [
