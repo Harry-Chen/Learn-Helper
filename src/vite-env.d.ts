@@ -1,5 +1,6 @@
 /// <reference types="vite/client" />
 /// <reference types="unplugin-icons/types/react" />
+/// <reference types="@mui/material/themeCssVarsAugmentation" />
 
 declare const __HELPER_VERSION__: string;
 declare const __GIT_VERSION__: string;

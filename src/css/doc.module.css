@@ -5,7 +5,7 @@
   background: url('../image/creampaper.png');
 }
 
-[data-mui-color-scheme='dark'] .wrapper {
+[data-dark] .wrapper {
   background: url('../image/creampaper_black.png');
 }
 
@@ -37,14 +37,14 @@
 .welcome_banner_light {
   display: inherit;
 }
-[data-mui-color-scheme='dark'] .welcome_banner_light {
+[data-dark] .welcome_banner_light {
   display: none;
 }
 
 .welcome_banner_dark {
   display: none;
 }
-[data-mui-color-scheme='dark'] .welcome_banner_dark {
+[data-dark] .welcome_banner_dark {
   display: inherit;
 }
 
@@ -110,7 +110,7 @@
   box-shadow: 0px 0px 2px #aaa;
 }
 
-[data-mui-color-scheme='dark'] .doc {
+[data-dark] .doc {
   background: #070700;
   border-color: #666;
   box-shadow: 0px 0px 2px #555;
@@ -163,7 +163,7 @@
   color: #333;
 }
 
-[data-mui-color-scheme='dark'] .doc_image_block h2 {
+[data-dark] .doc_image_block h2 {
   color: #ccc;
 }
 

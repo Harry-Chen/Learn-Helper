@@ -1,3 +1,6 @@
-import { experimental_extendTheme as extendTheme } from '@mui/material';
+import { extendTheme } from '@mui/material';
 
-export const theme = extendTheme({});
+export const theme = extendTheme({
+  colorSchemes: { light: true, dark: true },
+  colorSchemeSelector: 'data',
+});

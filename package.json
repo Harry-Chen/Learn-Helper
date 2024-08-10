@@ -55,14 +55,12 @@
     "wxt": "^0.19.4"
   },
   "dependencies": {
-    "@emotion/react": "^11.13.0",
-    "@emotion/styled": "^11.13.0",
     "@generouted/react-router": "^1.19.6",
     "@iconify-json/fa6-solid": "^1.1.24",
     "@lingui/core": "^4.11.3",
     "@lingui/macro": "^4.11.3",
     "@lingui/react": "^4.11.3",
-    "@mui/material": "^5.16.7",
+    "@mui/material": "next",
     "@reduxjs/toolkit": "^2.2.7",
     "classnames": "^2.5.1",
     "compare-versions": "^6.1.1",
