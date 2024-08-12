@@ -6,7 +6,6 @@ import {
   type TypedStartListening,
 } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
-import { storage } from 'webextension-polyfill';
 
 import { STORAGE_KEY_REDUX } from '../constants';
 import data from './reducers/data';
@@ -38,6 +37,6 @@ startAppListening({
     typeof action.type === 'string' && action.type.startsWith('data/'),
   effect: (_action, { getState }) => {
     const { data } = getState();
-    storage.local.set({ [STORAGE_KEY_REDUX]: JSON.stringify(data) });
+    browser.storage.local.set({ [STORAGE_KEY_REDUX]: JSON.stringify(data) });
   },
 });

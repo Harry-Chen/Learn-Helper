@@ -88,6 +88,7 @@ export default defineConfig({
       }),
     },
   }),
+  extensionApi: 'chrome',
   manifestVersion: 3,
   manifest: ({ browser }) => ({
     name: '__MSG_appName__',

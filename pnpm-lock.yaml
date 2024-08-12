@@ -24,7 +24,7 @@ importers:
         specifier: ^4.11.3
         version: 4.11.3(react@18.3.1)
       '@mui/material':
-        specifier: next
+        specifier: ^6.0.0-beta.5
         version: 6.0.0-beta.5(@emotion/react@11.13.0(@types/react@18.3.3)(react@18.3.1))(@emotion/styled@11.13.0(@emotion/react@11.13.0(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@reduxjs/toolkit':
         specifier: ^2.2.7
@@ -71,9 +71,6 @@ importers:
       thu-learn-lib:
         specifier: ^3.2.1
         version: 3.2.1
-      webextension-polyfill:
-        specifier: ^0.12.0
-        version: 0.12.0
     devDependencies:
       '@eslint-react/eslint-plugin':
         specifier: ^1.9.1
@@ -99,6 +96,9 @@ importers:
       '@svgr/plugin-jsx':
         specifier: ^8.1.0
         version: 8.1.0(@svgr/core@8.1.0(typescript@5.5.4))
+      '@types/chrome':
+        specifier: ^0.0.270
+        version: 0.0.270
       '@types/eslint__js':
         specifier: ^8.42.3
         version: 8.42.3
@@ -120,9 +120,6 @@ importers:
       '@types/redux-logger':
         specifier: ^3.0.13
         version: 3.0.13
-      '@types/webextension-polyfill':
-        specifier: ^0.10.7
-        version: 0.10.7
       '@vitejs/plugin-react-swc':
         specifier: ^3.7.0
         version: 3.7.0(vite@5.4.0(@types/node@22.2.0)(terser@5.31.5))
@@ -167,7 +164,7 @@ importers:
         version: 0.5.0(vite@5.4.0(@types/node@22.2.0)(terser@5.31.5))
       wxt:
         specifier: ^0.19.4
-        version: 0.19.4(@types/node@22.2.0)(rollup@4.18.0)(terser@5.31.5)
+        version: 0.19.4(@types/chrome@0.0.270)(@types/node@22.2.0)(rollup@4.18.0)(terser@5.31.5)
 
 packages:
 
@@ -1339,6 +1336,9 @@ packages:
   '@types/acorn@4.0.6':
     resolution: {integrity: sha512-veQTnWP+1D/xbxVrPC3zHnCZRjSrKfhbMUlEA43iMZLu7EsnTtkJklIuwrCPbOi8YkvDQAiW05VQQFvvz9oieQ==}
 
+  '@types/chrome@0.0.270':
+    resolution: {integrity: sha512-ADvkowV7YnJfycZZxL2brluZ6STGW+9oKG37B422UePf2PCXuFA/XdERI0T18wtuWPx0tmFeZqq6MOXVk1IC+Q==}
+
   '@types/debug@4.1.12':
     resolution: {integrity: sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ==}
 
@@ -1353,6 +1353,15 @@ packages:
 
   '@types/estree@1.0.5':
     resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==}
+
+  '@types/filesystem@0.0.36':
+    resolution: {integrity: sha512-vPDXOZuannb9FZdxgHnqSwAG/jvdGM8Wq+6N4D/d80z+D4HWH+bItqsZaVRQykAn6WEVeEkLm2oQigyHtgb0RA==}
+
+  '@types/filewriter@0.0.33':
+    resolution: {integrity: sha512-xFU8ZXTw4gd358lb2jw25nxY9QAgqn2+bKKjKOYfNCzN4DKCFetK7sPtrlpg66Ywe3vWY9FNxprZawAh9wfJ3g==}
+
+  '@types/har-format@1.2.15':
+    resolution: {integrity: sha512-RpQH4rXLuvTXKR0zqHq3go0RVXYv/YVqv4TnPH95VbwUxZdQlK1EtcMvQvMpDngHbt13Csh9Z4qT9AbkiQH5BA==}
 
   '@types/hast@3.0.4':
     resolution: {integrity: sha512-WPs+bbQw5aCj+x6laNGWLH3wviHtoCv/P3+otBhbOhJgG8qtpdAMlTCxLtsTWA7LH1Oh/bFCHsBn0TPS5m30EQ==}
@@ -4035,8 +4044,8 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
-  set-cookie-parser@2.6.0:
-    resolution: {integrity: sha512-RVnVQxTXuerk653XfuliOxBP81Sf0+qfQE73LIYKcyMYHG94AuH0kgrQpRDuTZnSmjpysHmzxJXKNfa6PjFhyQ==}
+  set-cookie-parser@2.7.0:
+    resolution: {integrity: sha512-lXLOiqpkUumhRdFF3k1osNXCy9akgx/dyPZ5p8qAg9seJzXr5ZrlqZuWIMuY6ejOsVLE6flJ5/h3lsn57fQ/PQ==}
 
   set-function-length@1.2.2:
     resolution: {integrity: sha512-pgRc4hJ4/sNjWCSS9AmnS40x3bNMDTknHgL5UaMBTMyJnU90EgWh1Rz+MC9eFu4BuN/UwZjKQuY/1v3rM7HMfg==}
@@ -5849,6 +5858,11 @@ snapshots:
     dependencies:
       '@types/estree': 1.0.5
 
+  '@types/chrome@0.0.270':
+    dependencies:
+      '@types/filesystem': 0.0.36
+      '@types/har-format': 1.2.15
+
   '@types/debug@4.1.12':
     dependencies:
       '@types/ms': 0.7.34
@@ -5867,6 +5881,14 @@ snapshots:
       '@types/estree': 1.0.5
 
   '@types/estree@1.0.5': {}
+
+  '@types/filesystem@0.0.36':
+    dependencies:
+      '@types/filewriter': 0.0.33
+
+  '@types/filewriter@0.0.33': {}
+
+  '@types/har-format@1.2.15': {}
 
   '@types/hast@3.0.4':
     dependencies:
@@ -7237,7 +7259,7 @@ snapshots:
 
   fetch-cookie@3.0.1:
     dependencies:
-      set-cookie-parser: 2.6.0
+      set-cookie-parser: 2.7.0
       tough-cookie: 4.1.4
 
   figures@3.2.0:
@@ -9152,7 +9174,7 @@ snapshots:
 
   semver@7.6.2: {}
 
-  set-cookie-parser@2.6.0: {}
+  set-cookie-parser@2.7.0: {}
 
   set-function-length@1.2.2:
     dependencies:
@@ -9846,7 +9868,7 @@ snapshots:
 
   ws@8.18.0: {}
 
-  wxt@0.19.4(@types/node@22.2.0)(rollup@4.18.0)(terser@5.31.5):
+  wxt@0.19.4(@types/chrome@0.0.270)(@types/node@22.2.0)(rollup@4.18.0)(terser@5.31.5):
     dependencies:
       '@aklinker1/rollup-plugin-visualizer': 5.12.0(rollup@4.18.0)
       '@types/webextension-polyfill': 0.10.7
@@ -9889,6 +9911,8 @@ snapshots:
       vite-node: 2.0.5(@types/node@22.2.0)(terser@5.31.5)
       web-ext-run: 0.2.1
       webextension-polyfill: 0.12.0
+    optionalDependencies:
+      '@types/chrome': 0.0.270
     transitivePeerDependencies:
       - '@types/node'
       - bufferutil

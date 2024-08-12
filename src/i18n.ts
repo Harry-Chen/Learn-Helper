@@ -1,5 +1,4 @@
 import { i18n } from '@lingui/core';
-import browser from 'webextension-polyfill';
 
 import { STORAGE_KEY_LANGUAGE } from './constants';
 import { messages as messagesEN } from './locales/en.po';

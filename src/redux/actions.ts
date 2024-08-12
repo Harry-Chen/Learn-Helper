@@ -1,5 +1,4 @@
 import type { ThunkAction, AnyAction } from '@reduxjs/toolkit';
-import { storage } from 'webextension-polyfill';
 import { compare as compareVersion } from 'compare-versions';
 import { ContentType, type ApiError, CourseType, SemesterType, Language } from 'thu-learn-lib';
 import { enqueueSnackbar } from 'notistack';
@@ -374,21 +373,21 @@ export const loadApp = (): AppThunk<Promise<LoadResult>> => async (dispatch) => 
   if (import.meta.env.DEV) {
     const { VITE_USERNAME: username, VITE_PASSWORD: password } = import.meta.env;
     if (username && password) {
-      await storage.local.set({ [STORAGE_KEY_VERSION]: currentVersion });
+      await browser.storage.local.set({ [STORAGE_KEY_VERSION]: currentVersion });
       await storeCredential(username, password);
     }
   }
 
   const { [STORAGE_KEY_VERSION]: oldVersion, [STORAGE_KEY_REDUX]: oldData } =
-    await storage.local.get([STORAGE_KEY_VERSION, STORAGE_KEY_REDUX]);
+    await browser.storage.local.get([STORAGE_KEY_VERSION, STORAGE_KEY_REDUX]);
 
   const result: LoadResult = {};
 
   if (oldVersion === undefined) {
     // migrate from version < 4.0.0 or newly installed, clearing all data
     console.info('Migrating from legacy version, all data cleaned');
-    await storage.local.clear();
-    await storage.local.set({
+    await browser.storage.local.clear();
+    await browser.storage.local.set({
       [STORAGE_KEY_VERSION]: currentVersion,
     });
     result.navigate = 'readme';
@@ -398,7 +397,7 @@ export const loadApp = (): AppThunk<Promise<LoadResult>> => async (dispatch) => 
     result.navigate = 'changelog';
     // set stored version to current one
     console.info(`Migrating from version ${oldVersion} to ${currentVersion}`);
-    await storage.local.set({
+    await browser.storage.local.set({
       [STORAGE_KEY_VERSION]: currentVersion,
     });
 
@@ -414,7 +413,9 @@ export const loadApp = (): AppThunk<Promise<LoadResult>> => async (dispatch) => 
               JSON.parse(
                 JSON.parse(
                   JSON.parse(
-                    (await storage.local.get([STORAGE_KEY_REDUX_LEGACY]))[STORAGE_KEY_REDUX_LEGACY],
+                    (await browser.storage.local.get([STORAGE_KEY_REDUX_LEGACY]))[
+                      STORAGE_KEY_REDUX_LEGACY
+                    ],
                   ).data,
                 ),
                 (key, value) => {
@@ -436,7 +437,7 @@ export const loadApp = (): AppThunk<Promise<LoadResult>> => async (dispatch) => 
         }
         enqueueSnackbar(t`升级成功，数据没有受到影响`, { variant: 'info' });
       } catch (e) {
-        await storage.local.clear();
+        await browser.storage.local.clear();
         enqueueSnackbar(t`迁移失败，已清除全部数据`, { variant: 'error' });
       }
     }
@@ -460,7 +461,7 @@ export const loadApp = (): AppThunk<Promise<LoadResult>> => async (dispatch) => 
           ),
         );
       } catch (e) {
-        await storage.local.remove(STORAGE_KEY_REDUX);
+        await browser.storage.local.remove(STORAGE_KEY_REDUX);
         enqueueSnackbar(t`加载数据失败，已清除数据`, { variant: 'error' });
       }
     }
