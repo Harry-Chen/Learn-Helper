@@ -1,3 +1,4 @@
+import { useLocation } from 'wouter';
 import { Trans } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
 
@@ -6,14 +7,13 @@ import { List, ListItemButton, ListItemIcon, ListItemText, ListSubheader } from 
 import IconWrench from '~icons/fa6-solid/wrench';
 
 import { SETTINGS_FUNC_LIST } from '../constants/ui';
-import { useNavigate } from '../router';
 import { useAppDispatch } from '../redux/hooks';
 
 import styles from '../css/list.module.css';
 
 const SettingList = () => {
   const { _ } = useLingui();
-  const navigate = useNavigate();
+  const [_location, navigate] = useLocation();
   const dispatch = useAppDispatch();
 
   return (

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useLocation } from 'wouter';
 import { Trans } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
 
@@ -17,7 +18,6 @@ import IconAngleUp from '~icons/fa6-solid/angle-up';
 import IconAngleDown from '~icons/fa6-solid/angle-down';
 
 import { COURSE_FUNC_LIST } from '../constants/ui';
-import { useNavigate } from '../router';
 import { refreshCardList, setCardFilter } from '../redux/actions';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { selectCourseList } from '../redux/selectors';
@@ -26,7 +26,7 @@ import styles from '../css/list.module.css';
 
 const CourseList = () => {
   const { _ } = useLingui();
-  const navigate = useNavigate();
+  const [_location, navigate] = useLocation();
   const dispatch = useAppDispatch();
   const courseList = useAppSelector(selectCourseList);
 
@@ -79,7 +79,7 @@ const CourseList = () => {
                         dispatch(setCardFilter({ type: func.type, courseId: c.id }));
                         dispatch(refreshCardList());
                       } else {
-                        navigate({ pathname: '/web', search: `url=${encodeURIComponent(c.url)}` });
+                        navigate(`/web/${encodeURIComponent(c.url)}`);
                       }
                     }}
                   >

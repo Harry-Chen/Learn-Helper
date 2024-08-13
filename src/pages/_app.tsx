@@ -1,6 +1,6 @@
 import { useState, type ErrorInfo, useRef, useEffect } from 'react';
 import { ErrorBoundary, type FallbackProps } from 'react-error-boundary';
-import { Outlet } from 'react-router-dom';
+import { Route, Switch, useLocation } from 'wouter';
 import classnames from 'classnames';
 import { Trans, t } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
@@ -34,7 +34,6 @@ import IconStarOfLife from '~icons/fa6-solid/star-of-life';
 import IconFilter from '~icons/fa6-solid/filter';
 import IconXmark from '~icons/fa6-solid/xmark';
 
-import { useNavigate } from '../router';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import {
   setTitleFilter,
@@ -64,6 +63,11 @@ import {
   NetworkErrorDialog,
   NewSemesterDialog,
 } from '../components/dialogs';
+
+import Content from './content';
+import ContentIgnoreSetting from './settings';
+import Web from './web';
+import Welcome from './welcome';
 
 import styles from '../css/main.module.css';
 
@@ -346,11 +350,12 @@ const App = () => {
   const [errorInfo, setErrorInfo] = useState<ErrorInfo | null>(null);
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const loadingProgress = useAppSelector((state) => state.ui.loadingProgress);
   const paneHidden = useAppSelector((state) => state.ui.paneHidden);
   const csrf = useAppSelector((state) => state.helper.helper.getCSRFToken());
+
+  const [_, navigate] = useLocation();
 
   useEffect(() => {
     dispatch(loadApp()).then((res) => {
@@ -392,7 +397,12 @@ const App = () => {
           })}
         >
           <Toolbar />
-          <Outlet />
+          <Switch>
+            <Route path="/" component={Welcome} />
+            <Route path="/settings" component={ContentIgnoreSetting} />
+            <Route path="/web/:url" component={Web} />
+            <Route path="/content/:type/:id" component={Content} />
+          </Switch>
         </aside>
         {/* dialogs */}
         <LoginDialog />

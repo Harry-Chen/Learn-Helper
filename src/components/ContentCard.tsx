@@ -1,4 +1,5 @@
 import classnames from 'classnames';
+import { useLocation } from 'wouter';
 import { ContentType } from 'thu-learn-lib';
 import { t } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
@@ -26,7 +27,6 @@ import IconDownload from '~icons/fa6-solid/download';
 import IconPaperclip from '~icons/fa6-solid/paperclip';
 
 import styles from '../css/card.module.css';
-import { useNavigate } from '../router';
 import { COURSE_MAIN_FUNC } from '../constants/ui';
 import { toggleReadState, toggleIgnoreState, toggleStarState } from '../redux/actions';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
@@ -41,7 +41,7 @@ interface ContentCardProps {
 const ContentCard = ({ type, id }: ContentCardProps) => {
   const { _ } = useLingui();
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  const [_location, navigate] = useLocation();
 
   const content = useAppSelector((state) => state.data[`${type}Map`][id]);
 
@@ -51,12 +51,12 @@ const ContentCard = ({ type, id }: ContentCardProps) => {
       case ContentType.FILE:
       case ContentType.NOTIFICATION:
       case ContentType.HOMEWORK:
-        navigate('/content/:type/:id', { params: { type: content.type, id: content.id } });
+        navigate(`/content/${content.type}/${content.id}`);
         break;
       // navigate iframe in DetailPane to given url
       case ContentType.DISCUSSION:
       case ContentType.QUESTION:
-        navigate({ pathname: '/web', search: `url=${encodeURIComponent(content.url)}` });
+        navigate(`/web/${encodeURIComponent(content.url)}`);
         break;
     }
     // mark card as read
@@ -216,10 +216,7 @@ const ContentCard = ({ type, id }: ContentCardProps) => {
                 className={styles.card_action_button}
                 component="div"
                 onClick={(ev) => {
-                  navigate({
-                    pathname: '/web',
-                    search: `url=${encodeURIComponent(content.submitUrl)}`,
-                  });
+                  navigate(`/web/${encodeURIComponent(content.submitUrl)}`);
                   ev.stopPropagation();
                 }}
                 onMouseDown={(ev) => ev.stopPropagation()}

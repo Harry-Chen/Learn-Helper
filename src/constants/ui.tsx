@@ -24,7 +24,6 @@ import {
   markAllRead,
 } from '../redux/actions';
 import type { AppDispatch } from '../redux/store';
-import type { useNavigate } from '../router';
 
 export type TUIFunc = ContentType | 'summary' | 'ignored' | 'homepage';
 
@@ -146,7 +145,7 @@ export const SETTINGS_FUNC_LIST = [
   {
     icon: <IconBan />,
     name: msg`管理隐藏项`,
-    handler: (_dispatch: AppDispatch, navigate: ReturnType<typeof useNavigate>) => {
+    handler: (_dispatch: AppDispatch, navigate: (path: string) => void) => {
       navigate('/settings');
     },
   },

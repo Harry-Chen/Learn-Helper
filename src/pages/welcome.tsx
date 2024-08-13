@@ -1,7 +1,6 @@
 import classNames from 'classnames';
 import { Trans } from '@lingui/macro';
-
-import { Link } from '../router';
+import { Link } from 'wouter';
 
 import styles from '../css/doc.module.css';
 import bg from '../image/bg.png';

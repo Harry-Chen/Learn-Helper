@@ -1,11 +1,11 @@
 import { useState, type ReactNode } from 'react';
+import { useLocation } from 'wouter';
 import { Button, Paper } from '@mui/material';
 import { ContentType, type RemoteFile } from 'thu-learn-lib';
 import { msg, Trans, t } from '@lingui/macro';
 import type { MessageDescriptor } from '@lingui/core';
 import { useLingui } from '@lingui/react';
 
-import { useNavigate } from '../router';
 import type { HomeworkInfo, NotificationInfo, FileInfo, ContentInfo } from '../types/data';
 import { formatDateTime, formatHomeworkGradeLevel } from '../utils/format';
 import styles from '../css/page.module.css';
@@ -40,7 +40,7 @@ interface LinkProps {
 }
 
 const ContentLink = ({ url, inApp, children }: LinkProps) => {
-  const navigate = useNavigate();
+  const [_location, navigate] = useLocation();
 
   if (inApp)
     return (
@@ -48,7 +48,7 @@ const ContentLink = ({ url, inApp, children }: LinkProps) => {
       <a
         href={url}
         onClick={(ev) => {
-          navigate({ pathname: '/web', search: `url=${encodeURIComponent(url)}` });
+          navigate(`/web/${encodeURIComponent(url)}`);
           ev.preventDefault();
         }}
       >
@@ -143,7 +143,7 @@ const HomeworkDetails = ({ content: homework }: ContentDetailProps<HomeworkInfo>
           <Line title={msg`成绩：`}>
             {homework.gradeLevel
               ? _(formatHomeworkGradeLevel(homework.gradeLevel))
-              : homework.grade ?? <Trans>无评分</Trans>}
+              : (homework.grade ?? <Trans>无评分</Trans>)}
           </Line>
           <Line title={msg`评阅内容：`} __html={homework.gradeContent} />
           {homework.gradeAttachment && (

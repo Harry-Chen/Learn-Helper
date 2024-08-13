@@ -5,16 +5,15 @@ import { CssBaseline, CssVarsProvider } from '@mui/material';
 import { SnackbarProvider } from 'notistack';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
-import { RouterProvider, createHashRouter } from 'react-router-dom';
-import { routes } from '@generouted/react-router';
+import { Router } from 'wouter';
+import { useHashLocation } from 'wouter/use-hash-location';
 
 import { store } from './redux/store';
 import { printWelcomeMessage } from './utils/console';
 import { theme } from './theme';
 import './i18n';
 import './css/scrollbar.css';
-
-const router = createHashRouter(routes);
+import App from './pages/_app';
 
 const root = createRoot(document.querySelector('#main')!);
 root.render(
@@ -29,7 +28,9 @@ root.render(
           }}
         />
         <I18nProvider i18n={i18n}>
-          <RouterProvider router={router} />
+          <Router hook={useHashLocation}>
+            <App />
+          </Router>
         </I18nProvider>
       </CssVarsProvider>
     </Provider>

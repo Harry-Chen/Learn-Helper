@@ -1,15 +1,20 @@
-import { useSearchParams } from 'react-router-dom';
+import { useParams } from 'wouter';
 
 import IframeWrapper from '../components/IframeWrapper';
 import styles from '../css/main.module.css';
 
 export default function Web() {
-  const [searchParams] = useSearchParams();
-  const url = decodeURIComponent(searchParams.get('url') || '');
+  const { url } = useParams();
 
   return (
-    <section className={styles.web_frame_wrapper}>
-      <IframeWrapper id="content-frame" className={styles.web_frame} url={url} />
-    </section>
+    url && (
+      <section className={styles.web_frame_wrapper}>
+        <IframeWrapper
+          id="content-frame"
+          className={styles.web_frame}
+          url={decodeURIComponent(url)}
+        />
+      </section>
+    )
   );
 }
