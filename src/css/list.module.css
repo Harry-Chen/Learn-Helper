@@ -9,6 +9,10 @@
   height: 40px !important;
 }
 
+.sidebar_list_item_arrow {
+  min-width: 0 !important;
+}
+
 .course_list_item_text,
 .settings_list_item_text {
   padding-left: 0 !important;

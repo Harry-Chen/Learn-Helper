@@ -65,7 +65,9 @@ const CourseList = () => {
                 primary={_({ id: `course-${c.id}` })}
                 className={styles.course_list_item_text}
               />
-              {opened === c.id ? <IconAngleUp /> : <IconAngleDown />}
+              <ListItemIcon className={styles.sidebar_list_item_arrow}>
+                {opened === c.id ? <IconAngleUp /> : <IconAngleDown />}
+              </ListItemIcon>
             </ListItemButton>
             <Collapse in={opened === c.id} timeout="auto" unmountOnExit>
               <List className={styles.subfunc_list} disablePadding>
