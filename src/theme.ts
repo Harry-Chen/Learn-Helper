@@ -1,6 +1,8 @@
-import { extendTheme } from '@mui/material';
+import { createTheme } from '@mui/material';
 
-export const theme = extendTheme({
+export const theme = createTheme({
   colorSchemes: { light: true, dark: true },
-  colorSchemeSelector: 'data',
+  cssVariables: {
+    colorSchemeSelector: 'data',
+  },
 });

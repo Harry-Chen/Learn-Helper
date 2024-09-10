@@ -68,6 +68,7 @@ import Content from './content';
 import ContentIgnoreSetting from './settings';
 import Web from './web';
 import Welcome from './welcome';
+import Doc from './doc/_doc';
 
 import styles from '../css/main.module.css';
 
@@ -402,6 +403,7 @@ const App = () => {
             <Route path="/settings" component={ContentIgnoreSetting} />
             <Route path="/web/:url" component={Web} />
             <Route path="/content/:type/:id" component={Content} />
+            <Route path="/doc" nest component={Doc} />
           </Switch>
         </aside>
         {/* dialogs */}

@@ -1,7 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { CssBaseline, CssVarsProvider } from '@mui/material';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 import { SnackbarProvider } from 'notistack';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
@@ -19,7 +19,7 @@ const root = createRoot(document.querySelector('#main')!);
 root.render(
   <StrictMode>
     <Provider store={store}>
-      <CssVarsProvider theme={theme}>
+      <ThemeProvider theme={theme}>
         <CssBaseline />
         <SnackbarProvider
           anchorOrigin={{
@@ -32,7 +32,7 @@ root.render(
             <App />
           </Router>
         </I18nProvider>
-      </CssVarsProvider>
+      </ThemeProvider>
     </Provider>
   </StrictMode>,
 );

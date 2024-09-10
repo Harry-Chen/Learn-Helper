@@ -36,7 +36,7 @@ export default defineConfig({
       ),
       __GIT_BRANCH__: JSON.stringify(runCmd('git rev-parse --abbrev-ref HEAD')),
       __BUILD_HOSTNAME__: JSON.stringify(runCmd('hostname')),
-      __BUILD_TIME__: JSON.stringify(`date + ${date.toLocaleString('zh-CN')}`),
+      __BUILD_TIME__: JSON.stringify(date.toLocaleString('zh-CN')),
       __THU_LEARN_LIB_VERSION__: JSON.stringify(versionThuLearnLib),
       __MUI_VERSION__: JSON.stringify(versionMui),
       __REACT_VERSION__: JSON.stringify(versionReact),
