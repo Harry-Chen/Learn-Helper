@@ -1,11 +1,11 @@
 import { Trans } from '@lingui/macro';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
 import {
-  toggleLoginDialog,
-  toggleNetworkErrorDialog,
   loggedIn,
   refresh,
+  toggleLoginDialog,
+  toggleNetworkErrorDialog,
 } from '../../redux/actions';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { requestPermission } from '../../utils/permission';
@@ -23,12 +23,9 @@ const NetworkErrorDialog = () => {
       <DialogContent>
         <Trans>
           可能原因有：
-          <br />
-          · 网络不太给力
-          <br />
-          · 服务器去思考人生了
-          <br />
-          · 保存的用户凭据不正确（最近修改过密码？）
+          <br />· 网络不太给力
+          <br />· 服务器去思考人生了
+          <br />· 保存的用户凭据不正确（最近修改过密码？）
           <br />
           您可以选择重试、放弃刷新，或者更换新的凭据。
         </Trans>

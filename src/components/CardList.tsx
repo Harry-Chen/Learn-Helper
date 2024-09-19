@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { Trans } from '@lingui/macro';
+import { Button, List, ListSubheader } from '@mui/material';
 import cn from 'classnames';
 import { memoize } from 'proxy-memoize';
-import { List, Button, ListSubheader } from '@mui/material';
+import { useEffect, useRef, useState } from 'react';
 import { ContentType } from 'thu-learn-lib';
-import { Trans } from '@lingui/macro';
 
 import { downloadAllUnreadFiles, loadMoreCard } from '../redux/actions';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
@@ -20,6 +20,7 @@ const CardList = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    void originalCardList;
     if (scrollRef.current) {
       scrollRef.current.scrollTop = 0;
       setOnTop(true);
@@ -43,7 +44,7 @@ const CardList = () => {
   );
   const filtered = cards.slice(0, threshold);
   const unreadFileCount = cards.reduce((count, c) => {
-    if (c.type === ContentType.FILE && !c.hasRead) count += 1;
+    if (c.type === ContentType.FILE && !c.hasRead) return count + 1;
     return count;
   }, 0);
   const canLoadMore = threshold < cards.length;
@@ -97,8 +98,11 @@ const CardList = () => {
         )}
 
         {canLoadMore && (
-          // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-          <div className={styles.card_list_load_more} onClick={() => dispatch(loadMoreCard())}>
+          <div
+            className={styles.card_list_load_more}
+            onClick={() => dispatch(loadMoreCard())}
+            onKeyDown={(e) => e.key === 'Enter' && dispatch(loadMoreCard())}
+          >
             <Trans>加载更多</Trans>
           </div>
         )}

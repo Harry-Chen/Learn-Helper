@@ -1,8 +1,8 @@
 import { useLingui } from '@lingui/react';
 
-import styles from '../../css/doc.module.css';
-import ChangelogZH from '../../../CHANGELOG_ZH.md';
 import ChangelogEN from '../../../CHANGELOG.md';
+import ChangelogZH from '../../../CHANGELOG_ZH.md';
+import styles from '../../css/doc.module.css';
 
 export default function Changelog() {
   const { i18n } = useLingui();

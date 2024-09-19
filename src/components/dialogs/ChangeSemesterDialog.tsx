@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { Trans } from '@lingui/macro';
+import { useState } from 'react';
 
 import {
   Button,
@@ -14,12 +14,12 @@ import {
 } from '@mui/material';
 
 import {
-  toggleChangeSemesterDialog,
-  toggleIgnoreWrongSemester,
   insistSemester,
-  updateSemester,
   refresh,
   setCardFilter,
+  toggleChangeSemesterDialog,
+  toggleIgnoreWrongSemester,
+  updateSemester,
 } from '../../redux/actions';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { selectSemesters } from '../../redux/selectors';
@@ -36,7 +36,7 @@ const ChangeSemesterDialog = () => {
   const semesters = useAppSelector(selectSemesters);
 
   const [newSemester, setNewSemester] = useState(
-    semesters.includes(semester) ? semester : semesters[0] ?? '',
+    semesters.includes(semester) ? semester : (semesters[0] ?? ''),
   );
 
   return (

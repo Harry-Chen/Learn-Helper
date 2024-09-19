@@ -1,8 +1,8 @@
 import { Trans } from '@lingui/macro';
 
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
-import { toggleClearDataDialog, clearAllData, refresh } from '../../redux/actions';
+import { clearAllData, refresh, toggleClearDataDialog } from '../../redux/actions';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
 const ClearDataDialog = () => {

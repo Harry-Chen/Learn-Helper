@@ -1,5 +1,5 @@
-import classNames from 'classnames';
 import { Trans } from '@lingui/macro';
+import classNames from 'classnames';
 import { Link } from 'wouter';
 
 import styles from '../css/doc.module.css';

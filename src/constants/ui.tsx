@@ -1,27 +1,27 @@
-import { ContentType } from 'thu-learn-lib';
 import { msg } from '@lingui/macro';
+import { ContentType } from 'thu-learn-lib';
 
+import IconArrowsRotate from '~icons/fa6-solid/arrows-rotate';
+import IconBan from '~icons/fa6-solid/ban';
 import IconBullhorn from '~icons/fa6-solid/bullhorn';
-import IconDownload from '~icons/fa6-solid/download';
-import IconPencil from '~icons/fa6-solid/pencil';
-import IconQuestion from '~icons/fa6-solid/question';
 import IconChalkboardUser from '~icons/fa6-solid/chalkboard-user';
 import IconCircleInfo from '~icons/fa6-solid/circle-info';
-import IconUpRightFromSquare from '~icons/fa6-solid/up-right-from-square';
-import IconHouse from '~icons/fa6-solid/house';
-import IconTrash from '~icons/fa6-solid/trash';
-import IconBan from '~icons/fa6-solid/ban';
+import IconDownload from '~icons/fa6-solid/download';
 import IconEnvelopeOpen from '~icons/fa6-solid/envelope-open';
-import IconArrowsRotate from '~icons/fa6-solid/arrows-rotate';
+import IconHouse from '~icons/fa6-solid/house';
+import IconPencil from '~icons/fa6-solid/pencil';
+import IconQuestion from '~icons/fa6-solid/question';
 import IconShuffle from '~icons/fa6-solid/shuffle';
+import IconTrash from '~icons/fa6-solid/trash';
+import IconUpRightFromSquare from '~icons/fa6-solid/up-right-from-square';
 import IconUser from '~icons/fa6-solid/user';
 
 import {
+  markAllRead,
   refresh,
+  toggleChangeSemesterDialog,
   toggleClearDataDialog,
   toggleLogoutDialog,
-  toggleChangeSemesterDialog,
-  markAllRead,
 } from '../redux/actions';
 import type { AppDispatch } from '../redux/store';
 

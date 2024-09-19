@@ -1,6 +1,6 @@
-import { useEffect, useMemo } from 'react';
 import { Trans } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
+import { useEffect, useMemo } from 'react';
 
 import {
   Badge,

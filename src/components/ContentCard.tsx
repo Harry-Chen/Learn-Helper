@@ -1,37 +1,37 @@
-import classnames from 'classnames';
-import { useLocation } from 'wouter';
-import { ContentType } from 'thu-learn-lib';
 import { t } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
+import classnames from 'classnames';
+import { ContentType } from 'thu-learn-lib';
+import { useLocation } from 'wouter';
 
 import {
+  Avatar,
+  Badge,
   Card,
-  CardContent,
   CardActionArea,
   CardActions,
-  IconButton,
+  CardContent,
   Chip,
-  Badge,
-  Avatar,
+  IconButton,
   Tooltip,
 } from '@mui/material';
 
 import IconCheck from '~icons/fa6-solid/check';
-import IconStar from '~icons/fa6-solid/star';
 import IconClipboard from '~icons/fa6-solid/clipboard';
 import IconClipboardCheck from '~icons/fa6-solid/clipboard-check';
+import IconDownload from '~icons/fa6-solid/download';
+import IconPaperclip from '~icons/fa6-solid/paperclip';
+import IconStar from '~icons/fa6-solid/star';
 import IconTrash from '~icons/fa6-solid/trash';
 import IconTrashCan from '~icons/fa6-solid/trash-can';
 import IconUpload from '~icons/fa6-solid/upload';
-import IconDownload from '~icons/fa6-solid/download';
-import IconPaperclip from '~icons/fa6-solid/paperclip';
 
-import styles from '../css/card.module.css';
 import { COURSE_MAIN_FUNC } from '../constants/ui';
-import { toggleReadState, toggleIgnoreState, toggleStarState } from '../redux/actions';
+import styles from '../css/card.module.css';
+import { toggleIgnoreState, toggleReadState, toggleStarState } from '../redux/actions';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { formatDate, formatHomeworkGradeLevel } from '../utils/format';
 import { initiateFileDownload } from '../utils/download';
+import { formatDate, formatHomeworkGradeLevel } from '../utils/format';
 
 interface ContentCardProps {
   type: ContentType;
@@ -121,31 +121,32 @@ const ContentCard = ({ type, id }: ContentCardProps) => {
             <span className={styles.card_status}>
               {formatDate(content.date)}
               {content.type === ContentType.HOMEWORK
-                ? ' · ' +
-                  (content.submitted ? t`已提交` : t`未提交`) +
-                  ' · ' +
-                  (content.graded
-                    ? (content.grade
-                        ? content.gradeLevel
-                          ? _(formatHomeworkGradeLevel(content.gradeLevel))
-                          : t`${content.grade}分`
-                        : t`无评分`) + t`（${content.graderName ?? ''}）`
-                    : t`未批阅`)
+                ? ` · ${content.submitted ? t`已提交` : t`未提交`} · ${
+                    content.graded
+                      ? (
+                          content.grade
+                            ? content.gradeLevel
+                              ? _(formatHomeworkGradeLevel(content.gradeLevel))
+                              : t`${content.grade}分`
+                            : t`无评分`
+                        ) + t`（${content.graderName ?? ''}）`
+                      : t`未批阅`
+                  }`
                 : content.type === ContentType.NOTIFICATION || content.type === ContentType.FILE
-                  ? (content.markedImportant ? ' · ' + t`重要` : '') +
+                  ? (content.markedImportant ? ` · ${t`重要`}` : '') +
                     (content.type === ContentType.NOTIFICATION
-                      ? ' · ' + t`发布者:${content.publisher}`
-                      : ' · ' +
-                        content.size +
-                        (content.description.trim() !== ''
-                          ? ' · ' + content.description.trim()
-                          : ''))
+                      ? ` · ${t`发布者:${content.publisher}`}`
+                      : ` · ${content.size}${
+                          content.description.trim() !== ''
+                            ? ` · ${content.description.trim()}`
+                            : ''
+                        }`)
                   : content.type === ContentType.DISCUSSION || content.type === ContentType.QUESTION
-                    ? ' · ' +
-                      t`回复:${content.replyCount}` +
-                      (content.replyCount !== 0
-                        ? ' · ' + t`最后回复:${content.lastReplierName}`
-                        : '')
+                    ? ` · ${t`回复:${content.replyCount}`}${
+                        content.replyCount !== 0
+                          ? ` · ${t`最后回复:${content.lastReplierName}`}`
+                          : ''
+                      }`
                     : null}
             </span>
             <span className={styles.card_course}>{_({ id: `course-${content.courseId}` })}</span>

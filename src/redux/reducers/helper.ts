@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Learn2018Helper, type HelperConfig } from 'thu-learn-lib';
+import { type HelperConfig, Learn2018Helper } from 'thu-learn-lib';
 
 export interface HelperState {
   helper: Learn2018Helper;

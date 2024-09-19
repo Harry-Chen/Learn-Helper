@@ -1,13 +1,13 @@
 import { Trans } from '@lingui/macro';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
 import {
-  toggleIgnoreWrongSemester,
-  toggleNewSemesterDialog,
   insistSemester,
-  syncSemester,
   refresh,
   setCardFilter,
+  syncSemester,
+  toggleIgnoreWrongSemester,
+  toggleNewSemesterDialog,
 } from '../../redux/actions';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { formatSemester } from '../../utils/format';

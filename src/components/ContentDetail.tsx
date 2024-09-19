@@ -1,14 +1,14 @@
-import { useState, type ReactNode } from 'react';
-import { useLocation } from 'wouter';
-import { Button, Paper } from '@mui/material';
-import { ContentType, type RemoteFile } from 'thu-learn-lib';
-import { msg, Trans, t } from '@lingui/macro';
 import type { MessageDescriptor } from '@lingui/core';
+import { Trans, msg, t } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
+import { Button, Paper } from '@mui/material';
+import { type ReactNode, useState } from 'react';
+import { ContentType, type RemoteFile } from 'thu-learn-lib';
+import { useLocation } from 'wouter';
 
-import type { HomeworkInfo, NotificationInfo, FileInfo, ContentInfo } from '../types/data';
-import { formatDateTime, formatHomeworkGradeLevel } from '../utils/format';
 import styles from '../css/page.module.css';
+import type { ContentInfo, FileInfo, HomeworkInfo, NotificationInfo } from '../types/data';
+import { formatDateTime, formatHomeworkGradeLevel } from '../utils/format';
 import IframeWrapper from './IframeWrapper';
 
 // const initialState = {
@@ -28,6 +28,7 @@ const Line = ({ title, children, __html }: LineProps) => {
   return (
     <tr className={styles.content_detail_line}>
       <td>{_(title)}</td>
+      {/* biome-ignore lint/security/noDangerouslySetInnerHtml: no reason */}
       {__html ? <td dangerouslySetInnerHTML={{ __html }} /> : <td>{children}</td>}
     </tr>
   );
@@ -55,12 +56,12 @@ const ContentLink = ({ url, inApp, children }: LinkProps) => {
         {children}
       </a>
     );
-  else
-    return (
-      <a href={url} target="_blank" rel="noreferrer">
-        {children}
-      </a>
-    );
+
+  return (
+    <a href={url} target="_blank" rel="noreferrer">
+      {children}
+    </a>
+  );
 };
 
 const canFilePreview = (file: RemoteFile): boolean => {
@@ -230,6 +231,7 @@ const ContentDetail = ({ content }: ContentDetailProps) => {
       </section>
       <Paper
         className={styles.content_detail_content}
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: no reason
         dangerouslySetInnerHTML={{ __html: contentDetail }}
       />
       {showPreviewFrame && !preview && (

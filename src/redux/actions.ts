@@ -1,22 +1,22 @@
-import type { ThunkAction, AnyAction } from '@reduxjs/toolkit';
-import { compare as compareVersion } from 'compare-versions';
-import { ContentType, type ApiError, CourseType, SemesterType, Language } from 'thu-learn-lib';
-import { enqueueSnackbar } from 'notistack';
-import { t } from '@lingui/macro';
 import { i18n } from '@lingui/core';
+import { t } from '@lingui/macro';
+import type { AnyAction, ThunkAction } from '@reduxjs/toolkit';
+import { compare as compareVersion } from 'compare-versions';
+import { enqueueSnackbar } from 'notistack';
+import { type ApiError, ContentType, CourseType, type Language, SemesterType } from 'thu-learn-lib';
 
+import { version as currentVersion } from '../../package.json';
+import { STORAGE_KEY_REDUX, STORAGE_KEY_REDUX_LEGACY, STORAGE_KEY_VERSION } from '../constants';
 import type { ContentInfo, FileInfo } from '../types/data';
 import { initiateFileDownload } from '../utils/download';
 import { failReasonToString } from '../utils/format';
 import { getStoredCredential, storeCredential } from '../utils/storage';
-import { STORAGE_KEY_REDUX, STORAGE_KEY_REDUX_LEGACY, STORAGE_KEY_VERSION } from '../constants';
-import { version as currentVersion } from '../../package.json';
 
 import { dataSlice } from './reducers/data';
 import { helperSlice } from './reducers/helper';
 import { uiSlice } from './reducers/ui';
-import type { RootState } from './store';
 import { selectContentIgnore, selectDataLists } from './selectors';
+import type { RootState } from './store';
 
 export const {
   newSemester,
@@ -236,9 +236,9 @@ export const refresh = (): AppThunk<Promise<void>> => async (dispatch, getState)
 
   // check results
   const failures = (await Promise.allSettled(fetchAll.map((f) => f()))).filter(
-    (p) => p.status == 'rejected',
+    (p) => p.status === 'rejected',
   );
-  const allSuccess = failures.length == 0;
+  const allSuccess = failures.length === 0;
   if (allSuccess) {
     enqueueSnackbar(t`更新成功`, { variant: 'success' });
   } else {
@@ -422,8 +422,8 @@ export const loadApp = (): AppThunk<Promise<LoadResult>> => async (dispatch) => 
                   if (typeof value === 'object' && '$jsan' in value) {
                     // parse jsan
                     // from https://github.com/kolodny/jsan/blob/7216568a9a7969dfa81b834236595e862fdde984/lib/utils.js#L23C48-L23C48
-                    const type = value['$jsan'][0];
-                    const rest = value['$jsan'].slice(1);
+                    const type = value.$jsan[0];
+                    const rest = value.$jsan.slice(1);
                     if (type === 'd') return new Date(+rest);
                     if (type === 'u') return undefined;
                     // other types is not needed;

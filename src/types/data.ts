@@ -1,10 +1,10 @@
-import {
-  type Notification,
-  type Homework,
-  type File,
-  type Discussion,
-  type Question,
+import type {
   ContentType,
+  Discussion,
+  File,
+  Homework,
+  Notification,
+  Question,
 } from 'thu-learn-lib';
 
 interface ICourseRef {

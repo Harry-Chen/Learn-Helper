@@ -1,11 +1,11 @@
+import { Trans } from '@lingui/macro';
 import classNames from 'classnames';
 import { Link, Route } from 'wouter';
-import { Trans } from '@lingui/macro';
 
 import styles from '../../css/doc.module.css';
 import About from './about';
-import Readme from './readme';
 import Changelog from './changelog';
+import Readme from './readme';
 
 const Doc = () => {
   return (

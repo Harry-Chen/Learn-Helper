@@ -2,8 +2,8 @@ import { useLingui } from '@lingui/react';
 
 import styles from '../../../css/doc.module.css';
 
-import AboutZH from './_zh.mdx';
 import AboutEN from './_en.mdx';
+import AboutZH from './_zh.mdx';
 
 export default function About() {
   const { i18n } = useLingui();

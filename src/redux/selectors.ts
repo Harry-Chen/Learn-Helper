@@ -1,11 +1,11 @@
+import type { MessageDescriptor } from '@lingui/core';
+import { msg } from '@lingui/macro';
 import { memoize } from 'proxy-memoize';
 import { ContentType } from 'thu-learn-lib';
-import { msg } from '@lingui/macro';
-import type { MessageDescriptor } from '@lingui/core';
 
+import { UI_NAME_COURSE, UI_NAME_SUMMARY } from '../constants/ui';
 import type { ContentInfo } from '../types/data';
 import type { RootState } from './store';
-import { UI_NAME_COURSE, UI_NAME_SUMMARY } from '../constants/ui';
 
 export const selectCourseList = memoize((state: RootState) => Object.values(state.data.courseMap));
 
@@ -60,6 +60,7 @@ export const selectUnreadMap = memoize((state: RootState) => {
         homework: count(ContentType.HOMEWORK, homeworkList),
         discussion: count(ContentType.DISCUSSION, discussionList),
         question: count(ContentType.QUESTION, questionList),
+        ignored: 0,
       }
     : {};
 });
@@ -72,15 +73,13 @@ export const selectSemesters = memoize((state: RootState) => {
 
 export const selectCardListTitle = memoize((state: RootState): MessageDescriptor[] => {
   if (state.helper.loggedIn) {
-    if (state.ui.cardFilter.courseId) {
+    if (state.ui.cardFilter.courseId && state.ui.cardFilter.type !== 'ignored') {
       return [
         UI_NAME_COURSE[state.ui.cardFilter.type ?? 'summary'],
         { id: `course-${state.ui.cardFilter.courseId}` },
       ];
-    } else {
-      return [UI_NAME_SUMMARY[state.ui.cardFilter.type ?? 'summary']];
     }
-  } else {
-    return [msg`加载中...`];
+    return [UI_NAME_SUMMARY[state.ui.cardFilter.type ?? 'summary']];
   }
+  return [msg`加载中...`];
 });

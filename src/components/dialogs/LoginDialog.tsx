@@ -1,20 +1,20 @@
-import { useState } from 'react';
 import { Trans, t } from '@lingui/macro';
+import { useState } from 'react';
 
 import {
   Button,
   Checkbox,
   CircularProgress,
   Dialog,
-  DialogTitle,
+  DialogActions,
   DialogContent,
   DialogContentText,
-  DialogActions,
+  DialogTitle,
   FormControlLabel,
   TextField,
 } from '@mui/material';
 
-import { toggleLoginDialog, login, refresh } from '../../redux/actions';
+import { login, refresh, toggleLoginDialog } from '../../redux/actions';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { requestPermission } from '../../utils/permission';
 
@@ -45,7 +45,7 @@ const LoginDialog = () => {
             在长时间不使用或者出借计算机时，请务必退出登录，以免您的凭据被泄露。
             <br />
             如果您选择登录，则视为您已经阅读并同意
-            <a href="about.html" target="_blank">
+            <a href="about.html" target="_blank" rel="noreferrer">
               此页面
             </a>
             中的所有内容。否则，请立刻停止使用并从浏览器中卸载本插件。

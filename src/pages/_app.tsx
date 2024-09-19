@@ -1,60 +1,60 @@
-import { useState, type ErrorInfo, useRef, useEffect } from 'react';
-import { ErrorBoundary, type FallbackProps } from 'react-error-boundary';
-import { Route, Switch, useLocation } from 'wouter';
-import classnames from 'classnames';
 import { Trans, t } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
+import classnames from 'classnames';
+import { type ErrorInfo, useEffect, useRef, useState } from 'react';
+import { ErrorBoundary, type FallbackProps } from 'react-error-boundary';
+import { Route, Switch, useLocation } from 'wouter';
 
 import {
-  AppBar as MuiAppBar,
   Button,
-  Toolbar,
   Divider,
-  LinearProgress,
-  IconButton,
   Drawer,
+  IconButton,
   InputBase,
-  Typography,
-  Tooltip,
-  Menu,
-  MenuItem,
-  useColorScheme,
+  LinearProgress,
   ListItemIcon,
   ListItemText,
+  Menu,
+  MenuItem,
+  AppBar as MuiAppBar,
+  Toolbar,
+  Tooltip,
+  Typography,
+  useColorScheme,
 } from '@mui/material';
 import { bindMenu, bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
 
-import IconLanguage from '~icons/fa6-solid/language';
-import IconCircleHalfStroke from '~icons/fa6-solid/circle-half-stroke';
-import IconSun from '~icons/fa6-solid/sun';
-import IconMoon from '~icons/fa6-solid/moon';
-import IconBars from '~icons/fa6-solid/bars';
 import IconAngleLeft from '~icons/fa6-solid/angle-left';
-import IconStarOfLife from '~icons/fa6-solid/star-of-life';
+import IconBars from '~icons/fa6-solid/bars';
+import IconCircleHalfStroke from '~icons/fa6-solid/circle-half-stroke';
 import IconFilter from '~icons/fa6-solid/filter';
+import IconLanguage from '~icons/fa6-solid/language';
+import IconMoon from '~icons/fa6-solid/moon';
+import IconStarOfLife from '~icons/fa6-solid/star-of-life';
+import IconSun from '~icons/fa6-solid/sun';
 import IconXmark from '~icons/fa6-solid/xmark';
 
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import type { Language } from '../i18n';
 import {
+  clearAllData,
+  loadApp,
   setTitleFilter,
+  syncLanguage,
   toggleChangeSemesterDialog,
   togglePaneHidden,
-  clearAllData,
   tryLoginSilently,
-  syncLanguage,
-  loadApp,
 } from '../redux/actions';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { selectCardListTitle } from '../redux/selectors';
+import type { ColorMode } from '../types/ui';
+import { interceptCsrfRequest } from '../utils/csrf';
 import { formatSemester } from '../utils/format';
 import { removeStoredCredential } from '../utils/storage';
-import { interceptCsrfRequest } from '../utils/csrf';
-import type { ColorMode } from '../types/ui';
-import type { Language } from '../i18n';
 
-import SummaryList from '../components/SummaryList';
+import CardList from '../components/CardList';
 import CourseList from '../components/CourseList';
 import SettingList from '../components/SettingList';
-import CardList from '../components/CardList';
+import SummaryList from '../components/SummaryList';
 import {
   ChangeSemesterDialog,
   ClearDataDialog,
@@ -65,10 +65,10 @@ import {
 } from '../components/dialogs';
 
 import Content from './content';
+import Doc from './doc/_doc';
 import ContentIgnoreSetting from './settings';
 import Web from './web';
 import Welcome from './welcome';
-import Doc from './doc/_doc';
 
 import styles from '../css/main.module.css';
 
@@ -170,7 +170,7 @@ const AppBar = () => {
         >
           <IconBars />
         </IconButton>
-        <Typography component="div" sx={{ flexGrow: 1 }}></Typography>
+        <Typography component="div" sx={{ flexGrow: 1 }} />
         <LanguageSwitcher />
         <ColorModeSwitcher />
       </Toolbar>
@@ -367,7 +367,7 @@ const App = () => {
     // keep login state
     const handle = window.setInterval(() => dispatch(tryLoginSilently()), 14 * 60 * 1000); // < 15 minutes and as long as possible
     return () => window.clearInterval(handle);
-  }, []);
+  }, [dispatch, navigate]);
 
   useEffect(() => {
     interceptCsrfRequest(csrf);

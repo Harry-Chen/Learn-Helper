@@ -1,22 +1,22 @@
-import { ContentType } from 'thu-learn-lib';
 import { Trans } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
+import { ContentType } from 'thu-learn-lib';
 
 import {
   Button,
+  Paper,
+  Switch,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-  Paper,
-  Switch,
 } from '@mui/material';
 
+import { COURSE_MAIN_FUNC } from '../constants/ui';
 import styles from '../css/page.module.css';
 import { resetContentIgnore, toggleContentIgnore } from '../redux/actions';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { COURSE_MAIN_FUNC } from '../constants/ui';
 
 const ContentIgnoreSetting = () => {
   const { _ } = useLingui();

@@ -1,8 +1,8 @@
-import { createRoot } from 'react-dom/client';
-import classNames from 'classnames';
-import { CssBaseline, ThemeProvider } from '@mui/material';
-import { I18nProvider } from '@lingui/react';
 import { i18n } from '@lingui/core';
+import { I18nProvider } from '@lingui/react';
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import classNames from 'classnames';
+import { createRoot } from 'react-dom/client';
 
 import { theme } from './theme';
 import './i18n';

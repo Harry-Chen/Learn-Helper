@@ -1,9 +1,9 @@
 import {
-  configureStore,
-  createListenerMiddleware,
   type Action,
   type AnyAction,
   type TypedStartListening,
+  configureStore,
+  createListenerMiddleware,
 } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
 

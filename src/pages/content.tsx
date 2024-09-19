@@ -1,5 +1,5 @@
-import { useParams } from 'wouter';
 import type { ContentType } from 'thu-learn-lib';
+import { useParams } from 'wouter';
 
 import ContentDetail from '../components/ContentDetail';
 import { useAppSelector } from '../redux/hooks';

@@ -1,6 +1,6 @@
+import { type MessageDescriptor, i18n } from '@lingui/core';
 import { msg, t } from '@lingui/macro';
-import { i18n, type MessageDescriptor } from '@lingui/core';
-import { type SemesterInfo, SemesterType, FailReason, HomeworkGradeLevel } from 'thu-learn-lib';
+import { FailReason, HomeworkGradeLevel, type SemesterInfo, SemesterType } from 'thu-learn-lib';
 
 export const semesterName = {
   [SemesterType.FALL]: msg`秋季学期`,
@@ -32,8 +32,8 @@ export function semesterFromId(id: string): SemesterInfo {
     id,
     startDate: new Date(),
     endDate: new Date(),
-    startYear: parseInt(id.substring(0, 4)),
-    endYear: parseInt(id.substring(5, 9)),
+    startYear: Number.parseInt(id.substring(0, 4)),
+    endYear: Number.parseInt(id.substring(5, 9)),
     type,
   };
 }
@@ -83,6 +83,7 @@ const FAIL_REASON_MAPPING = {
   [FailReason.NOT_LOGGED_IN]: msg`尚未登录`,
   [FailReason.NO_CREDENTIAL]: msg`未提供用户名或密码`,
   [FailReason.UNEXPECTED_STATUS]: msg`非预期的 HTTP 响应状态`,
+  [FailReason.INVALID_RESPONSE]: msg`无效的 HTTP 响应`,
   TIMEOUT: msg`请求超时`,
   UNKNOWN: msg`未知错误`,
 };
@@ -107,6 +108,8 @@ export function formatHomeworkGradeLevel(
   gradeLevel?: HomeworkGradeLevel,
 ): MessageDescriptor | undefined {
   if (gradeLevel) {
-    return HomeworkGradeLevelNames[gradeLevel] ?? gradeLevel;
+    return gradeLevel in HomeworkGradeLevelNames
+      ? HomeworkGradeLevelNames[gradeLevel as keyof typeof HomeworkGradeLevelNames]
+      : { id: gradeLevel };
   }
 }

@@ -1,4 +1,4 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
 import {
   ContentType,
   type CourseContent,
@@ -8,12 +8,12 @@ import {
   SemesterType,
 } from 'thu-learn-lib';
 
-import {
-  type DiscussionInfo,
-  type FileInfo,
-  type HomeworkInfo,
-  type NotificationInfo,
-  type QuestionInfo,
+import type {
+  DiscussionInfo,
+  FileInfo,
+  HomeworkInfo,
+  NotificationInfo,
+  QuestionInfo,
 } from '../../types/data';
 
 interface IContentIgnore {
@@ -157,12 +157,12 @@ export const dataSlice = createSlice({
     updateCourses: (state, action: PayloadAction<CourseInfo[]>) => {
       action.payload.sort((a, b) => a.id.localeCompare(b.id));
       state.courseMap = Object.fromEntries(action.payload.map((course) => [course.id, course]));
-      Object.keys(state.contentIgnore).forEach((cid) => {
+      for (const cid of Object.keys(state.contentIgnore)) {
         if (!state.courseMap[cid]) delete state.contentIgnore[cid];
-      });
-      Object.keys(state.courseMap).forEach((cid) => {
+      }
+      for (const cid of Object.keys(state.courseMap)) {
         state.contentIgnore[cid] ??= { ...IGNORE_UNSET_ALL };
-      });
+      }
     },
     updateNotification: (state, action: PayloadAction<CourseContent>) => {
       update(state, ContentType.NOTIFICATION, action.payload);
@@ -211,11 +211,11 @@ export const dataSlice = createSlice({
       state.updateFinished = false;
     },
     markAllRead: (state) => {
-      Object.values(state.notificationMap).forEach((c) => void (c.hasRead = true));
-      Object.values(state.fileMap).forEach((c) => void (c.hasRead = true));
-      Object.values(state.homeworkMap).forEach((c) => void (c.hasRead = true));
-      Object.values(state.discussionMap).forEach((c) => void (c.hasRead = true));
-      Object.values(state.questionMap).forEach((c) => void (c.hasRead = true));
+      for (const c of Object.values(state.notificationMap)) c.hasRead = true;
+      for (const c of Object.values(state.fileMap)) c.hasRead = true;
+      for (const c of Object.values(state.homeworkMap)) c.hasRead = true;
+      for (const c of Object.values(state.discussionMap)) c.hasRead = true;
+      for (const c of Object.values(state.questionMap)) c.hasRead = true;
     },
     clearAllData: () => {
       return initialState;

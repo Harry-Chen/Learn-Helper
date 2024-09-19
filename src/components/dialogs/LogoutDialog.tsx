@@ -1,13 +1,13 @@
 import { Trans } from '@lingui/macro';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
 import {
-  toggleLoginDialog,
-  toggleLogoutDialog,
   clearAllData,
   loggedOut,
   refreshCardList,
   setCardFilter,
+  toggleLoginDialog,
+  toggleLogoutDialog,
 } from '../../redux/actions';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { removeStoredCredential } from '../../utils/storage';

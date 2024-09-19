@@ -1,20 +1,20 @@
-import { defineConfig } from 'wxt';
-import icons from 'unplugin-icons/vite';
-import react from '@vitejs/plugin-react-swc';
-import preserveDirectives from 'rollup-preserve-directives';
-import { lingui } from '@lingui/vite-plugin';
-import mdx from '@mdx-js/rollup';
-import remarkMdxImages from 'remark-mdx-images';
-import remarkUnwrapImages from 'remark-unwrap-images';
-import { chunkSplitPlugin } from 'vite-plugin-chunk-split';
-import Randomstring from 'randomstring';
 import { execSync } from 'node:child_process';
 import path from 'node:path';
+import { lingui } from '@lingui/vite-plugin';
+import mdx from '@mdx-js/rollup';
+import react from '@vitejs/plugin-react-swc';
+import Randomstring from 'randomstring';
+import remarkMdxImages from 'remark-mdx-images';
+import remarkUnwrapImages from 'remark-unwrap-images';
+import preserveDirectives from 'rollup-preserve-directives';
+import icons from 'unplugin-icons/vite';
+import { chunkSplitPlugin } from 'vite-plugin-chunk-split';
+import { defineConfig } from 'wxt';
 
-import { author, version } from './package.json';
-import { version as versionThuLearnLib } from './node_modules/thu-learn-lib/package.json';
 import { version as versionMui } from './node_modules/@mui/material/package.json';
 import { version as versionReact } from './node_modules/react/package.json';
+import { version as versionThuLearnLib } from './node_modules/thu-learn-lib/package.json';
+import { author, version } from './package.json';
 
 const runCmd = (cmd: string) => execSync(cmd).toString().trim();
 

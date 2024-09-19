@@ -1,16 +1,16 @@
+import { i18n } from '@lingui/core';
+import { I18nProvider } from '@lingui/react';
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import { SnackbarProvider } from 'notistack';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { CssBaseline, ThemeProvider } from '@mui/material';
-import { SnackbarProvider } from 'notistack';
-import { i18n } from '@lingui/core';
-import { I18nProvider } from '@lingui/react';
 import { Router } from 'wouter';
 import { useHashLocation } from 'wouter/use-hash-location';
 
 import { store } from './redux/store';
-import { printWelcomeMessage } from './utils/console';
 import { theme } from './theme';
+import { printWelcomeMessage } from './utils/console';
 import './i18n';
 import './css/scrollbar.css';
 import App from './pages/_app';
