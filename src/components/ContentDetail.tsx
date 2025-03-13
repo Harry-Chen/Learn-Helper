@@ -1,6 +1,7 @@
 import type { MessageDescriptor } from '@lingui/core';
-import { Trans, msg, t } from '@lingui/macro';
+import { msg, t } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
+import { Trans } from '@lingui/react/macro';
 import { Button, Paper } from '@mui/material';
 import { type ReactNode, useState } from 'react';
 import { ContentType, type RemoteFile } from 'thu-learn-lib';

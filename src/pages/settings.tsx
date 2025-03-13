@@ -1,5 +1,5 @@
-import { Trans } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
+import { Trans } from '@lingui/react/macro';
 import { ContentType } from 'thu-learn-lib';
 
 import {

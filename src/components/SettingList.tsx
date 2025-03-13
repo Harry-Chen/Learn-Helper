@@ -1,5 +1,5 @@
-import { Trans } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
+import { Trans } from '@lingui/react/macro';
 import { useLocation } from 'wouter';
 
 import { List, ListItemButton, ListItemIcon, ListItemText, ListSubheader } from '@mui/material';

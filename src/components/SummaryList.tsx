@@ -1,5 +1,5 @@
-import { Trans } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
+import { Trans } from '@lingui/react/macro';
 import { useEffect, useMemo } from 'react';
 
 import {

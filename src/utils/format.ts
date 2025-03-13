@@ -1,5 +1,5 @@
 import { type MessageDescriptor, i18n } from '@lingui/core';
-import { msg, t } from '@lingui/macro';
+import { msg, t } from '@lingui/core/macro';
 import { FailReason, HomeworkGradeLevel, type SemesterInfo, SemesterType } from 'thu-learn-lib';
 
 export const semesterName = {

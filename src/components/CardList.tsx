@@ -1,4 +1,4 @@
-import { Trans } from '@lingui/macro';
+import { Trans } from '@lingui/react/macro';
 import { Button, List, ListSubheader } from '@mui/material';
 import cn from 'classnames';
 import { memoize } from 'proxy-memoize';

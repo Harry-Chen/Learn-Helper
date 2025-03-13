@@ -1,4 +1,4 @@
-import { msg } from '@lingui/macro';
+import { msg } from '@lingui/core/macro';
 import { ContentType } from 'thu-learn-lib';
 
 import IconArrowsRotate from '~icons/fa6-solid/arrows-rotate';

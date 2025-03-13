@@ -1,5 +1,5 @@
 import { i18n } from '@lingui/core';
-import { t } from '@lingui/macro';
+import { t } from '@lingui/core/macro';
 import type { AnyAction, ThunkAction } from '@reduxjs/toolkit';
 import { compare as compareVersion } from 'compare-versions';
 import { enqueueSnackbar } from 'notistack';
