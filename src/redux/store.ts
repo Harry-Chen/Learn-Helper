@@ -1,6 +1,5 @@
 import {
   type Action,
-  type AnyAction,
   type TypedStartListening,
   configureStore,
   createListenerMiddleware,
@@ -33,7 +32,7 @@ export type AppStartListening = TypedStartListening<RootState, AppDispatch>;
 export const startAppListening = listenerMiddleware.startListening as AppStartListening;
 
 startAppListening({
-  matcher: (action: AnyAction): action is Action<string> =>
+  matcher: (action: Action): action is Action<string> =>
     typeof action.type === 'string' && action.type.startsWith('data/'),
   effect: (_action, { getState }) => {
     const { data } = getState();

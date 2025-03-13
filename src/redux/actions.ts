@@ -1,6 +1,6 @@
 import { i18n } from '@lingui/core';
 import { t } from '@lingui/core/macro';
-import type { AnyAction, ThunkAction } from '@reduxjs/toolkit';
+import type { Action, ThunkAction } from '@reduxjs/toolkit';
 import { compare as compareVersion } from 'compare-versions';
 import { enqueueSnackbar } from 'notistack';
 import { type ApiError, ContentType, CourseType, type Language, SemesterType } from 'thu-learn-lib';
@@ -61,7 +61,7 @@ export const {
   setTitleFilter,
 } = uiSlice.actions;
 
-export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, AnyAction>;
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action>;
 
 // here we don't catch errors in login(), for there are two cases:
 // 1. silent login when starting, then NetworkErrorDialog should be shown
