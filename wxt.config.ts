@@ -4,8 +4,8 @@ import { lingui } from '@lingui/vite-plugin';
 import mdx from '@mdx-js/rollup';
 import react from '@vitejs/plugin-react-swc';
 import Randomstring from 'randomstring';
+import rehypeUnwrapImages from 'rehype-unwrap-images';
 import remarkMdxImages from 'remark-mdx-images';
-import remarkUnwrapImages from 'remark-unwrap-images';
 import preserveDirectives from 'rollup-preserve-directives';
 import icons from 'unplugin-icons/vite';
 import { chunkSplitPlugin } from 'vite-plugin-chunk-split';
@@ -51,7 +51,8 @@ export default defineConfig({
       {
         enforce: 'pre',
         ...mdx({
-          remarkPlugins: [remarkMdxImages, remarkUnwrapImages],
+          remarkPlugins: [remarkMdxImages],
+          rehypePlugins: [rehypeUnwrapImages],
         }),
       },
       icons({ compiler: 'jsx', jsx: 'react' }),
