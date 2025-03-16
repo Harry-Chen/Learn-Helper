@@ -64,7 +64,7 @@
     "react-iframe": "^1.8.5",
     "react-redux": "^9.2.0",
     "redux-logger": "^3.0.6",
-    "thu-learn-lib": "^4.0.0",
+    "thu-learn-lib": "^4.1.0",
     "wouter": "^3.6.0"
   },
   "pnpm": {
