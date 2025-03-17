@@ -1,5 +1,6 @@
 import { i18n } from '@lingui/core';
 import { t } from '@lingui/core/macro';
+import { compileMessage } from '@lingui/message-utils/compileMessage';
 import type { Action, ThunkAction } from '@reduxjs/toolkit';
 import { compare as compareVersion } from 'compare-versions';
 import { enqueueSnackbar } from 'notistack';
@@ -281,13 +282,19 @@ export const updateCourseNames = (): AppThunk<void> => (_dispatch, getState) => 
   i18n.load(
     'zh',
     Object.fromEntries(
-      Object.values(courseMap).map(({ id, chineseName }) => [`course-${id}`, chineseName]),
+      Object.values(courseMap).map(({ id, chineseName }) => [
+        `course-${id}`,
+        compileMessage(chineseName),
+      ]),
     ),
   );
   i18n.load(
     'en',
     Object.fromEntries(
-      Object.values(courseMap).map(({ id, englishName }) => [`course-${id}`, englishName]),
+      Object.values(courseMap).map(({ id, englishName }) => [
+        `course-${id}`,
+        compileMessage(englishName),
+      ]),
     ),
   );
 };
