@@ -9,7 +9,13 @@ import { useLocation } from 'wouter';
 
 import styles from '../css/page.module.css';
 import type { ContentInfo, FileInfo, HomeworkInfo, NotificationInfo } from '../types/data';
-import { formatDateTime, formatHomeworkGradeLevel } from '../utils/format';
+import {
+  formatDateTime,
+  formatHomeworkCompletionType,
+  formatHomeworkGradeLevel,
+  formatHomeworkSubmissionType,
+  html2text,
+} from '../utils/format';
 import IframeWrapper from './IframeWrapper';
 
 // const initialState = {
@@ -111,6 +117,7 @@ const FileDetails = ({ content: file }: ContentDetailProps<FileInfo>) => (
     <Line title={msg`下载量：`}>{file.downloadCount}</Line>
     <Line title={msg`文件大小：`}>{file.size}</Line>
     <Line title={msg`文件类型：`}>{translateFileType(file.type)}</Line>
+    {file.category && <Line title={msg`文件分类：`}>{file.category.title}</Line>}
     <FileLinks
       downloadTitle={msg`文件下载：`}
       previewTitle={msg`文件预览：`}
@@ -125,8 +132,19 @@ const HomeworkDetails = ({ content: homework }: ContentDetailProps<HomeworkInfo>
   return (
     <>
       <Line title={msg`截止时间：`}>{formatDateTime(homework.deadline)}</Line>
+      {homework.lateSubmissionDeadline && (
+        <Line title={msg`补交截止时间：`}>{formatDateTime(homework.lateSubmissionDeadline)}</Line>
+      )}
+      <Line title={msg`完成方式：`}>
+        {_(formatHomeworkCompletionType(homework.completionType))}
+      </Line>
+      <Line title={msg`提交方式：`}>
+        {_(formatHomeworkSubmissionType(homework.submissionType))}
+      </Line>
       {homework.submitted && (
-        <Line title={msg`提交时间：`}>{formatDateTime(homework.submitTime)}</Line>
+        <Line title={homework.isLateSubmission ? msg`补交时间：` : msg`提交时间：`}>
+          {formatDateTime(homework.submitTime)}
+        </Line>
       )}
       {homework.submittedContent && (
         <Line title={msg`提交内容：`} __html={homework.submittedContent} />
@@ -184,6 +202,9 @@ const HomeworkDetails = ({ content: homework }: ContentDetailProps<HomeworkInfo>
 const NotificationDetails = ({ content: notification }: ContentDetailProps<NotificationInfo>) => (
   <>
     <Line title={msg`发布时间：`}>{formatDateTime(notification.publishTime)}</Line>
+    {notification.expireTime && (
+      <Line title={msg`过期时间：`}>{formatDateTime(notification.expireTime)}</Line>
+    )}
     <Line title={msg`发布人：`}>{notification.publisher}</Line>
     <Line title={msg`重要性：`}>
       {notification.markedImportant ? <Trans>高</Trans> : <Trans>普通</Trans>}

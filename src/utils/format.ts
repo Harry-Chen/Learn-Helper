@@ -1,8 +1,15 @@
 import { type MessageDescriptor, i18n } from '@lingui/core';
 import { msg, t } from '@lingui/core/macro';
-import { FailReason, HomeworkGradeLevel, type SemesterInfo, SemesterType } from 'thu-learn-lib';
+import {
+  FailReason,
+  HomeworkCompletionType,
+  HomeworkGradeLevel,
+  HomeworkSubmissionType,
+  type SemesterInfo,
+  SemesterType,
+} from 'thu-learn-lib';
 
-export const semesterName = {
+const semesterName = {
   [SemesterType.FALL]: msg`秋季学期`,
   [SemesterType.SPRING]: msg`春季学期`,
   [SemesterType.SUMMER]: msg`夏季学期`,
@@ -112,4 +119,26 @@ export function formatHomeworkGradeLevel(
       ? HomeworkGradeLevelNames[gradeLevel as keyof typeof HomeworkGradeLevelNames]
       : { id: gradeLevel };
   }
+}
+
+const HomeworkCompletionTypeNames = {
+  [HomeworkCompletionType.INDIVIDUAL]: msg`每人独立完成一份作业`,
+  [HomeworkCompletionType.GROUP]: msg`每组共同完成一份作业`,
+};
+
+export function formatHomeworkCompletionType(
+  completionType: HomeworkCompletionType,
+): MessageDescriptor {
+  return HomeworkCompletionTypeNames[completionType];
+}
+
+const HomeworkSubmissionTypeNames = {
+  [HomeworkSubmissionType.WEB_LEARNING]: msg`网络学堂`,
+  [HomeworkSubmissionType.OFFLINE]: msg`无需在网络学堂提交`,
+};
+
+export function formatHomeworkSubmissionType(
+  submissionType: HomeworkSubmissionType,
+): MessageDescriptor {
+  return HomeworkSubmissionTypeNames[submissionType];
 }
