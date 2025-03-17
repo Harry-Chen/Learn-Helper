@@ -129,6 +129,9 @@ const FileDetails = ({ content: file }: ContentDetailProps<FileInfo>) => (
 const HomeworkDetails = ({ content: homework }: ContentDetailProps<HomeworkInfo>) => {
   const { _ } = useLingui();
 
+  const submittedContent = html2text(homework.submittedContent ?? '');
+  const answerContent = html2text(homework.answerContent ?? '');
+
   return (
     <>
       <Line title={msg`截止时间：`}>{formatDateTime(homework.deadline)}</Line>
@@ -146,9 +149,7 @@ const HomeworkDetails = ({ content: homework }: ContentDetailProps<HomeworkInfo>
           {formatDateTime(homework.submitTime)}
         </Line>
       )}
-      {homework.submittedContent && (
-        <Line title={msg`提交内容：`} __html={homework.submittedContent} />
-      )}
+      {submittedContent && <Line title={msg`提交内容：`}>{submittedContent}</Line>}
       {homework.submittedAttachment && (
         <FileLinks
           downloadTitle={msg`提交附件：`}
@@ -175,7 +176,7 @@ const HomeworkDetails = ({ content: homework }: ContentDetailProps<HomeworkInfo>
           )}
         </>
       )}
-      {homework.answerContent && <Line title={msg`答案内容：`} __html={homework.answerContent} />}
+      {answerContent && <Line title={msg`答案内容：`}>{answerContent}</Line>}
       {homework.answerAttachment && (
         <FileLinks
           downloadTitle={msg`答案附件：`}

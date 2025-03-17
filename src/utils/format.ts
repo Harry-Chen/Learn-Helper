@@ -9,6 +9,12 @@ import {
   SemesterType,
 } from 'thu-learn-lib';
 
+export function html2text(html: string): string {
+  const node = document.createElement('div');
+  node.innerHTML = html;
+  return node.innerText.trim();
+}
+
 const semesterName = {
   [SemesterType.FALL]: msg`秋季学期`,
   [SemesterType.SPRING]: msg`春季学期`,
@@ -91,6 +97,7 @@ const FAIL_REASON_MAPPING = {
   [FailReason.NO_CREDENTIAL]: msg`未提供用户名或密码`,
   [FailReason.UNEXPECTED_STATUS]: msg`非预期的 HTTP 响应状态`,
   [FailReason.INVALID_RESPONSE]: msg`无效的 HTTP 响应`,
+  [FailReason.OPERATION_FAILED]: msg`操作失败`,
   TIMEOUT: msg`请求超时`,
   UNKNOWN: msg`未知错误`,
 };
