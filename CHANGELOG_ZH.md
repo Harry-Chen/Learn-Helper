@@ -1,5 +1,19 @@
 # 更新记录
 
+## 4.7.0
+
+- [FIX] 暗色模式下“加载更多”按钮不可见
+- [ADD] 初步实现页面路由化，允许使用浏览器的前进后退功能切换内容，刷新或重新打开页面时保留之前的内容
+- [FIX] 禁止多开页面以避免出现数据冲突 ([#160](https://github.com/Harry-Chen/Learn-Helper/issues/160))
+- [FIX] 课程名过长时下拉符号显示位置未对齐 ([#165](https://github.com/Harry-Chen/Learn-Helper/issues/165))
+- [FIX] 作业内容显示转义问题 ([#167](https://github.com/Harry-Chen/Learn-Helper/issues/167))
+- [FIX] 作业“提交内容”总是被显示
+- [ADD] 使用 [WXT](https://wxt.dev/) 作为开发框架
+- [ADD] 升级 thu-learn-lib v4.1.0，并新增以下内容的支持：
+  - 作业补交截止时间、作业完成方式、作业提交方式
+  - 通知过期时间
+  - 文件分类（目前仅支持显示文件所属分类，按分类查看等功能请期待后续版本）
+
 ## 4.6.2
 
 - [FIX] 修复课程时间地点为空时无法获取课程信息 ([#145](https://github.com/Harry-Chen/Learn-Helper/issues/145))

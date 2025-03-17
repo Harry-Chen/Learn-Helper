@@ -1,5 +1,19 @@
 # Changelog
 
+## 4.7.0
+
+- FIX The "Load more" button is invisible in dark mode
+- ADD Introduce basic page routing, allow the use of the browser's forward and backward buttons to switch content, and retaining the previous content when refreshing or reopening the page
+- FIX Prevent multiple page openings to avoid data conflicts ([#160](https://github.com/Harry-Chen/Learn-Helper/issues/160))
+- FIX The dropdown symbol is not aligned when the course name is too long ([#165](https://github.com/Harry-Chen/Learn-Helper/issues/165))
+- FIX Escape issue with the display of homeworks content ([#167](https://github.com/Harry-Chen/Learn-Helper/issues/167))
+- FIX The "Submission content" of homeworks is always displayed
+- ADD Use [WXT](https://wxt.dev/) as the development framework
+- ADD Upgrade thu-learn-lib to v4.1.0 and add support for the following:
+  - Deadline for late submission, completion types and submission types of homeworks
+  - Expiration time of notifications
+  - File category (currently only supports displaying the category of files. Filtering files by category will be implemented in future versions)
+
 ## 4.6.2
 
 - FIX empty course time and location ([#145](https://github.com/Harry-Chen/Learn-Helper/issues/145))
