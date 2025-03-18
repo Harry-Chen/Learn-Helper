@@ -4,8 +4,8 @@ import { lingui } from '@lingui/vite-plugin';
 import mdx from '@mdx-js/rollup';
 import react from '@vitejs/plugin-react-swc';
 import Randomstring from 'randomstring';
+import rehypeMdxImportMedia from 'rehype-mdx-import-media';
 import rehypeUnwrapImages from 'rehype-unwrap-images';
-import rehypeMdxImportMedia from 'rehype-mdx-import-media'
 import preserveDirectives from 'rollup-preserve-directives';
 import icons from 'unplugin-icons/vite';
 import { chunkSplitPlugin } from 'vite-plugin-chunk-split';

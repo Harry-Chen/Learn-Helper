@@ -14,6 +14,7 @@ import type {
   HomeworkInfo,
   NotificationInfo,
   QuestionInfo,
+  SupportedContentType,
 } from '../../types/data';
 
 interface IContentIgnore {
@@ -63,17 +64,21 @@ const initialState: DataState = {
   contentIgnore: {},
 };
 
-function update(state: DataState, contentType: ContentType, fetchedData: CourseContent) {
+function update<T extends SupportedContentType>(
+  state: DataState,
+  contentType: T,
+  fetchedData: CourseContent<T>,
+) {
   const oldData = state[`${contentType}Map`];
 
-  const result = {};
+  const result = {} as typeof oldData;
   const dateKeyMap = {
     [ContentType.NOTIFICATION]: 'publishTime',
     [ContentType.FILE]: 'uploadTime',
     [ContentType.HOMEWORK]: 'deadline',
     [ContentType.DISCUSSION]: 'publishTime',
     [ContentType.QUESTION]: 'publishTime',
-  };
+  } as const;
   const dateKey = dateKeyMap[contentType];
 
   // we always use the fetched data
@@ -82,6 +87,7 @@ function update(state: DataState, contentType: ContentType, fetchedData: CourseC
       // compare the time of two contents (including undefined)
       // if they differ, mark the content as unread
       const oldContent = oldData[c.id];
+      // FIXME: type issues
       const newDate = c[dateKey];
       let updated = true;
       if (oldContent) {
@@ -123,7 +129,7 @@ function update(state: DataState, contentType: ContentType, fetchedData: CourseC
 
 interface ToggleStatePayload {
   id: string;
-  type: ContentType;
+  type: SupportedContentType;
   state: boolean;
 }
 
@@ -164,27 +170,27 @@ export const dataSlice = createSlice({
         state.contentIgnore[cid] ??= { ...IGNORE_UNSET_ALL };
       }
     },
-    updateNotification: (state, action: PayloadAction<CourseContent>) => {
+    updateNotification: (state, action: PayloadAction<CourseContent<ContentType.NOTIFICATION>>) => {
       update(state, ContentType.NOTIFICATION, action.payload);
       state.lastUpdateTime = new Date();
       state.updateFinished = false;
     },
-    updateFile: (state, action: PayloadAction<CourseContent>) => {
+    updateFile: (state, action: PayloadAction<CourseContent<ContentType.FILE>>) => {
       update(state, ContentType.FILE, action.payload);
       state.lastUpdateTime = new Date();
       state.updateFinished = false;
     },
-    updateHomework: (state, action: PayloadAction<CourseContent>) => {
+    updateHomework: (state, action: PayloadAction<CourseContent<ContentType.HOMEWORK>>) => {
       update(state, ContentType.HOMEWORK, action.payload);
       state.lastUpdateTime = new Date();
       state.updateFinished = false;
     },
-    updateDiscussion: (state, action: PayloadAction<CourseContent>) => {
+    updateDiscussion: (state, action: PayloadAction<CourseContent<ContentType.DISCUSSION>>) => {
       update(state, ContentType.DISCUSSION, action.payload);
       state.lastUpdateTime = new Date();
       state.updateFinished = false;
     },
-    updateQuestion: (state, action: PayloadAction<CourseContent>) => {
+    updateQuestion: (state, action: PayloadAction<CourseContent<ContentType.QUESTION>>) => {
       update(state, ContentType.QUESTION, action.payload);
       state.lastUpdateTime = new Date();
       state.updateFinished = false;

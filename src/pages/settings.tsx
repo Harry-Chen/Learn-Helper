@@ -1,6 +1,5 @@
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
-import { ContentType } from 'thu-learn-lib';
 
 import {
   Button,
@@ -44,9 +43,9 @@ const ContentIgnoreSetting = () => {
                 <TableCell>
                   <Trans>课程名称</Trans>
                 </TableCell>
-                {Object.values(ContentType).map((type) => (
-                  <TableCell key={type} align="center">
-                    {_(COURSE_MAIN_FUNC[type].name)}
+                {Object.values(COURSE_MAIN_FUNC).map((func) => (
+                  <TableCell key={func.type} align="center">
+                    {_(func.name)}
                   </TableCell>
                 ))}
               </TableRow>
@@ -57,12 +56,18 @@ const ContentIgnoreSetting = () => {
                   <TableCell component="th" scope="row" key={cid}>
                     {_({ id: `course-${courses[cid].id}` })}
                   </TableCell>
-                  {Object.values(ContentType).map((type) => (
-                    <TableCell align="center" key={type}>
+                  {Object.values(COURSE_MAIN_FUNC).map((func) => (
+                    <TableCell align="center" key={func.type}>
                       <Switch
-                        checked={ignore[type]}
+                        checked={ignore[func.type]}
                         onChange={() => {
-                          dispatch(toggleContentIgnore({ id: cid, type, state: !ignore[type] }));
+                          dispatch(
+                            toggleContentIgnore({
+                              id: cid,
+                              type: func.type,
+                              state: !ignore[func.type],
+                            }),
+                          );
                         }}
                       />
                     </TableCell>

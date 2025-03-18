@@ -44,3 +44,5 @@ export type ContentInfo =
   | FileInfo
   | DiscussionInfo
   | QuestionInfo;
+
+export type SupportedContentType = Exclude<ContentType, ContentType.QUESTIONNAIRE>;

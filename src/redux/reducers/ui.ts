@@ -1,14 +1,14 @@
 import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
-import type { ContentType } from 'thu-learn-lib';
 
 import { CARD_BATCH_LOAD_SIZE } from '../../constants';
+import type { SupportedContentType } from '../../types/data';
 
 interface CardEntry {
-  type: ContentType;
+  type: SupportedContentType;
   id: string;
 }
 interface CardFilter {
-  type?: ContentType | 'ignored';
+  type?: SupportedContentType | 'ignored';
   courseId?: string;
 }
 
