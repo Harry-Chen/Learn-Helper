@@ -43,6 +43,7 @@
     "wxt": "^0.20.8"
   },
   "dependencies": {
+    "@fingerprintjs/fingerprintjs": "1.5.1",
     "@iconify-json/fa6-solid": "^1.2.4",
     "@lingui/core": "^5.4.1",
     "@lingui/message-utils": "^5.4.1",
@@ -52,7 +53,6 @@
     "classnames": "^2.5.1",
     "compare-versions": "^6.1.1",
     "fake-parse5": "^0.0.2",
-    "@fingerprintjs/fingerprintjs": "1.5.1",
     "material-ui-popup-state": "^5.3.6",
     "notistack": "^3.0.2",
     "proxy-memoize": "^3.0.1",
