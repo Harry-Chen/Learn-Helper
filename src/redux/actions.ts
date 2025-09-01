@@ -103,8 +103,12 @@ export const login =
     dispatch(loggedIn());
     dispatch(loginEnd());
     dispatch(syncLanguage());
-    return Promise.resolve();
   };
+
+export const logout = (): AppThunk<Promise<void>> => async (dispatch, getState) => {
+  await getState().helper.helper.logout();
+  dispatch(loggedOut());
+};
 
 export const refreshIfNeeded = (): AppThunk<Promise<void>> => async (dispatch, getState) => {
   const data = getState().data;

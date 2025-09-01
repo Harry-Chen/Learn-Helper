@@ -3,7 +3,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/
 
 import {
   clearAllData,
-  loggedOut,
+  logout,
   refreshCardList,
   setCardFilter,
   toggleLoginDialog,
@@ -31,7 +31,7 @@ const LogoutDialog = () => {
           onClick={async () => {
             await removeStoredCredential();
             dispatch(toggleLogoutDialog(false));
-            dispatch(loggedOut());
+            await dispatch(logout());
             dispatch(toggleLoginDialog(true));
           }}
         >
@@ -42,7 +42,7 @@ const LogoutDialog = () => {
           onClick={async () => {
             await removeStoredCredential();
             dispatch(toggleLogoutDialog(false));
-            dispatch(loggedOut());
+            await dispatch(logout());
             dispatch(clearAllData());
             dispatch(setCardFilter({}));
             dispatch(refreshCardList());
