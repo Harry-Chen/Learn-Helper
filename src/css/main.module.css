@@ -95,7 +95,9 @@
   flex: 1;
   display: block;
 
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 
 .sidebar_filter_group {

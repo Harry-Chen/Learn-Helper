@@ -1,7 +1,5 @@
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
-import { useState } from 'react';
-
 import {
   Button,
   Checkbox,
@@ -14,6 +12,7 @@ import {
   FormControlLabel,
   TextField,
 } from '@mui/material';
+import { useState } from 'react';
 
 import { login, refresh, toggleLoginDialog } from '../../redux/actions';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
@@ -57,7 +56,6 @@ const LoginDialog = () => {
         <TextField
           fullWidth
           margin="dense"
-          id="username"
           label={t`用户名/学号`}
           type="text"
           required
@@ -67,7 +65,6 @@ const LoginDialog = () => {
         <TextField
           fullWidth
           margin="dense"
-          id="password"
           label={t`密码`}
           type="password"
           required
@@ -75,7 +72,7 @@ const LoginDialog = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <FormControlLabel
-          control={<Checkbox id="saveCredential" onChange={(e) => setSave(e.target.checked)} />}
+          control={<Checkbox onChange={(e) => setSave(e.target.checked)} />}
           label={t`保存凭据以自动登录`}
         />
       </DialogContent>

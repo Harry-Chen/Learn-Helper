@@ -1,4 +1,4 @@
-import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 import { CARD_BATCH_LOAD_SIZE } from '../../constants';
 import type { SupportedContentType } from '../../types/data';

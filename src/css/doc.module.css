@@ -1,7 +1,12 @@
 .wrapper {
   flex-grow: 1;
-  font: 16px / 1.5 Helvetica, "Source Han Sans SC", "Noto Sans CJK SC", "Microsoft Yahei",
-    "Hiragino Sans GB", sans-serif;
+  font:
+    16px / 1.5 Helvetica,
+    "Source Han Sans SC",
+    "Noto Sans CJK SC",
+    "Microsoft Yahei",
+    "Hiragino Sans GB",
+    sans-serif;
   background: url("../image/creampaper.png");
 }
 

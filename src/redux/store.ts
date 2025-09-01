@@ -1,8 +1,8 @@
 import {
   type Action,
-  type TypedStartListening,
   configureStore,
   createListenerMiddleware,
+  type TypedStartListening,
 } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
 

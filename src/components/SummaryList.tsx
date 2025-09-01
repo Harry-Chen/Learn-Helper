@@ -1,7 +1,5 @@
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
-import { useEffect, useMemo } from 'react';
-
 import {
   Badge,
   List,
@@ -10,14 +8,14 @@ import {
   ListItemText,
   ListSubheader,
 } from '@mui/material';
+import { useEffect, useMemo } from 'react';
 
 import IconThumbtack from '~icons/fa6-solid/thumbtack';
 
 import { SUMMARY_FUNC_LIST } from '../constants/ui';
+import styles from '../css/list.module.css';
 import { refreshCardList, setCardFilter } from '../redux/actions';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-
-import styles from '../css/list.module.css';
 import { selectUnreadMap } from '../redux/selectors';
 
 const SummaryList = () => {

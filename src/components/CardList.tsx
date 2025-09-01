@@ -1,14 +1,12 @@
 import { Trans } from '@lingui/react/macro';
-import { Button, List, ListSubheader } from '@mui/material';
+import { List, ListItem, ListItemButton, ListItemText, ListSubheader } from '@mui/material';
 import cn from 'classnames';
 import { memoize } from 'proxy-memoize';
 import { useEffect, useRef, useState } from 'react';
 import { ContentType } from 'thu-learn-lib';
-
+import styles from '../css/list.module.css';
 import { downloadAllUnreadFiles, loadMoreCard } from '../redux/actions';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-
-import styles from '../css/list.module.css';
 import ContentCard from './ContentCard';
 
 const CardList = () => {
@@ -65,46 +63,44 @@ const CardList = () => {
       }}
       ref={scrollRef}
     >
-      <List
-        className={styles.card_list_inner}
-        component="nav"
-        subheader={
+      <List className={styles.card_list_inner} component="nav" subheader={<div />}>
+        {unreadFileCount !== 0 && (
           <ListSubheader
             component="div"
             className={cn(styles.card_list_header, styles.card_list_header_floating)}
           >
-            {unreadFileCount !== 0 && (
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => {
-                  dispatch(downloadAllUnreadFiles(cards));
-                }}
-              >
+            <ListItemButton
+              onClick={() => {
+                dispatch(downloadAllUnreadFiles(cards));
+              }}
+            >
+              <ListItemText sx={{ textAlign: 'center' }}>
                 <Trans>下载所有未读文件（共 {unreadFileCount?.toString()} 个）</Trans>
-              </Button>
-            )}
+              </ListItemText>
+            </ListItemButton>
           </ListSubheader>
-        }
-      >
+        )}
+
         {filtered.map((c) => (
           <ContentCard key={`${c.type}-${c.id}`} type={c.type} id={c.id} />
         ))}
 
         {filtered.length === 0 && (
-          <div className={styles.card_list_load_more}>
-            <Trans>这里什么也没有</Trans>
-          </div>
+          <ListItem disablePadding>
+            <ListItemText sx={{ textAlign: 'center', opacity: 0.6 }}>
+              <Trans>这里什么也没有</Trans>
+            </ListItemText>
+          </ListItem>
         )}
 
         {canLoadMore && (
-          <div
-            className={styles.card_list_load_more}
-            onClick={() => dispatch(loadMoreCard())}
-            onKeyDown={(e) => e.key === 'Enter' && dispatch(loadMoreCard())}
-          >
-            <Trans>加载更多</Trans>
-          </div>
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => dispatch(loadMoreCard())}>
+              <ListItemText sx={{ textAlign: 'center' }}>
+                <Trans>加载更多</Trans>
+              </ListItemText>
+            </ListItemButton>
+          </ListItem>
         )}
       </List>
     </div>

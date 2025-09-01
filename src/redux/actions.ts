@@ -4,15 +4,15 @@ import { compileMessage } from '@lingui/message-utils/compileMessage';
 import type { Action, ThunkAction } from '@reduxjs/toolkit';
 import { compare as compareVersion } from 'compare-versions';
 import { enqueueSnackbar } from 'notistack';
-import { type ApiError, ContentType, CourseType, type Language, SemesterType } from 'thu-learn-lib';
+import { ContentType, CourseType, type Language, SemesterType } from 'thu-learn-lib';
 
 import { version as currentVersion } from '../../package.json';
 import { STORAGE_KEY_REDUX, STORAGE_KEY_REDUX_LEGACY, STORAGE_KEY_VERSION } from '../constants';
 import type { ContentInfo, FileInfo } from '../types/data';
 import { initiateFileDownload } from '../utils/download';
-import { failReasonToString } from '../utils/format';
-import { getStoredCredential, storeCredential } from '../utils/storage';
 import { getFinger } from '../utils/fingerprint';
+import { formatError } from '../utils/format';
+import { getStoredCredential, storeCredential } from '../utils/storage';
 
 import { dataSlice } from './reducers/data';
 import { helperSlice } from './reducers/helper';
@@ -78,20 +78,16 @@ export const login =
     // wait at most 5 seconds for timeout
     const timeout = new Promise((_, reject) => {
       setTimeout(() => {
-        reject({ reason: 'TIMEOUT' });
+        reject(new Error('TIMEOUT'));
       }, 5000);
     });
 
     try {
       await Promise.race([helper.login(username, password, getFinger()), timeout]);
     } catch (e) {
-      const error = e as ApiError;
-      enqueueSnackbar(
-        t`登录失败：${failReasonToString(error?.reason) ?? error.toString() ?? t`未知错误`}`,
-        { variant: 'error' },
-      );
+      enqueueSnackbar(t`登录失败：${formatError(e)}`, { variant: 'error' });
       dispatch(loginEnd());
-      return Promise.reject(`login failed: ${error}`);
+      throw e;
     }
 
     // login succeeded
@@ -113,7 +109,7 @@ export const logout = (): AppThunk<Promise<void>> => async (dispatch, getState) 
 
 export const refreshIfNeeded = (): AppThunk<Promise<void>> => async (dispatch, getState) => {
   const data = getState().data;
-  const justUpdated = new Date().getTime() - data.lastUpdateTime.getTime() <= 15 * 60 * 1000;
+  const justUpdated = Date.now() - data.lastUpdateTime.getTime() <= 15 * 60 * 1000;
   if (data.updateFinished && justUpdated) {
     enqueueSnackbar(t`离上次成功刷新不足15分钟，若需要可手动刷新`, { variant: 'info' });
   } else {
@@ -180,7 +176,7 @@ export const refresh = (): AppThunk<Promise<void>> => async (dispatch, getState)
     dispatch(updateCourseNames());
     nextProgress();
   } catch (e) {
-    console.error(e);
+    enqueueSnackbar(t`刷新失败：${formatError(e)}`, { variant: 'error' });
     dispatch(setLoadingProgress());
     dispatch(toggleNetworkErrorDialog(true));
     return;
@@ -271,13 +267,7 @@ export const syncLanguage = (): AppThunk<Promise<void>> => async (_dispatch, get
   try {
     await helper.setLanguage(i18n.locale as Language);
   } catch (e) {
-    const error = e as ApiError;
-    enqueueSnackbar(
-      t`设置网络学堂语言失败：${
-        failReasonToString(error?.reason) ?? error.toString() ?? t`未知错误`
-      }`,
-      { variant: 'error' },
-    );
+    enqueueSnackbar(t`设置网络学堂语言失败：${formatError(e)}`, { variant: 'error' });
   }
 };
 
@@ -340,10 +330,8 @@ export const refreshCardList = (): AppThunk<void> => (dispatch, getState) => {
               : !contentIgnore[c.courseId]?.[c.type] && !c.ignored,
         )
         .sort((a, b) => {
-          const aNotDue =
-            a.type === ContentType.HOMEWORK && a.date.getTime() > new Date().getTime();
-          const bNotDue =
-            b.type === ContentType.HOMEWORK && b.date.getTime() > new Date().getTime();
+          const aNotDue = a.type === ContentType.HOMEWORK && a.date.getTime() > Date.now();
+          const bNotDue = b.type === ContentType.HOMEWORK && b.date.getTime() > Date.now();
           return (
             compareBoolean(a.starred, b.starred) ||
             compareBoolean(!a.hasRead, !b.hasRead) ||
@@ -364,7 +352,7 @@ export const downloadAllUnreadFiles =
     const helper = getState().helper.helper;
     try {
       await helper.getSemesterIdList();
-    } catch (e) {
+    } catch (_e) {
       enqueueSnackbar(t`登录已过期，请刷新后重试`, { variant: 'error' });
       return;
     }
@@ -449,6 +437,7 @@ export const loadApp = (): AppThunk<Promise<LoadResult>> => async (dispatch) => 
         }
         enqueueSnackbar(t`升级成功，数据没有受到影响`, { variant: 'info' });
       } catch (e) {
+        console.error(e);
         await browser.storage.local.clear();
         enqueueSnackbar(t`迁移失败，已清除全部数据`, { variant: 'error' });
       }
@@ -473,6 +462,7 @@ export const loadApp = (): AppThunk<Promise<LoadResult>> => async (dispatch) => 
           ),
         );
       } catch (e) {
+        console.error(e);
         await browser.storage.local.remove(STORAGE_KEY_REDUX);
         enqueueSnackbar(t`加载数据失败，已清除数据`, { variant: 'error' });
       }
@@ -494,9 +484,9 @@ export const tryLoginSilently = (): AppThunk<Promise<void>> => async (dispatch) 
   try {
     await dispatch(login(credential.username, credential.password, false));
     await dispatch(refreshIfNeeded());
-  } catch (e) {
+  } catch (_e) {
     // here we catch only login problems
-    // for refresh() has a try-catch block in itself
+    // for login() has a try-catch block in itself
     dispatch(toggleNetworkErrorDialog(true));
   }
 };

@@ -1,8 +1,5 @@
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
-import { useState } from 'react';
-import { useLocation } from 'wouter';
-
 import {
   Collapse,
   List,
@@ -11,6 +8,8 @@ import {
   ListItemText,
   ListSubheader,
 } from '@mui/material';
+import { useState } from 'react';
+import { useLocation } from 'wouter';
 
 import IconAngleDown from '~icons/fa6-solid/angle-down';
 import IconAngleUp from '~icons/fa6-solid/angle-up';
@@ -18,11 +17,10 @@ import IconBook from '~icons/fa6-solid/book';
 import IconInbox from '~icons/fa6-solid/inbox';
 
 import { COURSE_FUNC_LIST } from '../constants/ui';
+import styles from '../css/list.module.css';
 import { refreshCardList, setCardFilter } from '../redux/actions';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { selectCourseList } from '../redux/selectors';
-
-import styles from '../css/list.module.css';
 
 const CourseList = () => {
   const { _ } = useLingui();

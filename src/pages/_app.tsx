@@ -1,11 +1,6 @@
 import { t } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
-import classnames from 'classnames';
-import { type ErrorInfo, StrictMode, useEffect, useRef, useState } from 'react';
-import { ErrorBoundary, type FallbackProps } from 'react-error-boundary';
-import { Route, Switch, useLocation } from 'wouter';
-
 import {
   Button,
   Divider,
@@ -23,7 +18,11 @@ import {
   Typography,
   useColorScheme,
 } from '@mui/material';
+import classnames from 'classnames';
 import { bindMenu, bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
+import { type ErrorInfo, StrictMode, useEffect, useRef, useState } from 'react';
+import { ErrorBoundary, type FallbackProps } from 'react-error-boundary';
+import { Route, Switch, useLocation } from 'wouter';
 
 import IconAngleLeft from '~icons/fa6-solid/angle-left';
 import IconBars from '~icons/fa6-solid/bars';
@@ -34,7 +33,19 @@ import IconMoon from '~icons/fa6-solid/moon';
 import IconStarOfLife from '~icons/fa6-solid/star-of-life';
 import IconSun from '~icons/fa6-solid/sun';
 import IconXmark from '~icons/fa6-solid/xmark';
-
+import CardList from '../components/CardList';
+import CourseList from '../components/CourseList';
+import {
+  ChangeSemesterDialog,
+  ClearDataDialog,
+  LoginDialog,
+  LogoutDialog,
+  NetworkErrorDialog,
+  NewSemesterDialog,
+} from '../components/dialogs';
+import SettingList from '../components/SettingList';
+import SummaryList from '../components/SummaryList';
+import styles from '../css/main.module.css';
 import type { Language } from '../i18n';
 import {
   clearAllData,
@@ -51,27 +62,11 @@ import type { ColorMode } from '../types/ui';
 import { interceptCsrfRequest } from '../utils/csrf';
 import { formatSemester } from '../utils/format';
 import { removeStoredCredential } from '../utils/storage';
-
-import CardList from '../components/CardList';
-import CourseList from '../components/CourseList';
-import SettingList from '../components/SettingList';
-import SummaryList from '../components/SummaryList';
-import {
-  ChangeSemesterDialog,
-  ClearDataDialog,
-  LoginDialog,
-  LogoutDialog,
-  NetworkErrorDialog,
-  NewSemesterDialog,
-} from '../components/dialogs';
-
 import Content from './content';
 import Doc from './doc/_doc';
 import ContentIgnoreSetting from './settings';
 import Web from './web';
 import Welcome from './welcome';
-
-import styles from '../css/main.module.css';
 
 const LanguageSwitcher = () => {
   const { i18n } = useLingui();

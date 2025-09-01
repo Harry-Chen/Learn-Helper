@@ -1,6 +1,4 @@
 import { Trans } from '@lingui/react/macro';
-import { useState } from 'react';
-
 import {
   Button,
   Dialog,
@@ -12,7 +10,8 @@ import {
   MenuItem,
   Select,
 } from '@mui/material';
-
+import { useId, useState } from 'react';
+import styles from '../../css/main.module.css';
 import {
   insistSemester,
   refresh,
@@ -25,8 +24,6 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { selectSemesters } from '../../redux/selectors';
 import { formatSemesterId, semesterFromId } from '../../utils/format';
 
-import styles from '../../css/main.module.css';
-
 const ChangeSemesterDialog = () => {
   const dispatch = useAppDispatch();
 
@@ -38,6 +35,8 @@ const ChangeSemesterDialog = () => {
   const [newSemester, setNewSemester] = useState(
     semesters.includes(semester) ? semester : (semesters[0] ?? ''),
   );
+
+  const selectSemesterLabelId = useId();
 
   return (
     <Dialog open={open} keepMounted>
@@ -55,11 +54,11 @@ const ChangeSemesterDialog = () => {
           </Trans>
           <br />
           <FormControl className={styles.form_control}>
-            <InputLabel id="select-semester">
+            <InputLabel id={selectSemesterLabelId}>
               <Trans>选择学期</Trans>
             </InputLabel>
             <Select
-              labelId="select-semester"
+              labelId={selectSemesterLabelId}
               value={newSemester}
               onChange={(e) => setNewSemester(e.target.value)}
             >

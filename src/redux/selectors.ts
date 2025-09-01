@@ -48,7 +48,7 @@ export const selectUnreadMap = memoize((state: RootState) => {
               // unfinished homework before deadline
               (c.type === ContentType.HOMEWORK &&
                 !c.submitted &&
-                c?.deadline?.getTime() > new Date().getTime())),
+                c?.deadline?.getTime() > Date.now())),
         ),
       0,
     );

@@ -1,4 +1,4 @@
-import { type MessageDescriptor, i18n } from '@lingui/core';
+import { i18n, type MessageDescriptor } from '@lingui/core';
 import { msg, t } from '@lingui/core/macro';
 import {
   FailReason,
@@ -45,8 +45,8 @@ export function semesterFromId(id: string): SemesterInfo {
     id,
     startDate: new Date(),
     endDate: new Date(),
-    startYear: Number.parseInt(id.substring(0, 4)),
-    endYear: Number.parseInt(id.substring(5, 9)),
+    startYear: Number.parseInt(id.substring(0, 4), 10),
+    endYear: Number.parseInt(id.substring(5, 9), 10),
     type,
   };
 }
@@ -88,9 +88,10 @@ export function formatDateTime(date?: Date): string {
   return `${toDateString(date, true)} ${toTimeString(date)}`;
 }
 
-const FAIL_REASON_MAPPING = {
+const FailReasons = {
   [FailReason.BAD_CREDENTIAL]: msg`用户名或密码错误`,
   [FailReason.ERROR_FETCH_FROM_ID]: msg`无法从 id.tsinghua.edu.cn 获取票据`,
+  [FailReason.DOUBLE_AUTH]: msg`需要二次认证`,
   [FailReason.ERROR_ROAMING]: msg`无法使用票据漫游至 learn.tsinghua.edu.cn`,
   [FailReason.NOT_IMPLEMENTED]: msg`功能尚未实现`,
   [FailReason.NOT_LOGGED_IN]: msg`尚未登录`,
@@ -102,8 +103,13 @@ const FAIL_REASON_MAPPING = {
   UNKNOWN: msg`未知错误`,
 };
 
-export function failReasonToString(reason: FailReason): string {
-  return i18n._(FAIL_REASON_MAPPING[reason] ?? FAIL_REASON_MAPPING.UNKNOWN);
+export function formatError(e: unknown): string {
+  console.error(e);
+  return i18n._(
+    e instanceof Error && e.message in FailReasons
+      ? FailReasons[e.message as keyof typeof FailReasons]
+      : FailReasons.UNKNOWN,
+  );
 }
 
 const HomeworkGradeLevelNames = {

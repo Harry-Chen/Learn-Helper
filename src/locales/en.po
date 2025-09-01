@@ -14,15 +14,15 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. placeholder {0}: unreadFileCount?.toString()
-#: src/components/CardList.tsx:84
+#: src/components/CardList.tsx:78
 msgid "下载所有未读文件（共 {0} 个）"
 msgstr "Download all unread files ({0} total)"
 
-#: src/components/CardList.tsx:96
+#: src/components/CardList.tsx:91
 msgid "这里什么也没有"
 msgstr "Nothing here"
 
-#: src/components/CardList.tsx:106
+#: src/components/CardList.tsx:100
 msgid "加载更多"
 msgstr "Load more"
 
@@ -284,43 +284,43 @@ msgstr "Course name:"
 msgid "加载预览（{0}）"
 msgstr "Load preview ({0})"
 
-#: src/components/CourseList.tsx:43
+#: src/components/CourseList.tsx:41
 msgid "本学期课程"
 msgstr "Courses for this semester"
 
-#: src/components/CourseList.tsx:50
+#: src/components/CourseList.tsx:48
 msgid "这里什么也没有，快去选点课吧！"
 msgstr "Nothing here, pick some courses!"
 
-#: src/components/SettingList.tsx:27
+#: src/components/SettingList.tsx:25
 msgid "设置"
 msgstr "Settings"
 
-#: src/components/SummaryList.tsx:46
+#: src/components/SummaryList.tsx:44
 msgid "项目汇总"
 msgstr "Summary"
 
-#: src/components/dialogs/ChangeSemesterDialog.tsx:45
+#: src/components/dialogs/ChangeSemesterDialog.tsx:44
 #: src/constants/ui.tsx:168
 msgid "切换学期"
 msgstr "Switch semester"
 
 #. placeholder {0}: formatSemesterId(semester)
 #. placeholder {1}: formatSemesterId(currentWebSemester)
-#: src/components/dialogs/ChangeSemesterDialog.tsx:49
+#: src/components/dialogs/ChangeSemesterDialog.tsx:48
 msgid "切换学期将导致所有配置（隐藏）和状态（已读、星标）丢失，请三思！<0/>当前 Learn Helper 学期：{0}<1/>当前网络学堂学期（注册中心控制）：{1}"
 msgstr "Switching semesters will result in loss of all configuration (hidden) and status (read, starred), think twice!<0/>Current semester of Learn Helper: {0}<1/>Current semester of Web Learning (controlled by Registration Center): {1}"
 
-#: src/components/dialogs/ChangeSemesterDialog.tsx:59
+#: src/components/dialogs/ChangeSemesterDialog.tsx:58
 msgid "选择学期"
 msgstr "Select semester"
 
-#: src/components/dialogs/ChangeSemesterDialog.tsx:89
-#: src/components/dialogs/LoginDialog.tsx:101
+#: src/components/dialogs/ChangeSemesterDialog.tsx:88
+#: src/components/dialogs/LoginDialog.tsx:98
 msgid "确定"
 msgstr "Ok"
 
-#: src/components/dialogs/ChangeSemesterDialog.tsx:92
+#: src/components/dialogs/ChangeSemesterDialog.tsx:91
 #: src/components/dialogs/LogoutDialog.tsx:55
 msgid "取消"
 msgstr "Cancel"
@@ -343,23 +343,23 @@ msgstr "Yes"
 msgid "否"
 msgstr "No"
 
-#: src/components/dialogs/LoginDialog.tsx:35
+#: src/components/dialogs/LoginDialog.tsx:34
 msgid "登录网络学堂"
 msgstr "Log in to Web Learning"
 
-#: src/components/dialogs/LoginDialog.tsx:39
+#: src/components/dialogs/LoginDialog.tsx:38
 msgid "请输入您的学号/用户名和密码以登录到网络学堂。<0/>请注意，本插件默认不会保存您的凭据；每次打开新的学堂助手页面时，您都需要重新输入。 如果您选择保存凭据，则本插件会将其 <1>保存在本地</1> ，并启用自动登录功能。<2/>我们对凭据进行了简单的加密，但并不能完全防止其被第三方读取。 在长时间不使用或者出借计算机时，请务必退出登录，以免您的凭据被泄露。<3/>如果您选择登录，则视为您已经阅读并同意<4>此页面</4>中的所有内容。否则，请立刻停止使用并从浏览器中卸载本插件。"
 msgstr "Please enter your student ID/username and password to log into Web Learning.<0/>Note that this plugin does not save your credentials by default; you will need to re-enter them each time you open a new page. If you choose to save your credentials, the plugin will <1>save them locally</1> and enable automatic login.<2/>We simply encrypt the credentials, but that doesn't completely prevent them from being read by third parties. When not using the computer for a long time or lending it out, please be sure to log out to prevent your credentials from being leaked.<3/>If you choose to log in, you are deemed to have read and agree to all the contents of <4>this page</4>. Otherwise, please stop using it immediately and uninstall this extension from your browser."
 
-#: src/components/dialogs/LoginDialog.tsx:61
+#: src/components/dialogs/LoginDialog.tsx:59
 msgid "用户名/学号"
 msgstr "Username/Student ID"
 
-#: src/components/dialogs/LoginDialog.tsx:71
+#: src/components/dialogs/LoginDialog.tsx:68
 msgid "密码"
 msgstr "Password"
 
-#: src/components/dialogs/LoginDialog.tsx:79
+#: src/components/dialogs/LoginDialog.tsx:76
 msgid "保存凭据以自动登录"
 msgstr "Save credentials to log in automatically"
 
@@ -491,7 +491,7 @@ msgid "答疑"
 msgstr "Q&A"
 
 #: src/constants/ui.tsx:147
-#: src/pages/settings.tsx:30
+#: src/pages/settings.tsx:29
 msgid "管理隐藏项"
 msgstr "Manage ignored items"
 
@@ -507,55 +507,55 @@ msgstr "Refresh"
 msgid "清空缓存"
 msgstr "Clear data"
 
-#: src/pages/_app.tsx:133
+#: src/pages/_app.tsx:128
 msgid "跟随系统"
 msgstr "System"
 
-#: src/pages/_app.tsx:141
+#: src/pages/_app.tsx:136
 msgid "亮"
 msgstr "Light"
 
-#: src/pages/_app.tsx:149
+#: src/pages/_app.tsx:144
 msgid "暗"
 msgstr "Dark"
 
-#: src/pages/_app.tsx:225
+#: src/pages/_app.tsx:220
 msgid "非网络学堂当前学期"
 msgstr "Not current semester of Web Learning"
 
-#: src/pages/_app.tsx:258
+#: src/pages/_app.tsx:253
 msgid "筛选"
 msgstr "Filter"
 
-#: src/pages/_app.tsx:309
+#: src/pages/_app.tsx:304
 msgid "哎呀，出错了！"
 msgstr "Oops, something went wrong!"
 
-#: src/pages/_app.tsx:313
+#: src/pages/_app.tsx:308
 msgid "发生了不可恢复的错误，请尝试刷新页面。如果错误继续出现，请清除数据重新来过。"
 msgstr "An unrecoverable error has occurred, please try refreshing the page. If the error recurs, please clear the data and try again."
 
-#: src/pages/_app.tsx:323
+#: src/pages/_app.tsx:318
 msgid "刷新"
 msgstr "Refresh"
 
-#: src/pages/_app.tsx:331
+#: src/pages/_app.tsx:326
 msgid "清除数据"
 msgstr "Clear data"
 
-#: src/pages/_app.tsx:335
+#: src/pages/_app.tsx:330
 msgid "请将下面的错误信息发送给开发者，以协助解决问题，感谢支持！"
 msgstr "Please send the error message below to the developer to help solve the problem. Thanks for your support!"
 
-#: src/pages/_app.tsx:339
+#: src/pages/_app.tsx:334
 msgid "错误信息："
 msgstr "Error message: "
 
-#: src/pages/_app.tsx:344
+#: src/pages/_app.tsx:339
 msgid "错误组件："
 msgstr "Error component: "
 
-#: src/pages/_app.tsx:345
+#: src/pages/_app.tsx:340
 msgid "无此信息"
 msgstr "no information"
 
@@ -563,15 +563,15 @@ msgstr "no information"
 msgid "返回"
 msgstr "Back"
 
-#: src/pages/settings.tsx:33
+#: src/pages/settings.tsx:32
 msgid "此处的更改在下一次刷新时生效，并且只在汇总功能中起作用。<0/>如果您重新启用一个隐藏的项目，原本的项目属性（是否已读、加星标）不会发生变化。"
 msgstr "This only works for summaries, and changes will take effect on the next refresh.<0/>If you unhide a hidden item, the original item properties (read, starred) will not change."
 
-#: src/pages/settings.tsx:45
+#: src/pages/settings.tsx:44
 msgid "课程名称"
 msgstr "Course name"
 
-#: src/pages/settings.tsx:83
+#: src/pages/settings.tsx:88
 msgid "重置"
 msgstr "Reset"
 
@@ -587,34 +587,33 @@ msgstr "About"
 msgid "更新记录"
 msgstr "Changelog"
 
-#: src/redux/actions.ts:88
-#: src/redux/actions.ts:271
-#: src/utils/format.ts:102
-msgid "未知错误"
-msgstr "Unknown error"
-
-#. placeholder {0}: failReasonToString(error?.reason) ?? error.toString() ?? t`未知错误`
+#. placeholder {0}: formatError(e)
 #: src/redux/actions.ts:88
 msgid "登录失败：{0}"
 msgstr "Failed to login: {0}"
 
-#: src/redux/actions.ts:97
+#: src/redux/actions.ts:95
 msgid "登录成功"
 msgstr "Login successfully"
 
-#: src/redux/actions.ts:112
+#: src/redux/actions.ts:114
 msgid "离上次成功刷新不足15分钟，若需要可手动刷新"
 msgstr "Refresh skipped because the last successful refresh was less than 15 minutes ago. Refresh manually if necessary."
 
-#: src/redux/actions.ts:243
+#. placeholder {0}: formatError(e)
+#: src/redux/actions.ts:179
+msgid "刷新失败：{0}"
+msgstr "Failed to refresh: {0}"
+
+#: src/redux/actions.ts:245
 msgid "更新成功"
 msgstr "Update successfully"
 
-#: src/redux/actions.ts:245
+#: src/redux/actions.ts:247
 msgid "部分内容更新失败"
 msgstr "Update failed for partial content"
 
-#. placeholder {0}: failReasonToString(error?.reason) ?? error.toString() ?? t`未知错误`
+#. placeholder {0}: formatError(e)
 #: src/redux/actions.ts:270
 msgid "设置网络学堂语言失败：{0}"
 msgstr "Failed to set language of Web Learning: {0}"
@@ -635,11 +634,11 @@ msgstr "Upgrade successfully and all local data (except configuration) is cleare
 msgid "升级成功，数据没有受到影响"
 msgstr "Upgrade successfully and local data is kept"
 
-#: src/redux/actions.ts:441
+#: src/redux/actions.ts:442
 msgid "迁移失败，已清除全部数据"
 msgstr "Migration failed, all data has been cleared"
 
-#: src/redux/actions.ts:465
+#: src/redux/actions.ts:467
 msgid "加载数据失败，已清除数据"
 msgstr "Failed to load data, data has been cleared"
 
@@ -673,77 +672,85 @@ msgid "无法从 id.tsinghua.edu.cn 获取票据"
 msgstr "Unable to fetch ticket from id.tsinghua.edu.cn"
 
 #: src/utils/format.ts:94
+msgid "需要二次认证"
+msgstr "Two-factor authentication required"
+
+#: src/utils/format.ts:95
 msgid "无法使用票据漫游至 learn.tsinghua.edu.cn"
 msgstr "Unable to use tickets to roam to learn.tsinghua.edu.cn"
 
-#: src/utils/format.ts:95
+#: src/utils/format.ts:96
 msgid "功能尚未实现"
 msgstr "Feature not yet implemented"
 
-#: src/utils/format.ts:96
+#: src/utils/format.ts:97
 msgid "尚未登录"
 msgstr "Not logged in"
 
-#: src/utils/format.ts:97
+#: src/utils/format.ts:98
 msgid "未提供用户名或密码"
 msgstr "No username or password provided"
 
-#: src/utils/format.ts:98
+#: src/utils/format.ts:99
 msgid "非预期的 HTTP 响应状态"
 msgstr "Unexpected HTTP response status"
 
-#: src/utils/format.ts:99
+#: src/utils/format.ts:100
 msgid "无效的 HTTP 响应"
 msgstr "Invalid HTTP response"
 
-#: src/utils/format.ts:100
+#: src/utils/format.ts:101
 msgid "操作失败"
 msgstr "Operation failed"
 
-#: src/utils/format.ts:101
+#: src/utils/format.ts:102
 msgid "请求超时"
 msgstr "Request timed out"
 
-#: src/utils/format.ts:110
+#: src/utils/format.ts:103
+msgid "未知错误"
+msgstr "Unknown error"
+
+#: src/utils/format.ts:116
 msgid "已阅"
 msgstr "Checked"
 
-#: src/utils/format.ts:111
+#: src/utils/format.ts:117
 msgid "优秀"
 msgstr "Distinction"
 
-#: src/utils/format.ts:112
+#: src/utils/format.ts:118
 msgid "免课"
 msgstr "Exempted course"
 
-#: src/utils/format.ts:113
+#: src/utils/format.ts:119
 msgid "免修"
 msgstr "Exemption"
 
-#: src/utils/format.ts:114
+#: src/utils/format.ts:120
 msgid "通过"
 msgstr "Pass"
 
-#: src/utils/format.ts:115
+#: src/utils/format.ts:121
 msgid "不通过"
 msgstr "Failure"
 
-#: src/utils/format.ts:116
+#: src/utils/format.ts:122
 msgid "缓考"
 msgstr "Incomplete"
 
-#: src/utils/format.ts:132
+#: src/utils/format.ts:138
 msgid "每人独立完成一份作业"
 msgstr "Individual"
 
-#: src/utils/format.ts:133
+#: src/utils/format.ts:139
 msgid "每组共同完成一份作业"
 msgstr "Group"
 
-#: src/utils/format.ts:143
+#: src/utils/format.ts:149
 msgid "网络学堂"
 msgstr "Web-Learning"
 
-#: src/utils/format.ts:144
+#: src/utils/format.ts:150
 msgid "无需在网络学堂提交"
 msgstr "Offline"

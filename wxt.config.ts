@@ -68,8 +68,6 @@ export default defineConfig({
     resolve: {
       alias: {
         '~': path.resolve(__dirname, 'src'),
-        parse5: path.resolve(__dirname, 'node_modules/fake-parse5/'),
-        'parse5-htmlparser2-tree-adapter': path.resolve(__dirname, 'node_modules/fake-parse5/'),
       },
     },
     build: {
@@ -86,7 +84,6 @@ export default defineConfig({
       }),
     },
   }),
-  extensionApi: 'chrome',
   manifestVersion: 3,
   manifest: ({ browser }) => ({
     name: '__MSG_appName__',

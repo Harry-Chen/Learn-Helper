@@ -1,15 +1,13 @@
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
-import { useLocation } from 'wouter';
-
 import { List, ListItemButton, ListItemIcon, ListItemText, ListSubheader } from '@mui/material';
+import { useLocation } from 'wouter';
 
 import IconWrench from '~icons/fa6-solid/wrench';
 
 import { SETTINGS_FUNC_LIST } from '../constants/ui';
-import { useAppDispatch } from '../redux/hooks';
-
 import styles from '../css/list.module.css';
+import { useAppDispatch } from '../redux/hooks';
 
 const SettingList = () => {
   const { _ } = useLingui();

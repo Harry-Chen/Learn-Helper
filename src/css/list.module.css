@@ -114,22 +114,6 @@
   font-size: 20px;
 }
 
-.card_list_load_more {
-  height: 60px;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0.38;
-  transition: opacity 0.2s ease;
-  margin-top: 20px;
-  cursor: pointer;
-}
-
-.card_list_load_more:hover {
-  opacity: 0.7;
-}
-
 .subfunc_list {
   margin-left: 10px !important;
 }

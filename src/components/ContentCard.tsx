@@ -1,9 +1,5 @@
 import { t } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
-import classnames from 'classnames';
-import { ContentType } from 'thu-learn-lib';
-import { useLocation } from 'wouter';
-
 import {
   Avatar,
   Badge,
@@ -15,6 +11,9 @@ import {
   IconButton,
   Tooltip,
 } from '@mui/material';
+import classnames from 'classnames';
+import { ContentType } from 'thu-learn-lib';
+import { useLocation } from 'wouter';
 
 import IconCheck from '~icons/fa6-solid/check';
 import IconClipboard from '~icons/fa6-solid/clipboard';
@@ -32,9 +31,10 @@ import { toggleIgnoreState, toggleReadState, toggleStarState } from '../redux/ac
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { initiateFileDownload } from '../utils/download';
 import { formatDate, formatHomeworkGradeLevel } from '../utils/format';
+import type { SupportedContentType } from '../types/data';
 
 interface ContentCardProps {
-  type: ContentType;
+  type: SupportedContentType;
   id: string;
 }
 
@@ -63,7 +63,7 @@ const ContentCard = ({ type, id }: ContentCardProps) => {
     dispatch(toggleReadState({ type: content.type, id: content.id, state: true }));
   };
 
-  const diffDays = Math.floor((content.date.getTime() - new Date().getTime()) / (1000 * 3600 * 24));
+  const diffDays = Math.floor((content.date.getTime() - Date.now()) / (1000 * 3600 * 24));
 
   return (
     <Card className={styles.detail_card}>

@@ -6,6 +6,6 @@ export async function initiateFileDownload(url: string, filename?: string) {
     });
     console.log(`Download ${url} starts with id ${id}`);
   } catch (e) {
-    console.log(`Download ${url} failed: ${e}`);
+    console.error(`Download ${url} failed: ${e}`);
   }
 }
