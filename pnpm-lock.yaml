@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@fingerprintjs/fingerprintjs':
+        specifier: 1.5.1
+        version: 1.5.1
       '@iconify-json/fa6-solid':
         specifier: ^1.2.4
         version: 1.2.4
@@ -504,6 +507,9 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@fingerprintjs/fingerprintjs@1.5.1':
+    resolution: {integrity: sha512-rzXWu9f8MDwGSN5cSkljUf0bQ02UYFPzaPCDRKWzB4WB72pCz2YnxuclyqKfnvG+K6YG4ELSmmsAdNbUQD3fYA==}
 
   '@iconify-json/fa6-solid@1.2.4':
     resolution: {integrity: sha512-LmDNNdJVyvF5mPm1yxWvL8KjCc/E8LzoqnF1LNTVpyY2ZJRUlGOWuPIThdbuFBF2IovgttkIyumhyqfmlHdwKg==}
@@ -3911,6 +3917,8 @@ snapshots:
 
   '@esbuild/win32-x64@0.25.1':
     optional: true
+
+  '@fingerprintjs/fingerprintjs@1.5.1': {}
 
   '@iconify-json/fa6-solid@1.2.4':
     dependencies:

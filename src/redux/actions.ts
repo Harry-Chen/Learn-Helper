@@ -12,6 +12,7 @@ import type { ContentInfo, FileInfo } from '../types/data';
 import { initiateFileDownload } from '../utils/download';
 import { failReasonToString } from '../utils/format';
 import { getStoredCredential, storeCredential } from '../utils/storage';
+import { getFinger } from '../utils/fingerprint';
 
 import { dataSlice } from './reducers/data';
 import { helperSlice } from './reducers/helper';
@@ -82,7 +83,7 @@ export const login =
     });
 
     try {
-      await Promise.race([helper.login(username, password), timeout]);
+      await Promise.race([helper.login(username, password, getFinger()), timeout]);
     } catch (e) {
       const error = e as ApiError;
       enqueueSnackbar(
@@ -144,7 +145,7 @@ export const refresh = (): AppThunk<Promise<void>> => async (dispatch, getState)
   try {
     // login on every refresh (if stored)
     const credential = await getStoredCredential();
-    credential && (await helper.login(credential.username, credential.password));
+    credential && (await helper.login(credential.username, credential.password, getFinger()));
     dispatch(loggedIn());
 
     const semesters = await helper.getSemesterIdList();
