@@ -2,7 +2,7 @@ import { t } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
 import classnames from 'classnames';
-import { type ErrorInfo, useEffect, useRef, useState } from 'react';
+import { type ErrorInfo, StrictMode, useEffect, useRef, useState } from 'react';
 import { ErrorBoundary, type FallbackProps } from 'react-error-boundary';
 import { Route, Switch, useLocation } from 'wouter';
 
@@ -190,7 +190,7 @@ const AppDrawer = () => {
     (state) => state.data.semester.id === state.data.fetchedSemester.id,
   );
 
-  const inputRef = useRef<HTMLInputElement>();
+  const inputRef = useRef<HTMLInputElement>(null);
   const [filterShown, setFilterShown] = useState(false);
   const [filter, setFilter] = useState('');
 
@@ -382,39 +382,41 @@ const App = () => {
       }}
       fallbackRender={(fallbackProps) => <Fallback {...fallbackProps} errorInfo={errorInfo} />}
     >
-      <main>
-        {/* sidebar */}
-        <AppBar />
-        {/* progress bar */}
-        <header className={styles.progress_area}>
-          {loadingProgress !== undefined && (
-            <LinearProgress variant="determinate" color="secondary" value={loadingProgress} />
-          )}
-        </header>
-        <AppDrawer />
-        {/* detail area */}
-        <aside
-          className={classnames(styles.pane_content, {
-            [styles.pane_fullscreen]: paneHidden,
-          })}
-        >
-          <Toolbar />
-          <Switch>
-            <Route path="/" component={Welcome} />
-            <Route path="/settings" component={ContentIgnoreSetting} />
-            <Route path="/web/:url" component={Web} />
-            <Route path="/content/:type/:id" component={Content} />
-            <Route path="/doc" nest component={Doc} />
-          </Switch>
-        </aside>
-        {/* dialogs */}
-        <LoginDialog />
-        <NetworkErrorDialog />
-        <NewSemesterDialog />
-        <ChangeSemesterDialog />
-        <ClearDataDialog />
-        <LogoutDialog />
-      </main>
+      <StrictMode>
+        <main>
+          {/* sidebar */}
+          <AppBar />
+          {/* progress bar */}
+          <header className={styles.progress_area}>
+            {loadingProgress !== undefined && (
+              <LinearProgress variant="determinate" color="secondary" value={loadingProgress} />
+            )}
+          </header>
+          <AppDrawer />
+          {/* detail area */}
+          <aside
+            className={classnames(styles.pane_content, {
+              [styles.pane_fullscreen]: paneHidden,
+            })}
+          >
+            <Toolbar />
+            <Switch>
+              <Route path="/" component={Welcome} />
+              <Route path="/settings" component={ContentIgnoreSetting} />
+              <Route path="/web/:url" component={Web} />
+              <Route path="/content/:type/:id" component={Content} />
+              <Route path="/doc" nest component={Doc} />
+            </Switch>
+          </aside>
+          {/* dialogs */}
+          <LoginDialog />
+          <NetworkErrorDialog />
+          <NewSemesterDialog />
+          <ChangeSemesterDialog />
+          <ClearDataDialog />
+          <LogoutDialog />
+        </main>
+      </StrictMode>
     </ErrorBoundary>
   );
 };

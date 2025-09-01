@@ -2,7 +2,6 @@ import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { SnackbarProvider } from 'notistack';
-import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { Router } from 'wouter';
@@ -17,24 +16,22 @@ import App from './pages/_app';
 
 const root = createRoot(document.querySelector('#main')!);
 root.render(
-  <StrictMode>
-    <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <SnackbarProvider
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-          }}
-        />
-        <I18nProvider i18n={i18n}>
-          <Router hook={useHashLocation}>
-            <App />
-          </Router>
-        </I18nProvider>
-      </ThemeProvider>
-    </Provider>
-  </StrictMode>,
+  <Provider store={store}>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <SnackbarProvider
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+      />
+      <I18nProvider i18n={i18n}>
+        <Router hook={useHashLocation}>
+          <App />
+        </Router>
+      </I18nProvider>
+    </ThemeProvider>
+  </Provider>,
 );
 
 printWelcomeMessage();
