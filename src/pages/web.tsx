@@ -9,11 +9,7 @@ export default function Web() {
   return (
     url && (
       <section className={styles.web_frame_wrapper}>
-        <IframeWrapper
-          id="content-frame"
-          className={styles.web_frame}
-          url={decodeURIComponent(url)}
-        />
+        <IframeWrapper className={styles.web_frame} url={decodeURIComponent(url)} />
       </section>
     )
   );
