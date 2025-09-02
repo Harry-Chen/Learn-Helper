@@ -62,8 +62,8 @@ export const uiSlice = createSlice({
     toggleLoginDialogProgress: (state, action: PayloadAction<boolean>) => {
       state.inLoginProgress = action.payload;
     },
-    loginEnd: (state) => {
-      state.showLoginDialog = false;
+    loginEnd: (state, action: PayloadAction<boolean>) => {
+      if (action.payload) state.showLoginDialog = false;
       state.inLoginProgress = false;
     },
     toggleNetworkErrorDialog: (state, action: PayloadAction<boolean>) => {

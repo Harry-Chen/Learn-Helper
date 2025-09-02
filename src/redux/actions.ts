@@ -86,7 +86,7 @@ export const login =
       await Promise.race([helper.login(username, password, getFinger()), timeout]);
     } catch (e) {
       enqueueSnackbar(t`登录失败：${formatError(e)}`, { variant: 'error' });
-      dispatch(loginEnd());
+      dispatch(loginEnd(false));
       throw e;
     }
 
@@ -98,7 +98,7 @@ export const login =
       await storeCredential(username, password);
     }
     dispatch(loggedIn());
-    dispatch(loginEnd());
+    dispatch(loginEnd(true));
     dispatch(syncLanguage());
   };
 
@@ -484,9 +484,10 @@ export const tryLoginSilently = (): AppThunk<Promise<void>> => async (dispatch) 
   try {
     await dispatch(login(credential.username, credential.password, false));
     await dispatch(refreshIfNeeded());
-  } catch (_e) {
+  } catch (e) {
+    console.log(e);
     // here we catch only login problems
-    // for login() has a try-catch block in itself
+    // for refresh() has a try-catch block in itself
     dispatch(toggleNetworkErrorDialog(true));
   }
 };

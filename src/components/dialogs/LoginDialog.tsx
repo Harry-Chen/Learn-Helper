@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 
-import { login, refresh, toggleLoginDialog } from '../../redux/actions';
+import { login, refresh } from '../../redux/actions';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { requestPermission } from '../../utils/permission';
 
@@ -90,7 +90,6 @@ const LoginDialog = () => {
               // here we catch only login problems
               // for refresh() has a try-catch block in itself
               console.error(e);
-              dispatch(toggleLoginDialog(true));
             }
           }}
           type="submit"
