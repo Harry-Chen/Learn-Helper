@@ -1,5 +1,4 @@
 import { execSync } from 'node:child_process';
-import path from 'node:path';
 import { lingui } from '@lingui/vite-plugin';
 import mdx from '@mdx-js/rollup';
 import react from '@vitejs/plugin-react-swc';
@@ -65,11 +64,6 @@ export default defineConfig({
         },
       }),
     ],
-    resolve: {
-      alias: {
-        '~': path.resolve(__dirname, 'src'),
-      },
-    },
     build: {
       target: 'esnext',
       sourcemap: mode === 'development',
@@ -82,6 +76,11 @@ export default defineConfig({
           },
         },
       }),
+      rollupOptions: {
+        output: {
+          inlineDynamicImports: false,
+        },
+      },
     },
   }),
   manifestVersion: 3,

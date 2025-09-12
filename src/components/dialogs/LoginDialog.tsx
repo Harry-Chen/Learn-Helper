@@ -1,20 +1,18 @@
-import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import {
   Button,
-  Checkbox,
   CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
-  FormControlLabel,
-  TextField,
 } from '@mui/material';
-import { useState } from 'react';
 
-import { login, refresh } from '../../redux/actions';
+import IconArrowUpRightFromSquare from '~icons/fa6-solid/arrow-up-right-from-square';
+
+import { LEARN_TSINGHUA_LOGIN_URL } from '../../constants';
+import { loggedIn, login, refresh, toggleLoginDialog } from '../../redux/actions';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { requestPermission } from '../../utils/permission';
 
@@ -24,10 +22,6 @@ const LoginDialog = () => {
   const open = useAppSelector((state) => state.ui.showLoginDialog);
   const inLoginProgress = useAppSelector((state) => state.ui.inLoginProgress);
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [save, setSave] = useState(false);
-
   return (
     <Dialog open={open} keepMounted>
       <DialogTitle>
@@ -36,13 +30,15 @@ const LoginDialog = () => {
       <DialogContent>
         <DialogContentText>
           <Trans>
-            请输入您的学号/用户名和密码以登录到网络学堂。
+            您需要登录网络学堂才能使用本插件的功能。
             <br />
-            请注意，本插件默认不会保存您的凭据；每次打开新的学堂助手页面时，您都需要重新输入。
-            如果您选择保存凭据，则本插件会将其 <b>保存在本地</b> ，并启用自动登录功能。
             <br />
-            我们对凭据进行了简单的加密，但并不能完全防止其被第三方读取。
-            在长时间不使用或者出借计算机时，请务必退出登录，以免您的凭据被泄露。
+            请注意：本插件默认不会保存您的凭据；您需要在登录页面手动选择启用自动登录功能。
+            <br />
+            如果您选择启用自动登录功能，则本插件会将您的凭据保存在<b>本地</b>。
+            <br />
+            我们对凭据进行了简单的加密，但并不能完全防止其被第三方读取。在长时间不使用或者出借计算机时，请务必退出登录，以免您的凭据被泄露。
+            <br />
             <br />
             如果您选择登录，则视为您已经阅读并同意
             <a href="about.html" target="_blank" rel="noreferrer">
@@ -52,39 +48,24 @@ const LoginDialog = () => {
           </Trans>
         </DialogContentText>
       </DialogContent>
-      <DialogContent>
-        <TextField
-          fullWidth
-          margin="dense"
-          label={t`用户名/学号`}
-          type="text"
-          required
-          multiline={false}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <TextField
-          fullWidth
-          margin="dense"
-          label={t`密码`}
-          type="password"
-          required
-          multiline={false}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <FormControlLabel
-          control={<Checkbox onChange={(e) => setSave(e.target.checked)} />}
-          label={t`保存凭据以自动登录`}
-        />
-      </DialogContent>
       <DialogActions>
         {inLoginProgress && <CircularProgress size={30} variant="indeterminate" />}
+        <Button
+          color="primary"
+          href={LEARN_TSINGHUA_LOGIN_URL}
+          target="_blank"
+          rel="noreferrer"
+          startIcon={<IconArrowUpRightFromSquare width={20} />}
+        >
+          <Trans>跳转到网络学堂登录页面</Trans>
+        </Button>
         <Button
           color="primary"
           disabled={inLoginProgress}
           onClick={async () => {
             try {
               await requestPermission();
-              await dispatch(login(username, password, save));
+              await dispatch(login());
               await dispatch(refresh());
             } catch (e) {
               // here we catch only login problems
@@ -94,7 +75,16 @@ const LoginDialog = () => {
           }}
           type="submit"
         >
-          <Trans>确定</Trans>
+          <Trans>刷新登录状态</Trans>
+        </Button>
+        <Button
+          color="secondary"
+          onClick={() => {
+            dispatch(toggleLoginDialog(false));
+            dispatch(loggedIn());
+          }}
+        >
+          <Trans>离线查看</Trans>
         </Button>
       </DialogActions>
     </Dialog>

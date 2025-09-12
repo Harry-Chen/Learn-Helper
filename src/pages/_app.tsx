@@ -40,7 +40,6 @@ import {
   ClearDataDialog,
   LoginDialog,
   LogoutDialog,
-  NetworkErrorDialog,
   NewSemesterDialog,
 } from '../components/dialogs';
 import SettingList from '../components/SettingList';
@@ -405,7 +404,6 @@ const App = () => {
           </aside>
           {/* dialogs */}
           <LoginDialog />
-          <NetworkErrorDialog />
           <NewSemesterDialog />
           <ChangeSemesterDialog />
           <ClearDataDialog />

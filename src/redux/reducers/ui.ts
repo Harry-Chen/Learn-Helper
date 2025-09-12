@@ -17,7 +17,6 @@ export interface UiState {
   paneHidden: boolean;
   showLoginDialog: boolean;
   inLoginProgress: boolean;
-  showNetworkErrorDialog: boolean;
   showNewSemesterDialog: boolean;
   showChangeSemesterDialog: boolean;
   ignoreWrongSemester: boolean;
@@ -34,7 +33,6 @@ const initialState: UiState = {
   paneHidden: false,
   showLoginDialog: false,
   inLoginProgress: false,
-  showNetworkErrorDialog: false,
   showNewSemesterDialog: false,
   ignoreWrongSemester: false,
   showLogoutDialog: false,
@@ -65,9 +63,6 @@ export const uiSlice = createSlice({
     loginEnd: (state, action: PayloadAction<boolean>) => {
       if (action.payload) state.showLoginDialog = false;
       state.inLoginProgress = false;
-    },
-    toggleNetworkErrorDialog: (state, action: PayloadAction<boolean>) => {
-      state.showNetworkErrorDialog = action.payload;
     },
     toggleNewSemesterDialog: (state, action: PayloadAction<boolean>) => {
       state.showNewSemesterDialog = action.payload;

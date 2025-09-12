@@ -50,7 +50,6 @@ export const {
   toggleLoginDialog,
   toggleLoginDialogProgress,
   loginEnd,
-  toggleNetworkErrorDialog,
   toggleNewSemesterDialog,
   toggleIgnoreWrongSemester,
   toggleLogoutDialog,
@@ -65,42 +64,46 @@ export const {
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action>;
 
-// here we don't catch errors in login(), for there are two cases:
-// 1. silent login when starting, then NetworkErrorDialog should be shown
-// 2. explicit login in LoginDialog, then login dialog should still be shown
-export const login =
-  (username: string, password: string, save: boolean): AppThunk<Promise<void>> =>
-  async (dispatch, getState) => {
-    dispatch(toggleLoginDialogProgress(true));
-    const helperState = getState().helper;
-    const helper = helperState.helper;
+export const login = (): AppThunk<Promise<void>> => async (dispatch, getState) => {
+  let username = 'invalid';
+  let password = 'invalid';
+  const credential = await getStoredCredential();
+  if (credential) {
+    ({ username, password } = credential);
+  }
 
-    // wait at most 5 seconds for timeout
-    const timeout = new Promise((_, reject) => {
-      setTimeout(() => {
-        reject(new Error('TIMEOUT'));
-      }, 5000);
-    });
+  dispatch(toggleLoginDialogProgress(true));
+  const helperState = getState().helper;
+  const helper = helperState.helper;
 
-    try {
-      await Promise.race([helper.login(username, password, getFinger()), timeout]);
-    } catch (e) {
+  // wait at most 5 seconds for timeout
+  const timeout = new Promise((_, reject) => {
+    setTimeout(() => {
+      reject(new Error('TIMEOUT'));
+    }, 5000);
+  });
+
+  try {
+    await Promise.race([helper.login(username, password, getFinger()), timeout]);
+  } catch (e) {
+    if (credential) {
       enqueueSnackbar(t`登录失败：${formatError(e)}`, { variant: 'error' });
-      dispatch(loginEnd(false));
-      throw e;
+    } else {
+      enqueueSnackbar(t`未找到已保存的凭据，请前往网络学堂登录页面手动登录`, {
+        variant: 'warning',
+      });
     }
+    dispatch(loginEnd(false));
+    throw e;
+  }
 
-    // login succeeded
-    // hide login dialog (if shown), show success notice
-    enqueueSnackbar(t`登录成功`, { variant: 'success' });
-    // save salted user credential if asked
-    if (save) {
-      await storeCredential(username, password);
-    }
-    dispatch(loggedIn());
-    dispatch(loginEnd(true));
-    dispatch(syncLanguage());
-  };
+  // login succeeded
+  // hide login dialog (if shown), show success notice
+  enqueueSnackbar(t`登录成功`, { variant: 'success' });
+  dispatch(loggedIn());
+  dispatch(loginEnd(true));
+  dispatch(syncLanguage());
+};
 
 export const logout = (): AppThunk<Promise<void>> => async (dispatch, getState) => {
   await getState().helper.helper.logout();
@@ -172,13 +175,12 @@ export const refresh = (): AppThunk<Promise<void>> => async (dispatch, getState)
     const courses = await helper.getCourseList(currentSemesterId);
     allCourseIds = courses.map((c) => c.id);
     dispatch(updateCourses(courses));
-
     dispatch(updateCourseNames());
     nextProgress();
   } catch (e) {
     enqueueSnackbar(t`刷新失败：${formatError(e)}`, { variant: 'error' });
     dispatch(setLoadingProgress());
-    dispatch(toggleNetworkErrorDialog(true));
+    dispatch(toggleLoginDialog(true));
     return;
   }
 
@@ -476,18 +478,13 @@ export const loadApp = (): AppThunk<Promise<LoadResult>> => async (dispatch) => 
 };
 
 export const tryLoginSilently = (): AppThunk<Promise<void>> => async (dispatch) => {
-  const credential = await getStoredCredential();
-  if (!credential) {
-    dispatch(toggleLoginDialog(true));
-    return;
-  }
   try {
-    await dispatch(login(credential.username, credential.password, false));
+    await dispatch(login());
     await dispatch(refreshIfNeeded());
   } catch (e) {
-    console.log(e);
+    console.error(e);
     // here we catch only login problems
     // for refresh() has a try-catch block in itself
-    dispatch(toggleNetworkErrorDialog(true));
+    dispatch(toggleLoginDialog(true));
   }
 };

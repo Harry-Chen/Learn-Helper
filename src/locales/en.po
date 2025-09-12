@@ -316,7 +316,6 @@ msgid "选择学期"
 msgstr "Select semester"
 
 #: src/components/dialogs/ChangeSemesterDialog.tsx:88
-#: src/components/dialogs/LoginDialog.tsx:98
 msgid "确定"
 msgstr "Ok"
 
@@ -343,25 +342,25 @@ msgstr "Yes"
 msgid "否"
 msgstr "No"
 
-#: src/components/dialogs/LoginDialog.tsx:34
+#: src/components/dialogs/LoginDialog.tsx:28
 msgid "登录网络学堂"
 msgstr "Log in to Web Learning"
 
-#: src/components/dialogs/LoginDialog.tsx:38
-msgid "请输入您的学号/用户名和密码以登录到网络学堂。<0/>请注意，本插件默认不会保存您的凭据；每次打开新的学堂助手页面时，您都需要重新输入。 如果您选择保存凭据，则本插件会将其 <1>保存在本地</1> ，并启用自动登录功能。<2/>我们对凭据进行了简单的加密，但并不能完全防止其被第三方读取。 在长时间不使用或者出借计算机时，请务必退出登录，以免您的凭据被泄露。<3/>如果您选择登录，则视为您已经阅读并同意<4>此页面</4>中的所有内容。否则，请立刻停止使用并从浏览器中卸载本插件。"
-msgstr "Please enter your student ID/username and password to log into Web Learning.<0/>Note that this plugin does not save your credentials by default; you will need to re-enter them each time you open a new page. If you choose to save your credentials, the plugin will <1>save them locally</1> and enable automatic login.<2/>We simply encrypt the credentials, but that doesn't completely prevent them from being read by third parties. When not using the computer for a long time or lending it out, please be sure to log out to prevent your credentials from being leaked.<3/>If you choose to log in, you are deemed to have read and agree to all the contents of <4>this page</4>. Otherwise, please stop using it immediately and uninstall this extension from your browser."
+#: src/components/dialogs/LoginDialog.tsx:32
+msgid "您需要登录网络学堂才能使用本插件的功能。<0/><1/>请注意：本插件默认不会保存您的凭据；您需要在登录页面手动选择启用自动登录功能。<2/>如果您选择启用自动登录功能，则本插件会将您的凭据保存在<3>本地</3>。<4/>我们对凭据进行了简单的加密，但并不能完全防止其被第三方读取。在长时间不使用或者出借计算机时，请务必退出登录，以免您的凭据被泄露。<5/><6/>如果您选择登录，则视为您已经阅读并同意<7>此页面</7>中的所有内容。否则，请立刻停止使用并从浏览器中卸载本插件。"
+msgstr "Please login to Web Learning to use this extension.<0/><1/>Note that this plugin does not save your credentials by default; you need to manually choose to enable automatic login on the login page.<2/>If you choose to enable automatic login, the plugin will save your credentials <3>locally</3>.<4/>We simply encrypt the credentials, but that doesn't completely prevent them from being read by third parties. When not using the computer for a long time or lending it out, please be sure to log out to prevent your credentials from being leaked.<5/><6/>If you choose to log in, you are deemed to have read and agree to all the contents of <7>this page</7>. Otherwise, please stop using it immediately and uninstall this extension from your browser."
 
-#: src/components/dialogs/LoginDialog.tsx:59
-msgid "用户名/学号"
-msgstr "Username/Student ID"
+#: src/components/dialogs/LoginDialog.tsx:60
+msgid "跳转到网络学堂登录页面"
+msgstr "Go to Web Learning login page"
 
-#: src/components/dialogs/LoginDialog.tsx:68
-msgid "密码"
-msgstr "Password"
+#: src/components/dialogs/LoginDialog.tsx:78
+msgid "刷新登录状态"
+msgstr "Refresh login status"
 
-#: src/components/dialogs/LoginDialog.tsx:76
-msgid "保存凭据以自动登录"
-msgstr "Save credentials to log in automatically"
+#: src/components/dialogs/LoginDialog.tsx:87
+msgid "离线查看"
+msgstr "View offline"
 
 #: src/components/dialogs/LogoutDialog.tsx:23
 #: src/constants/ui.tsx:182
@@ -379,26 +378,6 @@ msgstr "Logout"
 #: src/components/dialogs/LogoutDialog.tsx:52
 msgid "退出并清除数据"
 msgstr "Logout and clear data"
-
-#: src/components/dialogs/NetworkErrorDialog.tsx:21
-msgid "刷新课程信息失败"
-msgstr "Failed to fetch course information"
-
-#: src/components/dialogs/NetworkErrorDialog.tsx:24
-msgid "可能原因有：<0/>· 网络不太给力<1/>· 服务器去思考人生了<2/>· 保存的用户凭据不正确（最近修改过密码？）<3/>您可以选择重试、放弃刷新，或者更换新的凭据。"
-msgstr "Possible reasons are:<0/>· Bad internet<1/>· Server down<2/>· Saved credentials are incorrect (maybe you changed the password recently?)<3/>You can choose to try again, view offline, or update credentials."
-
-#: src/components/dialogs/NetworkErrorDialog.tsx:42
-msgid "重试刷新"
-msgstr "Refresh"
-
-#: src/components/dialogs/NetworkErrorDialog.tsx:51
-msgid "离线查看"
-msgstr "View offline"
-
-#: src/components/dialogs/NetworkErrorDialog.tsx:60
-msgid "更新凭据"
-msgstr "Update credentials"
 
 #: src/components/dialogs/NewSemesterDialog.tsx:25
 msgid "检测到新学期"
@@ -507,55 +486,55 @@ msgstr "Refresh"
 msgid "清空缓存"
 msgstr "Clear data"
 
-#: src/pages/_app.tsx:128
+#: src/pages/_app.tsx:127
 msgid "跟随系统"
 msgstr "System"
 
-#: src/pages/_app.tsx:136
+#: src/pages/_app.tsx:135
 msgid "亮"
 msgstr "Light"
 
-#: src/pages/_app.tsx:144
+#: src/pages/_app.tsx:143
 msgid "暗"
 msgstr "Dark"
 
-#: src/pages/_app.tsx:220
+#: src/pages/_app.tsx:219
 msgid "非网络学堂当前学期"
 msgstr "Not current semester of Web Learning"
 
-#: src/pages/_app.tsx:253
+#: src/pages/_app.tsx:252
 msgid "筛选"
 msgstr "Filter"
 
-#: src/pages/_app.tsx:304
+#: src/pages/_app.tsx:303
 msgid "哎呀，出错了！"
 msgstr "Oops, something went wrong!"
 
-#: src/pages/_app.tsx:308
+#: src/pages/_app.tsx:307
 msgid "发生了不可恢复的错误，请尝试刷新页面。如果错误继续出现，请清除数据重新来过。"
 msgstr "An unrecoverable error has occurred, please try refreshing the page. If the error recurs, please clear the data and try again."
 
-#: src/pages/_app.tsx:318
+#: src/pages/_app.tsx:317
 msgid "刷新"
 msgstr "Refresh"
 
-#: src/pages/_app.tsx:326
+#: src/pages/_app.tsx:325
 msgid "清除数据"
 msgstr "Clear data"
 
-#: src/pages/_app.tsx:330
+#: src/pages/_app.tsx:329
 msgid "请将下面的错误信息发送给开发者，以协助解决问题，感谢支持！"
 msgstr "Please send the error message below to the developer to help solve the problem. Thanks for your support!"
 
-#: src/pages/_app.tsx:334
+#: src/pages/_app.tsx:333
 msgid "错误信息："
 msgstr "Error message: "
 
-#: src/pages/_app.tsx:339
+#: src/pages/_app.tsx:338
 msgid "错误组件："
 msgstr "Error component: "
 
-#: src/pages/_app.tsx:340
+#: src/pages/_app.tsx:339
 msgid "无此信息"
 msgstr "no information"
 
@@ -588,57 +567,61 @@ msgid "更新记录"
 msgstr "Changelog"
 
 #. placeholder {0}: formatError(e)
-#: src/redux/actions.ts:88
+#: src/redux/actions.ts:90
 msgid "登录失败：{0}"
 msgstr "Failed to login: {0}"
 
-#: src/redux/actions.ts:95
+#: src/redux/actions.ts:92
+msgid "未找到已保存的凭据，请前往网络学堂登录页面手动登录"
+msgstr "No saved credentials found, please go to the Web Learning login page to log in manually."
+
+#: src/redux/actions.ts:102
 msgid "登录成功"
 msgstr "Login successfully"
 
-#: src/redux/actions.ts:114
+#: src/redux/actions.ts:117
 msgid "离上次成功刷新不足15分钟，若需要可手动刷新"
 msgstr "Refresh skipped because the last successful refresh was less than 15 minutes ago. Refresh manually if necessary."
 
 #. placeholder {0}: formatError(e)
-#: src/redux/actions.ts:179
+#: src/redux/actions.ts:181
 msgid "刷新失败：{0}"
 msgstr "Failed to refresh: {0}"
 
-#: src/redux/actions.ts:245
+#: src/redux/actions.ts:247
 msgid "更新成功"
 msgstr "Update successfully"
 
-#: src/redux/actions.ts:247
+#: src/redux/actions.ts:249
 msgid "部分内容更新失败"
 msgstr "Update failed for partial content"
 
 #. placeholder {0}: formatError(e)
-#: src/redux/actions.ts:270
+#: src/redux/actions.ts:272
 msgid "设置网络学堂语言失败：{0}"
 msgstr "Failed to set language of Web Learning: {0}"
 
-#: src/redux/actions.ts:356
+#: src/redux/actions.ts:358
 msgid "登录已过期，请刷新后重试"
 msgstr "Login has expired, please refresh and try again."
 
-#: src/redux/actions.ts:394
+#: src/redux/actions.ts:396
 msgid "升级成功，所有本地数据已经被清除"
 msgstr "Upgrade successfully and all local data is cleared"
 
-#: src/redux/actions.ts:407
+#: src/redux/actions.ts:409
 msgid "升级成功，所有本地数据（除配置）已经被清除"
 msgstr "Upgrade successfully and all local data (except configuration) is cleared"
 
-#: src/redux/actions.ts:438
+#: src/redux/actions.ts:440
 msgid "升级成功，数据没有受到影响"
 msgstr "Upgrade successfully and local data is kept"
 
-#: src/redux/actions.ts:442
+#: src/redux/actions.ts:444
 msgid "迁移失败，已清除全部数据"
 msgstr "Migration failed, all data has been cleared"
 
-#: src/redux/actions.ts:467
+#: src/redux/actions.ts:469
 msgid "加载数据失败，已清除数据"
 msgstr "Failed to load data, data has been cleared"
 
