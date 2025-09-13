@@ -320,7 +320,7 @@ msgid "确定"
 msgstr "Ok"
 
 #: src/components/dialogs/ChangeSemesterDialog.tsx:91
-#: src/components/dialogs/LogoutDialog.tsx:55
+#: src/components/dialogs/LogoutDialog.tsx:72
 msgid "取消"
 msgstr "Cancel"
 
@@ -362,20 +362,24 @@ msgstr "Refresh login status"
 msgid "离线查看"
 msgstr "View offline"
 
-#: src/components/dialogs/LogoutDialog.tsx:23
+#: src/components/dialogs/LogoutDialog.tsx:34
 #: src/constants/ui.tsx:182
 msgid "退出登录"
 msgstr "Logout"
 
-#: src/components/dialogs/LogoutDialog.tsx:26
+#: src/components/dialogs/LogoutDialog.tsx:37
 msgid "您确认要退出登录吗？如果只是更换登录密码，请不要选择清除数据。"
 msgstr "Are you sure to log out? If you just want to update the password, please do not clear data."
 
-#: src/components/dialogs/LogoutDialog.tsx:38
+#: src/components/dialogs/LogoutDialog.tsx:40
+msgid "一并登出用户电子身份服务系统（统一登录）"
+msgstr "Also logout from Electronic ID Service System"
+
+#: src/components/dialogs/LogoutDialog.tsx:54
 msgid "退出"
 msgstr "Logout"
 
-#: src/components/dialogs/LogoutDialog.tsx:52
+#: src/components/dialogs/LogoutDialog.tsx:69
 msgid "退出并清除数据"
 msgstr "Logout and clear data"
 
@@ -579,49 +583,49 @@ msgstr "No saved credentials found, please go to the Web Learning login page to 
 msgid "登录成功"
 msgstr "Login successfully"
 
-#: src/redux/actions.ts:117
+#: src/redux/actions.ts:112
 msgid "离上次成功刷新不足15分钟，若需要可手动刷新"
 msgstr "Refresh skipped because the last successful refresh was less than 15 minutes ago. Refresh manually if necessary."
 
 #. placeholder {0}: formatError(e)
-#: src/redux/actions.ts:181
+#: src/redux/actions.ts:176
 msgid "刷新失败：{0}"
 msgstr "Failed to refresh: {0}"
 
-#: src/redux/actions.ts:247
+#: src/redux/actions.ts:242
 msgid "更新成功"
 msgstr "Update successfully"
 
-#: src/redux/actions.ts:249
+#: src/redux/actions.ts:244
 msgid "部分内容更新失败"
 msgstr "Update failed for partial content"
 
 #. placeholder {0}: formatError(e)
-#: src/redux/actions.ts:272
+#: src/redux/actions.ts:267
 msgid "设置网络学堂语言失败：{0}"
 msgstr "Failed to set language of Web Learning: {0}"
 
-#: src/redux/actions.ts:358
+#: src/redux/actions.ts:353
 msgid "登录已过期，请刷新后重试"
 msgstr "Login has expired, please refresh and try again."
 
-#: src/redux/actions.ts:396
+#: src/redux/actions.ts:391
 msgid "升级成功，所有本地数据已经被清除"
 msgstr "Upgrade successfully and all local data is cleared"
 
-#: src/redux/actions.ts:409
+#: src/redux/actions.ts:404
 msgid "升级成功，所有本地数据（除配置）已经被清除"
 msgstr "Upgrade successfully and all local data (except configuration) is cleared"
 
-#: src/redux/actions.ts:440
+#: src/redux/actions.ts:435
 msgid "升级成功，数据没有受到影响"
 msgstr "Upgrade successfully and local data is kept"
 
-#: src/redux/actions.ts:444
+#: src/redux/actions.ts:439
 msgid "迁移失败，已清除全部数据"
 msgstr "Migration failed, all data has been cleared"
 
-#: src/redux/actions.ts:469
+#: src/redux/actions.ts:464
 msgid "加载数据失败，已清除数据"
 msgstr "Failed to load data, data has been cleared"
 
@@ -647,8 +651,8 @@ msgid "无"
 msgstr "None"
 
 #: src/utils/format.ts:92
-msgid "用户名或密码错误"
-msgstr "Incorrect username or password"
+msgid "未提供用户名或密码"
+msgstr "No username or password provided"
 
 #: src/utils/format.ts:93
 msgid "无法从 id.tsinghua.edu.cn 获取票据"
@@ -659,81 +663,85 @@ msgid "需要二次认证"
 msgstr "Two-factor authentication required"
 
 #: src/utils/format.ts:95
+msgid "用户名或密码错误"
+msgstr "Incorrect username or password"
+
+#: src/utils/format.ts:96
+msgid "需要验证码"
+msgstr "Captcha required"
+
+#: src/utils/format.ts:97
 msgid "无法使用票据漫游至 learn.tsinghua.edu.cn"
 msgstr "Unable to use tickets to roam to learn.tsinghua.edu.cn"
 
-#: src/utils/format.ts:96
-msgid "功能尚未实现"
-msgstr "Feature not yet implemented"
-
-#: src/utils/format.ts:97
+#: src/utils/format.ts:98
 msgid "尚未登录"
 msgstr "Not logged in"
 
-#: src/utils/format.ts:98
-msgid "未提供用户名或密码"
-msgstr "No username or password provided"
-
 #: src/utils/format.ts:99
-msgid "非预期的 HTTP 响应状态"
-msgstr "Unexpected HTTP response status"
+msgid "功能尚未实现"
+msgstr "Feature not yet implemented"
 
 #: src/utils/format.ts:100
 msgid "无效的 HTTP 响应"
 msgstr "Invalid HTTP response"
 
 #: src/utils/format.ts:101
+msgid "非预期的 HTTP 响应状态"
+msgstr "Unexpected HTTP response status"
+
+#: src/utils/format.ts:102
 msgid "操作失败"
 msgstr "Operation failed"
 
-#: src/utils/format.ts:102
+#: src/utils/format.ts:103
 msgid "请求超时"
 msgstr "Request timed out"
 
-#: src/utils/format.ts:103
+#: src/utils/format.ts:104
 msgid "未知错误"
 msgstr "Unknown error"
 
-#: src/utils/format.ts:116
+#: src/utils/format.ts:117
 msgid "已阅"
 msgstr "Checked"
 
-#: src/utils/format.ts:117
+#: src/utils/format.ts:118
 msgid "优秀"
 msgstr "Distinction"
 
-#: src/utils/format.ts:118
+#: src/utils/format.ts:119
 msgid "免课"
 msgstr "Exempted course"
 
-#: src/utils/format.ts:119
+#: src/utils/format.ts:120
 msgid "免修"
 msgstr "Exemption"
 
-#: src/utils/format.ts:120
+#: src/utils/format.ts:121
 msgid "通过"
 msgstr "Pass"
 
-#: src/utils/format.ts:121
+#: src/utils/format.ts:122
 msgid "不通过"
 msgstr "Failure"
 
-#: src/utils/format.ts:122
+#: src/utils/format.ts:123
 msgid "缓考"
 msgstr "Incomplete"
 
-#: src/utils/format.ts:138
+#: src/utils/format.ts:139
 msgid "每人独立完成一份作业"
 msgstr "Individual"
 
-#: src/utils/format.ts:139
+#: src/utils/format.ts:140
 msgid "每组共同完成一份作业"
 msgstr "Group"
 
-#: src/utils/format.ts:149
+#: src/utils/format.ts:150
 msgid "网络学堂"
 msgstr "Web-Learning"
 
-#: src/utils/format.ts:150
+#: src/utils/format.ts:151
 msgid "无需在网络学堂提交"
 msgstr "Offline"

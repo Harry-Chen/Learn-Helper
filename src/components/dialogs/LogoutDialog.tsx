@@ -1,9 +1,18 @@
+import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
-
+import {
+  Button,
+  Checkbox,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormControlLabel,
+} from '@mui/material';
+import { useState } from 'react';
 import {
   clearAllData,
-  logout,
+  loggedOut,
   refreshCardList,
   setCardFilter,
   toggleLoginDialog,
@@ -16,6 +25,8 @@ const LogoutDialog = () => {
   const dispatch = useAppDispatch();
 
   const open = useAppSelector((state) => state.ui.showLogoutDialog);
+  const helper = useAppSelector((state) => state.helper.helper);
+  const [full, setFull] = useState(false);
 
   return (
     <Dialog open={open} keepMounted>
@@ -24,6 +35,10 @@ const LogoutDialog = () => {
       </DialogTitle>
       <DialogContent>
         <Trans>您确认要退出登录吗？如果只是更换登录密码，请不要选择清除数据。</Trans>
+        <FormControlLabel
+          control={<Checkbox checked={full} onChange={(e) => setFull(e.target.checked)} />}
+          label={t`一并登出用户电子身份服务系统（统一登录）`}
+        />
       </DialogContent>
       <DialogActions>
         <Button
@@ -31,7 +46,8 @@ const LogoutDialog = () => {
           onClick={async () => {
             await removeStoredCredential();
             dispatch(toggleLogoutDialog(false));
-            await dispatch(logout());
+            helper.logout(full);
+            dispatch(loggedOut());
             dispatch(toggleLoginDialog(true));
           }}
         >
@@ -42,7 +58,8 @@ const LogoutDialog = () => {
           onClick={async () => {
             await removeStoredCredential();
             dispatch(toggleLogoutDialog(false));
-            await dispatch(logout());
+            helper.logout(full);
+            dispatch(loggedOut());
             dispatch(clearAllData());
             dispatch(setCardFilter({}));
             dispatch(refreshCardList());

@@ -65,8 +65,8 @@ export const {
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action>;
 
 export const login = (): AppThunk<Promise<void>> => async (dispatch, getState) => {
-  let username = 'invalid';
-  let password = 'invalid';
+  let username: string | undefined;
+  let password: string | undefined;
   const credential = await getStoredCredential();
   if (credential) {
     ({ username, password } = credential);
@@ -103,11 +103,6 @@ export const login = (): AppThunk<Promise<void>> => async (dispatch, getState) =
   dispatch(loggedIn());
   dispatch(loginEnd(true));
   dispatch(syncLanguage());
-};
-
-export const logout = (): AppThunk<Promise<void>> => async (dispatch, getState) => {
-  await getState().helper.helper.logout();
-  dispatch(loggedOut());
 };
 
 export const refreshIfNeeded = (): AppThunk<Promise<void>> => async (dispatch, getState) => {

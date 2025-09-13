@@ -89,15 +89,16 @@ export function formatDateTime(date?: Date): string {
 }
 
 const FailReasons = {
-  [FailReason.BAD_CREDENTIAL]: msg`用户名或密码错误`,
+  [FailReason.NO_CREDENTIAL]: msg`未提供用户名或密码`,
   [FailReason.ERROR_FETCH_FROM_ID]: msg`无法从 id.tsinghua.edu.cn 获取票据`,
   [FailReason.DOUBLE_AUTH]: msg`需要二次认证`,
+  [FailReason.BAD_CREDENTIAL]: msg`用户名或密码错误`,
+  [FailReason.CAPTCHA_REQUIRED]: msg`需要验证码`,
   [FailReason.ERROR_ROAMING]: msg`无法使用票据漫游至 learn.tsinghua.edu.cn`,
-  [FailReason.NOT_IMPLEMENTED]: msg`功能尚未实现`,
   [FailReason.NOT_LOGGED_IN]: msg`尚未登录`,
-  [FailReason.NO_CREDENTIAL]: msg`未提供用户名或密码`,
-  [FailReason.UNEXPECTED_STATUS]: msg`非预期的 HTTP 响应状态`,
+  [FailReason.NOT_IMPLEMENTED]: msg`功能尚未实现`,
   [FailReason.INVALID_RESPONSE]: msg`无效的 HTTP 响应`,
+  [FailReason.UNEXPECTED_STATUS]: msg`非预期的 HTTP 响应状态`,
   [FailReason.OPERATION_FAILED]: msg`操作失败`,
   TIMEOUT: msg`请求超时`,
   UNKNOWN: msg`未知错误`,
