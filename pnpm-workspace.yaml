@@ -7,6 +7,6 @@ onlyBuiltDependencies:
 publicHoistPattern:
   - "@lingui/conf"
 overrides:
-  entities: ^6.0.1
-  parse5: $fake-parse5
-  parse5-htmlparser2-tree-adapter: $fake-parse5
+  entities: "^7.0.0"
+  parse5: "-"
+  parse5-htmlparser2-tree-adapter: "-"
