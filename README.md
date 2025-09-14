@@ -59,7 +59,7 @@ If any of these criteria is met, any use of code, without explicit authorization
 
 ## Build
 
-Learn Helper is built using `yarn`:
+Learn Helper is built using `pnpm`:
 
 ```bash
 pnpm install
