@@ -1,12 +1,15 @@
 onlyBuiltDependencies:
-  - "@biomejs/biome"
-  - "@swc/core"
+  - '@biomejs/biome'
+  - '@swc/core'
   - dtrace-provider
   - esbuild
+  - sharp
   - spawn-sync
-publicHoistPattern:
-  - "@lingui/conf"
+
 overrides:
   entities: ^7.0.0
   parse5: npm:fake-parse5
   parse5-htmlparser2-tree-adapter: npm:fake-parse5
+
+publicHoistPattern:
+  - '@lingui/conf'

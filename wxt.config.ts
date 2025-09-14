@@ -8,6 +8,7 @@ import rehypeUnwrapImages from 'rehype-unwrap-images';
 import preserveDirectives from 'rollup-preserve-directives';
 import icons from 'unplugin-icons/vite';
 import { chunkSplitPlugin } from 'vite-plugin-chunk-split';
+import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 import { defineConfig } from 'wxt';
 
 import { version as versionMui } from './node_modules/@mui/material/package.json';
@@ -63,6 +64,7 @@ export default defineConfig({
           'ui-vendor': [/@mui/, /@emotion/],
         },
       }),
+      ViteImageOptimizer(),
     ],
     build: {
       target: 'esnext',
