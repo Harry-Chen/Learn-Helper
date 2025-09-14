@@ -59,7 +59,8 @@ const Welcome = () => {
       </section>
       <footer className={styles.welcome_footer}>
         <p className={styles.welcome_copyright}>
-          &copy; 2013-2023 <a href="mailto:xxr3376@gmail.com">UGeeker</a>&nbsp;BrianLi&nbsp;
+          &copy; 2013-2025&nbsp;
+          <a href="mailto:xxr3376@gmail.com">UGeeker</a>&nbsp;BrianLi&nbsp;
           <a href="https://github.com/Harry-Chen">HarryChen</a>&nbsp;
           <a href="https://github.com/AsakuraMizu">AsakuraMizu</a>
         </p>
