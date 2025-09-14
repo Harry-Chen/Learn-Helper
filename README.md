@@ -62,19 +62,21 @@ If any of these criteria is met, any use of code, without explicit authorization
 Learn Helper is built using `yarn`:
 
 ```bash
-yarn --frozen-lockfile
-yarn build:chrome # for chrome build
-yarn build:firefox # for firefox build
-```
+pnpm install
 
-The compiled Chrome/Firefox plugin is in `dist/` (unpacked).
+# build unpacked
+pnpm build:chrome
+pnpm build:firefox
+
+# build packed zip
+pnpm zip:chrome
+pnpm zip:firefox
+```
 
 ## Development
 
 ```bash
-yarn dev
-# in another terminal window
-yarn serve:chrome
+pnpm dev
 ```
 
 Due to technical restrictions, dev mode works only for chrome.
