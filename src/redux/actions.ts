@@ -269,7 +269,6 @@ export const syncLanguage = (): AppThunk<Promise<void>> => async (_dispatch, get
   // try to sync language with Web Learning
   const { helper } = getState().helper;
   try {
-    console.log('syncLanguage', helper.getCSRFToken());
     await helper.setLanguage(i18n.locale as Language);
   } catch (e) {
     enqueueSnackbar(t`设置网络学堂语言失败：${formatError(e)}`, { variant: 'error' });
