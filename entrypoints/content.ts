@@ -4,6 +4,12 @@ import { sendMessage } from '../src/utils/finger';
 export default defineContentScript({
   matches: ['https://id.tsinghua.edu.cn/do/off/ui/auth/login/*'],
   async main(_ctx) {
+    try {
+      const finger = document.querySelector<HTMLInputElement>('#fingerPrint')!.value;
+      await sendMessage('sendFinger', finger);
+      close();
+    } catch (_e) {}
+
     const form = document.querySelector<HTMLFormElement>('#theform');
     if (!form) return;
     const btn = form.querySelector<HTMLAnchorElement>('a.btn');

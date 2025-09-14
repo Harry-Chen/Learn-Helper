@@ -65,8 +65,8 @@
     "react-redux": "^9.2.0",
     "redux-logger": "^3.0.6",
     "rehype-mdx-import-media": "^1.2.0",
-    "thu-learn-lib": "link:../thu-learn-lib",
+    "thu-learn-lib": "^4.2.4",
     "wouter": "^3.7.1"
   },
-  "packageManager": "pnpm@10.16.0"
+  "packageManager": "pnpm@10.16.1"
 }

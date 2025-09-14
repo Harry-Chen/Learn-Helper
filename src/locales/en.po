@@ -320,7 +320,7 @@ msgid "确定"
 msgstr "Ok"
 
 #: src/components/dialogs/ChangeSemesterDialog.tsx:91
-#: src/components/dialogs/LogoutDialog.tsx:72
+#: src/components/dialogs/LogoutDialog.tsx:49
 msgid "取消"
 msgstr "Cancel"
 
@@ -362,26 +362,22 @@ msgstr "Refresh login status"
 msgid "离线查看"
 msgstr "View offline"
 
-#: src/components/dialogs/LogoutDialog.tsx:34
+#: src/components/dialogs/LogoutDialog.tsx:26
 #: src/constants/ui.tsx:182
 msgid "退出登录"
 msgstr "Logout"
 
-#: src/components/dialogs/LogoutDialog.tsx:37
-msgid "您确认要退出登录吗？如果只是更换登录密码，请不要选择清除数据。"
-msgstr "Are you sure to log out? If you just want to update the password, please do not clear data."
+#: src/components/dialogs/LogoutDialog.tsx:29
+msgid "您确认要退出登录吗？"
+msgstr "Are you sure to log out?"
 
-#: src/components/dialogs/LogoutDialog.tsx:40
+#: src/components/dialogs/LogoutDialog.tsx:33
 msgid "一并登出用户电子身份服务系统（统一登录）"
 msgstr "Also logout from Electronic ID Service System"
 
-#: src/components/dialogs/LogoutDialog.tsx:54
+#: src/components/dialogs/LogoutDialog.tsx:46
 msgid "退出"
 msgstr "Logout"
-
-#: src/components/dialogs/LogoutDialog.tsx:69
-msgid "退出并清除数据"
-msgstr "Logout and clear data"
 
 #: src/components/dialogs/NewSemesterDialog.tsx:25
 msgid "检测到新学期"
@@ -490,55 +486,55 @@ msgstr "Refresh"
 msgid "清空缓存"
 msgstr "Clear data"
 
-#: src/pages/_app.tsx:127
+#: src/pages/_app.tsx:126
 msgid "跟随系统"
 msgstr "System"
 
-#: src/pages/_app.tsx:135
+#: src/pages/_app.tsx:134
 msgid "亮"
 msgstr "Light"
 
-#: src/pages/_app.tsx:143
+#: src/pages/_app.tsx:142
 msgid "暗"
 msgstr "Dark"
 
-#: src/pages/_app.tsx:219
+#: src/pages/_app.tsx:218
 msgid "非网络学堂当前学期"
 msgstr "Not current semester of Web Learning"
 
-#: src/pages/_app.tsx:252
+#: src/pages/_app.tsx:251
 msgid "筛选"
 msgstr "Filter"
 
-#: src/pages/_app.tsx:303
+#: src/pages/_app.tsx:294
 msgid "哎呀，出错了！"
 msgstr "Oops, something went wrong!"
 
-#: src/pages/_app.tsx:307
+#: src/pages/_app.tsx:298
 msgid "发生了不可恢复的错误，请尝试刷新页面。如果错误继续出现，请清除数据重新来过。"
 msgstr "An unrecoverable error has occurred, please try refreshing the page. If the error recurs, please clear the data and try again."
 
-#: src/pages/_app.tsx:317
+#: src/pages/_app.tsx:308
 msgid "刷新"
 msgstr "Refresh"
 
-#: src/pages/_app.tsx:325
+#: src/pages/_app.tsx:316
 msgid "清除数据"
 msgstr "Clear data"
 
-#: src/pages/_app.tsx:329
+#: src/pages/_app.tsx:320
 msgid "请将下面的错误信息发送给开发者，以协助解决问题，感谢支持！"
 msgstr "Please send the error message below to the developer to help solve the problem. Thanks for your support!"
 
-#: src/pages/_app.tsx:333
+#: src/pages/_app.tsx:324
 msgid "错误信息："
 msgstr "Error message: "
 
-#: src/pages/_app.tsx:338
+#: src/pages/_app.tsx:329
 msgid "错误组件："
 msgstr "Error component: "
 
-#: src/pages/_app.tsx:339
+#: src/pages/_app.tsx:330
 msgid "无此信息"
 msgstr "no information"
 
@@ -571,61 +567,61 @@ msgid "更新记录"
 msgstr "Changelog"
 
 #. placeholder {0}: formatError(e)
-#: src/redux/actions.ts:90
+#: src/redux/actions.ts:95
 msgid "登录失败：{0}"
 msgstr "Failed to login: {0}"
 
-#: src/redux/actions.ts:92
+#: src/redux/actions.ts:97
 msgid "未找到已保存的凭据，请前往网络学堂登录页面手动登录"
 msgstr "No saved credentials found, please go to the Web Learning login page to log in manually."
 
-#: src/redux/actions.ts:102
+#: src/redux/actions.ts:107
 msgid "登录成功"
 msgstr "Login successfully"
 
-#: src/redux/actions.ts:112
+#: src/redux/actions.ts:118
 msgid "离上次成功刷新不足15分钟，若需要可手动刷新"
 msgstr "Refresh skipped because the last successful refresh was less than 15 minutes ago. Refresh manually if necessary."
 
 #. placeholder {0}: formatError(e)
-#: src/redux/actions.ts:176
+#: src/redux/actions.ts:183
 msgid "刷新失败：{0}"
 msgstr "Failed to refresh: {0}"
 
-#: src/redux/actions.ts:242
+#: src/redux/actions.ts:249
 msgid "更新成功"
 msgstr "Update successfully"
 
-#: src/redux/actions.ts:244
+#: src/redux/actions.ts:251
 msgid "部分内容更新失败"
 msgstr "Update failed for partial content"
 
 #. placeholder {0}: formatError(e)
-#: src/redux/actions.ts:267
+#: src/redux/actions.ts:274
 msgid "设置网络学堂语言失败：{0}"
 msgstr "Failed to set language of Web Learning: {0}"
 
-#: src/redux/actions.ts:353
+#: src/redux/actions.ts:360
 msgid "登录已过期，请刷新后重试"
 msgstr "Login has expired, please refresh and try again."
 
-#: src/redux/actions.ts:391
+#: src/redux/actions.ts:398
 msgid "升级成功，所有本地数据已经被清除"
 msgstr "Upgrade successfully and all local data is cleared"
 
-#: src/redux/actions.ts:404
+#: src/redux/actions.ts:411
 msgid "升级成功，所有本地数据（除配置）已经被清除"
 msgstr "Upgrade successfully and all local data (except configuration) is cleared"
 
-#: src/redux/actions.ts:435
+#: src/redux/actions.ts:442
 msgid "升级成功，数据没有受到影响"
 msgstr "Upgrade successfully and local data is kept"
 
-#: src/redux/actions.ts:439
+#: src/redux/actions.ts:446
 msgid "迁移失败，已清除全部数据"
 msgstr "Migration failed, all data has been cleared"
 
-#: src/redux/actions.ts:464
+#: src/redux/actions.ts:471
 msgid "加载数据失败，已清除数据"
 msgstr "Failed to load data, data has been cleared"
 
