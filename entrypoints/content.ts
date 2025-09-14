@@ -1,4 +1,5 @@
-import { storeCredential } from '../src/utils/storage';
+import { storeCredential } from '../src/utils/auth';
+import { sendMessage } from '../src/utils/finger';
 
 export default defineContentScript({
   matches: ['https://id.tsinghua.edu.cn/do/off/ui/auth/login/*'],
@@ -7,6 +8,12 @@ export default defineContentScript({
     if (!form) return;
     const btn = form.querySelector<HTMLAnchorElement>('a.btn');
     if (!btn) return;
+
+    try {
+      const finger = form.querySelector<HTMLInputElement>('#fingerPrint')!.value;
+      await sendMessage('sendFinger', finger);
+      close();
+    } catch (_e) {}
 
     let label: string;
     let hint: string;

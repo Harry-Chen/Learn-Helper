@@ -7,7 +7,6 @@ import rehypeMdxImportMedia from 'rehype-mdx-import-media';
 import rehypeUnwrapImages from 'rehype-unwrap-images';
 import preserveDirectives from 'rollup-preserve-directives';
 import icons from 'unplugin-icons/vite';
-import { chunkSplitPlugin } from 'vite-plugin-chunk-split';
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 import { defineConfig } from 'wxt';
 
@@ -58,12 +57,6 @@ export default defineConfig({
       react({ plugins: [['@lingui/swc-plugin', {}]] }),
       preserveDirectives(),
       lingui(),
-      chunkSplitPlugin({
-        customSplitting: {
-          'thu-learn-lib-vendor': [/thu-learn-lib/],
-          'ui-vendor': [/@mui/, /@emotion/],
-        },
-      }),
       ViteImageOptimizer(),
     ],
     build: {
@@ -77,12 +70,16 @@ export default defineConfig({
             ecma: 2018,
           },
         },
+        cssMinify: true,
       }),
       rollupOptions: {
         output: {
           inlineDynamicImports: false,
         },
       },
+      // for some reason this error will appear if we use code-splitting:
+      //  Invalid value "iife" for option "output.format" - UMD and IIFE output formats are not supported for code-splitting builds.
+      chunkSizeWarningLimit: 2000,
     },
   }),
   manifestVersion: 3,

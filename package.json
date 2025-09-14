@@ -42,18 +42,17 @@
     "terser": "^5.44.0",
     "typescript": "^5.9.2",
     "unplugin-icons": "^22.3.0",
-    "vite-plugin-chunk-split": "^0.5.0",
     "vite-plugin-image-optimizer": "^2.0.2",
     "wxt": "^0.20.11"
   },
   "dependencies": {
-    "@fingerprintjs/fingerprintjs": "1.5.1",
     "@iconify-json/fa6-solid": "^1.2.4",
     "@lingui/core": "^5.5.0",
     "@lingui/message-utils": "^5.5.0",
     "@lingui/react": "^5.5.0",
     "@mui/material": "^7.3.2",
     "@reduxjs/toolkit": "^2.9.0",
+    "@webext-core/messaging": "^2.3.0",
     "classnames": "^2.5.1",
     "compare-versions": "^6.1.1",
     "fake-parse5": "^0.0.2",
@@ -66,7 +65,7 @@
     "react-redux": "^9.2.0",
     "redux-logger": "^3.0.6",
     "rehype-mdx-import-media": "^1.2.0",
-    "thu-learn-lib": "^4.2.3",
+    "thu-learn-lib": "link:../thu-learn-lib",
     "wouter": "^3.7.1"
   },
   "packageManager": "pnpm@10.16.0"

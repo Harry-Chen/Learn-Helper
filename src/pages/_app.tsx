@@ -47,8 +47,8 @@ import SummaryList from '../components/SummaryList';
 import styles from '../css/main.module.css';
 import type { Language } from '../i18n';
 import {
-  clearAllData,
   loadApp,
+  resetApp,
   setTitleFilter,
   syncLanguage,
   toggleChangeSemesterDialog,
@@ -60,7 +60,6 @@ import { selectCardListTitle } from '../redux/selectors';
 import type { ColorMode } from '../types/ui';
 import { interceptCsrfRequest } from '../utils/csrf';
 import { formatSemester } from '../utils/format';
-import { removeStoredCredential } from '../utils/storage';
 import Content from './content';
 import Doc from './doc/_doc';
 import ContentIgnoreSetting from './settings';
@@ -288,14 +287,6 @@ const AppDrawer = () => {
 const Fallback = ({ error, errorInfo }: FallbackProps & { errorInfo: ErrorInfo | null }) => {
   const dispatch = useAppDispatch();
 
-  const resetApp = async () => {
-    // clear all data
-    await removeStoredCredential();
-    dispatch(clearAllData());
-    // refresh page
-    window.location.replace(window.location.href);
-  };
-
   return (
     <main className={styles.app_error_section}>
       <Typography variant="h5" className={styles.app_error_text} noWrap>
@@ -320,7 +311,7 @@ const Fallback = ({ error, errorInfo }: FallbackProps & { errorInfo: ErrorInfo |
         color="secondary"
         variant="contained"
         className={styles.app_error_text}
-        onClick={resetApp}
+        onClick={() => dispatch(resetApp(true))}
       >
         <Trans>清除数据</Trans>
       </Button>

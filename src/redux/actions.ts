@@ -4,16 +4,21 @@ import { compileMessage } from '@lingui/message-utils/compileMessage';
 import type { Action, ThunkAction } from '@reduxjs/toolkit';
 import { compare as compareVersion } from 'compare-versions';
 import { enqueueSnackbar } from 'notistack';
-import { ContentType, CourseType, type Language, SemesterType } from 'thu-learn-lib';
+import {
+  ContentType,
+  CourseType,
+  type Language,
+  Learn2018Helper,
+  SemesterType,
+} from 'thu-learn-lib';
 
 import { version as currentVersion } from '../../package.json';
 import { STORAGE_KEY_REDUX, STORAGE_KEY_REDUX_LEGACY, STORAGE_KEY_VERSION } from '../constants';
 import type { ContentInfo, FileInfo } from '../types/data';
+import { getStoredCredential, storeCredential } from '../utils/auth';
 import { initiateFileDownload } from '../utils/download';
-import { getFinger } from '../utils/fingerprint';
+import { getFinger } from '../utils/finger';
 import { formatError } from '../utils/format';
-import { getStoredCredential, storeCredential } from '../utils/storage';
-
 import { dataSlice } from './reducers/data';
 import { helperSlice } from './reducers/helper';
 import { uiSlice } from './reducers/ui';
@@ -43,7 +48,7 @@ export const {
   clearFetchedData,
   loadData,
 } = dataSlice.actions;
-export const { loggedIn, loggedOut } = helperSlice.actions;
+export const { loggedIn, loggedOut, updateHelper } = helperSlice.actions;
 export const {
   setLoadingProgress,
   togglePaneHidden,
@@ -64,7 +69,7 @@ export const {
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action>;
 
-export const login = (): AppThunk<Promise<void>> => async (dispatch, getState) => {
+export const login = (): AppThunk<Promise<void>> => async (dispatch) => {
   let username: string | undefined;
   let password: string | undefined;
   const credential = await getStoredCredential();
@@ -73,8 +78,7 @@ export const login = (): AppThunk<Promise<void>> => async (dispatch, getState) =
   }
 
   dispatch(toggleLoginDialogProgress(true));
-  const helperState = getState().helper;
-  const helper = helperState.helper;
+  const helper = new Learn2018Helper();
 
   // wait at most 5 seconds for timeout
   const timeout = new Promise((_, reject) => {
@@ -83,8 +87,9 @@ export const login = (): AppThunk<Promise<void>> => async (dispatch, getState) =
     }, 5000);
   });
 
+  const finger = await getFinger();
   try {
-    await Promise.race([helper.login(username, password, getFinger()), timeout]);
+    await Promise.race([helper.login(username, password, finger), timeout]);
   } catch (e) {
     if (credential) {
       enqueueSnackbar(t`登录失败：${formatError(e)}`, { variant: 'error' });
@@ -102,7 +107,8 @@ export const login = (): AppThunk<Promise<void>> => async (dispatch, getState) =
   enqueueSnackbar(t`登录成功`, { variant: 'success' });
   dispatch(loggedIn());
   dispatch(loginEnd(true));
-  dispatch(syncLanguage());
+  dispatch(updateHelper(helper));
+  await dispatch(syncLanguage());
 };
 
 export const refreshIfNeeded = (): AppThunk<Promise<void>> => async (dispatch, getState) => {
@@ -139,7 +145,8 @@ export const refresh = (): AppThunk<Promise<void>> => async (dispatch, getState)
   try {
     // login on every refresh (if stored)
     const credential = await getStoredCredential();
-    credential && (await helper.login(credential.username, credential.password, getFinger()));
+    const finger = await getFinger();
+    credential && (await helper.login(credential.username, credential.password, finger));
     dispatch(loggedIn());
 
     const semesters = await helper.getSemesterIdList();
@@ -262,6 +269,7 @@ export const syncLanguage = (): AppThunk<Promise<void>> => async (_dispatch, get
   // try to sync language with Web Learning
   const { helper } = getState().helper;
   try {
+    console.log('syncLanguage', helper.getCSRFToken());
     await helper.setLanguage(i18n.locale as Language);
   } catch (e) {
     enqueueSnackbar(t`设置网络学堂语言失败：${formatError(e)}`, { variant: 'error' });
@@ -471,6 +479,28 @@ export const loadApp = (): AppThunk<Promise<LoadResult>> => async (dispatch) => 
   dispatch(tryLoginSilently());
   return result;
 };
+
+export const resetApp =
+  (full = false): AppThunk<Promise<void>> =>
+  async (dispatch) => {
+    if (full) {
+      // clear all data
+      await browser.storage.local.clear();
+      // refresh page
+      window.location.replace(window.location.href);
+    } else {
+      // clear all data
+      await browser.storage.local.clear();
+      await browser.storage.local.set({
+        [STORAGE_KEY_VERSION]: currentVersion,
+      });
+
+      dispatch(loggedOut());
+      dispatch(clearAllData());
+      dispatch(setCardFilter({}));
+      dispatch(refreshCardList());
+    }
+  };
 
 export const tryLoginSilently = (): AppThunk<Promise<void>> => async (dispatch) => {
   try {

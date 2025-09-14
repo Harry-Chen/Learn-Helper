@@ -1,15 +1,13 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { type HelperConfig, Learn2018Helper } from 'thu-learn-lib';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { Learn2018Helper } from 'thu-learn-lib';
 
 export interface HelperState {
   helper: Learn2018Helper;
   loggedIn: boolean;
 }
 
-const config: HelperConfig = {};
-
 const initialState: HelperState = {
-  helper: new Learn2018Helper(config),
+  helper: new Learn2018Helper(),
   loggedIn: false,
 };
 
@@ -21,8 +19,11 @@ export const helperSlice = createSlice({
       state.loggedIn = true;
     },
     loggedOut: (state) => {
-      state.helper = new Learn2018Helper(config);
+      state.helper = new Learn2018Helper();
       state.loggedIn = false;
+    },
+    updateHelper: (state, action: PayloadAction<Learn2018Helper>) => {
+      state.helper = action.payload;
     },
   },
 });
