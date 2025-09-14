@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.7.1
+
+- FIX Support new login method
+
 ## 4.7.0
 
 - FIX The "Load more" button is invisible in dark mode
