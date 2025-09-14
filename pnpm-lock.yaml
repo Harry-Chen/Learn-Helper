@@ -6,8 +6,8 @@ settings:
 
 overrides:
   entities: ^7.0.0
-  parse5: '-'
-  parse5-htmlparser2-tree-adapter: '-'
+  parse5: npm:fake-parse5
+  parse5-htmlparser2-tree-adapter: npm:fake-parse5
 
 importers:
 
@@ -40,6 +40,9 @@ importers:
       compare-versions:
         specifier: ^6.1.1
         version: 6.1.1
+      fake-parse5:
+        specifier: ^0.0.2
+        version: 0.0.2
       material-ui-popup-state:
         specifier: ^5.3.6
         version: 5.3.6(@mui/material@7.3.2(@emotion/react@11.14.0(@types/react@19.1.13)(react@19.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.1.13)(react@19.1.1))(@types/react@19.1.13)(react@19.1.1))(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(@types/react@19.1.13)(react@19.1.1)
@@ -1737,6 +1740,9 @@ packages:
     resolution: {integrity: sha512-GDhU9ntwuKyGXdZBUgTIe+vXnWj0fppUEtMDL0+idd5Sta8TGpHssn/eusA9mrPr9qNDym6SxAYZjNvCn/9RBg==}
     engines: {node: '>= 10.17.0'}
     hasBin: true
+
+  fake-parse5@0.0.2:
+    resolution: {integrity: sha512-/Ois3GCtcGUjQl70fRXa3zx1DCtkU1ORNi1WN78InBfIWrkRj64Kw4/lKyp5L5/L8VKis4QMaWEoj5y05UZqWA==}
 
   fast-glob@3.3.3:
     resolution: {integrity: sha512-7MptL8U0cqcFdzIzwOTHoilX9x5BrNqye7Z/LuC7kCMRio1EMSyqRK3BEAUD7sXRq4iT4AzTVuZdhgQ2TCvYLg==}
@@ -4597,6 +4603,8 @@ snapshots:
       domutils: 3.2.2
       encoding-sniffer: 0.2.1
       htmlparser2: 10.0.0
+      parse5: fake-parse5@0.0.2
+      parse5-htmlparser2-tree-adapter: fake-parse5@0.0.2
       parse5-parser-stream: 7.1.2
       undici: 7.16.0
       whatwg-mimetype: 4.0.0
@@ -4653,6 +4661,8 @@ snapshots:
       chalk: 4.1.2
       highlight.js: 10.7.3
       mz: 2.7.0
+      parse5: fake-parse5@0.0.2
+      parse5-htmlparser2-tree-adapter: fake-parse5@0.0.2
       yargs: 16.2.0
 
   cli-spinners@2.9.2: {}
@@ -5004,6 +5014,8 @@ snapshots:
       '@types/yauzl': 2.10.3
     transitivePeerDependencies:
       - supports-color
+
+  fake-parse5@0.0.2: {}
 
   fast-glob@3.3.3:
     dependencies:
@@ -6043,7 +6055,9 @@ snapshots:
 
   parse-srcset@1.0.2: {}
 
-  parse5-parser-stream@7.1.2: {}
+  parse5-parser-stream@7.1.2:
+    dependencies:
+      parse5: fake-parse5@0.0.2
 
   path-key@3.1.1: {}
 
