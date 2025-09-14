@@ -32,7 +32,7 @@ const Welcome = () => {
             target="_blank"
             rel="noreferrer"
           >
-            Chrome Store
+            Chrome Web Store
           </a>
           {' | '}
           <a
@@ -40,11 +40,15 @@ const Welcome = () => {
             target="_blank"
             rel="noreferrer"
           >
-            Edge Addons
+            Edge Add-ons
           </a>
           {' | '}
-          <a href="https://harrychen.xyz/learn/" target="_blank" rel="noreferrer">
-            FireFox / 开发版
+          <a
+            href="https://addons.mozilla.org/en-US/firefox/addon/thu-learn-helper"
+            target="_blank"
+            rel="noreferrer"
+          >
+            FireFox Add-ons
           </a>
           <div className={styles.welcome_version}>
             {__GIT_VERSION__} (built on {__BUILD_HOSTNAME__} at {__BUILD_TIME__})

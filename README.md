@@ -2,9 +2,15 @@
 
 [![GitHub Action Build](https://github.com/Harry-Chen/Learn-Helper/workflows/Build/badge.svg)](https://github.com/Harry-Chen/Learn-Helper/actions)
 [![GitHub release](https://img.shields.io/github/v/release/Harry-Chen/Learn-Helper)](https://github.com/Harry-Chen/Learn-Helper)
+
 [![Chrome Web Store version](https://img.shields.io/chrome-web-store/v/mdehapphdlihjjgkhmoiknmnhcjpjall)](https://chrome.google.com/webstore/detail/learn-helper/mdehapphdlihjjgkhmoiknmnhcjpjall)
 ![Chrome Web Store users](https://img.shields.io/chrome-web-store/users/mdehapphdlihjjgkhmoiknmnhcjpjall)
 ![Chrome Web Store rating](https://img.shields.io/chrome-web-store/rating/mdehapphdlihjjgkhmoiknmnhcjpjall)
+
+[![Firefox Add-ons version](https://img.shields.io/amo/v/thu-learn-helper)](https://addons.mozilla.org/en-US/firefox/addon/thu-learn-helper)
+![Firefox Add-ons downloads](https://img.shields.io/amo/dw/thu-learn-helper)
+![Firefox Add-ons users](https://img.shields.io/amo/users/thu-learn-helper)
+![Firefox Add-ons rating](https://img.shields.io/amo/rating/thu-learn-helper)
 
 A browser extension for [Web Learning](https://learn.tsinghua.edu.cn) of Tsinghua University.
 
@@ -22,7 +28,9 @@ A browser extension for [Web Learning](https://learn.tsinghua.edu.cn) of Tsinghu
 
 ## Install
 
-[Chrome Store](https://chrome.google.com/webstore/detail/learn-helper/mdehapphdlihjjgkhmoiknmnhcjpjall), [Self-hosted Firefox Add-on](https://harrychen.xyz/learn/), [Edge Addons](https://microsoftedge.microsoft.com/addons/detail/dhddjfhadejlhiaafnbadhaeichbkgil)  
+- [Chrome Web Store](https://chrome.google.com/webstore/detail/learn-helper/mdehapphdlihjjgkhmoiknmnhcjpjall)
+- [Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/dhddjfhadejlhiaafnbadhaeichbkgil)
+- [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/thu-learn-helper) ([Self-hosted version](https://harrychen.xyz/learn/))
 
 Or you can install the unpacked version from releases.
 
