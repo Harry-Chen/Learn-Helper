@@ -24,10 +24,10 @@ export default defineContentScript({
     let label: string;
     let hint: string;
     if (btn.innerText.includes('登录')) {
-      label = '启用 Learn Helper 自动登录 (?)';
+      label = '启用 Learn Helper 自动登录（此复选框由插件添加，悬浮可查看详情）';
       hint = '在 Learn Helper 中保存本次登录信息，打开 Learn Helper 时即可自动登录';
     } else {
-      label = 'Enable Learn Helper auto login (?)';
+      label = 'Enable Learn Helper auto login (added by extension, hover to see details)';
       hint = 'Save current credentials in Learn Helper for auto login';
     }
 
