@@ -87,8 +87,8 @@ export const login = (): AppThunk<Promise<void>> => async (dispatch) => {
     }, 5000);
   });
 
-  const finger = await getFinger();
   try {
+    const finger = await getFinger();
     await Promise.race([helper.login(username, password, finger), timeout]);
   } catch (e) {
     if (credential) {
