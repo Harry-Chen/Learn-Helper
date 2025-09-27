@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.7.2
+
+- FIX Empty homework description ([#173](https://github.com/Harry-Chen/Learn-Helper/issues/173))
+- FIX Downloading in the left panel results in the downloaded file being named `downloadFile` in Firefox ([#172](https://github.com/Harry-Chen/Learn-Helper/issues/172))
+- FIX Unable to interact on first use in Firefox without permissions
+
 ## 4.7.1
 
 - FIX Support new login method

@@ -1,5 +1,11 @@
 # 更新记录
 
+## 4.7.2
+
+- [FIX] 修复无法获取作业内容的问题 ([#173](https://github.com/Harry-Chen/Learn-Helper/issues/173))
+- [FIX] 修复 Firefox 中点击左侧下载图标保存文件名为 `downloadFile` ([#172](https://github.com/Harry-Chen/Learn-Helper/issues/172))
+- [FIX] 修复 Firefox 初次使用时无权限获取 fingerprint 导致无法交互的问题
+
 ## 4.7.1
 
 - [FIX] 支持新登录方式
