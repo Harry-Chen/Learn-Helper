@@ -29,9 +29,8 @@ import { COURSE_MAIN_FUNC } from '../constants/ui';
 import styles from '../css/card.module.css';
 import { toggleIgnoreState, toggleReadState, toggleStarState } from '../redux/actions';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { initiateFileDownload } from '../utils/download';
-import { formatDate, formatHomeworkGradeLevel } from '../utils/format';
 import type { SupportedContentType } from '../types/data';
+import { formatDate, formatHomeworkGradeLevel } from '../utils/format';
 
 interface ContentCardProps {
   type: SupportedContentType;
@@ -232,11 +231,11 @@ const ContentCard = ({ type, id }: ContentCardProps) => {
               <IconButton
                 color="primary"
                 className={styles.card_action_button}
-                component="div"
-                onClick={() => {
-                  initiateFileDownload(content.remoteFile.downloadUrl);
-                }}
                 size="small"
+                href={content.remoteFile.downloadUrl}
+                rel="noreferrer"
+                target="_blank"
+                onClick={(ev) => ev.stopPropagation()}
               >
                 <IconDownload />
               </IconButton>
@@ -248,12 +247,11 @@ const ContentCard = ({ type, id }: ContentCardProps) => {
                 <IconButton
                   color="primary"
                   className={styles.card_action_button}
-                  component="div"
-                  onClick={() => {
-                    if (content.attachment)
-                      initiateFileDownload(content.attachment.downloadUrl, content.attachment.name);
-                  }}
                   size="small"
+                  href={content.attachment.downloadUrl}
+                  rel="noreferrer"
+                  target="_blank"
+                  onClick={(ev) => ev.stopPropagation()}
                 >
                   <IconPaperclip />
                 </IconButton>
