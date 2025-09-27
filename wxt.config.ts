@@ -109,6 +109,7 @@ export default defineConfig({
   zip: {
     artifactTemplate: `{{name}}-{{version}}-${gitBranch}-${gitVersion}-{{browser}}.zip`,
     sourcesTemplate: `{{name}}-{{version}}-${gitBranch}-${gitVersion}-sources.zip`,
+    excludeSources: ['design/**'],
   },
   outDir: 'dist',
 });
