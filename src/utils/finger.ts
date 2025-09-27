@@ -1,6 +1,7 @@
 import { defineExtensionMessaging } from '@webext-core/messaging';
 
 import { LEARN_TSINGHUA_LOGIN_URL } from '../constants';
+import { requestPermission } from './permission';
 
 const STORAGE_KEY_FINGER = 'finger';
 
@@ -27,6 +28,7 @@ export async function getFinger(): Promise<string> {
   const finger = await getStoredFinger();
   if (finger) return finger;
 
+  await requestPermission();
   await browser.tabs.create({ url: LEARN_TSINGHUA_LOGIN_URL, active: false });
 
   return new Promise((resolve) => {
