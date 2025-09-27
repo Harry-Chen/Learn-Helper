@@ -14,6 +14,7 @@ import IconArrowUpRightFromSquare from '~icons/fa6-solid/arrow-up-right-from-squ
 import { LEARN_TSINGHUA_LOGIN_URL } from '../../constants';
 import { loggedIn, login, refresh, toggleLoginDialog } from '../../redux/actions';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { requestPermission } from '../../utils/permission';
 
 const LoginDialog = () => {
   const dispatch = useAppDispatch();
@@ -63,6 +64,7 @@ const LoginDialog = () => {
           disabled={inLoginProgress}
           onClick={async () => {
             try {
+              await requestPermission();
               await dispatch(login());
               await dispatch(refresh());
             } catch (e) {
